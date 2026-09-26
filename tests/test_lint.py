@@ -196,10 +196,72 @@ def test_doc106_por_extenso_no_alt_text_passa(config):
     assert erros_de(post, config) == []
 
 
-def test_quatro_dimensoes_nunca_atribuidas_ao_doc106(config):
+def test_quatro_dimensoes_podem_ser_atribuidas_ao_doc106(config):
+    """Revogado em 2026-09-27: as dimensões estão no Doc. 106, seção 3, n. 29–32."""
     post = post_valido()
-    post["legenda"] = ("As quatro dimensões do dízimo, segundo o Doc. CNBB 106, n. 12.\n\n" + ASSINATURA)
-    assert any("dimens" in e for e in erros_de(post, config))
+    post["legenda"] = ("As quatro dimensões do dízimo (Doc. CNBB 106, n. 29-32).\n\n" + ASSINATURA)
+    assert erros_de(post, config) == []
+
+
+@pytest.mark.parametrize("n", [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 51, 52, 63, 64, 65, 66])
+def test_doc106_segunda_leitura_aceita(config, n):
+    post = post_valido()
+    post["slides"][2]["texto"] = f"Doc. CNBB 106, n. {n}."
+    assert erros_de(post, config) == []
+
+
+# ---------- CIC e CDC: sempre com número válido ----------
+
+def test_cic_com_numero_passa(config):
+    post = post_valido()
+    post["slides"][2]["texto"] = "Serviço da comunidade (cf. CIC 910)."
+    assert erros_de(post, config) == []
+
+
+def test_cic_sem_numero_reprova(config):
+    post = post_valido()
+    post["legenda"] = "Como ensina o CIC, o dízimo é gesto de fé.\n\n" + ASSINATURA
+    assert any("CIC" in e for e in erros_de(post, config))
+
+
+def test_cic_fora_do_intervalo_reprova(config):
+    post = post_valido()
+    post["slides"][2]["texto"] = "Veja CIC 3000."
+    assert any("CIC" in e for e in erros_de(post, config))
+
+
+def test_canone_com_numero_passa(config):
+    post = post_valido()
+    post["slides"][2]["texto"] = "Os fiéis proveem às necessidades da Igreja (cân. 222 §1)."
+    post["slides"][2]["alt_text"] = "Fonte: Código de Direito Canônico, cânon 222, parágrafo 1."
+    assert erros_de(post, config) == []
+
+
+def test_canone_sem_numero_reprova(config):
+    post = post_valido()
+    post["legenda"] = "Diz o cân. que os fiéis proveem.\n\n" + ASSINATURA
+    assert any("cân" in e for e in erros_de(post, config))
+
+
+def test_canone_fora_do_intervalo_reprova(config):
+    post = post_valido()
+    post["slides"][2]["texto"] = "Veja cân. 1800."
+    assert any("cân" in e for e in erros_de(post, config))
+
+
+# ---------- escopo das 4 fontes (Doc. 106, CIC, CDC, Bíblia) ----------
+
+@pytest.mark.parametrize("texto", [
+    "Neste Mês Missionário, partilhe.",
+    "O agente atua como voluntário.",
+    "Serviço voluntário na paróquia.",
+    "Uma agente voluntária.",
+    "Hoje é dia de Santa Teresinha.",
+])
+def test_termo_fora_de_escopo_reprova(config, texto):
+    post = post_valido()
+    post["legenda"] = texto + "\n\n" + ASSINATURA
+    assert any("fora do escopo" in e for e in erros_de(post, config))
 
 
 def test_verificar_lote_prefixa_numero_do_post(config):

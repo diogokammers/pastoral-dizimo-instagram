@@ -47,6 +47,10 @@ def montar_prompt(briefing: dict, cartao: str, schema: dict, erros: list[str] | 
         "slide antes de responder e divida em mais slides se preciso.",
         "Cite o Doc. CNBB 106 SEMPRE com o parágrafo, no formato \"Doc. CNBB 106, n. X\" (um número por citação) "
         "ou \"Doc. CNBB 106, Cap. II\"; nunca \"Doc. CNBB 106\" sozinho, em nenhum campo (slides, alt-text, legenda).",
+        "Escopo de fontes: afirme SOMENTE o que estiver no Doc. CNBB 106, no Catecismo (\"CIC 910\"), no Código "
+        "de Direito Canônico (\"cân. 222 §1\") ou na Bíblia, sempre com o número; nada de datas comemorativas, "
+        "santos do dia, \"Mês Missionário\", estatísticas ou promessas de prazo. O agente presta um serviço à "
+        "comunidade (CIC 910); nunca escreva \"voluntário\".",
         "Responda apenas com um JSON válido segundo o schema, dentro de um bloco ```json.",
         "## Cartão de marca\n" + cartao,
         "## Briefing\n" + json.dumps(briefing, ensure_ascii=False, indent=1),

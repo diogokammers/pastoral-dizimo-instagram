@@ -12,8 +12,10 @@ Regras:
 - CTA da lista permitida do config.yaml;
 - carrossel com 2 a 10 slides; imagem única com 1;
 - citação bíblica com referência "Livro cap,vers" e edição registrada em `fontes`;
-- Doc. CNBB 106 só com parágrafo verificado (n. 4, 6, 7, 9, 10, 12, 22 ou Cap. II) e nunca junto das
-  "quatro dimensões" (síntese pastoral, não citação do documento).
+- Doc. CNBB 106 só com parágrafo conferido no exemplar (PARAGRAFOS_DOC106 ou Cap. II);
+- CIC sempre com número (1–2865) e cânone do CDC sempre com número (1–1752);
+- escopo das 4 fontes (Doc. 106, CIC, CDC, Bíblia): termos fora de escopo reprovam
+  (ex.: "Mês Missionário", "voluntário", santo do dia).
 
 Uso: python -m pastoral.lint content/estreia/posts.json
 """
@@ -55,12 +57,28 @@ CAMPOS_VISIVEIS = ("eyebrow", "titulo", "texto", "referencia", "fonte")
 RE_BIBLIA = re.compile(r"\b([1-3]?[A-Z][a-z]{0,3})\s?(\d{1,3}),(\d{1,3}(?:[-–]\d{1,3})?)")
 
 # Doc. CNBB 106: parágrafos verificados em docs/pesquisa/06-cnbb-doc-106.md (cartão de marca)
-PARAGRAFOS_DOC106 = {4, 6, 7, 9, 10, 12, 22}   # conferidos no exemplar em 2026-09-27
+# Conferidos no exemplar em 2026-09-27 (primeira e segunda leitura)
+PARAGRAFOS_DOC106 = {4, 6, 7, 9, 10, 12, 22, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 51, 52, 63, 64, 65, 66}
 RE_DOC106 = re.compile(
     r"Doc(?:\.|umento)?\s*(?:da\s+)?(?:CNBB\s*)?106(?:\s+da\s+CNBB)?\s*,?\s*"
     r"(?:(?:n\.|nn\.|n\.º|nº|número)\s*(\d+)|((?:Cap\.|Capítulo)\s*(?:II|2)\b))?",
     re.IGNORECASE,
 )
+
+# Catecismo: "CIC 910", "CIC n. 2043", "CIC §1351"; o número é obrigatório (1–2865)
+RE_CIC = re.compile(r"\bCIC\b\.?\s*(?:n\.\s*|§\s*)?(\d+)?")
+CIC_MAX = 2865
+# Direito Canônico: "cân. 222 §1", "cânon 222", "cânones 1260-1261"; número obrigatório (1–1752)
+RE_CANONE = re.compile(r"\bc[âa]n(?:\.|on\b|ones\b)\s*(\d+)?", re.IGNORECASE)
+CANONE_MAX = 1752
+
+# Regra do Diogo (2026-09-27): só Doc. 106, CIC, CDC e Bíblia. Estes termos não têm âncora nessas fontes.
+TERMOS_FORA_DE_ESCOPO = [
+    ("Mês Missionário", r"\bm[êe]s\s+mission[áa]rio\b"),
+    ("voluntário (use: serviço à comunidade, CIC 910)", r"\bvolunt[áa]ri(?:o|a|os|as|ado)\b"),
+    ("Santa Teresinha", r"\bteresinha\b"),
+    ("santo do dia", r"\bsant[oa]\s+do\s+dia\b"),
+]
 
 
 def carregar_config(caminho: Path) -> dict:
@@ -98,13 +116,6 @@ def _textos(post: dict) -> list[tuple[str, str]]:
     saida.append(("legenda", post.get("legenda", "")))
     saida.extend(("hashtags", h) for h in post.get("hashtags", []))
     return saida
-
-
-def _unidades(post: dict) -> list[str]:
-    """Blocos em que 'mesma frase' faz sentido: cada slide inteiro e cada linha da legenda."""
-    blocos = [" ".join(str(s.get(c, "")) for c in CAMPOS_VISIVEIS) for s in post.get("slides", [])]
-    blocos += [linha for linha in post.get("legenda", "").splitlines() if linha.strip()]
-    return blocos
 
 
 # ---------- regras ----------
@@ -180,9 +191,25 @@ def verificar_post(post: dict, config: dict) -> list[str]:
                 erros.append(f"{onde}: Doc. 106 citado sem parágrafo verificado")
             elif int(paragrafo) not in PARAGRAFOS_DOC106:
                 erros.append(f"{onde}: Doc. 106, n. {paragrafo} não está entre os parágrafos verificados")
-    for bloco in _unidades(post):
-        if "106" in bloco and re.search(r"dimens", bloco, re.IGNORECASE):
-            erros.append("\"dimensões\" no mesmo bloco que o Doc. 106 (a síntese não é do documento)")
+
+    # CIC e CDC: sempre com número dentro do intervalo
+    for onde, texto in textos:
+        for m in RE_CIC.finditer(texto):
+            if m.group(1) is None:
+                erros.append(f"{onde}: CIC citado sem número de parágrafo")
+            elif not 1 <= int(m.group(1)) <= CIC_MAX:
+                erros.append(f"{onde}: CIC {m.group(1)} não existe (1–{CIC_MAX})")
+        for m in RE_CANONE.finditer(texto):
+            if m.group(1) is None:
+                erros.append(f"{onde}: cân. citado sem número")
+            elif not 1 <= int(m.group(1)) <= CANONE_MAX:
+                erros.append(f"{onde}: cân. {m.group(1)} não existe (1–{CANONE_MAX})")
+
+    # escopo das 4 fontes
+    for onde, texto in textos:
+        for rotulo, padrao in TERMOS_FORA_DE_ESCOPO:
+            if re.search(padrao, texto, re.IGNORECASE):
+                erros.append(f"{onde}: \"{rotulo}\" fora do escopo das 4 fontes")
 
     return erros
 

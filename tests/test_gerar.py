@@ -194,3 +194,10 @@ def test_main_grava_posts_e_metricas(tmp_path, monkeypatch):
 def test_prompt_explicita_limite_de_palavras():
     prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
     assert "NO MÁXIMO 20 palavras" in prompt
+
+
+def test_prompt_exige_escopo_das_quatro_fontes():
+    """Regra do Diogo: só Doc. CNBB 106, CIC, CDC e Bíblia, sempre com número."""
+    prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
+    for trecho in ["Doc. CNBB 106", "CIC", "cân.", "Bíblia", "voluntário"]:
+        assert trecho in prompt
