@@ -82,7 +82,7 @@ def test_briefing_primeira_semana(temas, config):
     assert all(p["hora"] == "19:00" and p["fuso"] == "America/Sao_Paulo" for p in b["posts"])
     assert all(p["fixado"] for p in b["posts"])
     assert b["posts"][0]["tempo_liturgico"] == "Tempo Comum"
-    assert b["gancho_liturgico"]["mes_tematico"] == "Mês Missionário"
+    assert b["gancho_liturgico"]["mes_tematico"] is None
 
 
 def test_briefing_segunda_semana(temas, config):

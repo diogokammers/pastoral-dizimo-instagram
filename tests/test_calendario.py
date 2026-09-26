@@ -80,7 +80,7 @@ def test_gancho_da_semana():
     g = cal.gancho_semana(2026, 42)
     assert g["inicio"] == "2026-10-12" and g["fim"] == "2026-10-18"
     assert g["tempo"] == "Tempo Comum"
-    assert g["mes_tematico"] == "Mês Missionário"
+    assert g["mes_tematico"] is None          # regra das 4 fontes: sem meses temáticos
     assert any(c["nome"] == "Nossa Senhora Aparecida" for c in g["celebracoes"])
 
 

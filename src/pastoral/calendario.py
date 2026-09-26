@@ -26,7 +26,6 @@ DATAS_FIXAS = [
     (3, 19, "São José", "branco"),
     (3, 25, "Anunciação do Senhor", "branco"),
     (8, 15, "Assunção de Nossa Senhora", "branco"),
-    (10, 1, "Santa Teresinha do Menino Jesus, padroeira das missões", None),
     (10, 12, "Nossa Senhora Aparecida", "branco"),
     (11, 1, "Todos os Santos", "branco"),
     (11, 2, "Comemoração dos Fiéis Defuntos", "roxo"),
@@ -36,7 +35,7 @@ DATAS_FIXAS = [
 ]
 
 # Meses temáticos citados na pesquisa (04 §5).
-MESES_TEMATICOS = {10: "Mês Missionário"}
+MESES_TEMATICOS: dict[int, str] = {}   # regra das 4 fontes (escopo-fontes): sem meses temáticos
 
 
 def pascoa(ano: int) -> date:
