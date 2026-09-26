@@ -1,0 +1,162 @@
+{
+  "posts": [
+    {
+      "post": 6,
+      "slide": 1,
+      "template": "citacao",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-6-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 60362,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 1,
+      "template": "capa",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 88603,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 2,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 86846,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 3,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 87655,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 4,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 84109,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 5,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 77441,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 6,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 79838,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 7,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 82847,
+      "ok": true
+    },
+    {
+      "post": 7,
+      "slide": 8,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-7-08.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 94782,
+      "ok": true
+    }
+  ],
+  "destaques": [],
+  "resumo": {
+    "imagens": 9,
+    "reprovadas": []
+  }
+}

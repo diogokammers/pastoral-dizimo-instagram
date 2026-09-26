@@ -1,0 +1,170 @@
+{
+  "lote": "2026-W41",
+  "observacoes": [
+    "CTAs corrigidos para termos exatos da lista permitida: post 6 = 'salvar'; post 7 = 'enviar dúvida'.",
+    "Todas as citações do Doc. CNBB 106 trazem o parágrafo (n. 6, 9, 10, 12) ou o Cap. II, conforme conferido no cartão de marca.",
+    "Nenhum slide passa de 20 palavras somando eyebrow, título, texto e fonte/referência."
+  ],
+  "posts": [
+    {
+      "numero": 6,
+      "fixado": false,
+      "titulo": "\"Deus ama quem dá com alegria\" (2Cor 9,7)",
+      "pilar": "Formação",
+      "formato": "imagem_unica",
+      "publico": "Todos os públicos",
+      "cta": "salvar",
+      "slides": [
+        {
+          "template": "citacao",
+          "eyebrow": "Espiritualidade",
+          "texto": "Deus ama quem dá com alegria.",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Arte com a palavra 'Espiritualidade' no alto e, em destaque, a frase bíblica 'Deus ama quem dá com alegria', com a referência 2Cor 9,7 abaixo. Assinatura da Pastoral do Dízimo da Arquidiocese de Florianópolis."
+        }
+      ],
+      "legenda": "Deus ama quem dá com alegria (2Cor 9,7).\n\nSão Paulo escreve: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\".\n\nA alegria de partilhar não nasce do quanto se oferece, mas de um coração que reconhece o que recebeu de Deus. Por isso, a quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10).\n\nPara levar ao dia a dia:\n• Antes de partilhar, agradeça: o que Deus já fez por você nesta semana?\n• Decida no coração, com calma, sem pressa nem peso.\n• Lembre que o seu gesto de fé sustenta a missão da comunidade.\n\nNeste Mês Missionário, que a nossa partilha seja sinal de gratidão e de pertença.\n\nSalve este post para voltar a ele na sua oração.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 10",
+          "observacao": "A quantia é decisão da consciência, iluminada pela Palavra."
+        }
+      ],
+      "a_conferir": [
+        "Conferir se a aplicação prática da legenda (três passos) está adequada ao tom desejado pela Pastoral."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    },
+    {
+      "numero": 7,
+      "fixado": false,
+      "titulo": "Perguntas frequentes sobre o dízimo",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Dizimistas e interessados",
+      "cta": "enviar dúvida",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Perguntas frequentes",
+          "titulo": "Dízimo: dúvidas comuns, respostas simples",
+          "alt_text": "Capa do carrossel com o rótulo 'Perguntas frequentes' e o título 'Dízimo: dúvidas comuns, respostas simples'."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O que é dízimo?",
+          "texto": "Partilha periódica: a comunidade assume sua sustentação e a da Igreja.",
+          "fonte": "Doc. CNBB 106, n. 6",
+          "alt_text": "Slide com a pergunta 'O que é dízimo?' e a resposta: partilha periódica pela qual a comunidade assume sua sustentação e a da Igreja. Fonte: Doc. CNBB 106, n. 6."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Quanto oferecer?",
+          "texto": "A quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7).",
+          "fonte": "Doc. CNBB 106, n. 10",
+          "alt_text": "Slide com a pergunta 'Quanto oferecer?' e a resposta: a quantia é decisão da consciência, iluminada pela Palavra, com referência a 2Cor 9,7. Fonte: Doc. CNBB 106, n. 10."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Por que partilhar?",
+          "texto": "Nasce de decisão pessoal: gesto espontâneo de fé e pertença.",
+          "fonte": "Doc. CNBB 106, n. 9",
+          "alt_text": "Slide com a pergunta 'Por que partilhar?' e a resposta: o dízimo nasce de uma decisão pessoal, como gesto espontâneo de fé e de pertença à comunidade. Fonte: Doc. CNBB 106, n. 9."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Dízimo e oferta são iguais?",
+          "texto": "Não. São realidades distintas.",
+          "fonte": "Doc. CNBB 106, Cap. II",
+          "alt_text": "Slide com a pergunta 'Dízimo e oferta são iguais?' e a resposta: não, são realidades distintas. Fonte: Doc. CNBB 106, Cap. II."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Para onde vai?",
+          "texto": "Também se abre às outras comunidades e à Igreja Particular.",
+          "fonte": "Doc. CNBB 106, Cap. II",
+          "alt_text": "Slide com a pergunta 'Para onde vai?' e a resposta: o dízimo também se abre às outras comunidades e à Igreja Particular. Fonte: Doc. CNBB 106, Cap. II."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "É captação de recursos?",
+          "texto": "Não se reduz a isso: nasce da fé e serve à missão.",
+          "fonte": "Doc. CNBB 106, n. 12",
+          "alt_text": "Slide com a pergunta 'É captação de recursos?' e a resposta: o dízimo não se reduz a isso, pois nasce da fé e serve à missão. Fonte: Doc. CNBB 106, n. 12."
+        },
+        {
+          "template": "cta",
+          "eyebrow": "Pastoral do Dízimo",
+          "titulo": "Ficou alguma dúvida?",
+          "texto": "Envie sua dúvida por mensagem direta.",
+          "alt_text": "Slide final com a pergunta 'Ficou alguma dúvida?' e o convite para enviar a dúvida por mensagem direta ao perfil da Pastoral do Dízimo."
+        }
+      ],
+      "legenda": "Dízimo: as dúvidas mais comuns, respondidas com simplicidade.\n\n• O que é? Uma partilha sistemática e periódica pela qual a comunidade assume, com corresponsabilidade, a sua sustentação e a da Igreja (Doc. CNBB 106, n. 6).\n• Quanto oferecer? A quantia é decisão da consciência, iluminada pela Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7; Doc. CNBB 106, n. 10).\n• Por que partilhar? Porque nasce de uma decisão pessoal, manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n• Dízimo e oferta são a mesma coisa? Não, são realidades distintas (Doc. CNBB 106, Cap. II).\n• Para onde vai? O dízimo se abre também às demais comunidades e à Igreja Particular: é sinal de missão (Doc. CNBB 106, Cap. II).\n• É captação de recursos? O dízimo não se reduz a isso; nasce da fé e serve à missão (Doc. CNBB 106, n. 12).\n\nNeste Mês Missionário, conhecer o sentido do dízimo ajuda a vivê-lo com gratidão.\n\nFicou alguma dúvida? Envie sua dúvida por mensagem.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6",
+          "observacao": "Contribuição sistemática e periódica; a comunidade assume corresponsavelmente sua sustentação e a da Igreja."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 9",
+          "observacao": "Nasce de decisão pessoal; manifestação espontânea da fé e da pertença."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 10",
+          "observacao": "A quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 12",
+          "observacao": "O dízimo não pode ser proposto unicamente como captação de recursos."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, Cap. II",
+          "observacao": "Dízimo distinto das ofertas; abertura às demais comunidades; destina-se também à Igreja Particular."
+        },
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB"
+        }
+      ],
+      "a_conferir": [
+        "Confirmar quem responderá as dúvidas recebidas por mensagem direta e em que prazo (a confirmar com o Diogo).",
+        "Conferir se as paráfrases dos n. 6, 9, 10 e 12 e do Cap. II do Doc. CNBB 106 estão fiéis ao exemplar."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    }
+  ]
+}
