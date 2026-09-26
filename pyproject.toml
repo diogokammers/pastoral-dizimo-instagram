@@ -1,0 +1,16 @@
+[project]
+name = "pastoral-dizimo-instagram"
+version = "0.1.0"
+description = "Sistema de conteúdo do Instagram da Pastoral do Dízimo — Arquidiocese de Florianópolis"
+requires-python = ">=3.11"
+dependencies = [
+  "python-dateutil>=2.9",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

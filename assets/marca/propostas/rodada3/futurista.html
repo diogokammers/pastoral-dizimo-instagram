@@ -1,0 +1,37 @@
+<!doctype html><meta charset="utf-8"><title>Coração quatro faces</title>
+<style>html,body{margin:0;background:#0E0708}canvas{display:block}</style>
+<canvas id="c" width="1080" height="1080" style="width:1080px;height:1080px"></canvas>
+<script>
+const FACES={"ul": [[31.0, 78.49999999999999], [34.70578926340167, 62.944724846214626], [45.02704841217232, 50.73116399122095], [59.74647823829446, 44.48313672106758], [75.70192772651961, 45.542896506779144], [100, 58.49]], "ur": [[100, 58.49], [124.29807227348039, 45.542896506779144], [140.25352176170554, 44.48313672106758], [154.97295158782768, 50.73116399122095], [165.29421073659833, 62.944724846214626], [169.0, 78.49999999999999]], "lr": [[169.0, 78.49999999999999], [161.9059375, 100.45062499999999], [144.33249999999998, 121.625], [121.84281250000001, 143.31687499999998], [100.0, 166.82]], "ll": [[100.0, 166.82], [78.15718749999999, 143.31687499999998], [55.66750000000002, 121.625], [38.09406250000001, 100.45062499999999], [31.0, 78.49999999999999]]}, FOC=[100, 108.5], SEAMS=[0,5,9,13], PTS=[[100, 58.49], [124.29807227348039, 45.542896506779144], [140.25352176170554, 44.48313672106758], [154.97295158782768, 50.73116399122095], [165.29421073659833, 62.944724846214626], [169.0, 78.49999999999999], [161.9059375, 100.45062499999999], [144.33249999999998, 121.625], [121.84281250000001, 143.31687499999998], [100.0, 166.82], [78.15718749999999, 143.31687499999998], [55.66750000000002, 121.625], [38.09406250000001, 100.45062499999999], [31.0, 78.49999999999999], [34.70578926340167, 62.944724846214626], [45.02704841217232, 50.73116399122095], [59.74647823829446, 44.48313672106758], [75.70192772651961, 45.542896506779144]];
+const cv=document.getElementById('c'), g=cv.getContext('2d');
+const W=1080, S=W/200*0.72, OX=W/2-100*S, OY=W/2-104*S;
+const X=p=>OX+p[0]*S, Y=p=>OY+p[1]*S;
+// ruído determinístico para partículas
+function rnd(i){const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x);}
+const N=520, parts=[...Array(N)].map((_,i)=>({a:rnd(i)*Math.PI*2,r:0.38+rnd(i+9)*0.62,s:0.25+rnd(i+3)*0.9,z:rnd(i+5)}));
+const BASE={ul:[106,13,20],ur:[184,22,31],ll:[142,17,25],lr:[211,36,46]};
+const ORDER=['ur','lr','ll','ul'];     // ordem em que a luz visita as faces (as quatro dimensões)
+function face(k,t){const p=FACES[k];g.beginPath();g.moveTo(X(p[0]),Y(p[0]));for(const q of p.slice(1))g.lineTo(X(q),Y(q));g.lineTo(X(FOC),Y(FOC));g.closePath();
+  const i=ORDER.indexOf(k), ph=(t/6 - i/4)%1, glow=Math.max(0,Math.cos(ph*Math.PI*2))**6;   // pulso sequencial
+  const b=BASE[k], m=1+0.28*glow; g.fillStyle=`rgb(${Math.min(255,b[0]*m)|0},${Math.min(255,b[1]*m)|0},${Math.min(255,b[2]*m)|0})`; g.fill();
+  // brilho especular diagonal
+  const gr=g.createLinearGradient(X(FOC)-300,Y(FOC)-300,X(FOC)+300,Y(FOC)+300); const sh=(t/6)%1;
+  gr.addColorStop(Math.max(0,sh-0.12),'rgba(255,240,220,0)');gr.addColorStop(sh,'rgba(255,240,220,0.10)');gr.addColorStop(Math.min(1,sh+0.12),'rgba(255,240,220,0)');
+  g.fillStyle=gr; g.fill(); return glow;}
+function seekTo(t){
+  g.fillStyle='#0E0708'; g.fillRect(0,0,W,W);
+  // halo
+  const h=g.createRadialGradient(W/2,W/2,40,W/2,W/2,W*0.55); h.addColorStop(0,'rgba(163,18,28,0.35)'); h.addColorStop(1,'rgba(14,7,8,0)'); g.fillStyle=h; g.fillRect(0,0,W,W);
+  // partículas orbitando (comunidade em torno)
+  for(const [i,p] of parts.entries()){const a=p.a+t*0.12*p.s*(i%2?1:-1); const rr=W*0.30+W*0.18*p.r;
+    const x=W/2+Math.cos(a)*rr, y=W/2+Math.sin(a)*rr*0.92; const al=0.15+0.55*p.z; g.fillStyle=`rgba(217,184,92,${al*0.55})`; g.fillRect(x,y,1.6+p.z*1.4,1.6+p.z*1.4);}
+  for(const k of ['ul','ur','ll','lr']) face(k,t);
+  // juntas douradas (a cruz em Y) com brilho
+  g.lineCap='round'; for(const i of SEAMS){g.strokeStyle='rgba(233,201,122,0.95)';g.lineWidth=3.2;g.shadowColor='rgba(233,201,122,0.8)';g.shadowBlur=14+10*Math.sin(t*Math.PI/3)**2;
+    g.beginPath();g.moveTo(X(FOC),Y(FOC));g.lineTo(X(PTS[i]),Y(PTS[i]));g.stroke();} g.shadowBlur=0;
+  // ponto de luz no foco
+  const f=g.createRadialGradient(X(FOC),Y(FOC),0,X(FOC),Y(FOC),40); f.addColorStop(0,'rgba(255,236,190,0.9)'); f.addColorStop(1,'rgba(255,236,190,0)'); g.fillStyle=f; g.beginPath(); g.arc(X(FOC),Y(FOC),40,0,7); g.fill();
+}
+window.seekTo=seekTo;
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const t0=performance.now();(function loop(){seekTo((performance.now()-t0)/1000);requestAnimationFrame(loop);})();} else seekTo(0);
+</script>

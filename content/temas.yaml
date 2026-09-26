@@ -1,0 +1,212 @@
+# Fila de temas — extraída de docs/marca/estrategia-instagram.md, cap. 11 ("Primeiros 30 Conteúdos").
+# Reels (posts 10, 11, 12, 13, 14, 21, 25) ficam FORA: são produzidos manualmente (ADR-000).
+# pilar: pilar da linha editorial (cap. 9). Posts marcados "Espiritualidade"/"Transparência" na estratégia
+#   são eixos temáticos e contam como Formação (ADR-004); o rótulo original fica em pilar_original.
+# formato: carrossel | imagem_unica (o formato original fica em formato_original).
+# pendencia: dado real que precisa existir antes de gerar (nada é inventado).
+# a_validar: marcado em amarelo no documento original.
+
+temas:
+  - numero: 1
+    titulo: Bem-vindos à Pastoral do Dízimo
+    pilar: Formação
+    formato: carrossel
+    resumo: "Apresentação institucional: quem somos, missão e convite a caminhar juntos."
+    cta: Seguir o perfil
+    publico: Todos os públicos
+
+  - numero: 2
+    titulo: O que é o dízimo?
+    pilar: Formação
+    formato: carrossel
+    resumo: Dízimo como resposta livre ao amor de Deus, não como taxa ou cobrança.
+    cta: Salvar o post
+    publico: Dizimistas e interessados
+
+  - numero: 3
+    titulo: Para onde vai o dízimo?
+    pilar: Formação
+    formato: carrossel
+    resumo: "As quatro dimensões do dízimo: religiosa, missionária, caritativa e social."
+    cta: Compartilhar com a paróquia
+    publico: Dizimistas e agentes
+    pendencia: >-
+      Lista de dimensões a confirmar com o Diogo (a síntese pastoral usual traz "eclesial" em vez de
+      "social"); nunca atribuir as "quatro dimensões" ao Doc. CNBB 106.
+
+  - numero: 4
+    titulo: "Dízimo x Oferta: qual a diferença?"
+    pilar: Formação
+    formato: carrossel
+    resumo: Comparação simples e objetiva entre os dois conceitos.
+    cta: Comentar dúvidas
+    publico: Católicos interessados
+
+  - numero: 5
+    titulo: '"Deus ama quem dá com alegria" (2Cor 9,7)'
+    pilar: Formação
+    pilar_original: Espiritualidade
+    formato: imagem_unica
+    resumo: Reflexão espiritual sobre a alegria da doação e aplicação prática na vida cotidiana.
+    cta: Salvar para meditação
+    publico: Todos os públicos
+
+  - numero: 6
+    titulo: Quem é o agente da Pastoral do Dízimo?
+    pilar: Vida pastoral
+    formato: carrossel
+    resumo: Valorização do serviço voluntário e testemunho de dedicação.
+    cta: Marcar um agente conhecido
+    publico: Agentes e coordenadores
+
+  - numero: 7
+    titulo: Agenda de formações da Arquidiocese
+    pilar: Convite institucional
+    formato: carrossel
+    resumo: Modelo visual de agenda, atualizável mensalmente.
+    cta: Salvar a agenda
+    publico: Coordenadores e agentes
+    pendencia: Agenda real de formações da Arquidiocese (datas e locais confirmados).
+
+  - numero: 8
+    titulo: Perguntas frequentes sobre o dízimo
+    pilar: Formação
+    formato: carrossel
+    formato_original: Carrossel (FAQ)
+    resumo: Respostas objetivas às dúvidas mais comuns dos fiéis.
+    cta: Enviar dúvida por mensagem
+    publico: Dizimistas e interessados
+
+  - numero: 9
+    titulo: Conheça as regiões e paróquias da Arquidiocese
+    pilar: Vida pastoral
+    formato: imagem_unica
+    formato_original: Imagem + mapa
+    resumo: Mapa simples e convite à comunhão arquidiocesana.
+    cta: Marcar a própria paróquia
+    publico: Todos os públicos
+    pendencia: Lista oficial de regiões/foranias e paróquias (não verificada na pesquisa 04).
+
+  - numero: 15
+    titulo: "O dízimo na Bíblia: de Abraão a Malaquias"
+    pilar: Formação
+    pilar_original: Espiritualidade
+    formato: imagem_unica
+    resumo: Panorama bíblico do dízimo ao longo da Escritura.
+    cta: Salvar para estudo
+    publico: Interessados em formação
+
+  - numero: 16
+    titulo: O que ensina a CNBB sobre a Pastoral do Dízimo
+    pilar: Formação
+    formato: carrossel
+    resumo: Síntese acessível das orientações oficiais da CNBB.
+    cta: Compartilhar com coordenação
+    publico: Coordenadores e párocos
+
+  - numero: 17
+    titulo: "Testemunho: por que sou dizimista"
+    pilar: Vida pastoral
+    formato: carrossel
+    formato_original: Depoimento
+    resumo: Relato real de um fiel sobre o significado do dízimo em sua vida.
+    cta: Comentar o testemunho
+    publico: Dizimistas e interessados
+    pendencia: Depoimento real com consentimento específico e destacado (LGPD art. 11).
+
+  - numero: 18
+    titulo: "Dízimo e Eucaristia: sinais de doação"
+    pilar: Formação
+    formato: carrossel
+    resumo: Relação entre a oferenda do dízimo e a oferenda eucarística.
+    cta: Salvar para reflexão
+    publico: Todos os públicos
+
+  - numero: 19
+    titulo: "Inscrições abertas: encontro de formação"
+    pilar: Convite institucional
+    formato: imagem_unica
+    resumo: Convite a agentes e coordenadores para formação arquidiocesana.
+    cta: Inscrever-se
+    publico: Agentes e coordenadores
+    a_validar: true
+    pendencia: Encontro real confirmado (data, local, forma de inscrição).
+
+  - numero: 20
+    titulo: "Gratidão: o coração do dízimo"
+    pilar: Formação
+    pilar_original: Espiritualidade
+    formato: carrossel
+    resumo: Reflexão sobre a gratidão como motivação espiritual da doação.
+    cta: Salvar para meditação
+    publico: Todos os públicos
+
+  - numero: 22
+    titulo: "Boas práticas: paróquias que inspiram"
+    pilar: Vida pastoral
+    formato: carrossel
+    resumo: Exemplos replicáveis de organização da Pastoral do Dízimo.
+    cta: Compartilhar com outra paróquia
+    publico: Coordenadores e agentes
+    pendencia: Exemplos reais de paróquias, autorizados.
+
+  - numero: 23
+    titulo: Como o dízimo sustenta a missão da Arquidiocese
+    pilar: Formação
+    pilar_original: Transparência
+    formato: carrossel
+    resumo: Explicação geral sobre a destinação dos recursos, sem dados fictícios.
+    cta: Salvar para consulta
+    publico: Dizimistas
+
+  - numero: 24
+    titulo: Dízimo não é sobre dinheiro, é sobre relação
+    pilar: Formação
+    formato: imagem_unica
+    resumo: Síntese teológica do sentido último do dízimo.
+    cta: Salvar a frase
+    publico: Todos os públicos
+
+  - numero: 26
+    titulo: O que Jesus ensina sobre dar
+    pilar: Formação
+    pilar_original: Espiritualidade
+    formato: carrossel
+    resumo: Passagens do Evangelho sobre generosidade e doação livre.
+    cta: Salvar para estudo bíblico
+    publico: Todos os públicos
+
+  - numero: 27
+    titulo: "Dízimo em outra paróquia: como funciona?"
+    pilar: Formação
+    formato: carrossel
+    resumo: Esclarecimento sobre vínculo e cadastro entre paróquias.
+    cta: Enviar dúvida por mensagem
+    publico: Dizimistas em trânsito
+
+  - numero: 28
+    titulo: Retiro de espiritualidade para agentes
+    pilar: Convite institucional
+    formato: imagem_unica
+    resumo: Convite institucional a retiro anual de formação espiritual.
+    cta: Inscrever-se
+    publico: Agentes e coordenadores
+    a_validar: true
+    pendencia: Retiro real confirmado (data, local, forma de inscrição).
+
+  - numero: 29
+    titulo: "Comunhão entre paróquias: por que caminhar juntos"
+    pilar: Vida pastoral
+    formato: carrossel
+    resumo: Valorização da unidade arquidiocesana entre as comunidades locais.
+    cta: Marcar a paróquia vizinha
+    publico: Coordenadores e párocos
+
+  - numero: 30
+    titulo: Encerrando o mês em gratidão
+    pilar: Formação
+    pilar_original: Espiritualidade
+    formato: imagem_unica
+    resumo: Convite à oração de ação de graças ao fim de cada mês.
+    cta: Comentar um motivo de gratidão
+    publico: Todos os públicos

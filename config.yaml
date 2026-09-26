@@ -1,0 +1,81 @@
+# Configuração do sistema de conteúdo — Pastoral do Dízimo (Arquidiocese de Florianópolis)
+# Fontes: docs/arquitetura.md §8, ADR-000, ADR-001, ADR-002, docs/marca/identidade-visual.md §3–4.
+# Tudo aqui é ajustável sem mexer em código.
+
+publicacao:
+  fuso: America/Sao_Paulo
+  posts_por_semana: 2            # ADR-000
+  dias:                          # arquitetura §8.3 (hipótese a ajustar por métricas)
+    - {dia: terca, hora: "19:00"}
+    - {dia: sexta, hora: "19:00"}
+
+geracao:
+  # ADR-001: gerado por `claude -p` no plano Max; arquitetura §2.5: Opus 5.5 padrão, Sonnet 5 testado no piloto.
+  cliente: claude-cli
+  modelo: claude-opus-5-5
+
+pauta:
+  temas: content/temas.yaml
+  saida: content/semanas         # content/semanas/AAAA-Www/briefing.json
+  # Semana ISO do primeiro post (a confirmar com o Diogo). Os 3 primeiros posts são os fixados.
+  semana_inicial: 2026-W41
+  fixados: [1, 2, 3]            # identidade-visual §7: apresentação, "O que é o dízimo?", "Para onde vai o dízimo?"
+  # Rotação 70/20/10 em ciclo de 10 posts (arquitetura §1.1). Ordem das posições = decisão de projeto
+  # (ADR-004): formações espaçadas, vida pastoral nas posições 4 e 8, convite na 7.
+  ciclo_pilares:
+    - Formação
+    - Formação
+    - Formação
+    - Vida pastoral
+    - Formação
+    - Formação
+    - Convite institucional
+    - Vida pastoral
+    - Formação
+    - Formação
+
+limites:                         # arquitetura §1.1 (lint) e §4 (rubrica)
+  legenda_max_caracteres: 1500
+  hashtags_min: 3
+  hashtags_max: 8
+  palavras_por_slide_max: 25
+  slides_min: 2
+  slides_max: 10
+  alt_text_max_caracteres: 1000
+  proibir_porcentagem: true      # nada de "%" (sem percentual obrigatório)
+
+# A estratégia (docs/marca/) NÃO define hashtags. Lista vazia até o Diogo aprovar uma (a confirmar).
+hashtags_fixas: []
+
+# Arquitetura §4.1 T5 + CTA do post 1 da estratégia ("Seguir o perfil"). Nunca "contribua"/"doe".
+ctas_permitidos:
+  - salvar
+  - compartilhar
+  - comentar
+  - marcar
+  - enviar dúvida
+  - inscrever-se
+  - seguir o perfil
+
+marca:
+  nome: Pastoral do Dízimo
+  instituicao: Arquidiocese de Florianópolis
+  usuario: "@pastoraldodizimo.arquifln"
+  simbolo: null                  # ADR-002: logotipo adiado; templates usam assinatura tipográfica
+  paleta:                        # identidade-visual.md §3 (aprovada no ADR-002)
+    vermelho: "#A3121C"
+    vermelho_brasao: "#D40A0A"   # só ao lado do brasão oficial
+    vermelho_profundo: "#7E0F17"
+    prata: "#F3F2EE"
+    grafite: "#1E1B1B"
+    cinza: "#5F5A57"
+    dourado: "#B08D3B"           # só filetes e ornamentos, nunca texto sobre prata
+    dourado_claro: "#D9B85C"
+  fontes:                        # identidade-visual.md §4 (SIL OFL)
+    titulo: {familia: Cormorant Garamond, pesos: [600]}
+    apoio: {familia: Source Sans 3, pesos: [400, 600]}
+  arte:
+    largura: 1080
+    altura: 1350
+    margem_segura_px: 72
+    rodape_livre_px: 180

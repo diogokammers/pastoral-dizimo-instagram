@@ -1,0 +1,47 @@
+{
+  "gancho_liturgico": {
+    "celebracoes": [],
+    "cor": "verde",
+    "fim": "2026-10-11",
+    "inicio": "2026-10-05",
+    "mes_tematico": "Mês Missionário",
+    "tempo": "Tempo Comum"
+  },
+  "posts": [
+    {
+      "cor_liturgica": "verde",
+      "cta": "Seguir o perfil",
+      "data": "2026-10-06",
+      "fixado": true,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 1,
+      "pilar": "Formação",
+      "publico": "Todos os públicos",
+      "resumo": "Apresentação institucional: quem somos, missão e convite a caminhar juntos.",
+      "rodada": 1,
+      "tema": 1,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "Bem-vindos à Pastoral do Dízimo"
+    },
+    {
+      "cor_liturgica": "verde",
+      "cta": "Salvar o post",
+      "data": "2026-10-09",
+      "fixado": true,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 2,
+      "pilar": "Formação",
+      "publico": "Dizimistas e interessados",
+      "resumo": "Dízimo como resposta livre ao amor de Deus, não como taxa ou cobrança.",
+      "rodada": 1,
+      "tema": 2,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "O que é o dízimo?"
+    }
+  ],
+  "semana": "2026-W41"
+}

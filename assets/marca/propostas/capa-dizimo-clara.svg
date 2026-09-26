@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="-10 -6 220 220" width="440" height="440">
+<defs><clipPath id="hcdz440"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz440)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#A3121C"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#A3121C"/>
+</g></svg></g></svg>

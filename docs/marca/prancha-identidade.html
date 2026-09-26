@@ -1,0 +1,546 @@
+<title>Identidade Pastoral do Dízimo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--bg:#F3F2EE;--bg2:#FFFFFF;--ink:#1E1B1B;--ink2:#5F5A57;--line:#DDD8CF;--red:#A3121C;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Source Sans 3","Segoe UI",Arial,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#171414;--bg2:#201C1C;--ink:#F1EEE8;--ink2:#B7AFA8;--line:#3A3332;--red:#E2555D}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#171414;--bg2:#201C1C;--ink:#F1EEE8;--ink2:#B7AFA8;--line:#3A3332;--red:#E2555D}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;margin:0;padding-block:0 64px;padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto}
+header{padding-block:52px 28px;border-bottom:1px solid var(--line)}
+.eyebrow{font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--red)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,6vw,60px);line-height:1.02;margin:10px 0 12px;text-wrap:balance}
+h2{font-family:var(--serif);font-weight:600;font-size:32px;line-height:1.1;margin:0 0 8px;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:600;font-size:24px;margin:0}
+p{max-width:66ch;margin:0 0 10px} .lead{font-size:19px;color:var(--ink2)}
+section{padding-block:40px;border-bottom:1px solid var(--line)}
+.cands{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:16px}
+.cand{background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.cand#Q2{outline:2px solid var(--red);outline-offset:-2px}
+.ch{display:flex;align-items:center;gap:10px}
+.tag{font-size:11px;font-weight:600;letter-spacing:.1em;padding:3px 7px;border-radius:3px;background:var(--red);color:#fff}
+.stage{background:#F3F2EE;border-radius:4px;display:flex;justify-content:center;padding:18px}
+.cand p{font-size:14px;color:var(--ink2)}
+.vars{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.av{width:84px;height:84px;border-radius:50%;background:#F3F2EE;border:1px solid #DDD8CF;display:flex;align-items:center;justify-content:center;line-height:0}
+.av.neg{background:#7E0F17;border-color:#7E0F17} .av.mono{background:#fff} .av.tiny{width:40px;height:40px}
+.lk{display:flex;align-items:center;gap:12px;line-height:0} .lk.v{flex-direction:column;text-align:center;gap:10px}
+.lt{display:flex;flex-direction:column;line-height:1} .lt b{font-family:var(--serif);font-weight:600;font-size:22px;white-space:nowrap} .lt i{font-style:normal;font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:5px}
+.lkrow{display:flex;gap:28px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.dark{background:#7E0F17;padding:22px 26px;border-radius:6px}
+.light{background:#F3F2EE;padding:22px 26px;border-radius:6px;border:1px solid #DDD8CF}
+/* perfil simulado */
+.ig{background:#000;color:#f5f5f5;border-radius:14px;padding:22px 18px;max-width:420px;font-size:13px}
+.igh{display:flex;gap:16px;align-items:flex-start} .igav{width:86px;height:86px;border-radius:50%;background:#F3F2EE;display:flex;align-items:center;justify-content:center;line-height:0;flex:none}
+.igt{display:flex;flex-direction:column;gap:3px} .igt b{font-size:15px} .igt span{color:#ddd} .igt small{color:#bbb;font-size:12px;line-height:1.35}
+.igr{display:flex;gap:12px;margin-top:18px;overflow-x:auto;padding-bottom:4px} .hi{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:#eee;flex:none}
+.hc{border-radius:50%;overflow:hidden;position:relative;background:#222;border:2px solid #262626}
+.igg{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:16px}
+.pst{aspect-ratio:4/5;padding:10px 9px;display:flex;flex-direction:column;justify-content:space-between} .pt{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.05} .pm{line-height:0}
+.mocks{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px}
+.cvs{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px} .cv{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:var(--ink2)} .cv .hc{border:0;background:transparent}
+.icons{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px} .ic{line-height:0;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:12px}
+table{border-collapse:collapse;width:100%;font-size:15px} th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top} th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2)}
+.decide{background:var(--bg2);border:1px solid var(--line);border-left:4px solid var(--red);padding:18px 22px;border-radius:4px} .decide ol{margin:8px 0 0;padding-left:20px}
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Identidade visual · rodada 2 · símbolo e destaques</div>
+  <h1>Coração partido em quatro</h1>
+  <p class="lead">O símbolo atual é um coração formado por quatro pessoas. Esta rodada mantém o coração, as quatro partes e os dois vermelhos, e troca as figuras por uma divisão eclesial: uma cruz. Quatro finalistas construídos por geometria, mostrados no tamanho real do perfil.</p>
+</header>
+
+<section>
+  <div class="eyebrow">1 · Finalistas</div>
+  <h2>Quatro divisões, uma cruz</h2>
+  <div class="cands"><div class="cand" id="Q2">
+      <div class="ch"><span class="tag">Q2</span><h3>Quadrifólio</h3></div>
+      <div class="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="220" height="220">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></div>
+      <p>Quatro pétalas de cantos amplos em torno de uma cruz; lê como rosácea/janela de igreja. Tons alternados como o escudo esquartelado.</p>
+      <div class="vars">
+        <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></div>
+        <div class="av neg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#F3F2EE"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#F3F2EE"/>
+</g></svg></div>
+        <div class="av mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#1E1B1B"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#1E1B1B"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#1E1B1B"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#1E1B1B"/>
+</g></svg></div>
+        <div class="av tiny"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></div>
+      </div>
+      <div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div>
+    </div><div class="cand" id="Q3">
+      <div class="ch"><span class="tag">Q3</span><h3>Quadrifólio em metades</h3></div>
+      <div class="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="220" height="220">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div>
+      <p>A mesma peça com duas metades, como o símbolo atual: continuidade de leitura.</p>
+      <div class="vars">
+        <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div>
+        <div class="av neg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></div>
+        <div class="av mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#1E1B1B"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#1E1B1B"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#1E1B1B"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#1E1B1B"/>
+</g></svg></div>
+        <div class="av tiny"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div>
+      </div>
+      <div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div>
+    </div><div class="cand" id="E1">
+      <div class="ch"><span class="tag">E1</span><h3>Pão partido</h3></div>
+      <div class="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="220" height="220">
+<defs><clipPath id="icu30"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu30" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu30)"><rect width="200" height="200" fill="#7E0F17"/><g clip-path="url(#icu30)"><rect x="0" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="100" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="0" y="104.00" width="100" height="96.00" fill="#7E0F17"/><rect x="100" y="104.00" width="100" height="96.00" fill="#A3121C"/></g></g>
+
+</svg></div>
+      <p>Coração inteiro com o miolo circular partido em quatro: hóstia, rosácea, comunidade.</p>
+      <div class="vars">
+        <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="icu31"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu31" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu31)"><rect width="200" height="200" fill="#7E0F17"/><g clip-path="url(#icu31)"><rect x="0" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="100" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="0" y="104.00" width="100" height="96.00" fill="#7E0F17"/><rect x="100" y="104.00" width="100" height="96.00" fill="#A3121C"/></g></g>
+
+</svg></div>
+        <div class="av neg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="icu32"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu32" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu32)"><rect width="200" height="200" fill="#F3F2EE"/><g clip-path="url(#icu32)"><rect x="0" y="0" width="100" height="104.00" fill="#F3F2EE"/><rect x="100" y="0" width="100" height="104.00" fill="#F3F2EE"/><rect x="0" y="104.00" width="100" height="96.00" fill="#F3F2EE"/><rect x="100" y="104.00" width="100" height="96.00" fill="#F3F2EE"/></g></g>
+
+</svg></div>
+        <div class="av mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs><clipPath id="icu33"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu33" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu33)"><rect width="200" height="200" fill="#1E1B1B"/><g clip-path="url(#icu33)"><rect x="0" y="0" width="100" height="104.00" fill="#1E1B1B"/><rect x="100" y="0" width="100" height="104.00" fill="#1E1B1B"/><rect x="0" y="104.00" width="100" height="96.00" fill="#1E1B1B"/><rect x="100" y="104.00" width="100" height="96.00" fill="#1E1B1B"/></g></g>
+
+</svg></div>
+        <div class="av tiny"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30">
+<defs><clipPath id="icu34"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu34" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu34)"><rect width="200" height="200" fill="#7E0F17"/><g clip-path="url(#icu34)"><rect x="0" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="100" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="0" y="104.00" width="100" height="96.00" fill="#7E0F17"/><rect x="100" y="104.00" width="100" height="96.00" fill="#A3121C"/></g></g>
+
+</svg></div>
+      </div>
+      <div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs><clipPath id="icu35"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="mu35" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu35)"><rect width="200" height="200" fill="#7E0F17"/><g clip-path="url(#icu35)"><rect x="0" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="100" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="0" y="104.00" width="100" height="96.00" fill="#7E0F17"/><rect x="100" y="104.00" width="100" height="96.00" fill="#A3121C"/></g></g>
+
+</svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div>
+    </div><div class="cand" id="B1">
+      <div class="ch"><span class="tag">B1</span><h3>Cruz pátea</h3></div>
+      <div class="stage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="220" height="220">
+<defs>
+<mask id="mu36" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu36)"><rect x="0" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="100" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="0" y="104.00" width="100" height="96.00" fill="#A3121C"/><rect x="100" y="104.00" width="100" height="96.00" fill="#7E0F17"/></g>
+
+</svg></div>
+      <p>Cruz cujos braços se alargam para a borda, tradição das cruzes de consagração.</p>
+      <div class="vars">
+        <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs>
+<mask id="mu37" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu37)"><rect x="0" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="100" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="0" y="104.00" width="100" height="96.00" fill="#A3121C"/><rect x="100" y="104.00" width="100" height="96.00" fill="#7E0F17"/></g>
+
+</svg></div>
+        <div class="av neg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs>
+<mask id="mu38" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu38)"><rect x="0" y="0" width="100" height="104.00" fill="#F3F2EE"/><rect x="100" y="0" width="100" height="104.00" fill="#F3F2EE"/><rect x="0" y="104.00" width="100" height="96.00" fill="#F3F2EE"/><rect x="100" y="104.00" width="100" height="96.00" fill="#F3F2EE"/></g>
+
+</svg></div>
+        <div class="av mono"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="68" height="68">
+<defs>
+<mask id="mu39" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu39)"><rect x="0" y="0" width="100" height="104.00" fill="#1E1B1B"/><rect x="100" y="0" width="100" height="104.00" fill="#1E1B1B"/><rect x="0" y="104.00" width="100" height="96.00" fill="#1E1B1B"/><rect x="100" y="104.00" width="100" height="96.00" fill="#1E1B1B"/></g>
+
+</svg></div>
+        <div class="av tiny"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30">
+<defs>
+<mask id="mu40" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu40)"><rect x="0" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="100" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="0" y="104.00" width="100" height="96.00" fill="#A3121C"/><rect x="100" y="104.00" width="100" height="96.00" fill="#7E0F17"/></g>
+
+</svg></div>
+      </div>
+      <div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs>
+<mask id="mu41" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<polygon points="97.5,104.0 93.0,0 107.0,0 102.5,104.0" fill="#000"/><polygon points="97.5,104.0 93.0,200 107.0,200 102.5,104.0" fill="#000"/><polygon points="100,101.5 0,97.0 0,111.0 100,106.5" fill="#000"/><polygon points="100,101.5 200,97.0 200,111.0 100,106.5" fill="#000"/>
+</mask></defs>
+<g mask="url(#mu41)"><rect x="0" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="100" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="0" y="104.00" width="100" height="96.00" fill="#A3121C"/><rect x="100" y="104.00" width="100" height="96.00" fill="#7E0F17"/></g>
+
+</svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div>
+    </div></div>
+  <p style="margin-top:14px;font-size:14px;color:var(--ink2)">Em cada cartão: símbolo, avatar 110 px em prata, negativo, monocromático, 40 px e a assinatura horizontal. Todos são vetores, construídos por círculos, curvas e retângulos com parâmetros ajustáveis.</p>
+</section>
+
+<section>
+  <div class="eyebrow">2 · No perfil</div>
+  <h2>Como fica na fileira do Instagram</h2>
+  <p class="lead">Avatar em prata, destaques em vermelho profundo, três posts fixados. Recomendação Q2 à esquerda, Q3 à direita.</p>
+  <div class="mocks"><div class="ig">
+      <div class="igh"><div class="igav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="74" height="74">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></div>
+        <div class="igt"><b>pastoraldodizimo.arquifln</b><span>Pastoral do Dízimo | Arquidiocese Florianópolis</span><small>Evangelizar, formar e fortalecer o dízimo como expressão de fé, gratidão e corresponsabilidade na missão da Igreja.</small></div></div>
+      <div class="igr"><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="-10 -6 220 220" width="440" height="440">
+<defs><clipPath id="hcdz440"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz440)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></g></svg></div></div><span>Dízimo</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 22.5,13 H 11 A 3,3 0 0 0 8,16 V 35 A 3,3 0 0 0 11,38 H 22.5 Z"/>
+   <path d="M 25.5,13 H 37 A 3,3 0 0 1 40,16 V 35 A 3,3 0 0 1 37,38 H 25.5 Z"/>
+   <path d="M 13,20 H 18 M 13,25 H 18 M 30,20 H 35 M 30,25 H 35"/>
+ </g></svg></g></svg></div></div><span>Formação</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="8" y="11" width="32" height="29" rx="4"/>
+   <path d="M 16,7 V 14 M 32,7 V 14 M 8,19 H 40"/>
+   <path d="M 24,19 V 40 M 8,29.5 H 40"/>
+ </g></svg></g></svg></div></div><span>Agenda</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 9,41 V 26 L 24,15 L 39,26 V 41 Z"/>
+   <path d="M 20,41 V 33 A 4,4 0 0 1 28,33 V 41"/>
+   <path d="M 24,15 V 6 M 20.5,9.5 H 27.5"/>
+   <path d="M 4,41 H 44"/>
+ </g></svg></g></svg></div></div><span>Paróquias</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 24,8 C 14.6,8 8,14.2 8,22.2 C 8,26.9 10.4,31 14.3,33.6 L 13,41 L 20.6,36.9 C 21.7,37.1 22.8,37.2 24,37.2 C 33.4,37.2 40,31 40,22.2 C 40,14.2 33.4,8 24,8 Z"/>
+   <path d="M 19.5,19.2 A 4.5,4.5 0 1 1 26,23.1 C 24.6,23.9 24,24.9 24,26.6"/>
+   <circle cx="24" cy="31" r="0.6" fill="currentColor"/>
+ </g></svg></g></svg></div></div><span>Perguntas</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 38.27,28.64 A 15,15 0 0 1 28.64,38.27"/><path d="M 19.36,38.27 A 15,15 0 0 1 9.73,28.64"/><path d="M 9.73,19.36 A 15,15 0 0 1 19.36,9.73"/><path d="M 28.64,9.73 A 15,15 0 0 1 38.27,19.36"/>
+   <path d="M 24,10 V 38 M 10,24 H 38"/>
+ </g></svg></g></svg></div></div><span>Arquifln</span></div></div>
+      <div class="igg"><div class="pst" style="background:#7E0F17;color:#F3F2EE"><div class="pt">O que é o dízimo?</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#F3F2EE"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#F3F2EE"/>
+</g></svg></div></div><div class="pst" style="background:#F3F2EE;color:#A3121C"><div class="pt">Para onde vai o dízimo?</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></div></div><div class="pst" style="background:#7E0F17;color:#F3F2EE"><div class="pt">Bem-vindos</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#F3F2EE"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#F3F2EE"/>
+</g></svg></div></div></div>
+    </div><div class="ig">
+      <div class="igh"><div class="igav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="74" height="74">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div>
+        <div class="igt"><b>pastoraldodizimo.arquifln</b><span>Pastoral do Dízimo | Arquidiocese Florianópolis</span><small>Evangelizar, formar e fortalecer o dízimo como expressão de fé, gratidão e corresponsabilidade na missão da Igreja.</small></div></div>
+      <div class="igr"><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="-10 -6 220 220" width="440" height="440">
+<defs><clipPath id="hcdz440"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz440)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></g></svg></div></div><span>Dízimo</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 22.5,13 H 11 A 3,3 0 0 0 8,16 V 35 A 3,3 0 0 0 11,38 H 22.5 Z"/>
+   <path d="M 25.5,13 H 37 A 3,3 0 0 1 40,16 V 35 A 3,3 0 0 1 37,38 H 25.5 Z"/>
+   <path d="M 13,20 H 18 M 13,25 H 18 M 30,20 H 35 M 30,25 H 35"/>
+ </g></svg></g></svg></div></div><span>Formação</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="8" y="11" width="32" height="29" rx="4"/>
+   <path d="M 16,7 V 14 M 32,7 V 14 M 8,19 H 40"/>
+   <path d="M 24,19 V 40 M 8,29.5 H 40"/>
+ </g></svg></g></svg></div></div><span>Agenda</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 9,41 V 26 L 24,15 L 39,26 V 41 Z"/>
+   <path d="M 20,41 V 33 A 4,4 0 0 1 28,33 V 41"/>
+   <path d="M 24,15 V 6 M 20.5,9.5 H 27.5"/>
+   <path d="M 4,41 H 44"/>
+ </g></svg></g></svg></div></div><span>Paróquias</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 24,8 C 14.6,8 8,14.2 8,22.2 C 8,26.9 10.4,31 14.3,33.6 L 13,41 L 20.6,36.9 C 21.7,37.1 22.8,37.2 24,37.2 C 33.4,37.2 40,31 40,22.2 C 40,14.2 33.4,8 24,8 Z"/>
+   <path d="M 19.5,19.2 A 4.5,4.5 0 1 1 26,23.1 C 24.6,23.9 24,24.9 24,26.6"/>
+   <circle cx="24" cy="31" r="0.6" fill="currentColor"/>
+ </g></svg></g></svg></div></div><span>Perguntas</span></div><div class="hi"><div class="hc" style="width:62px;height:62px"><div style="position:absolute;left:0;top:-24.1px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="62" height="110.2"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 38.27,28.64 A 15,15 0 0 1 28.64,38.27"/><path d="M 19.36,38.27 A 15,15 0 0 1 9.73,28.64"/><path d="M 9.73,19.36 A 15,15 0 0 1 19.36,9.73"/><path d="M 28.64,9.73 A 15,15 0 0 1 38.27,19.36"/>
+   <path d="M 24,10 V 38 M 10,24 H 38"/>
+ </g></svg></g></svg></div></div><span>Arquifln</span></div></div>
+      <div class="igg"><div class="pst" style="background:#7E0F17;color:#F3F2EE"><div class="pt">O que é o dízimo?</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></div></div><div class="pst" style="background:#F3F2EE;color:#A3121C"><div class="pt">Para onde vai o dízimo?</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#7E0F17"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div></div><div class="pst" style="background:#7E0F17;color:#F3F2EE"><div class="pt">Bem-vindos</div><div class="pm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="22" height="22">
+<defs><clipPath id="hcq3"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq3)">
+<path d="M -20,-20 H 96.5 V 82.5 A 18,18 0 0 1 78.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 121.5 A 18,18 0 0 1 103.5,82.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 84.5 A 12,12 0 0 1 96.5,119.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 115.5,107.5 H 220 V 220 H 103.5 V 119.5 A 12,12 0 0 1 115.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></div></div></div>
+    </div></div>
+</section>
+
+<section>
+  <div class="eyebrow">3 · Destaques</div>
+  <h2>Seis capas, um traço</h2>
+  <p>Ícones desenhados numa grade única de 48 unidades, traço 3,25, cantos e terminações redondos. A Agenda tem quatro células, o livro tem cantos do quadrifólio, "Arquifln" traz a roda de Santa Catarina em quatro arcos com a cruz: a carga do brasão. O filete dourado fino é a única concessão ornamental.</p>
+  <div class="light"><div class="cvs"><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="-10 -6 220 220" width="440" height="440">
+<defs><clipPath id="hcdz440"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz440)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#F3F2EE"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#F3F2EE"/>
+</g></svg></g></svg></div></div><span>Dízimo</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 22.5,13 H 11 A 3,3 0 0 0 8,16 V 35 A 3,3 0 0 0 11,38 H 22.5 Z"/>
+   <path d="M 25.5,13 H 37 A 3,3 0 0 1 40,16 V 35 A 3,3 0 0 1 37,38 H 25.5 Z"/>
+   <path d="M 13,20 H 18 M 13,25 H 18 M 30,20 H 35 M 30,25 H 35"/>
+ </g></svg></g></svg></div></div><span>Formação</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="8" y="11" width="32" height="29" rx="4"/>
+   <path d="M 16,7 V 14 M 32,7 V 14 M 8,19 H 40"/>
+   <path d="M 24,19 V 40 M 8,29.5 H 40"/>
+ </g></svg></g></svg></div></div><span>Agenda</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 9,41 V 26 L 24,15 L 39,26 V 41 Z"/>
+   <path d="M 20,41 V 33 A 4,4 0 0 1 28,33 V 41"/>
+   <path d="M 24,15 V 6 M 20.5,9.5 H 27.5"/>
+   <path d="M 4,41 H 44"/>
+ </g></svg></g></svg></div></div><span>Paróquias</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 24,8 C 14.6,8 8,14.2 8,22.2 C 8,26.9 10.4,31 14.3,33.6 L 13,41 L 20.6,36.9 C 21.7,37.1 22.8,37.2 24,37.2 C 33.4,37.2 40,31 40,22.2 C 40,14.2 33.4,8 24,8 Z"/>
+   <path d="M 19.5,19.2 A 4.5,4.5 0 1 1 26,23.1 C 24.6,23.9 24,24.9 24,26.6"/>
+   <circle cx="24" cy="31" r="0.6" fill="currentColor"/>
+ </g></svg></g></svg></div></div><span>Perguntas</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#7E0F17"/><circle cx="540" cy="960" r="470" fill="none" stroke="#B08D3B" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#F3F2EE"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 38.27,28.64 A 15,15 0 0 1 28.64,38.27"/><path d="M 19.36,38.27 A 15,15 0 0 1 9.73,28.64"/><path d="M 9.73,19.36 A 15,15 0 0 1 19.36,9.73"/><path d="M 28.64,9.73 A 15,15 0 0 1 38.27,19.36"/>
+   <path d="M 24,10 V 38 M 10,24 H 38"/>
+ </g></svg></g></svg></div></div><span>Arquifln</span></div></div></div>
+  <div class="cvs" style="margin-top:18px"><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="-10 -6 220 220" width="440" height="440">
+<defs><clipPath id="hcdz440"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz440)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#A3121C"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#A3121C"/>
+</g></svg></g></svg></div></div><span>Dízimo</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 22.5,13 H 11 A 3,3 0 0 0 8,16 V 35 A 3,3 0 0 0 11,38 H 22.5 Z"/>
+   <path d="M 25.5,13 H 37 A 3,3 0 0 1 40,16 V 35 A 3,3 0 0 1 37,38 H 25.5 Z"/>
+   <path d="M 13,20 H 18 M 13,25 H 18 M 30,20 H 35 M 30,25 H 35"/>
+ </g></svg></g></svg></div></div><span>Formação</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="8" y="11" width="32" height="29" rx="4"/>
+   <path d="M 16,7 V 14 M 32,7 V 14 M 8,19 H 40"/>
+   <path d="M 24,19 V 40 M 8,29.5 H 40"/>
+ </g></svg></g></svg></div></div><span>Agenda</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 9,41 V 26 L 24,15 L 39,26 V 41 Z"/>
+   <path d="M 20,41 V 33 A 4,4 0 0 1 28,33 V 41"/>
+   <path d="M 24,15 V 6 M 20.5,9.5 H 27.5"/>
+   <path d="M 4,41 H 44"/>
+ </g></svg></g></svg></div></div><span>Paróquias</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 24,8 C 14.6,8 8,14.2 8,22.2 C 8,26.9 10.4,31 14.3,33.6 L 13,41 L 20.6,36.9 C 21.7,37.1 22.8,37.2 24,37.2 C 33.4,37.2 40,31 40,22.2 C 40,14.2 33.4,8 24,8 Z"/>
+   <path d="M 19.5,19.2 A 4.5,4.5 0 1 1 26,23.1 C 24.6,23.9 24,24.9 24,26.6"/>
+   <circle cx="24" cy="31" r="0.6" fill="currentColor"/>
+ </g></svg></g></svg></div></div><span>Perguntas</span></div><div class="cv"><div class="hc" style="width:120px;height:120px"><div style="position:absolute;left:0;top:-46.7px;line-height:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="120" height="213.3"><rect x="0" y="0" width="100%" height="100%" fill="#F3F2EE"/><circle cx="540" cy="960" r="470" fill="none" stroke="#A3121C" stroke-width="3" opacity=".9"/><g transform="translate(320,740)"><svg viewBox="0 0 48 48" width="440" height="440" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 38.27,28.64 A 15,15 0 0 1 28.64,38.27"/><path d="M 19.36,38.27 A 15,15 0 0 1 9.73,28.64"/><path d="M 9.73,19.36 A 15,15 0 0 1 19.36,9.73"/><path d="M 28.64,9.73 A 15,15 0 0 1 38.27,19.36"/>
+   <path d="M 24,10 V 38 M 10,24 H 38"/>
+ </g></svg></g></svg></div></div><span>Arquifln</span></div></div>
+  <p style="font-size:14px;color:var(--ink2);margin-top:8px">Família escura (recomendada) e família clara, para comparação. Arquivos 1080×1920 prontos para subir como capa de destaque.</p>
+  <div class="icons"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -6 220 220" width="64" height="64">
+<defs><clipPath id="hcdz64"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcdz64)">
+<path d="M -20,-20 H 96.5 V 84.5 A 16,16 0 0 1 80.5,100.5 H -20 Z" fill="#A3121C"/>
+<path d="M 103.5,-20 H 220 V 100.5 H 119.5 A 16,16 0 0 1 103.5,84.5 Z" fill="#A3121C"/>
+<path d="M -20,107.5 H 85.5 A 11,11 0 0 1 96.5,118.5 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 114.5,107.5 H 220 V 220 H 103.5 V 118.5 A 11,11 0 0 1 114.5,107.5 Z" fill="#A3121C"/>
+</g></svg></div><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="64" height="64" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 22.5,13 H 11 A 3,3 0 0 0 8,16 V 35 A 3,3 0 0 0 11,38 H 22.5 Z"/>
+   <path d="M 25.5,13 H 37 A 3,3 0 0 1 40,16 V 35 A 3,3 0 0 1 37,38 H 25.5 Z"/>
+   <path d="M 13,20 H 18 M 13,25 H 18 M 30,20 H 35 M 30,25 H 35"/>
+ </g></svg></div><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="64" height="64" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="8" y="11" width="32" height="29" rx="4"/>
+   <path d="M 16,7 V 14 M 32,7 V 14 M 8,19 H 40"/>
+   <path d="M 24,19 V 40 M 8,29.5 H 40"/>
+ </g></svg></div><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="64" height="64" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 9,41 V 26 L 24,15 L 39,26 V 41 Z"/>
+   <path d="M 20,41 V 33 A 4,4 0 0 1 28,33 V 41"/>
+   <path d="M 24,15 V 6 M 20.5,9.5 H 27.5"/>
+   <path d="M 4,41 H 44"/>
+ </g></svg></div><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="64" height="64" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 24,8 C 14.6,8 8,14.2 8,22.2 C 8,26.9 10.4,31 14.3,33.6 L 13,41 L 20.6,36.9 C 21.7,37.1 22.8,37.2 24,37.2 C 33.4,37.2 40,31 40,22.2 C 40,14.2 33.4,8 24,8 Z"/>
+   <path d="M 19.5,19.2 A 4.5,4.5 0 1 1 26,23.1 C 24.6,23.9 24,24.9 24,26.6"/>
+   <circle cx="24" cy="31" r="0.6" fill="currentColor"/>
+ </g></svg></div><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="64" height="64" style="color:#A3121C"><g fill="none" stroke="currentColor" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M 38.27,28.64 A 15,15 0 0 1 28.64,38.27"/><path d="M 19.36,38.27 A 15,15 0 0 1 9.73,28.64"/><path d="M 9.73,19.36 A 15,15 0 0 1 19.36,9.73"/><path d="M 28.64,9.73 A 15,15 0 0 1 38.27,19.36"/>
+   <path d="M 24,10 V 38 M 10,24 H 38"/>
+ </g></svg></div></div>
+</section>
+
+<section>
+  <div class="eyebrow">4 · Assinaturas</div>
+  <h2>Sobre claro e sobre vermelho</h2>
+  <div class="lkrow light"><div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div><div class="lk v"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="92" height="92">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#7E0F17"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#A3121C"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#A3121C"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#7E0F17"/>
+</g></svg></span><span class="lt"><b style="color:#A3121C">Pastoral do Dízimo</b><i style="color:#5F5A57">Arquidiocese de Florianópolis</i></span></div></div>
+  <div class="lkrow dark" style="margin-top:14px"><div class="lk"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="64" height="64">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#F3F2EE"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#F3F2EE"/>
+</g></svg></span><span class="lt"><b style="color:#F3F2EE">Pastoral do Dízimo</b><i style="color:#D9B85C">Arquidiocese de Florianópolis</i></span></div><div class="lk v"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="92" height="92">
+<defs><clipPath id="hcq2"><path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z"/></clipPath></defs>
+<g clip-path="url(#hcq2)">
+<path d="M -20,-20 H 97.0 V 79.0 A 22,22 0 0 1 75.0,101.0 H -20 Z" fill="#F3F2EE"/>
+<path d="M 103.0,-20 H 220 V 101.0 H 125.0 A 22,22 0 0 1 103.0,79.0 Z" fill="#F3F2EE"/>
+<path d="M -20,107.0 H 83.0 A 14,14 0 0 1 97.0,121.0 V 220 H -20 Z" fill="#F3F2EE"/>
+<path d="M 117.0,107.0 H 220 V 220 H 103.0 V 121.0 A 14,14 0 0 1 117.0,107.0 Z" fill="#F3F2EE"/>
+</g></svg></span><span class="lt"><b style="color:#F3F2EE">Pastoral do Dízimo</b><i style="color:#D9B85C">Arquidiocese de Florianópolis</i></span></div></div>
+</section>
+
+<section style="border-bottom:0">
+  <div class="eyebrow">5 · Decisão</div>
+  <h2>O que preciso de você</h2>
+  <div class="decide"><ol>
+    <li><b>Símbolo:</b> Q2, Q3, E1 ou B1? (Recomendo Q2; Q3 se quiser a leitura de metades do símbolo atual.)</li>
+    <li><b>Tons:</b> alternados como o escudo (Q2), metades (Q3) ou um vermelho só?</li>
+    <li><b>Capas de destaque:</b> família escura ou clara?</li>
+    <li>Algum ajuste fino (espessura da cruz, tamanho dos cantos, posição da cruz)? Tudo é paramétrico.</li>
+  </ol></div>
+</section>
+</div>

@@ -1,0 +1,33 @@
+# CLAUDE.md — Pastoral do Dízimo (Instagram)
+
+Sistema que gera, aprova, publica e mede posts do @pastoraldodizimo.arquifln.
+Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md`.
+
+## Regras de conteúdo
+- A única fonte de voz, termos, pilares e formato é `cartao-marca.md`. Não releia `docs/marca/`.
+- Parâmetros (agenda, limites, CTAs, paleta, fontes, modelo): `config.yaml`.
+- Nada é inventado: lacuna vira "a confirmar" e é perguntada ao Diogo.
+- Nada é publicado sem aprovação humana explícita (imposta por código).
+
+## Regras de código
+- Python 3, `src/pastoral/`, testes em `tests/` (pytest). TDD: teste antes do código.
+- Código simples, comentários em português.
+- `encoding="utf-8"` explícito em toda leitura/escrita de arquivo (Windows).
+- LLM só em `gerar.py` e `analise.py`; o resto é determinístico.
+- Credenciais nunca passam pelo Claude: só o nome da variável e onde cadastrar.
+
+## Comandos
+- Instalar: `python -m pip install -r requirements.txt`
+- Testes: `python -m pytest -q`
+- Tokens do cartão: `python -m pastoral.medir_tokens cartao-marca.md` (com `PYTHONPATH=src`)
+- Pauta da semana: `python -m pastoral.pauta 2026-W41` (com `PYTHONPATH=src`)
+
+## Estrutura
+- `content/temas.yaml` — fila de temas da estratégia (sem Reels, que são manuais)
+- `content/semanas/AAAA-Www/` — briefing, posts, aprovação e ledger da semana
+- `src/pastoral/calendario.py` — calendário litúrgico calculado
+- `src/pastoral/pauta.py` — escolha dos posts da semana (ciclo 70/20/10)
+
+## Git
+- Commits em português, terminando com a linha Co-Authored-By.
+- Não tornar o repositório público antes de resolver o R11 (ADR-003).

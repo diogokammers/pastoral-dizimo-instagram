@@ -1,0 +1,10 @@
+.env
+.env.*
+*.local.json
+.claude/settings.local.json
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
+Thumbs.db

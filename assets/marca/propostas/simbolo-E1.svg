@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+<defs><clipPath id="ic"><circle cx="100" cy="104.00" r="34"/></clipPath>
+<mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+<path d="M 100,58.280 A 34.0,34.0 0 0 0 32.000,78.000 C 32.000,107.920 74.160,132.400 100,165.040 C 125.840,132.400 168.000,107.920 168.000,78.000 A 34.0,34.0 0 0 0 100,58.280 Z" fill="#fff"/>
+<circle cx="100" cy="104.00" r="34" fill="none" stroke="#000" stroke-width="5"/><rect x="97.00" y="70.00" width="6" height="68" fill="#000"/><rect x="66.00" y="101.00" width="68" height="6" fill="#000"/>
+</mask></defs>
+<g mask="url(#m)"><rect width="200" height="200" fill="#7E0F17"/><g clip-path="url(#ic)"><rect x="0" y="0" width="100" height="104.00" fill="#A3121C"/><rect x="100" y="0" width="100" height="104.00" fill="#7E0F17"/><rect x="0" y="104.00" width="100" height="96.00" fill="#7E0F17"/><rect x="100" y="104.00" width="100" height="96.00" fill="#A3121C"/></g></g>
+
+</svg>
