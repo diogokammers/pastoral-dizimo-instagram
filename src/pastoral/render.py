@@ -32,7 +32,7 @@ CONTRASTE_MIN = 4.5
 # Destaques da estratégia (cap. 8) e ícone de linha de cada um (templates/icones/*.svg).
 # ADR-007: "Paróquias" removido; ficam 5.
 DESTAQUES = [
-    {"nome": "Dízimo", "arquivo": "dizimo", "icone": "maos"},
+    {"nome": "Dízimo", "arquivo": "dizimo", "icone": "coracao-cheio"},
     {"nome": "Formação", "arquivo": "formacao", "icone": "livro"},
     {"nome": "Agenda", "arquivo": "agenda", "icone": "calendario"},
     {"nome": "Perguntas", "arquivo": "perguntas", "icone": "pergunta"},

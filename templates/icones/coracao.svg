@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Dízimo: coração partido em 4 (referência do Diogo, rodada 6): quatro peças em torno de uma cruz — traço -->
+  <defs><clipPath id="cc"><path d="M 120.0 69.8 A 46.2 46.2 0 0 0 27.6 96.6 C 27.6 137.3 75.6 152.0 120.0 201.9 C 164.4 152.0 212.4 137.3 212.4 96.6 A 46.2 46.2 0 0 0 120.0 69.8 Z"/></clipPath></defs>
+  <path d="M 120.0 69.8 A 46.2 46.2 0 0 0 27.6 96.6 C 27.6 137.3 75.6 152.0 120.0 201.9 C 164.4 152.0 212.4 137.3 212.4 96.6 A 46.2 46.2 0 0 0 120.0 69.8 Z"/>
+  <g clip-path="url(#cc)"><path d="M 106.8 105.4 L -22.2 -230.7"/><path d="M 106.8 105.4 L -249.2 52.2"/><path d="M 133.2 105.4 L 262.2 -230.7"/><path d="M 133.2 105.4 L 489.2 52.2"/><path d="M 106.8 137.8 L 13.6 485.6"/><path d="M 106.8 137.8 L -237.5 243.1"/><path d="M 133.2 137.8 L 226.4 485.6"/><path d="M 133.2 137.8 L 477.5 243.1"/></g>
+</svg>

@@ -45,3 +45,9 @@ O QA automático do render (contraste ≥ 4,5:1 em todo texto) passou nos 7 slid
 ## Consequências
 - A pauta semanal passa a gerar posts creme por padrão; `importante: true` é a exceção explícita a marcar.
 - O ADR-006 (6 capas, fundos únicos) fica superado nesses dois pontos.
+
+## Adendo (2026-09-27) — ícone do destaque "Dízimo"
+Diogo aprovou todas as artes, exceto o ícone de "Dízimo" (mãos em concha). Substituído pelo **coração partido em 4**
+da referência dele (rodada 6, `assets/marca/propostas/rodada6-referencia/UC-ref.svg`): coração preenchido em vermelho
+com quatro cortes em torno de uma cruz, em `templates/icones/coracao-cheio.svg`. A versão em traço
+(`coracao.svg`) foi testada e descartada por ficar confusa no tamanho do destaque. Ícones sem uso (`maos`, `mapa`) removidos.
