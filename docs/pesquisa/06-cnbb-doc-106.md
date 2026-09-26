@@ -122,3 +122,23 @@ Lido no e-book oficial (Google Play Livros, Edições CNBB, maio/2019) comprado 
 
 Consequência: post 2 corrigido (n. 9 e n. 12); 2Cor 9,7 e Rm 15,26-27 conferidos pela citação no próprio documento.
 Pendente: ler a seção das dimensões (Cap. I) para decidir se o post 3 pode citar o Doc. 106.
+
+### Segunda leitura no exemplar (2026-09-27) — paráfrases
+
+| Nº | O que o texto diz (paráfrase) |
+|---|---|
+| 25 | A entrega do dízimo não pode perder seu significado interior ("conforme tiver decidido em seu coração", 2Cor 9,7); a décima parte (AT) e a partilha dos bens (primeira comunidade) são formas diferentes da mesma atitude que brota da fé |
+| 26 | O CIC situa os mandamentos da Igreja na vida moral ligada à liturgia; o 5º é ajudar a Igreja em suas necessidades, "conforme as próprias possibilidades" |
+| 27 | É **inaceitável** propor o dízimo pela "teologia da prosperidade" (leitura fundamentalista; negociar com Deus) |
+| Seção 3 (epígrafe) | **As dimensões do dízimo**: reconhecer que Deus é o Senhor de todos os bens (**religiosa**), manter as estruturas eclesiais paroquiais e diocesanas (**eclesial**), partilhar recursos para o crescimento do Reino (**missionária**), serviço da caridade (**caritativa**) |
+| 28 | O dízimo está ligado à vivência da fé e à pertença a uma comunidade eclesial (1Cor 12,27; Cl 1,18) |
+| 29 | Dimensão **religiosa**: relação com Deus, de quem provém tudo; expressa gratidão, fé e conversão; uso dos bens com liberdade e sem apego (Lc 12,15-21; 1Tm 6,17-19; Mt 6,33) |
+| 30 | Dimensão **eclesial**: consciência de ser membro da Igreja; o necessário para o culto e a missão; contribuição das paróquias à Igreja particular |
+| 31 | Dimensão **missionária**: partilha entre paróquias e entre Igrejas particulares (paróquias-irmãs, fundo de comunhão e partilha, "Igrejas-irmãs") |
+| 32–33 | Dimensão **caritativa**: cuidado com os pobres (At 4,34-35; Gl 2,10); diaconia organizada |
+| Seção 4, 34–35 | **Finalidades**: organizar o culto, sustento do clero e demais ministros, obras de apostolado (inclui missão) e de caridade, sobretudo em favor dos pobres — conforme o Código de Direito Canônico |
+| 51 | Onde o dízimo é recolhido durante a Missa ou a Celebração da Palavra, **é preciso evitar confundi-lo com as ofertas** (o documento não define "oferta" aqui) |
+| 52 | Juridicamente o dízimo é doação; registro, recibo e documentação comprobatória |
+| 63–66 | **Agentes** da Pastoral do Dízimo: bem formados, em equipe, inseridos na Pastoral de Conjunto, participando dos Conselhos Econômico e Pastoral; formação integral (espiritual, humana, técnico-organizativa) é indispensável |
+
+**Correção importante:** as quatro dimensões (religiosa, eclesial, missionária, caritativa) **estão no Doc. 106** (seção 3, n. 29–32). A regra anterior de "não atribuir ao Doc. 106" estava errada e deve ser revogada.
