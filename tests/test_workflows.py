@@ -51,3 +51,27 @@ def test_semanal_yml(raiz):
     assert wf["permissions"]["contents"] == "write" and wf["permissions"]["actions"] == "write"
     desligado = wf["jobs"]["desligado"]
     assert desligado["if"] == "vars.SEMANAL_ATIVO != '1'"
+
+
+def test_gerar_reserva_yml(raiz):
+    """Reserva (gordura): só manual; gera, renderiza e faz a prévia, mas NÃO notifica nem publica."""
+    wf = carregar(raiz, "gerar-reserva.yml")
+    gatilhos = wf[True]
+    assert list(gatilhos) == ["workflow_dispatch"]
+    assert gatilhos["workflow_dispatch"]["inputs"]["semanas"]["default"] == "2026-W40 2026-W41"
+    assert wf["permissions"]["contents"] == "write" and wf["permissions"]["actions"] == "write"
+    texto_wf = (raiz / ".github" / "workflows" / "gerar-reserva.yml").read_text(encoding="utf-8")
+    passos = wf["jobs"]["reserva"]["steps"]
+    texto = "\n".join(str(p.get("run", "")) for p in passos)
+    for proibido in ("pastoral.notificar", "pastoral.publicar", "RESEND_API_KEY", "IG_ACCESS_TOKEN"):
+        assert proibido not in texto_wf
+    ordem = ["python -m pastoral.pauta", "python -m pastoral.gerar", "python -m pastoral.lint",
+             "python -m pastoral.render", "python -m pastoral.preview --semana", "git commit", "git push",
+             "gh workflow run pages.yml"]
+    posicoes = [texto.index(c) for c in ordem]
+    assert posicoes == sorted(posicoes)
+    assert "npm i -g @anthropic-ai/claude-code" in texto
+    assert "playwright install --with-deps chromium" in texto
+    assert 'git add "content/semanas/$SEMANA" site/' in texto
+    assert "metricas-geracao.json" in texto_wf
+    assert "CLAUDE_CODE_OAUTH_TOKEN" in str(passos) and "::error::" in texto

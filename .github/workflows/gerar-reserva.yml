@@ -1,0 +1,86 @@
+# Reserva (gordura) de conteúdo: gera semanas à frente SEM enviar e-mail e SEM publicar.
+# Para cada semana: pauta → gerar (claude -p) → lint → render → prévia → commit/push de
+# content/semanas/<semana>/ e site/ → dispara o pages.yml.
+# As semanas da reserva usam pauta.semana_inicial PROVISÓRIA (config.yaml); quando a data real da série
+# for definida, as pastas serão renomeadas. Tokens e tempo de cada geração ficam em
+# content/semanas/<semana>/metricas-geracao.json (gravado pelo gerar.py).
+# A aprovação e a publicação continuam no fluxo normal (e-mail/Worker e publicar.yml, ADR-008/009).
+name: gerar-reserva
+on:
+  workflow_dispatch:
+    inputs:
+      semanas:
+        description: "Semanas ISO separadas por espaço (AAAA-Www)"
+        type: string
+        default: "2026-W40 2026-W41"
+permissions:
+  contents: write                # commit de content/ e site/
+  actions: write                 # disparar o pages.yml (push feito com GITHUB_TOKEN não dispara workflows)
+concurrency:
+  group: semanal                 # mesmo grupo do semanal.yml: nunca dois pipelines mexendo em content/ juntos
+  cancel-in-progress: false
+jobs:
+  reserva:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Dependências
+        run: |
+          python -m pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+          npm i -g @anthropic-ai/claude-code
+          claude --version
+      - name: Gerar reserva
+        env:
+          SEMANAS: ${{ inputs.semanas }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Secret CLAUDE_CODE_OAUTH_TOKEN ausente. Gere com 'claude setup-token' e cadastre com 'gh secret set CLAUDE_CODE_OAUTH_TOKEN' (ADR-001/ADR-009)."
+            exit 1
+          fi
+          for SEMANA in $SEMANAS; do
+            if ! [[ "$SEMANA" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then echo "::error::semana inválida: $SEMANA"; exit 1; fi
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          echo "## Reserva gerada (nada enviado, nada publicado)" >> "$GITHUB_STEP_SUMMARY"
+          for SEMANA in $SEMANAS; do
+            echo "::group::$SEMANA"
+            python -m pastoral.pauta "$SEMANA"
+            python -m pastoral.gerar "content/semanas/$SEMANA/briefing.json"
+            python -m pastoral.lint "content/semanas/$SEMANA/posts.json"
+            python -m pastoral.render "content/semanas/$SEMANA/posts.json" --saida "content/semanas/$SEMANA/render"
+            python -m pastoral.preview --semana "$SEMANA"
+            python - "$SEMANA" >> "$GITHUB_STEP_SUMMARY" <<'PY'
+          import json, sys
+          s = sys.argv[1]
+          m = json.load(open(f"content/semanas/{s}/metricas-geracao.json", encoding="utf-8"))
+          p = json.load(open(f"content/semanas/{s}/briefing.json", encoding="utf-8"))["posts"]
+          t = m["total"]
+          temas = "; ".join(f"post {x['indice']}: tema {x['tema']} ({x['titulo']})" for x in p)
+          print(f"- **{s}** — {temas} · {t['input_tokens']} tokens entrada / {t['output_tokens']} saída · "
+                f"{m['duracao_s']} s · {m['tentativas']} tentativa(s) · modelo {m['modelo']}")
+          PY
+            git add "content/semanas/$SEMANA" site/
+            if git diff --cached --quiet; then
+              echo "Nada novo para commitar em $SEMANA."
+            else
+              git commit -m "content($SEMANA): reserva gerada (posts, artes e prévia; sem e-mail e sem publicação)"
+              git pull --rebase
+              git push
+            fi
+            echo "::endgroup::"
+          done
+          gh workflow run pages.yml --ref "$GITHUB_REF_NAME"
