@@ -80,6 +80,8 @@ def montar_briefing(semana: str, config: dict, temas: list[dict]) -> dict:
     """Briefing da semana: posts escolhidos + gancho litúrgico."""
     cfg_pauta, pub = config["pauta"], config["publicacao"]
     n = pub["posts_por_semana"]
+    if not cfg_pauta.get("semana_inicial"):
+        raise ValueError("pauta.semana_inicial não definida: sem data de estreia (ADR-005)")
     primeiro = _indice_da_semana(semana, cfg_pauta["semana_inicial"]) * n
     serie = sequencia(temas, cfg_pauta["ciclo_pilares"], cfg_pauta["fixados"], primeiro + n)
     ano, num = _ler_semana(semana)

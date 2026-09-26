@@ -27,12 +27,10 @@ temas:
     titulo: Para onde vai o dízimo?
     pilar: Formação
     formato: carrossel
-    resumo: "As quatro dimensões do dízimo: religiosa, missionária, caritativa e social."
+    resumo: "As quatro dimensões do dízimo: religiosa, eclesial, missionária e caritativa."
     cta: Compartilhar com a paróquia
     publico: Dizimistas e agentes
-    pendencia: >-
-      Lista de dimensões a confirmar com o Diogo (a síntese pastoral usual traz "eclesial" em vez de
-      "social"); nunca atribuir as "quatro dimensões" ao Doc. CNBB 106.
+    # Diogo (ADR-005): "eclesial" no lugar de "social". Nunca atribuir as "quatro dimensões" ao Doc. CNBB 106.
 
   - numero: 4
     titulo: "Dízimo x Oferta: qual a diferença?"

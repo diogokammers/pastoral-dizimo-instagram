@@ -10,7 +10,16 @@ from pastoral import pauta
 
 @pytest.fixture
 def config(raiz):
-    return yaml.safe_load((raiz / "config.yaml").read_text(encoding="utf-8"))
+    cfg = yaml.safe_load((raiz / "config.yaml").read_text(encoding="utf-8"))
+    # Sem estreia definida (ADR-005): os testes fixam uma semana inicial própria.
+    cfg["pauta"]["semana_inicial"] = "2026-W41"
+    return cfg
+
+
+def test_sem_semana_inicial_recusa(config, temas):
+    config["pauta"]["semana_inicial"] = None
+    with pytest.raises(ValueError, match="estreia"):
+        pauta.montar_briefing("2026-W41", config, temas)
 
 
 @pytest.fixture
@@ -73,7 +82,7 @@ def test_briefing_segunda_semana(temas, config):
     b = pauta.montar_briefing("2026-W42", config, temas)
     assert [p["tema"] for p in b["posts"]] == [3, 6]
     assert b["posts"][0]["fixado"] is True and b["posts"][1]["fixado"] is False
-    assert "pendencia" in b["posts"][0]           # post 3: dimensões a confirmar
+    assert "pendencia" not in b["posts"][0]       # post 3: dimensões decididas (ADR-005)
     assert b["posts"][1]["pilar"] == "Vida pastoral"
 
 

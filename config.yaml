@@ -17,8 +17,8 @@ geracao:
 pauta:
   temas: content/temas.yaml
   saida: content/semanas         # content/semanas/AAAA-Www/briefing.json
-  # Semana ISO do primeiro post (a confirmar com o Diogo). Os 3 primeiros posts são os fixados.
-  semana_inicial: 2026-W41
+  # Sem data de estreia (ADR-005): a pauta só roda após a estreia. Os 3 primeiros posts são os fixados.
+  semana_inicial: null
   fixados: [1, 2, 3]            # identidade-visual §7: apresentação, "O que é o dízimo?", "Para onde vai o dízimo?"
   # Rotação 70/20/10 em ciclo de 10 posts (arquitetura §1.1). Ordem das posições = decisão de projeto
   # (ADR-004): formações espaçadas, vida pastoral nas posições 4 e 8, convite na 7.
