@@ -67,6 +67,7 @@ marca:
     vermelho_brasao: "#D40A0A"   # só ao lado do brasão oficial
     vermelho_profundo: "#7E0F17"
     prata: "#F3F2EE"
+    creme: "#F2E8D5"             # ADR-007: fundo dos posts comuns (vermelho 6,49 · grafite 14,07 · cinza 5,60)
     grafite: "#1E1B1B"
     cinza: "#5F5A57"
     dourado: "#B08D3B"           # só filetes e ornamentos, nunca texto sobre prata

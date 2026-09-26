@@ -34,6 +34,12 @@ def test_pagina_tem_texto_de_apoio_para_o_padre(dados, bio):
     assert "O que estamos pedindo para aprovar" in html
 
 
+def test_apoio_fala_em_5_destaques_sem_paroquias(dados, bio):
+    html = preview.montar_pagina(dados, bio, imagens_falsas(dados))
+    assert "Capas dos 5 destaques" in html and "6 destaques" not in html
+    assert "Paróquias" not in html
+
+
 def test_pagina_tem_perfil_destaques_e_grade(dados, bio):
     html = preview.montar_pagina(dados, bio, imagens_falsas(dados))
     assert "pastoraldodizimo.arquifln" in html and bio["nome"] in html   # como no app, sem "@"

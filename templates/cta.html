@@ -1,20 +1,20 @@
 <!doctype html>
-<!-- Template "cta" (último slide): fundo vermelho profundo, CTA da lista permitida em prata,
+<!-- Template "cta" (último slide): fundo vermelho profundo ou creme (ADR-007), CTA da lista permitida,
      lockup tipográfico completo (nome, instituição, usuário) — sem símbolo (marca.simbolo: null). -->
 <html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
 <link rel="stylesheet" href="base.css"><style>$tokens</style>
 <style>
   .area { justify-content: space-between; padding-top: 120px; }
-  .titulo { font-size: 88px; line-height: 1.05; color: var(--prata); }
-  .texto { color: var(--prata); margin-top: 0; }
+  .titulo { font-size: 88px; line-height: 1.05; color: var(--c-titulo); }
+  .texto { color: var(--c-texto); margin-top: 0; }
   .lockup { display: flex; flex-direction: column; gap: 10px; }
   .lockup .nome { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 60px;
-                  line-height: 1; color: var(--prata); }
+                  line-height: 1; color: var(--c-nome); }
   .lockup .inst { font-weight: 600; font-size: 26px; letter-spacing: 0.18em; text-transform: uppercase;
-                  color: var(--dourado-claro); }
-  .lockup .usuario { font-size: 30px; color: var(--prata); margin-top: 8px; }
+                  color: var(--c-apoio); }
+  .lockup .usuario { font-size: 30px; color: var(--c-texto); margin-top: 8px; }
 </style></head>
-<body><main class="arte escuro">
+<body><main class="arte $fundo">
   <section class="area" data-caixa>
     <div>
       <h1 class="titulo">$titulo</h1>

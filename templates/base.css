@@ -30,10 +30,16 @@ body {
   text-rendering: geometricPrecision;
 }
 
-/* A arte inteira; `.claro` = fundo prata, `.escuro` = fundo vermelho profundo */
-.arte { position: relative; width: 1080px; height: 1350px; overflow: hidden; }
-.claro { background: var(--prata); color: var(--grafite); }
-.escuro { background: var(--vermelho-profundo); color: var(--prata); }
+/* A arte inteira. Fundos (ADR-007): `.escuro` = vermelho profundo (capa/CTA de post fixado ou importante),
+   `.claro` = prata (conteúdo/citação de post fixado ou importante), `.creme` = todos os slides do post comum.
+   Cada fundo define as cores do texto (--c-*), usadas pelos templates. */
+.arte { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--c-fundo); color: var(--c-texto); }
+.escuro { --c-fundo: var(--vermelho-profundo); --c-titulo: var(--prata); --c-texto: var(--prata);
+          --c-eyebrow: var(--dourado-claro); --c-nome: var(--prata); --c-apoio: var(--dourado-claro); --c-seta: var(--prata); }
+.claro, .creme { --c-titulo: var(--vermelho); --c-texto: var(--grafite); --c-eyebrow: var(--vermelho);
+                 --c-nome: var(--vermelho); --c-apoio: var(--cinza); --c-seta: var(--vermelho); }
+.claro { --c-fundo: var(--prata); }
+.creme { --c-fundo: var(--creme); }
 
 /* Área segura: 72 px nas laterais e no topo, 180 px livres embaixo (texto essencial só aqui).
    data-caixa = o QA mede overflow (scrollHeight > clientHeight). */
@@ -51,11 +57,9 @@ body {
 .assinatura { display: flex; flex-direction: column; line-height: 1.15; }
 .assinatura .nome { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 34px; }
 .assinatura .usuario { font-size: 26px; letter-spacing: 0.01em; }
-.claro .assinatura .nome { color: var(--vermelho); }
-.claro .assinatura .usuario { color: var(--cinza); }
-.escuro .assinatura .nome { color: var(--prata); }
-.escuro .assinatura .usuario { color: var(--dourado-claro); }
-.seta { font-size: 56px; line-height: 1; color: var(--prata); }
+.assinatura .nome { color: var(--c-nome); }
+.assinatura .usuario { color: var(--c-apoio); }
+.seta { font-size: 56px; line-height: 1; color: var(--c-seta); }
 
 /* Tipografia (escala §4 para 1080×1350) */
 .eyebrow {

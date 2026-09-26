@@ -53,10 +53,44 @@ def test_html_do_destaque_tem_icone_svg(config):
     assert "<svg" in html and "1920" in html
 
 
-def test_seis_destaques_da_estrategia():
-    assert [d["nome"] for d in render.DESTAQUES] == ["Dízimo", "Formação", "Agenda", "Paróquias", "Perguntas", "Arquifln"]
+def test_cinco_destaques_sem_paroquias():
+    # ADR-007: o destaque "Paróquias" foi removido
+    assert [d["nome"] for d in render.DESTAQUES] == ["Dízimo", "Formação", "Agenda", "Perguntas", "Arquifln"]
     for d in render.DESTAQUES:
         assert (render.RAIZ / "templates" / "icones" / f"{d['icone']}.svg").exists()
+
+
+# ---------- tema de fundo (ADR-007) ----------
+
+@pytest.mark.parametrize("post, esperado", [
+    ({"fixado": True}, "vermelho"),
+    ({"importante": True}, "vermelho"),
+    ({"fixado": True, "importante": False}, "vermelho"),
+    ({}, "creme"),
+    ({"fixado": False, "importante": False}, "creme"),
+])
+def test_tema_segue_fixado_ou_importante(post, esperado):
+    assert render.tema_do_post(post) == esperado
+
+
+def test_tema_vermelho_capa_e_cta_escuros_conteudo_prata():
+    assert render.classe_fundo("capa", "vermelho") == "escuro"
+    assert render.classe_fundo("cta", "vermelho") == "escuro"
+    assert render.classe_fundo("conteudo", "vermelho") == "claro"
+    assert render.classe_fundo("citacao", "vermelho") == "claro"
+
+
+def test_tema_creme_todos_os_slides_em_creme():
+    for t in ["capa", "conteudo", "citacao", "cta"]:
+        assert render.classe_fundo(t, "creme") == "creme"
+
+
+def test_html_leva_a_classe_do_tema(config):
+    slide = {"template": "capa", "titulo": "T"}
+    assert 'class="arte escuro"' in render.montar_html(slide, config, 1, 2)          # padrão: vermelho
+    assert 'class="arte creme"' in render.montar_html(slide, config, 1, 2, tema="creme")
+    css = (render.TEMPLATES / "base.css").read_text(encoding="utf-8")
+    assert ".creme" in css and "var(--creme)" in css
 
 
 def test_razao_de_contraste_conhecida():
@@ -120,6 +154,23 @@ def test_destaque_1080x1920(renderizador, config, tmp_path):
     qa = renderizador.renderizar_html(render.montar_html_destaque("cruz", config), tmp_path / "d.jpg", 1080, 1920)
     assert qa["ok"], qa
     assert Image.open(tmp_path / "d.jpg").size == (1080, 1920)
+
+
+def test_post_comum_em_creme_passa_no_qa(renderizador, config, tmp_path):
+    post = {"numero": 8, "slides": [
+        {"template": "capa", "eyebrow": "Formação", "titulo": "Título de teste", "texto": "Apoio", "alt_text": "a"},
+        {"template": "conteudo", "eyebrow": "Parte", "titulo": "Um gesto de fé", "texto": "Texto corrido.",
+         "fonte": "Doc. CNBB 106, n. 12", "alt_text": "a"},
+        {"template": "citacao", "texto": "Deus ama quem dá com alegria.", "referencia": "2Cor 9,7", "alt_text": "a"},
+        {"template": "cta", "titulo": "Salve este post", "texto": "Para rever.", "alt_text": "a"},
+    ]}
+    resultados = renderizador.renderizar_post(post, tmp_path, config)
+    assert all(r["tema"] == "creme" for r in resultados)
+    assert all(r["ok"] for r in resultados), resultados
+    # o fundo renderizado é o creme do config (canto superior esquerdo)
+    r, g, b = Image.open(tmp_path / "post-8-01.jpg").getpixel((5, 5))
+    alvo = config["marca"]["paleta"]["creme"].lstrip("#")
+    assert all(abs(v - int(alvo[i:i + 2], 16)) <= 3 for v, i in zip((r, g, b), (0, 2, 4)))
 
 
 def test_renderiza_post_inteiro(renderizador, config, tmp_path):

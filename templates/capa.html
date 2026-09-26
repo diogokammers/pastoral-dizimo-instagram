@@ -1,15 +1,16 @@
 <!doctype html>
-<!-- Template "capa" (1º slide do carrossel): fundo vermelho profundo, eyebrow dourado-claro,
-     título Cormorant 92 px em prata, filete dourado, assinatura tipográfica + seta no rodapé. -->
+<!-- Template "capa" (1º slide do carrossel): fundo vermelho profundo (post fixado/importante) ou creme
+     (post comum, ADR-007); eyebrow, título Cormorant 92 px e texto nas cores do fundo (--c-*),
+     filete dourado, assinatura tipográfica + seta no rodapé. -->
 <html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
 <link rel="stylesheet" href="base.css"><style>$tokens</style>
 <style>
   .area { justify-content: flex-end; padding-bottom: 40px; }
-  .eyebrow { color: var(--dourado-claro); }
-  .titulo { font-size: 92px; line-height: 1.04; color: var(--prata); }
-  .texto { color: var(--prata); font-size: 40px; }
+  .eyebrow { color: var(--c-eyebrow); }
+  .titulo { font-size: 92px; line-height: 1.04; color: var(--c-titulo); }
+  .texto { color: var(--c-texto); font-size: 40px; }
 </style></head>
-<body><main class="arte escuro">
+<body><main class="arte $fundo">
   <section class="area" data-caixa>
     <p class="eyebrow">$eyebrow</p>
     <h1 class="titulo">$titulo</h1>

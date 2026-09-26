@@ -25,6 +25,27 @@ def test_estreia_tem_os_tres_fixados(dados):
     assert all(p["formato"] == "carrossel" for p in dados["posts"])
 
 
+def test_estreia_sao_fixados_e_usam_tema_vermelho(dados):
+    from pastoral import render
+    assert all(p.get("fixado") is True for p in dados["posts"])
+    assert {render.tema_do_post(p) for p in dados["posts"]} == {"vermelho"}
+
+
+def test_schema_aceita_importante_e_fixado_booleanos(dados, raiz):
+    import copy
+    lote = copy.deepcopy(dados)
+    lote["posts"][0]["importante"] = True
+    assert lint.validar_schema(lote, raiz / "schemas/posts.schema.json") == []
+    lote["posts"][0]["importante"] = "sim"
+    assert lint.validar_schema(lote, raiz / "schemas/posts.schema.json") != []
+
+
+def test_render_da_estreia_sem_destaque_paroquias(raiz):
+    pasta = raiz / "content/estreia/render"
+    assert not (pasta / "destaque-paroquias.jpg").exists()
+    assert len(list(pasta.glob("destaque-*.jpg"))) == 5
+
+
 def test_post3_tem_as_quatro_dimensoes_sem_doc106(dados):
     p = dados["posts"][2]
     post3 = json.dumps([p["slides"], p["legenda"]], ensure_ascii=False)  # só o que o público lê

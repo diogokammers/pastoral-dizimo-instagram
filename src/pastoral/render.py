@@ -2,6 +2,8 @@
 
 - Posts: 1080×1350 (4:5); capas de destaques: 1080×1920.
 - Tokens de cor vêm do config.yaml; fontes .ttf locais (assets/fonts); espera `document.fonts.ready`.
+- Tema de fundo (ADR-007): post `fixado` ou `importante` → "vermelho" (capa/CTA vermelho profundo,
+  conteúdo/citação prata); qualquer outro post → "creme" (todos os slides em fundo creme).
 - `marca.simbolo: null` (ADR-002) → assinatura tipográfica, nenhum símbolo.
 - JPEG: screenshot PNG sem perdas → Pillow → JPEG qualidade 90, 4:4:4, perfil sRGB embutido.
 - QA por imagem: overflow das caixas, contraste AA (≥ 4,5:1) de todo texto, área segura
@@ -27,12 +29,12 @@ TEMPLATES = RAIZ / "templates"
 LIMITE_BYTES = 8 * 1024 * 1024
 CONTRASTE_MIN = 4.5
 
-# Destaques da estratégia (cap. 8) e ícone de linha de cada um (templates/icones/*.svg)
+# Destaques da estratégia (cap. 8) e ícone de linha de cada um (templates/icones/*.svg).
+# ADR-007: "Paróquias" removido; ficam 5.
 DESTAQUES = [
     {"nome": "Dízimo", "arquivo": "dizimo", "icone": "maos"},
     {"nome": "Formação", "arquivo": "formacao", "icone": "livro"},
     {"nome": "Agenda", "arquivo": "agenda", "icone": "calendario"},
-    {"nome": "Paróquias", "arquivo": "paroquias", "icone": "mapa"},
     {"nome": "Perguntas", "arquivo": "perguntas", "icone": "pergunta"},
     {"nome": "Arquifln", "arquivo": "arquifln", "icone": "cruz"},
 ]
@@ -59,10 +61,25 @@ def _preencher(nome_template: str, campos: dict, config: dict) -> str:
     return modelo.substitute({**base, **campos})
 
 
-def montar_html(slide: dict, config: dict, indice: int, total: int) -> str:
+# ---------- tema de fundo (ADR-007) ----------
+
+def tema_do_post(post: dict) -> str:
+    """"vermelho" para post fixado ou importante; "creme" para os posts comuns da semana."""
+    return "vermelho" if post.get("fixado") or post.get("importante") else "creme"
+
+
+def classe_fundo(template: str, tema: str) -> str:
+    """Classe CSS do fundo do slide: `escuro` (vermelho profundo), `claro` (prata) ou `creme`."""
+    if tema == "creme":
+        return "creme"
+    return "escuro" if template in ("capa", "cta") else "claro"
+
+
+def montar_html(slide: dict, config: dict, indice: int, total: int, tema: str = "vermelho") -> str:
     """HTML de um slide de post a partir do template indicado em `slide['template']`."""
     campos = {c: html.escape(str(slide.get(c, ""))) for c in ("eyebrow", "titulo", "texto", "referencia", "fonte")}
     campos["numero"] = f"{indice}/{total}"
+    campos["fundo"] = classe_fundo(slide["template"], tema)
     return _preencher(slide["template"], campos, config)
 
 
@@ -202,21 +219,23 @@ class Renderizador:
                     and dimensoes == esperado and qa["bytes"] < LIMITE_BYTES)
         return qa
 
-    def renderizar_post(self, post: dict, pasta: Path, config: dict) -> list[dict]:
-        """post-{n}-01.jpg, post-{n}-02.jpg, ... com o QA de cada slide."""
+    def renderizar_post(self, post: dict, pasta: Path, config: dict, prefixo: str | None = None) -> list[dict]:
+        """post-{n}-01.jpg, post-{n}-02.jpg, ... (ou {prefixo}-01.jpg ...) com o QA de cada slide."""
         arte = config["marca"]["arte"]
         total = len(post["slides"])
+        tema = tema_do_post(post)
+        prefixo = prefixo or f"post-{post['numero']}"
         resultados = []
         for i, slide in enumerate(post["slides"], start=1):
-            qa = self.renderizar_html(montar_html(slide, config, i, total),
-                                      Path(pasta) / f"post-{post['numero']}-{i:02d}.jpg",
+            qa = self.renderizar_html(montar_html(slide, config, i, total, tema),
+                                      Path(pasta) / f"{prefixo}-{i:02d}.jpg",
                                       arte["largura"], arte["altura"],
                                       margem=arte["margem_segura_px"], rodape_livre=arte["rodape_livre_px"])
-            resultados.append({"post": post["numero"], "slide": i, "template": slide["template"], **qa})
+            resultados.append({"post": post["numero"], "slide": i, "template": slide["template"], "tema": tema, **qa})
         return resultados
 
     def renderizar_destaques(self, pasta: Path, config: dict) -> list[dict]:
-        """destaque-<nome>.jpg (1080×1920) para os 6 destaques."""
+        """destaque-<nome>.jpg (1080×1920) para os 5 destaques."""
         resultados = []
         for d in DESTAQUES:
             qa = self.renderizar_html(montar_html_destaque(d["icone"], config),
@@ -229,7 +248,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Renderiza posts (e capas de destaques) com QA")
     ap.add_argument("posts", type=Path)
     ap.add_argument("--saida", type=Path, help="padrão: render/ ao lado do posts.json")
-    ap.add_argument("--destaques", action="store_true", help="também gera as 6 capas de destaques")
+    ap.add_argument("--destaques", action="store_true", help="também gera as 5 capas de destaques")
     args = ap.parse_args(argv)
 
     config = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))

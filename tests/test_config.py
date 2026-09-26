@@ -28,6 +28,15 @@ def test_paleta_aprovada(config):
     assert cores["dourado"] == "#B08D3B"
 
 
+def test_creme_para_posts_comuns_passa_aa(config):
+    # ADR-007: fundo creme dos posts comuns; todo texto sobre ele ≥ 4,5:1
+    from pastoral.render import contraste
+    cores = config["marca"]["paleta"]
+    assert cores["creme"] == "#F2E8D5"
+    for texto in ["vermelho", "grafite", "cinza"]:
+        assert contraste(cores[texto], cores["creme"]) >= 4.5, texto
+
+
 def test_fontes_aprovadas(config):
     fontes = config["marca"]["fontes"]
     assert fontes["titulo"]["familia"] == "Cormorant Garamond"

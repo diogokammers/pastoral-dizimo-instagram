@@ -8,6 +8,7 @@
   "posts": [
     {
       "numero": 1,
+      "fixado": true,
       "titulo": "Bem-vindos à Pastoral do Dízimo",
       "pilar": "Formação",
       "formato": "carrossel",
@@ -70,6 +71,7 @@
     },
     {
       "numero": 2,
+      "fixado": true,
       "titulo": "O que é o dízimo?",
       "pilar": "Formação",
       "formato": "carrossel",
@@ -134,6 +136,7 @@
     },
     {
       "numero": 3,
+      "fixado": true,
       "titulo": "Para onde vai o dízimo?",
       "pilar": "Formação",
       "formato": "carrossel",

@@ -98,7 +98,7 @@ def _apoio(dados: dict, bio: dict) -> str:
   <p>Padre, esta página mostra como o perfil ficará na estreia. Pedimos sua aprovação, ou seus ajustes, para três coisas:</p>
   <ol>
     <li><b>Nome e bio do perfil</b> — a proposta aparece no topo do perfil abaixo; há duas alternativas no fim desta seção.</li>
-    <li><b>Capas dos 6 destaques</b> — Dízimo, Formação, Agenda, Paróquias, Perguntas e Arquifln. Só ícones, nas cores da Arquidiocese; o nome do destaque aparece no próprio Instagram.</li>
+    <li><b>Capas dos 5 destaques</b> — Dízimo, Formação, Agenda, Perguntas e Arquifln. Só ícones, nas cores da Arquidiocese; o nome do destaque aparece no próprio Instagram.</li>
     <li><b>Os 3 posts fixados</b> — (1) apresentação da Pastoral, (2) "O que é o dízimo?" e (3) "Para onde vai o dízimo?". Em cada um: as imagens (use as setas), a legenda e o texto alternativo, que descreve a imagem para quem usa leitor de tela.</li>
   </ol>
   <h3>Pontos que pedem o seu olhar</h3>

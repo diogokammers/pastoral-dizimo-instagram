@@ -18,6 +18,8 @@
       "required": ["numero", "titulo", "pilar", "formato", "cta", "slides", "legenda", "hashtags", "fontes"],
       "properties": {
         "numero": {"type": "integer", "minimum": 1},
+        "fixado": {"type": "boolean", "description": "Post fixado no perfil → tema vermelho (ADR-007)."},
+        "importante": {"type": "boolean", "description": "Post marcado como importante → tema vermelho (ADR-007). Sem as duas marcas: tema creme."},
         "titulo": {"type": "string", "minLength": 1},
         "pilar": {"enum": ["Formação", "Vida pastoral", "Convite institucional"]},
         "formato": {"enum": ["carrossel", "imagem_unica"]},
