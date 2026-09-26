@@ -65,7 +65,6 @@
         {"tipo": "estrategia", "referencia": "Estratégia de Instagram, cap. 3 (missão) e cap. 11 (post 1)"}
       ],
       "a_conferir": [
-        "Redação literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
         "Se o Padre prefere nomear o Arcebispo ou manter só \"o Arcebispo\" (nenhum nome foi usado)."
       ]
     },
@@ -93,9 +92,9 @@
         {
           "template": "conteudo",
           "titulo": "Nasce do coração",
-          "texto": "É uma decisão pessoal e espontânea, de um coração agradecido. Ninguém é constrangido.",
+          "texto": "Nasce de uma decisão pessoal e é manifestação espontânea da fé e da pertença à comunidade.",
           "fonte": "cf. Doc. CNBB 106, n. 9",
-          "alt_text": "Slide em fundo claro com o título Nasce do coração e o texto: É uma decisão pessoal e espontânea, de um coração agradecido. Ninguém é constrangido. Fonte: Documento 106 da CNBB, número 9."
+          "alt_text": "Slide em fundo claro com o título Nasce do coração e o texto: Nasce de uma decisão pessoal e é manifestação espontânea da fé e da pertença à comunidade. Fonte: Documento 106 da CNBB, número 9."
         },
         {
           "template": "conteudo",
@@ -112,10 +111,10 @@
         },
         {
           "template": "conteudo",
-          "titulo": "Partilha e pertença",
-          "texto": "O dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado.",
+          "titulo": "Mais que recursos",
+          "texto": "Não se reduz a manter estruturas: nasce da fé, da partilha e da pertença.",
           "fonte": "cf. Doc. CNBB 106, n. 12",
-          "alt_text": "Slide em fundo claro com o título Partilha e pertença e o texto: O dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado. Fonte: Documento 106 da CNBB, número 12."
+          "alt_text": "Slide em fundo claro com o título Mais que recursos e o texto: Não se reduz a manter estruturas: nasce da fé, da partilha e da pertença. Fonte: Documento 106 da CNBB, número 12."
         },
         {
           "template": "cta",
@@ -124,15 +123,13 @@
           "alt_text": "Slide final em fundo vermelho-escuro com o convite: Salve este post para rever sempre que alguém perguntar o que é o dízimo. Abaixo, a assinatura Pastoral do Dízimo, Arquidiocese de Florianópolis, e o nome do perfil."
         }
       ],
-      "legenda": "O dízimo começa no coração, não no bolso.\n\nÉ a resposta agradecida de quem reconhece que tudo o que tem vem de Deus. Por isso é um gesto livre: nasce de uma decisão pessoal e espontânea, de um coração agradecido (cf. Doc. CNBB 106, n. 9), e a quantia é decisão da consciência de cada um, iluminada pela Palavra (cf. Doc. CNBB 106, n. 10).\n\nA CNBB ensina que o dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado (cf. Doc. CNBB 106, n. 12). Pelo dízimo, a comunidade assume junta o sustento da sua vida e da missão da Igreja (cf. Doc. CNBB 106, n. 6).\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSalve este post para rever sempre que alguém perguntar o que é o dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "O dízimo começa no coração, não no bolso.\n\nÉ a resposta agradecida de quem reconhece que tudo o que tem vem de Deus. Por isso é um gesto livre: nasce de uma decisão pessoal e é manifestação espontânea da fé (cf. Doc. CNBB 106, n. 9), e a quantia é decisão da consciência de cada um, iluminada pela Palavra (cf. Doc. CNBB 106, n. 10).\n\nA CNBB lembra que o dízimo não pode ser reduzido a uma forma de captar recursos: sua riqueza está na fé, na partilha e na pertença (cf. Doc. CNBB 106, n. 12). Pelo dízimo, a comunidade assume junta o sustento da sua vida e da missão da Igreja (cf. Doc. CNBB 106, n. 6).\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSalve este post para rever sempre que alguém perguntar o que é o dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
-        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Conferir a redação literal na edição oficial."},
-        {"tipo": "cnbb", "referencia": "Doc. CNBB 106, n. 6, 9, 10 e 12", "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)", "observacao": "Paráfrases a partir de docs/pesquisa/06-cnbb-doc-106.md; trechos obtidos de material de formação diocesano, conferir no exemplar."}
+        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Conferido: o Doc. CNBB 106, n. 10, cita 2Cor 9,7 com a mesma redação (\"Deus ama quem dá com alegria\")."},
+        {"tipo": "cnbb", "referencia": "Doc. CNBB 106, n. 6, 9, 10 e 12", "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)", "observacao": "Paráfrases conferidas no exemplar digital (Google Play Livros) em 2026-09-27."}
       ],
       "a_conferir": [
-        "Redação literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
-        "Paráfrases do Doc. CNBB 106 (n. 6, 9, 10, 12) contra o exemplar impresso."
       ]
     },
     {
@@ -202,7 +199,7 @@
       ],
       "a_conferir": [
         "As quatro dimensões são apresentadas como síntese pastoral, sem atribuição ao Doc. CNBB 106 (regra do cartão).",
-        "Rm 15,26-27 como exemplo da coleta de Paulo: conferir na Bíblia Sagrada — Tradução Oficial da CNBB."
+        "Rm 15,26-27: conferido como exemplo da coleta no Doc. CNBB 106, n. 22."
       ]
     }
   ]

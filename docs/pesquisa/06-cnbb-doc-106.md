@@ -102,3 +102,23 @@ Recomendação para os posts: é seguro usar "quatro dimensões" como *síntese 
 - Existência de PDF integral e gratuito do Documento 106 em cnbb.org.br ou edicoescnbb.com.br — não encontrado; o documento é comercializado, não distribuído gratuitamente pela CNBB.
 - Formulação literal e citação exata de parágrafo único que reúna as "quatro dimensões" (religiosa, eclesial, missionária, caritativa) dentro do Documento 106 — não localizada; a nomenclatura de "4 dimensões" vem de material derivado (site institucional da CNBB), não de uma citação literal única do documento.
 - ISBN do e-book (distinto do ISBN do impresso 9788579725197) — não obtido.
+
+---
+
+## Conferência no exemplar digital (2026-09-27)
+
+Lido no e-book oficial (Google Play Livros, Edições CNBB, maio/2019) comprado pela Pastoral. Só paráfrases e trechos curtos, por direitos autorais.
+
+| Nº | O que o texto diz (paráfrase) | Situação |
+|---|---|---|
+| Apresentação | Abre com 2Cor 9,7 ("Deus ama quem dá com alegria"); elaborado em três Assembleias Gerais (2014–2016) e aprovado pelo Conselho Permanente, por delegação da Assembleia | **Confere** |
+| 4 | O Cap. I trata do conceito, dos fundamentos bíblicos, das **dimensões** e das finalidades do dízimo | **Novo:** o documento tem uma seção sobre dimensões — ler antes de decidir a atribuição |
+| 6 | Dízimo = "contribuição sistemática e periódica dos fiéis"; a comunidade assume corresponsavelmente sua sustentação e a da Igreja; pressupõe pessoas evangelizadas | **Confere** |
+| 7 | Características: ligado à experiência de Deus e ao amor fraterno; compromisso moral; fixado pela consciência; sistemático e periódico | **Confere** |
+| 9 | Como compromisso moral, nasce de uma **decisão pessoal**; é manifestação autêntica e espontânea da fé e da pertença; plano da consciência, não de simples lei | **Confere** (a pesquisa anterior acrescentava "coração agradecido" e "ninguém é constrangido", que **não** estão no n. 9) |
+| 10 | A quantia é decisão de consciência iluminada pela Palavra; cita 2Cor 9,7 por extenso; a Igreja **não fixa percentual** | **Confere** |
+| 12 | A correta compreensão evita propor o dízimo **unicamente** como captação de recursos; isso não pode ser a única nem a principal motivação (risco de reducionismo) | **Corrigido:** o texto não diz "não é captação de recursos", e sim que não pode ser **reduzido** a isso |
+| 22 | A coleta para a Judeia (At 11,29; Rm 15,26-27; 1Cor 16,1-4; 2Cor 8-9; Gl 2,10) inspira a dimensão caritativa e a partilha entre as Igrejas particulares | **Confere** |
+
+Consequência: post 2 corrigido (n. 9 e n. 12); 2Cor 9,7 e Rm 15,26-27 conferidos pela citação no próprio documento.
+Pendente: ler a seção das dimensões (Cap. I) para decidir se o post 3 pode citar o Doc. 106.
