@@ -1,0 +1,121 @@
+[
+  {
+    "post": 2,
+    "slide": 1,
+    "template": "capa",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-01.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 71593,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 2,
+    "template": "conteudo",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-02.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 94533,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 3,
+    "template": "conteudo",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-03.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 105524,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 4,
+    "template": "conteudo",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-04.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 95157,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 5,
+    "template": "citacao",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-05.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 61076,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 6,
+    "template": "conteudo",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-06.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 91519,
+    "ok": true
+  },
+  {
+    "post": 2,
+    "slide": 7,
+    "template": "cta",
+    "tema": "creme",
+    "overflow": [],
+    "contraste": [],
+    "area_segura": [],
+    "fontes_ok": true,
+    "arquivo": "post-comum-creme-07.jpg",
+    "dimensoes": [
+      1080,
+      1350
+    ],
+    "bytes": 99012,
+    "ok": true
+  }
+]
