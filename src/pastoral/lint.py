@@ -12,7 +12,7 @@ Regras:
 - CTA da lista permitida do config.yaml;
 - carrossel com 2 a 10 slides; imagem única com 1;
 - citação bíblica com referência "Livro cap,vers" e edição registrada em `fontes`;
-- Doc. CNBB 106 só com parágrafo verificado (n. 6, 9, 10, 12, 22 ou Cap. II) e nunca junto das
+- Doc. CNBB 106 só com parágrafo verificado (n. 4, 6, 7, 9, 10, 12, 22 ou Cap. II) e nunca junto das
   "quatro dimensões" (síntese pastoral, não citação do documento).
 
 Uso: python -m pastoral.lint content/estreia/posts.json
@@ -55,10 +55,10 @@ CAMPOS_VISIVEIS = ("eyebrow", "titulo", "texto", "referencia", "fonte")
 RE_BIBLIA = re.compile(r"\b([1-3]?[A-Z][a-z]{0,3})\s?(\d{1,3}),(\d{1,3}(?:[-–]\d{1,3})?)")
 
 # Doc. CNBB 106: parágrafos verificados em docs/pesquisa/06-cnbb-doc-106.md (cartão de marca)
-PARAGRAFOS_DOC106 = {6, 9, 10, 12, 22}
+PARAGRAFOS_DOC106 = {4, 6, 7, 9, 10, 12, 22}   # conferidos no exemplar em 2026-09-27
 RE_DOC106 = re.compile(
     r"Doc(?:\.|umento)?\s*(?:da\s+)?(?:CNBB\s*)?106(?:\s+da\s+CNBB)?\s*,?\s*"
-    r"(?:(?:n\.|nn\.|n\.º|número)\s*(\d+)|(Cap\.\s*II\b))?",
+    r"(?:(?:n\.|nn\.|n\.º|nº|número)\s*(\d+)|((?:Cap\.|Capítulo)\s*(?:II|2)\b))?",
     re.IGNORECASE,
 )
 

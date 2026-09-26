@@ -242,3 +242,8 @@ def test_main_devolve_1_com_erros(tmp_path, raiz):
     arq.write_text(json.dumps({"lote": "t", "posts": [ruim]}, ensure_ascii=False), encoding="utf-8")
     assert lint.main([str(arq), "--config", str(raiz / "config.yaml")]) == 1
 
+
+
+def test_doc106_capitulo_por_extenso_e_n7_aceitos():
+    assert lint.RE_DOC106.search("Doc. CNBB 106, Capítulo II").group(2)
+    assert 7 in lint.PARAGRAFOS_DOC106 and 4 in lint.PARAGRAFOS_DOC106

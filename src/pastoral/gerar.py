@@ -45,6 +45,8 @@ def montar_prompt(briefing: dict, cartao: str, schema: dict, erros: list[str] | 
         "Limite de palavras: cada slide deve ter NO MÁXIMO 20 palavras somando todos os campos visíveis "
         "(eyebrow, título, texto, referência/fonte). O limite duro do lint é 25; conte as palavras de cada "
         "slide antes de responder e divida em mais slides se preciso.",
+        "Cite o Doc. CNBB 106 SEMPRE com o parágrafo, no formato \"Doc. CNBB 106, n. X\" (um número por citação) "
+        "ou \"Doc. CNBB 106, Cap. II\"; nunca \"Doc. CNBB 106\" sozinho, em nenhum campo (slides, alt-text, legenda).",
         "Responda apenas com um JSON válido segundo o schema, dentro de um bloco ```json.",
         "## Cartão de marca\n" + cartao,
         "## Briefing\n" + json.dumps(briefing, ensure_ascii=False, indent=1),
