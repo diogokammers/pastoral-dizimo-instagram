@@ -44,7 +44,7 @@ Evangelizar, formar e fortalecer o dízimo como expressão de fé, gratidão e c
 
 ## Aplicada em 2026-09-27 (decisão do Diogo: opção "a", manter as menções) — 143 caracteres
 
-```text
+```text aplicada
 Evangelizar, formar e fortalecer o dízimo: fé, gratidão e corresponsabilidade.
 “Deus ama quem dá com alegria” 2Cor 9,7
 @pe.alexjr
