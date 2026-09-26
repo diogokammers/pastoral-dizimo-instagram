@@ -81,7 +81,7 @@ def test_devolve_erros_se_continuar_reprovado(config, schema):
         return envelope({"lote": "x", "posts": [ruim]})
 
     r = gerar.gerar(BRIEFING, "cartão", schema, config, executar=falso)
-    assert r["tentativas"] == 2 and any("CTA" in e for e in r["erros"])
+    assert r["tentativas"] == 3 and any("CTA" in e for e in r["erros"])
 
 
 def test_erro_do_cli_levanta_excecao(config, schema):
@@ -189,3 +189,8 @@ def test_main_grava_posts_e_metricas(tmp_path, monkeypatch):
     assert m["total"]["input_tokens"] == 100 and m["total"]["output_tokens"] == 900
     assert m["total"]["custo_usd"] == 0.5 and m["total"]["duracao_cli_s"] == 4.0
     assert m["duracao_s"] >= 0 and m["modelo"] and m["gerado_em"]
+
+
+def test_prompt_explicita_limite_de_palavras():
+    prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
+    assert "NO MÁXIMO 20 palavras" in prompt

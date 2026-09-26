@@ -8,7 +8,7 @@ CLAUDE_CODE_OAUTH_TOKEN (gerar-reserva.yml, semanal.yml). Fluxo:
    "duration_ms": ...}; o JSON dos posts vem no bloco de código json do `result`.
    Se o CLI não reconhecer `geracao.modelo`, tenta de novo com `geracao.alias`;
 3. impõe o briefing: `numero` = `indice` global, `fixado` do briefing (creme), `importante` só se marcado;
-4. valida schema + lint; se reprovar, faz UMA regeneração mandando os erros de volta;
+4. valida schema + lint; se reprovar, regenera (até 2 vezes) mandando os erros de volta;
 5. devolve os dados, os erros restantes (para o aprovador) e o uso de tokens de cada chamada.
 O main grava posts.json e metricas-geracao.json (tokens, custo, tempo) ao lado do briefing.
 
@@ -42,6 +42,9 @@ def montar_prompt(briefing: dict, cartao: str, schema: dict, erros: list[str] | 
         "Inclua em cada post `autocritica` com nota 0–2 por critério (T1–T8) e revise o que tiver nota < 2.",
         "Um post por item do briefing, na mesma ordem, com `numero` = `indice` do briefing e `fixado` "
         "igual ao do briefing.",
+        "Limite de palavras: cada slide deve ter NO MÁXIMO 20 palavras somando todos os campos visíveis "
+        "(eyebrow, título, texto, referência/fonte). O limite duro do lint é 25; conte as palavras de cada "
+        "slide antes de responder e divida em mais slides se preciso.",
         "Responda apenas com um JSON válido segundo o schema, dentro de um bloco ```json.",
         "## Cartão de marca\n" + cartao,
         "## Briefing\n" + json.dumps(briefing, ensure_ascii=False, indent=1),
@@ -115,7 +118,7 @@ def aplicar_briefing(dados: dict, briefing: dict) -> dict:
 
 
 def gerar(briefing: dict, cartao: str, caminho_schema: Path, config: dict,
-          executar: Callable[[str, str], str] | None = None, max_tentativas: int = 2) -> dict:
+          executar: Callable[[str, str], str] | None = None, max_tentativas: int = 3) -> dict:
     """Gera, valida e (se preciso) regenera uma vez. Nunca publica nada."""
     executar = executar or executar_claude
     schema = json.loads(Path(caminho_schema).read_text(encoding="utf-8"))
