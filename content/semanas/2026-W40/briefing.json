@@ -1,0 +1,53 @@
+{
+  "gancho_liturgico": {
+    "celebracoes": [
+      {
+        "cor": null,
+        "data": "2026-10-01",
+        "nome": "Santa Teresinha do Menino Jesus, padroeira das missões"
+      }
+    ],
+    "cor": "verde",
+    "fim": "2026-10-04",
+    "inicio": "2026-09-28",
+    "mes_tematico": null,
+    "tempo": "Tempo Comum"
+  },
+  "posts": [
+    {
+      "cor_liturgica": "verde",
+      "cta": "Marcar um agente conhecido",
+      "data": "2026-09-29",
+      "fixado": false,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 4,
+      "pilar": "Vida pastoral",
+      "publico": "Agentes e coordenadores",
+      "resumo": "Valorização do serviço voluntário e testemunho de dedicação.",
+      "rodada": 1,
+      "tema": 6,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "Quem é o agente da Pastoral do Dízimo?"
+    },
+    {
+      "cor_liturgica": "verde",
+      "cta": "Comentar dúvidas",
+      "data": "2026-10-02",
+      "fixado": false,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 5,
+      "pilar": "Formação",
+      "publico": "Católicos interessados",
+      "resumo": "Comparação simples e objetiva entre os dois conceitos.",
+      "rodada": 1,
+      "tema": 4,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "Dízimo x Oferta: qual a diferença?"
+    }
+  ],
+  "semana": "2026-W40"
+}

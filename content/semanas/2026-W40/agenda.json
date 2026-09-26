@@ -1,0 +1,30 @@
+{
+  "semana": "2026-W40",
+  "posts": [
+    {
+      "numero": 4,
+      "agendado_para": "2026-09-29T19:00:00-03:00",
+      "artes": [
+        "post-4-01.jpg",
+        "post-4-02.jpg",
+        "post-4-03.jpg",
+        "post-4-04.jpg",
+        "post-4-05.jpg",
+        "post-4-06.jpg"
+      ]
+    },
+    {
+      "numero": 5,
+      "agendado_para": "2026-10-02T19:00:00-03:00",
+      "artes": [
+        "post-5-01.jpg",
+        "post-5-02.jpg",
+        "post-5-03.jpg",
+        "post-5-04.jpg",
+        "post-5-05.jpg",
+        "post-5-06.jpg",
+        "post-5-07.jpg"
+      ]
+    }
+  ]
+}

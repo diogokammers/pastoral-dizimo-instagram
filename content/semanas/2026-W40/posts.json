@@ -1,0 +1,198 @@
+{
+  "lote": "2026-W40",
+  "observacoes": [
+    "CTAs ajustados para a lista permitida do cartão: 'marcar' (post 4) e 'comentar' (post 5).",
+    "Post 5: o Doc. CNBB 106 só é citado com parágrafo verificado (n. 6, 9 e 10), inclusive nos alt-texts.",
+    "Post 4 menciona Santa Teresinha do Menino Jesus (1º/10), padroeira das missões, conforme o gancho litúrgico do briefing."
+  ],
+  "posts": [
+    {
+      "numero": 4,
+      "fixado": false,
+      "titulo": "Quem é o agente da Pastoral do Dízimo?",
+      "pilar": "Vida pastoral",
+      "formato": "carrossel",
+      "publico": "Agentes e coordenadores",
+      "cta": "marcar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Vida pastoral",
+          "titulo": "Quem é o agente da Pastoral do Dízimo?",
+          "alt_text": "Capa do carrossel com a identificação 'Vida pastoral' e o título 'Quem é o agente da Pastoral do Dízimo?' em destaque, sobre fundo liso nas cores da Pastoral."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Um serviço voluntário",
+          "texto": "É alguém da comunidade que oferece seu tempo, com gratidão, a serviço da missão.",
+          "alt_text": "Slide com o título 'Um serviço voluntário' e o texto: é alguém da comunidade que oferece seu tempo, com gratidão, a serviço da missão."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Acompanha, forma e testemunha",
+          "texto": "Ajuda a comunidade a viver o dízimo como gesto de fé e gratidão.",
+          "alt_text": "Slide com o título 'Acompanha, forma e testemunha' e o texto: ajuda a comunidade a viver o dízimo como gesto de fé e gratidão."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Em comunhão com o pároco",
+          "texto": "A Pastoral serve junto com o clero, nunca como instância paralela.",
+          "alt_text": "Slide com o título 'Em comunhão com o pároco' e o texto: a Pastoral serve junto com o clero, nunca como instância paralela."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Evangelizar primeiro",
+          "texto": "O dízimo pressupõe pessoas evangelizadas: por isso o agente acolhe e forma.",
+          "fonte": "Doc. CNBB 106, n. 6",
+          "alt_text": "Slide com o título 'Evangelizar primeiro' e o texto: o dízimo pressupõe pessoas evangelizadas, por isso o agente acolhe e forma. No rodapé, a fonte: Doc. CNBB 106, n. 6."
+        },
+        {
+          "template": "cta",
+          "titulo": "Você conhece um agente assim?",
+          "texto": "Marque nos comentários quem serve sua paróquia com alegria.",
+          "alt_text": "Slide final com a pergunta 'Você conhece um agente assim?' e o convite para marcar nos comentários quem serve sua paróquia com alegria. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
+        }
+      ],
+      "legenda": "Por trás de cada comunidade que vive o dízimo, há quem sirva com simplicidade.\n\nO agente da Pastoral do Dízimo é alguém da comunidade que oferece seu tempo, com gratidão, a serviço da missão. Acompanha, forma e testemunha, sempre em comunhão com o pároco e o clero.\n\nO dízimo pressupõe pessoas evangelizadas (Doc. CNBB 106, n. 6). Por isso, antes de tudo, o agente acolhe e ajuda a comunidade a viver o dízimo como gesto de fé.\n\nNesta semana, em 1º de outubro, a Igreja celebra Santa Teresinha do Menino Jesus, padroeira das missões. Que seu exemplo inspire quem serve com humildade.\n\nConhece um agente assim? Marque nos comentários e agradeça esse serviço.\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7)\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [
+        "#PastoralDoDizimo",
+        "#Dizimo",
+        "#ArquidioceseDeFlorianopolis",
+        "#Partilha",
+        "#Missao"
+      ],
+      "fontes": [
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6",
+          "edicao": "Edições CNBB",
+          "observacao": "Dízimo pressupõe pessoas evangelizadas (paráfrase)."
+        },
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB"
+        }
+      ],
+      "a_conferir": [
+        "Texto literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
+        "Lista fixa de hashtags (a confirmar no cartão).",
+        "Se houver testemunho real de agente para ilustrar o post, precisa ser fornecido e autorizado; nenhum foi inventado."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    },
+    {
+      "numero": 5,
+      "fixado": false,
+      "titulo": "Dízimo x Oferta: qual a diferença?",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Católicos interessados",
+      "cta": "comentar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "Dízimo x Oferta: qual a diferença?",
+          "alt_text": "Capa do carrossel com a identificação 'Formação' e o título 'Dízimo x Oferta: qual a diferença?' em destaque, sobre fundo liso nas cores da Pastoral."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O dízimo",
+          "texto": "Partilha sistemática e periódica pela qual a comunidade assume sua sustentação.",
+          "fonte": "Doc. CNBB 106, n. 6",
+          "alt_text": "Slide com o título 'O dízimo' e o texto: partilha sistemática e periódica pela qual a comunidade assume sua sustentação. No rodapé, a fonte: Doc. CNBB 106, n. 6."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Nasce do coração",
+          "texto": "Decisão pessoal e espontânea de um coração agradecido.",
+          "fonte": "Doc. CNBB 106, n. 9",
+          "alt_text": "Slide com o título 'Nasce do coração' e o texto: decisão pessoal e espontânea de um coração agradecido. No rodapé, a fonte: Doc. CNBB 106, n. 9."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Quanto?",
+          "texto": "A quantia é decisão da consciência, iluminada pela Palavra.",
+          "fonte": "Doc. CNBB 106, n. 10",
+          "alt_text": "Slide com o título 'Quanto?' e o texto: a quantia é decisão da consciência, iluminada pela Palavra. No rodapé, a fonte: Doc. CNBB 106, n. 10."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "E a oferta?",
+          "texto": "É outro gesto, distinto do dízimo. Não se confundem.",
+          "alt_text": "Slide com o título 'E a oferta?' e o texto: é outro gesto, distinto do dízimo; os dois não se confundem."
+        },
+        {
+          "template": "citacao",
+          "texto": "Deus ama quem dá com alegria.",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Slide de citação bíblica com a frase 'Deus ama quem dá com alegria' e a referência 2Cor 9,7."
+        },
+        {
+          "template": "cta",
+          "titulo": "Ficou alguma dúvida?",
+          "texto": "Comente aqui sua pergunta sobre dízimo e oferta.",
+          "alt_text": "Slide final com a pergunta 'Ficou alguma dúvida?' e o convite para comentar a pergunta sobre dízimo e oferta. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
+        }
+      ],
+      "legenda": "Dízimo e oferta não são a mesma coisa.\n\nO dízimo é partilha sistemática e periódica, pela qual a comunidade assume corresponsavelmente sua sustentação e a da Igreja (Doc. CNBB 106, n. 6). Nasce de uma decisão pessoal e espontânea, de um coração agradecido (Doc. CNBB 106, n. 9). E a quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10).\n\nA oferta é outro gesto, distinto do dízimo. Os dois não se confundem.\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7)\n\nFicou alguma dúvida? Comente aqui.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [
+        "#PastoralDoDizimo",
+        "#Dizimo",
+        "#ArquidioceseDeFlorianopolis",
+        "#Formacao",
+        "#Gratidao"
+      ],
+      "fontes": [
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6",
+          "edicao": "Edições CNBB",
+          "observacao": "Dízimo como partilha sistemática e periódica (paráfrase)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 9",
+          "edicao": "Edições CNBB",
+          "observacao": "Decisão pessoal, espontânea, de coração agradecido (paráfrase)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 10",
+          "edicao": "Edições CNBB",
+          "observacao": "Quantia como decisão da consciência (paráfrase)."
+        },
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB"
+        }
+      ],
+      "a_conferir": [
+        "Definição de oferta: o cartão só registra que o dízimo é distinto das ofertas (capítulo II do documento da CNBB); confirmar com o Diogo se convém detalhar o que é a oferta.",
+        "Texto literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
+        "Lista fixa de hashtags (a confirmar no cartão)."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    }
+  ]
+}
