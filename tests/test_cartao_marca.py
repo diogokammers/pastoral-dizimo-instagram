@@ -49,11 +49,29 @@ def test_cartao_termos_proibidos(cartao):
         assert termo in cartao.lower()
 
 
-def test_cartao_nao_atribui_quatro_dimensoes_ao_doc_106(cartao):
-    """As '4 dimensões' não foram verificadas no Doc. 106 (06-cnbb-doc-106.md)."""
+def test_cartao_tem_escopo_das_quatro_fontes(cartao):
+    """Regra do Diogo (2026-09-27): só Doc. 106, CIC, CDC e Bíblia."""
+    assert re.search(r"^##\s.*Escopo de fontes", cartao, re.MULTILINE)
+    for fonte in ["Doc. CNBB 106", "Catecismo", "Direito Canônico", "Bíblia"]:
+        assert fonte in cartao
+
+
+def test_cartao_registra_dimensoes_no_doc_106(cartao):
+    """Revogada a regra antiga: as dimensões estão no Doc. 106, n. 29–32."""
+    assert "n. 29" in cartao and "n. 32" in cartao
+    assert "síntese pastoral" not in cartao
+
+
+def test_cartao_agente_sem_voluntario(cartao):
+    """Agente: serviço à comunidade (CIC 910); "voluntário" só aparece como termo vetado."""
+    assert "CIC 910" in cartao
     for linha in cartao.splitlines():
-        if "dimens" in linha.lower() and "106" in linha:
-            assert re.search(r"não|nunca", linha, re.IGNORECASE), linha
+        if re.search(r"volunt[áa]ri", linha, re.IGNORECASE):
+            assert re.search(r"nunca|proibid|fora", linha, re.IGNORECASE), linha
+
+
+def test_cartao_oferta_ancorada(cartao):
+    assert "n. 51" in cartao and "CIC 1351" in cartao
 
 
 def test_cartao_cita_doc_106_verificado(cartao):
