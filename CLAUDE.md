@@ -32,4 +32,4 @@ Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md`.
 
 ## Git
 - Commits em português, terminando com a linha Co-Authored-By.
-- Não tornar o repositório público antes de resolver o R11 (ADR-003).
+- Repositório público (R11 resolvido: histórico consolidado). Nunca versionar dado pessoal nem trecho longo de obra protegida.
