@@ -22,6 +22,7 @@ Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md`.
 - Tokens do cartão: `python -m pastoral.medir_tokens cartao-marca.md` (com `PYTHONPATH=src`)
 - Pauta da semana: `python -m pastoral.pauta 2026-W41` (com `PYTHONPATH=src`)
 - Lint: `python -m pastoral.lint content/estreia/posts.json` · Render + QA: `python -m pastoral.render content/estreia/posts.json --destaques` · Prévia: `python -m pastoral.preview` · Amostras creme: `python -m pastoral.amostras`
+- Portão de publicação (dry-run padrão; real só com `PUBLICAR=1`): `python -m pastoral.publicar` · Diagnóstico do token: `python -m pastoral.meta --verificar` (ADR-008)
 
 ## Estrutura
 - `content/temas.yaml` — fila de temas da estratégia (sem Reels, que são manuais)

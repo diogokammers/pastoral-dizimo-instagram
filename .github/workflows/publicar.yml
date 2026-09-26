@@ -1,0 +1,46 @@
+# Portão de publicação (ADR-008, arquitetura §5). Roda todo dia; só publica o que tiver aprovacao.json
+# assinada, hashes conferindo, data agendada vencida e ausência no ledger.
+# Publicação REAL exige as três coisas: variável de repositório PUBLICAR_ATIVO = "1", execução agendada
+# (ou manual com "publicar" marcado) e nenhum --dry-run. Fora disso, roda em dry-run.
+name: publicar
+on:
+  schedule:
+    - cron: "15 22 * * *"        # 19:15 em Brasília (UTC-3), logo depois do horário de terça/sexta
+  workflow_dispatch:
+    inputs:
+      publicar:
+        description: "Publicar de verdade (senão, dry-run)"
+        type: boolean
+        default: false
+permissions:
+  contents: write                # só para commitar o ledger publicado.json
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+jobs:
+  portao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install PyYAML
+      - name: Portão de publicação
+        env:
+          PYTHONPATH: src
+          PUBLICAR: ${{ vars.PUBLICAR_ATIVO == '1' && (github.event_name == 'schedule' || inputs.publicar) && '1' || '0' }}
+          APROVACAO_HMAC_SECRET: ${{ secrets.APROVACAO_HMAC_SECRET }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ vars.IG_USER_ID }}
+        run: python -m pastoral.publicar
+      - name: Grava o ledger
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- content/semanas)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add content/semanas/*/publicado.json
+            git commit -m "content(publicado): registra publicação pelo portão"
+            git push
+          fi
