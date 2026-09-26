@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- Template "capa" (1º slide do carrossel): fundo vermelho profundo, eyebrow dourado-claro,
+     título Cormorant 92 px em prata, filete dourado, assinatura tipográfica + seta no rodapé. -->
+<html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
+<link rel="stylesheet" href="base.css"><style>$tokens</style>
+<style>
+  .area { justify-content: flex-end; padding-bottom: 40px; }
+  .eyebrow { color: var(--dourado-claro); }
+  .titulo { font-size: 92px; line-height: 1.04; color: var(--prata); }
+  .texto { color: var(--prata); font-size: 40px; }
+</style></head>
+<body><main class="arte escuro">
+  <section class="area" data-caixa>
+    <p class="eyebrow">$eyebrow</p>
+    <h1 class="titulo">$titulo</h1>
+    <div class="filete-titulo"></div>
+    <p class="texto">$texto</p>
+  </section>
+  <footer class="rodape" data-rodape>
+    <div class="filete"></div>
+    <div class="assinatura"><span class="nome">$marca_nome</span><span class="usuario">$usuario</span></div>
+    <span class="seta" aria-hidden="true">→</span>
+  </footer>
+</main></body></html>

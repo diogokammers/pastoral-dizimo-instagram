@@ -1,0 +1,430 @@
+{
+  "posts": [
+    {
+      "post": 1,
+      "slide": 1,
+      "template": "capa",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 90925,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 2,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 97398,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 3,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 107093,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 4,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 108970,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 5,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 113613,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 6,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 106678,
+      "ok": true
+    },
+    {
+      "post": 1,
+      "slide": 7,
+      "template": "cta",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-1-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 94201,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 1,
+      "template": "capa",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 73342,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 2,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 96859,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 3,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 106207,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 4,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 97681,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 5,
+      "template": "citacao",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 58977,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 6,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 111330,
+      "ok": true
+    },
+    {
+      "post": 2,
+      "slide": 7,
+      "template": "cta",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-2-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 103725,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 1,
+      "template": "capa",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 84911,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 2,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 107266,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 3,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 107796,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 4,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 107106,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 5,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 99259,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 6,
+      "template": "conteudo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 112420,
+      "ok": true
+    },
+    {
+      "post": 3,
+      "slide": 7,
+      "template": "cta",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-3-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 112981,
+      "ok": true
+    }
+  ],
+  "destaques": [
+    {
+      "destaque": "Dízimo",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-dizimo.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 80933,
+      "ok": true
+    },
+    {
+      "destaque": "Formação",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-formacao.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 79792,
+      "ok": true
+    },
+    {
+      "destaque": "Agenda",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-agenda.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 74353,
+      "ok": true
+    },
+    {
+      "destaque": "Paróquias",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-paroquias.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 80736,
+      "ok": true
+    },
+    {
+      "destaque": "Perguntas",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-perguntas.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 76034,
+      "ok": true
+    },
+    {
+      "destaque": "Arquifln",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "destaque-arquifln.jpg",
+      "dimensoes": [
+        1080,
+        1920
+      ],
+      "bytes": 61329,
+      "ok": true
+    }
+  ],
+  "resumo": {
+    "imagens": 27,
+    "reprovadas": []
+  }
+}

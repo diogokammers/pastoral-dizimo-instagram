@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- Fixture de QA: um texto encosta na lateral (x < 72) e outro invade os 180 px inferiores. -->
+<html lang="pt-BR"><head><meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1080px; height: 1350px; background: #F3F2EE; }
+  p { position: absolute; margin: 0; font: 42px sans-serif; color: #1E1B1B; }
+  .lateral { left: 20px; top: 300px; }
+  .rodape { left: 100px; top: 1250px; }
+  .ok { left: 100px; top: 600px; }
+</style></head>
+<body>
+  <p class="lateral">Encostado na borda</p>
+  <p class="ok">Dentro da área segura</p>
+  <p class="rodape">Na faixa inferior</p>
+</body></html>

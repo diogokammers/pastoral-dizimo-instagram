@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- Template "citacao" (versículo/Catecismo): fundo prata, aspas grandes em vermelho,
+     itálico Cormorant 72 px, referência em Source Sans caixa alta, assinatura tipográfica. -->
+<html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
+<link rel="stylesheet" href="base.css"><style>$tokens</style>
+<style>
+  .area { justify-content: center; }
+  .aspas { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 260px;
+           line-height: 0.6; color: var(--vermelho); margin: 0 0 24px; height: 130px; }
+  .titulo { font-style: italic; font-weight: 500; font-size: 76px; line-height: 1.15; color: var(--grafite); }
+  .referencia { font-weight: 600; font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase;
+                color: var(--vermelho); margin: 0; }
+</style></head>
+<body><main class="arte claro">
+  <section class="area" data-caixa>
+    <p class="aspas" aria-hidden="true">“</p>
+    <blockquote class="titulo">$texto</blockquote>
+    <div class="filete-titulo"></div>
+    <p class="referencia">$referencia</p>
+  </section>
+  <footer class="rodape" data-rodape>
+    <div class="filete"></div>
+    <div class="assinatura"><span class="nome">$marca_nome</span><span class="usuario">$usuario</span></div>
+  </footer>
+</main></body></html>

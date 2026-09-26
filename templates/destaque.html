@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- Template "destaque" (capa de destaque, 1080×1920): fundo prata, círculo central com filete
+     dourado e ícone de linha em vermelho. Sem texto (o nome do destaque aparece no app) e sem símbolo. -->
+<html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
+<link rel="stylesheet" href="base.css"><style>$tokens</style>
+<style>
+  body { width: 1080px; height: 1920px; }
+  .arte { width: 1080px; height: 1920px; }
+  .circulo { position: absolute; left: 100px; top: 520px; width: 880px; height: 880px; border-radius: 50%;
+             border: 6px solid var(--dourado); display: flex; align-items: center; justify-content: center; }
+  .circulo svg { width: 540px; height: 540px; color: var(--vermelho); }
+</style></head>
+<body><main class="arte claro">
+  <div class="circulo">$icone</div>
+</main></body></html>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Formação: livro aberto -->
+  <path d="M120 70 C 98 56 66 52 36 58 V 180 C 66 174 98 178 120 192 C 142 178 174 174 204 180 V 58 C 174 52 142 56 120 70 Z"/>
+  <path d="M120 70 V 192"/>
+  <path d="M60 88 C 76 86 92 88 104 94"/>
+  <path d="M60 116 C 76 114 92 116 104 122"/>
+  <path d="M180 88 C 164 86 148 88 136 94"/>
+  <path d="M180 116 C 164 114 148 116 136 122"/>
+</svg>

@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- Template "conteudo" (slides do meio): fundo prata, numeração cinza no topo, eyebrow e título
+     vermelhos, texto grafite 42 px (≤ 25 palavras), fonte discreta, filete dourado + assinatura. -->
+<html lang="pt-BR"><head><meta charset="utf-8"><base href="$base">
+<link rel="stylesheet" href="base.css"><style>$tokens</style>
+<style>
+  .corpo { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .eyebrow { color: var(--vermelho); }
+  .titulo { font-size: 72px; line-height: 1.08; color: var(--vermelho); }
+  .texto { color: var(--grafite); }
+  .fonte { margin-top: 36px; }
+</style></head>
+<body><main class="arte claro">
+  <section class="area" data-caixa>
+    <p class="numero">$numero</p>
+    <div class="corpo">
+      <p class="eyebrow">$eyebrow</p>
+      <h1 class="titulo">$titulo</h1>
+      <div class="filete-titulo"></div>
+      <p class="texto">$texto</p>
+      <p class="fonte">$fonte</p>
+    </div>
+  </section>
+  <footer class="rodape" data-rodape>
+    <div class="filete"></div>
+    <div class="assinatura"><span class="nome">$marca_nome</span><span class="usuario">$usuario</span></div>
+  </footer>
+</main></body></html>

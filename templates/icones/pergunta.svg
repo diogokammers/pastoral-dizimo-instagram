@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Perguntas: balão de fala com interrogação -->
+  <path d="M60 48 H 180 C 196 48 208 60 208 76 V 148 C 208 164 196 176 180 176 H 112 L 72 206 V 176 H 60 C 44 176 32 164 32 148 V 76 C 32 60 44 48 60 48 Z"/>
+  <path d="M100 96 C 100 76 140 76 140 98 C 140 114 120 116 120 132"/>
+  <circle cx="120" cy="154" r="3" fill="currentColor"/>
+</svg>
