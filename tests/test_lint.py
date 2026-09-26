@@ -309,3 +309,9 @@ def test_main_devolve_1_com_erros(tmp_path, raiz):
 def test_doc106_capitulo_por_extenso_e_n7_aceitos():
     assert lint.RE_DOC106.search("Doc. CNBB 106, Capítulo II").group(2)
     assert 7 in lint.PARAGRAFOS_DOC106 and 4 in lint.PARAGRAFOS_DOC106
+
+
+def test_doc106_numeros_por_extenso_no_alt_text_passa(config):
+    post = post_valido()
+    post["slides"][2]["alt_text"] = "Fonte: Documento 106 da CNBB, números 63 a 66."
+    assert erros_de(post, config) == []
