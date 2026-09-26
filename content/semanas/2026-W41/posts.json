@@ -2,8 +2,8 @@
   "lote": "2026-W41",
   "observacoes": [
     "CTAs corrigidos para termos exatos da lista permitida: post 6 = 'salvar'; post 7 = 'enviar dúvida'.",
-    "Todas as citações do Doc. CNBB 106 trazem o parágrafo (n. 6, 9, 10, 12) ou o Cap. II, conforme conferido no cartão de marca.",
-    "Nenhum slide passa de 20 palavras somando eyebrow, título, texto e fonte/referência."
+    "Auditoria doutrinária de 2026-09-27: removido \"Mês Missionário\" (fora do escopo das 4 fontes); \"Cap. II\" trocado por números conferidos (n. 34-35, 51); passos práticos do post 6 ancorados.",
+    "Todas as citações do Doc. CNBB 106 trazem o parágrafo conferido em docs/pesquisa/06."
   ],
   "posts": [
     {
@@ -23,24 +23,39 @@
           "alt_text": "Arte com a palavra 'Espiritualidade' no alto e, em destaque, a frase bíblica 'Deus ama quem dá com alegria', com a referência 2Cor 9,7 abaixo. Assinatura da Pastoral do Dízimo da Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "Deus ama quem dá com alegria (2Cor 9,7).\n\nSão Paulo escreve: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\".\n\nA alegria de partilhar não nasce do quanto se oferece, mas de um coração que reconhece o que recebeu de Deus. Por isso, a quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10).\n\nPara levar ao dia a dia:\n• Antes de partilhar, agradeça: o que Deus já fez por você nesta semana?\n• Decida no coração, com calma, sem pressa nem peso.\n• Lembre que o seu gesto de fé sustenta a missão da comunidade.\n\nNeste Mês Missionário, que a nossa partilha seja sinal de gratidão e de pertença.\n\nSalve este post para voltar a ele na sua oração.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSão Paulo escreve: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\".\n\nA entrega do dízimo não pode perder seu significado interior (cf. Doc. CNBB 106, n. 25). Por isso, a quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10).\n\nPara levar à oração:\n• Agradeça: o dízimo expressa gratidão a Deus, de quem provém tudo (cf. Doc. CNBB 106, n. 29).\n• Decida no coração, sem pesar nem constrangimento (cf. 2Cor 9,7).\n• Lembre: pelo dízimo, a comunidade assume sua sustentação e a da Igreja (cf. Doc. CNBB 106, n. 6).\n\nSalve este post para voltar a ele na sua oração.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
         {
           "tipo": "biblia",
           "referencia": "2Cor 9,7",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+          "observacao": "Redação conferida no Doc. CNBB 106, n. 10."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
         },
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 10",
-          "observacao": "A quantia é decisão da consciência, iluminada pela Palavra."
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 25",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "A entrega não pode perder seu significado interior (2Cor 9,7)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 29",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Dimensão religiosa: Deus, de quem provém tudo; gratidão, fé e conversão."
         }
       ],
-      "a_conferir": [
-        "Conferir se a aplicação prática da legenda (três passos) está adequada ao tom desejado pela Pastoral."
-      ],
+      "a_conferir": [],
       "autocritica": {
         "T1": 2,
         "T2": 2,
@@ -70,16 +85,16 @@
         {
           "template": "conteudo",
           "titulo": "O que é dízimo?",
-          "texto": "Partilha periódica: a comunidade assume sua sustentação e a da Igreja.",
+          "texto": "Contribuição sistemática e periódica: a comunidade assume sua sustentação e a da Igreja.",
           "fonte": "Doc. CNBB 106, n. 6",
-          "alt_text": "Slide com a pergunta 'O que é dízimo?' e a resposta: partilha periódica pela qual a comunidade assume sua sustentação e a da Igreja. Fonte: Doc. CNBB 106, n. 6."
+          "alt_text": "Slide com a pergunta 'O que é dízimo?' e a resposta: contribuição sistemática e periódica pela qual a comunidade assume sua sustentação e a da Igreja. Fonte: Documento 106 da CNBB, número 6."
         },
         {
           "template": "conteudo",
-          "titulo": "Quanto oferecer?",
+          "titulo": "Quanto dar?",
           "texto": "A quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7).",
           "fonte": "Doc. CNBB 106, n. 10",
-          "alt_text": "Slide com a pergunta 'Quanto oferecer?' e a resposta: a quantia é decisão da consciência, iluminada pela Palavra, com referência a 2Cor 9,7. Fonte: Doc. CNBB 106, n. 10."
+          "alt_text": "Slide com a pergunta 'Quanto dar?' e a resposta: a quantia é decisão da consciência, iluminada pela Palavra, com referência a 2Cor 9,7. Fonte: Documento 106 da CNBB, número 10."
         },
         {
           "template": "conteudo",
@@ -91,23 +106,23 @@
         {
           "template": "conteudo",
           "titulo": "Dízimo e oferta são iguais?",
-          "texto": "Não. São realidades distintas.",
-          "fonte": "Doc. CNBB 106, Cap. II",
-          "alt_text": "Slide com a pergunta 'Dízimo e oferta são iguais?' e a resposta: não, são realidades distintas. Fonte: Doc. CNBB 106, Cap. II."
+          "texto": "Não. Recolhido na Missa, é preciso evitar confundi-lo com as ofertas.",
+          "fonte": "Doc. CNBB 106, n. 51",
+          "alt_text": "Slide com a pergunta 'Dízimo e oferta são iguais?' e a resposta: não; quando o dízimo é recolhido na Missa, é preciso evitar confundi-lo com as ofertas. Fonte: Documento 106 da CNBB, número 51."
         },
         {
           "template": "conteudo",
           "titulo": "Para onde vai?",
-          "texto": "Também se abre às outras comunidades e à Igreja Particular.",
-          "fonte": "Doc. CNBB 106, Cap. II",
-          "alt_text": "Slide com a pergunta 'Para onde vai?' e a resposta: o dízimo também se abre às outras comunidades e à Igreja Particular. Fonte: Doc. CNBB 106, Cap. II."
+          "texto": "Culto, sustento do clero e demais ministros, apostolado e caridade, sobretudo em favor dos pobres.",
+          "fonte": "cf. Doc. CNBB 106, n. 34-35",
+          "alt_text": "Slide com a pergunta 'Para onde vai?' e a resposta: para o culto, o sustento do clero e dos demais ministros, o apostolado e a caridade, sobretudo em favor dos pobres. Fonte: Documento 106 da CNBB, números 34 e 35."
         },
         {
           "template": "conteudo",
           "titulo": "É captação de recursos?",
-          "texto": "Não se reduz a isso: nasce da fé e serve à missão.",
-          "fonte": "Doc. CNBB 106, n. 12",
-          "alt_text": "Slide com a pergunta 'É captação de recursos?' e a resposta: o dízimo não se reduz a isso, pois nasce da fé e serve à missão. Fonte: Doc. CNBB 106, n. 12."
+          "texto": "Não se reduz a isso; liga-se à vivência da fé e à pertença eclesial.",
+          "fonte": "Doc. CNBB 106, n. 12 e 28",
+          "alt_text": "Slide com a pergunta 'É captação de recursos?' e a resposta: o dízimo não se reduz a isso; está ligado à vivência da fé e à pertença a uma comunidade eclesial. Fonte: Documento 106 da CNBB, números 12 e 28."
         },
         {
           "template": "cta",
@@ -117,43 +132,63 @@
           "alt_text": "Slide final com a pergunta 'Ficou alguma dúvida?' e o convite para enviar a dúvida por mensagem direta ao perfil da Pastoral do Dízimo."
         }
       ],
-      "legenda": "Dízimo: as dúvidas mais comuns, respondidas com simplicidade.\n\n• O que é? Uma partilha sistemática e periódica pela qual a comunidade assume, com corresponsabilidade, a sua sustentação e a da Igreja (Doc. CNBB 106, n. 6).\n• Quanto oferecer? A quantia é decisão da consciência, iluminada pela Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7; Doc. CNBB 106, n. 10).\n• Por que partilhar? Porque nasce de uma decisão pessoal, manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n• Dízimo e oferta são a mesma coisa? Não, são realidades distintas (Doc. CNBB 106, Cap. II).\n• Para onde vai? O dízimo se abre também às demais comunidades e à Igreja Particular: é sinal de missão (Doc. CNBB 106, Cap. II).\n• É captação de recursos? O dízimo não se reduz a isso; nasce da fé e serve à missão (Doc. CNBB 106, n. 12).\n\nNeste Mês Missionário, conhecer o sentido do dízimo ajuda a vivê-lo com gratidão.\n\nFicou alguma dúvida? Envie sua dúvida por mensagem.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Dízimo: as dúvidas mais comuns, respondidas com simplicidade.\n\n• O que é? Contribuição sistemática e periódica pela qual a comunidade assume, corresponsavelmente, a sua sustentação e a da Igreja (Doc. CNBB 106, n. 6).\n• Quanto dar? A quantia é decisão da consciência, iluminada pela Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7; Doc. CNBB 106, n. 10).\n• Por que partilhar? Porque nasce de uma decisão pessoal, manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n• Dízimo e oferta são a mesma coisa? Não. Quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas (Doc. CNBB 106, n. 51).\n• Para onde vai? Para o culto, o sustento do clero e dos demais ministros, as obras de apostolado e de caridade, sobretudo em favor dos pobres (cf. Doc. CNBB 106, n. 34-35; cân. 222 §1).\n• É captação de recursos? Não pode ser proposto unicamente assim (Doc. CNBB 106, n. 12); está ligado à vivência da fé e à pertença a uma comunidade eclesial (Doc. CNBB 106, n. 28).\n\nFicou alguma dúvida? Envie por mensagem.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 6",
-          "observacao": "Contribuição sistemática e periódica; a comunidade assume corresponsavelmente sua sustentação e a da Igreja."
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
         },
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 9",
-          "observacao": "Nasce de decisão pessoal; manifestação espontânea da fé e da pertença."
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
         },
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 10",
-          "observacao": "A quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7)."
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
         },
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 12",
-          "observacao": "O dízimo não pode ser proposto unicamente como captação de recursos."
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Não pode ser proposto unicamente como captação de recursos."
         },
         {
           "tipo": "cnbb",
-          "referencia": "Doc. CNBB 106, Cap. II",
-          "observacao": "Dízimo distinto das ofertas; abertura às demais comunidades; destina-se também à Igreja Particular."
+          "referencia": "Doc. CNBB 106, n. 28",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Ligado à vivência da fé e à pertença a uma comunidade eclesial."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 34-35",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Finalidades: culto, sustento do clero e demais ministros, apostolado e caridade, sobretudo em favor dos pobres."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 51",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Recolhido na Missa ou na Celebração da Palavra, evitar confundir o dízimo com as ofertas."
+        },
+        {
+          "tipo": "direito_canonico",
+          "referencia": "cân. 222 §1",
+          "edicao": "Código de Direito Canônico — texto oficial em português (vatican.va)",
+          "observacao": "Fiéis proveem às necessidades da Igreja: culto, apostolado e caridade, sustento dos ministros. Paráfrase."
         },
         {
           "tipo": "biblia",
           "referencia": "2Cor 9,7",
-          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB"
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Redação conferida no Doc. CNBB 106, n. 10."
         }
       ],
       "a_conferir": [
-        "Confirmar quem responderá as dúvidas recebidas por mensagem direta e em que prazo (a confirmar com o Diogo).",
-        "Conferir se as paráfrases dos n. 6, 9, 10 e 12 e do Cap. II do Doc. CNBB 106 estão fiéis ao exemplar."
+        "Confirmar quem responderá as dúvidas recebidas por mensagem direta (a confirmar com o Diogo; nenhum prazo é prometido no post)."
       ],
       "autocritica": {
         "T1": 2,

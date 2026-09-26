@@ -14,7 +14,7 @@
         1080,
         1350
       ],
-      "bytes": 80568,
+      "bytes": 80298,
       "ok": true
     },
     {
@@ -31,7 +31,7 @@
         1080,
         1350
       ],
-      "bytes": 98057,
+      "bytes": 94074,
       "ok": true
     },
     {
@@ -48,7 +48,7 @@
         1080,
         1350
       ],
-      "bytes": 87417,
+      "bytes": 104603,
       "ok": true
     },
     {
@@ -65,7 +65,7 @@
         1080,
         1350
       ],
-      "bytes": 91425,
+      "bytes": 103091,
       "ok": true
     },
     {
@@ -82,7 +82,7 @@
         1080,
         1350
       ],
-      "bytes": 60207,
+      "bytes": 98019,
       "ok": true
     },
     {
@@ -99,7 +99,7 @@
         1080,
         1350
       ],
-      "bytes": 113210,
+      "bytes": 116069,
       "ok": true
     },
     {
@@ -116,7 +116,7 @@
         1080,
         1350
       ],
-      "bytes": 73998,
+      "bytes": 73643,
       "ok": true
     },
     {
@@ -133,7 +133,7 @@
         1080,
         1350
       ],
-      "bytes": 97558,
+      "bytes": 100927,
       "ok": true
     },
     {
@@ -150,7 +150,7 @@
         1080,
         1350
       ],
-      "bytes": 91867,
+      "bytes": 95541,
       "ok": true
     },
     {
@@ -167,7 +167,7 @@
         1080,
         1350
       ],
-      "bytes": 71902,
+      "bytes": 100089,
       "ok": true
     },
     {
@@ -184,13 +184,13 @@
         1080,
         1350
       ],
-      "bytes": 78708,
+      "bytes": 99549,
       "ok": true
     },
     {
       "post": 5,
       "slide": 6,
-      "template": "citacao",
+      "template": "conteudo",
       "tema": "creme",
       "overflow": [],
       "contraste": [],
@@ -201,13 +201,13 @@
         1080,
         1350
       ],
-      "bytes": 68518,
+      "bytes": 82004,
       "ok": true
     },
     {
       "post": 5,
       "slide": 7,
-      "template": "cta",
+      "template": "citacao",
       "tema": "creme",
       "overflow": [],
       "contraste": [],
@@ -218,13 +218,30 @@
         1080,
         1350
       ],
-      "bytes": 100170,
+      "bytes": 69201,
+      "ok": true
+    },
+    {
+      "post": 5,
+      "slide": 8,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-5-08.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 102592,
       "ok": true
     }
   ],
   "destaques": [],
   "resumo": {
-    "imagens": 13,
+    "imagens": 14,
     "reprovadas": []
   }
 }

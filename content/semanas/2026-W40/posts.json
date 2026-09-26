@@ -2,8 +2,9 @@
   "lote": "2026-W40",
   "observacoes": [
     "CTAs ajustados à lista permitida do cartão de marca: post 4 → \"marcar\"; post 5 → \"comentar\".",
-    "Post 4 (Vida pastoral) sem testemunho concreto de agente: o briefing não traz nome, paróquia nem depoimento. Texto mantido genérico.",
-    "Post 5 não define a oferta além do que o cartão confere (Doc. CNBB 106, Cap. II: dízimo distinto das ofertas)."
+    "Auditoria doutrinária de 2026-09-27 (docs/auditoria/2026-09-27-auditoria-doutrinaria.md): escopo das 4 fontes (Doc. CNBB 106, CIC, CDC, Bíblia).",
+    "Post 4: \"voluntário\" trocado por \"leigo que colabora com os pastores no serviço da comunidade eclesial\" (CIC 910); \"instância paralela\" e aplicação de 2Cor 9,7 ao tempo do agente retiradas (sem âncora nas 4 fontes).",
+    "Post 5: \"Cap. II\" trocado por Doc. CNBB 106, n. 51; novo slide sobre a oferta ancorado em CIC 1351; legenda cita cân. 1266 (coleta especial)."
   ],
   "posts": [
     {
@@ -23,28 +24,31 @@
         },
         {
           "template": "conteudo",
-          "titulo": "Um servidor da comunidade",
-          "texto": "Dedica seu tempo, como voluntário, para que o dízimo seja vivido como gesto de fé.",
-          "alt_text": "Slide com o título \"Um servidor da comunidade\" e o texto: o agente dedica seu tempo, como voluntário, para que o dízimo seja vivido como gesto de fé."
+          "titulo": "A serviço da comunidade",
+          "texto": "Leigo que colabora com os pastores no serviço da comunidade eclesial.",
+          "fonte": "cf. CIC 910",
+          "alt_text": "Slide com o título \"A serviço da comunidade\" e o texto: leigo que colabora com os pastores no serviço da comunidade eclesial. Fonte: Catecismo da Igreja Católica, parágrafo 910."
         },
         {
           "template": "conteudo",
-          "titulo": "Em comunhão com o clero",
-          "texto": "Serve junto ao pároco, nunca como instância paralela na paróquia.",
-          "alt_text": "Slide com o título \"Em comunhão com o clero\" e o texto: o agente serve junto ao pároco, nunca como instância paralela na paróquia."
+          "titulo": "Em equipe",
+          "texto": "Trabalha em equipe, inserido na Pastoral de Conjunto, participando dos Conselhos Pastoral e Econômico.",
+          "fonte": "cf. Doc. CNBB 106, n. 63-66",
+          "alt_text": "Slide com o título \"Em equipe\" e o texto: o agente trabalha em equipe, inserido na Pastoral de Conjunto, participando dos Conselhos Pastoral e Econômico. Fonte: Documento 106 da CNBB, números 63 a 66."
         },
         {
           "template": "conteudo",
-          "titulo": "Acolhe e forma",
-          "texto": "Ajuda a comunidade a entender o dízimo como partilha, gratidão e corresponsabilidade.",
-          "alt_text": "Slide com o título \"Acolhe e forma\" e o texto: o agente ajuda a comunidade a entender o dízimo como partilha, gratidão e corresponsabilidade."
+          "titulo": "Bem formado para servir",
+          "texto": "A formação espiritual, humana e técnico-organizativa do agente é indispensável.",
+          "fonte": "cf. Doc. CNBB 106, n. 63-66",
+          "alt_text": "Slide com o título \"Bem formado para servir\" e o texto: a formação espiritual, humana e técnico-organizativa do agente é indispensável. Fonte: Documento 106 da CNBB, números 63 a 66."
         },
         {
           "template": "citacao",
           "eyebrow": "Inspiração",
-          "texto": "Deus ama quem dá com alegria",
-          "referencia": "2Cor 9,7",
-          "alt_text": "Slide de citação bíblica com o texto \"Deus ama quem dá com alegria\" e a referência 2Cor 9,7."
+          "texto": "Os ministérios devem exercer-se num espírito de serviço fraterno e de dedicação à Igreja",
+          "referencia": "CIC 2039",
+          "alt_text": "Slide de citação com o texto \"Os ministérios devem exercer-se num espírito de serviço fraterno e de dedicação à Igreja\" e a referência Catecismo da Igreja Católica, parágrafo 2039."
         },
         {
           "template": "cta",
@@ -53,22 +57,30 @@
           "alt_text": "Slide final com o título \"Você conhece um agente?\" e o convite para marcar nos comentários alguém que serve na Pastoral do Dízimo da sua paróquia. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "Por trás de cada comunidade que vive o dízimo como gesto de fé, há alguém que serve.\n\nO agente da Pastoral do Dízimo dedica seu tempo, de forma voluntária, para acolher, formar e acompanhar. Ajuda a comunidade a compreender o dízimo como partilha, gratidão e corresponsabilidade na missão.\n\nEsse serviço acontece sempre em comunhão com o pároco e o clero: a Pastoral nunca é uma instância paralela, mas parte da vida da paróquia.\n\nComo lembra São Paulo: \"Deus ama quem dá com alegria\" (2Cor 9,7). Isso vale também para quem oferece seu tempo e seu cuidado à comunidade.\n\nVocê conhece um agente da Pastoral do Dízimo? Marque essa pessoa nos comentários e agradeça pelo seu serviço.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Quem é o agente da Pastoral do Dízimo?\n\nÉ um leigo que colabora com os pastores no serviço da comunidade eclesial (cf. CIC 910). E todo ministério na Igreja se exerce \"num espírito de serviço fraterno e de dedicação à Igreja\" (CIC 2039).\n\nOs agentes precisam ser bem formados e trabalhar em equipe, inseridos na Pastoral de Conjunto e participando dos Conselhos Pastoral e Econômico; a formação espiritual, humana e técnico-organizativa é indispensável (cf. Doc. CNBB 106, n. 63-66).\n\nVocê conhece um agente da Pastoral do Dízimo? Marque essa pessoa nos comentários e agradeça pelo seu serviço.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
         {
-          "tipo": "biblia",
-          "referencia": "2Cor 9,7",
-          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+          "tipo": "catecismo",
+          "referencia": "CIC 910",
+          "edicao": "Catecismo da Igreja Católica — texto oficial em português (vatican.va)",
+          "observacao": "Leigos chamados a colaborar com os pastores no serviço da comunidade eclesial, exercendo ministérios variados. Paráfrase."
         },
         {
-          "tipo": "estrategia",
-          "referencia": "Cartão de marca — Público e Valores (comunhão com o clero; a Pastoral nunca é instância paralela)"
+          "tipo": "catecismo",
+          "referencia": "CIC 2039",
+          "edicao": "Catecismo da Igreja Católica — texto oficial em português (vatican.va)",
+          "observacao": "Citação literal (14 palavras) do texto do vatican.va, em português de Portugal."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 63-66",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Agentes bem formados, em equipe, inseridos na Pastoral de Conjunto, nos Conselhos Econômico e Pastoral; formação integral indispensável (docs/pesquisa/06, segunda leitura)."
         }
       ],
       "a_conferir": [
-        "Confirmar se todos os agentes da Pastoral na Arquidiocese atuam de forma voluntária (o briefing fala em \"serviço voluntário\").",
+        "O texto do CIC no vatican.va está em português de Portugal (\"exercer-se\", \"num\"); se o Diogo preferir a edição brasileira do CIC, conferir a redação de CIC 2039 antes de publicar.",
         "Se houver testemunho real de agente autorizado para publicação, o post pode ganhar um slide com ele; nenhum foi fornecido."
       ],
       "autocritica": {
@@ -80,7 +92,7 @@
         "T6": 2,
         "T7": 2,
         "T8": 2,
-        "revisao": "CTA trocado para \"marcar\" (lista permitida). Slides conferidos: máximo de 16 palavras por slide. Nenhuma pessoa identificada como dizimista; o convite é para marcar um agente."
+        "revisao": "Auditoria 2026-09-27: \"voluntário\" removido (CIC 910); slides 3 e 4 ancorados no Doc. CNBB 106, n. 63-66; citação trocada de 2Cor 9,7 para CIC 2039, que trata de serviço. Máximo de 21 palavras por slide."
       }
     },
     {
@@ -114,10 +126,17 @@
         },
         {
           "template": "conteudo",
-          "titulo": "A oferta é outro gesto",
-          "texto": "O dízimo é distinto das ofertas.",
-          "fonte": "Doc. CNBB 106, Cap. II",
-          "alt_text": "Slide com o título \"A oferta é outro gesto\" e o texto: o dízimo é distinto das ofertas. Fonte: Doc. CNBB 106, Cap. II."
+          "titulo": "Na celebração",
+          "texto": "Recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas.",
+          "fonte": "Doc. CNBB 106, n. 51",
+          "alt_text": "Slide com o título \"Na celebração\" e o texto: quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas. Fonte: Documento 106 da CNBB, número 51."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "E a oferta?",
+          "texto": "Desde o princípio, os cristãos levam ofertas, com o pão e o vinho, para partilhar com os necessitados.",
+          "fonte": "cf. CIC 1351",
+          "alt_text": "Slide com o título \"E a oferta?\" e o texto: desde o princípio, os cristãos levam ofertas, com o pão e o vinho, para partilhar com os necessitados. Fonte: Catecismo da Igreja Católica, parágrafo 1351."
         },
         {
           "template": "conteudo",
@@ -139,7 +158,7 @@
           "alt_text": "Slide final com o título \"Ficou alguma dúvida?\" e o convite para comentar a pergunta sobre dízimo e oferta. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "Dízimo e oferta não são a mesma coisa.\n\nO Doc. CNBB 106, Cap. II, distingue o dízimo das ofertas.\n\nO dízimo é contribuição sistemática e periódica: por ele, a comunidade assume corresponsavelmente sua sustentação e a da Igreja (Doc. CNBB 106, n. 6). Nasce de uma decisão pessoal, como manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n\nE quanto dar? A quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10). Como ensina São Paulo: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nFicou alguma dúvida sobre dízimo e oferta? Comente aqui e continue essa conversa com a gente.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Dízimo e oferta não são a mesma coisa.\n\nO dízimo é contribuição sistemática e periódica: por ele, a comunidade assume corresponsavelmente sua sustentação e a da Igreja (Doc. CNBB 106, n. 6). Nasce de uma decisão pessoal, como manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n\nQuando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas (Doc. CNBB 106, n. 51).\n\nE a oferta? Desde o princípio, com o pão e o vinho para a Eucaristia, os cristãos trazem suas ofertas para a partilha com os necessitados: é o costume da coleta (cf. CIC 1351). O Direito Canônico prevê ainda coletas especiais, mandadas pelo Ordinário do lugar, para determinadas obras (cf. cân. 1266).\n\nE quanto dar? A quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10): \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nFicou alguma dúvida sobre dízimo e oferta? Comente aqui.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
         {
@@ -159,19 +178,31 @@
         },
         {
           "tipo": "cnbb",
-          "referencia": "Doc. CNBB 106, Cap. II",
+          "referencia": "Doc. CNBB 106, n. 51",
           "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
-          "observacao": "Dízimo distinto das ofertas."
+          "observacao": "Recolhido na Missa ou na Celebração da Palavra, evitar confundir o dízimo com as ofertas; o documento não define oferta aqui."
+        },
+        {
+          "tipo": "catecismo",
+          "referencia": "CIC 1351",
+          "edicao": "Catecismo da Igreja Católica — texto oficial em português (vatican.va)",
+          "observacao": "Desde o princípio, com o pão e o vinho, os cristãos trazem ofertas para a partilha com os necessitados; costume da coleta. Paráfrase."
+        },
+        {
+          "tipo": "direito_canonico",
+          "referencia": "cân. 1266",
+          "edicao": "Código de Direito Canônico — texto oficial em português (vatican.va)",
+          "observacao": "O Ordinário do lugar pode mandar fazer coleta especial para obras paroquiais, diocesanas, nacionais ou universais. Paráfrase."
         },
         {
           "tipo": "biblia",
           "referencia": "2Cor 9,7",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+          "observacao": "Redação conferida no Doc. CNBB 106, n. 10."
         }
       ],
       "a_conferir": [
-        "Definição de \"oferta\" segundo o Doc. CNBB 106, Cap. II: o cartão só confere que o dízimo é distinto das ofertas. Se o Diogo confirmar a caracterização da oferta no exemplar, acrescentar um slide que a descreva."
+        "Diogo: confirmar se quer manter na legenda a menção às coletas especiais (cân. 1266); é opcional."
       ],
       "autocritica": {
         "T1": 2,
@@ -182,7 +213,7 @@
         "T6": 2,
         "T7": 2,
         "T8": 2,
-        "revisao": "CTA trocado para \"comentar\" (lista permitida). Todas as citações do Doc. CNBB 106 com parágrafo (n. 6, 9, 10) ou Cap. II, em slides, alt-text e legenda. Slides conferidos: máximo de 19 palavras por slide, somando título, texto e fonte. Oferta não foi definida além do conferido, para não inventar."
+        "revisao": "Auditoria 2026-09-27: \"Cap. II\" trocado por n. 51; slide da oferta ancorado em CIC 1351; legenda com cân. 1266. Máximo de 24 palavras por slide."
       }
     }
   ]
