@@ -1,0 +1,37 @@
+{
+  "semana": "2026-W41",
+  "aprovado_por": "Diogo",
+  "aprovado_em": "2026-10-02T13:00:00+00:00",
+  "nonce": "0123456789abcdef",
+  "posts": [
+    {
+      "numero": 12,
+      "agendado_para": "2026-10-06T19:00:00-03:00",
+      "legenda_sha256": "ccb188d91166a2d9a5cf246e010f5beb835226be92ab879db4edc3cc20501688",
+      "alt_text_sha256": "ae5fc8bd10f09a5d4015c1975efbfbeef81a8734742c412c39b955093c31cf5c",
+      "artes": [
+        {
+          "arquivo": "post-12-01.jpg",
+          "sha256": "37406a984824b6be4387a5b5c228d186834269e9f442999f5a25144dddf7f23e"
+        },
+        {
+          "arquivo": "post-12-02.jpg",
+          "sha256": "dea606228232f95a10580b4b67036a1d3f12856ba1b511895c3177c4fd2ced2c"
+        }
+      ]
+    },
+    {
+      "numero": 13,
+      "agendado_para": "2026-10-09T19:00:00-03:00",
+      "legenda_sha256": "ba037c52de838b700ead4ccde29a365886bf17b865d16f54b0aa862910060a4d",
+      "alt_text_sha256": "1b5d43a402fe2adec1d8f66d9ca03312cdb2b08ea5db4ee0ee22665c55f09dee",
+      "artes": [
+        {
+          "arquivo": "post-13-01.jpg",
+          "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
+        }
+      ]
+    }
+  ],
+  "assinatura": "d178d982e5dd9e3627da4e1cc32a1218ccde8ac1d339705f84832687b5761f23"
+}

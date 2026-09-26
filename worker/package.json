@@ -1,0 +1,12 @@
+{
+  "name": "pastoral-dizimo-aprovacao",
+  "private": true,
+  "type": "module",
+  "description": "Worker de aprovação por link assinado (ADR-009). Testes com node:test, sem dependências.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "vetor": "node scripts/vetor-worker.mjs",
+    "deploy": "npx wrangler deploy"
+  }
+}

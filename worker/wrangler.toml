@@ -1,0 +1,15 @@
+# Worker de aprovação por link assinado (ADR-009). Sem domínio próprio: publicado em
+# https://pastoral-dizimo-aprovacao.<seu-subdominio>.workers.dev. Sem account_id fixo: o
+# `npx wrangler login` do Diogo escolhe a conta.
+name = "pastoral-dizimo-aprovacao"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+workers_dev = true
+
+# Valores públicos (não são segredos). Os segredos vão por `npx wrangler secret put`:
+# LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER.
+[vars]
+GITHUB_REPO = "diogokammers/pastoral-dizimo-instagram"
+GITHUB_BRANCH = "master"
+APROVADO_POR = "Diogo"
+PREVIA_BASE_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/"
