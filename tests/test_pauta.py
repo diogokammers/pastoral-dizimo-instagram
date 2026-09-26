@@ -11,9 +11,16 @@ from pastoral import pauta
 @pytest.fixture
 def config(raiz):
     cfg = yaml.safe_load((raiz / "config.yaml").read_text(encoding="utf-8"))
-    # Sem estreia definida (ADR-005): os testes fixam uma semana inicial própria.
+    # Cenário original (ADR-005): série começando pelos fixados, com semana inicial própria.
     cfg["pauta"]["semana_inicial"] = "2026-W41"
+    cfg["pauta"]["fixados_publicados"] = False
     return cfg
+
+
+@pytest.fixture
+def config_real(raiz):
+    """config.yaml como está: fixados já publicados, pendências puladas, reserva a partir de 2026-W40."""
+    return yaml.safe_load((raiz / "config.yaml").read_text(encoding="utf-8"))
 
 
 def test_sem_semana_inicial_recusa(config, temas):
@@ -104,3 +111,54 @@ def test_briefing_deterministico_e_salvo(temas, config, tmp_path):
 def test_semana_invalida(temas, config):
     with pytest.raises(ValueError):
         pauta.montar_briefing("2026-41", config, temas)
+
+
+# ---------- reserva: fixados já publicados, pendências puladas ----------
+
+def test_semana_inicial_provisoria_da_reserva(config_real, raiz):
+    assert config_real["pauta"]["semana_inicial"] == "2026-W40"
+    assert config_real["pauta"]["fixados_publicados"] is True
+    assert config_real["pauta"]["pular_pendencias"] is True
+    linha = next(l for l in (raiz / "config.yaml").read_text(encoding="utf-8").splitlines()
+                 if "semana_inicial:" in l)
+    assert "PROVISÓRIO" in linha
+
+
+def test_reserva_comeca_no_post_4_sem_repetir_fixados(temas, config_real):
+    w40 = pauta.montar_briefing("2026-W40", config_real, temas)
+    w41 = pauta.montar_briefing("2026-W41", config_real, temas)
+    assert [p["indice"] for p in w40["posts"]] == [4, 5]
+    assert [p["indice"] for p in w41["posts"]] == [6, 7]
+    assert [p["tema"] for p in w40["posts"]] == [6, 4]
+    assert [p["tema"] for p in w41["posts"]] == [5, 8]
+    assert all(p["fixado"] is False for p in w40["posts"] + w41["posts"])
+    assert [p["data"] for p in w40["posts"]] == ["2026-09-29", "2026-10-02"]
+
+
+def test_reserva_pula_pendencias_e_nao_repete(temas, config_real):
+    com_pendencia = {t["numero"] for t in temas if "pendencia" in t}
+    posts = [p for s in range(40, 47) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
+    numeros = [p["tema"] for p in posts]
+    assert len(set(numeros)) == len(numeros) == 14          # 17 temas sem pendência − 3 fixados
+    assert not set(numeros) & ({1, 2, 3} | com_pendencia)
+    assert all("pendencia" not in p for p in posts)
+
+
+def test_reserva_mantem_rotacao_o_melhor_possivel(temas, config_real):
+    """Sem convite sem pendência, a vaga do convite vira Formação; as 2 de Vida pastoral ficam."""
+    posts = [p for s in range(40, 45) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
+    c = Counter(p["pilar"] for p in posts)                  # 10 posts = um ciclo
+    assert c == {"Formação": 8, "Vida pastoral": 2}
+
+
+def test_sequencia_pulando_pendencias_recomeca_ao_esgotar(temas, config):
+    seq = pauta.sequencia(temas, config["pauta"]["ciclo_pilares"], config["pauta"]["fixados"], 18,
+                          pular_pendencia=True)
+    assert all("pendencia" not in t for t in seq)
+    assert all(t["rodada"] == 1 for t in seq[:17]) and seq[17]["rodada"] == 2
+
+
+def test_tema_importante_vai_para_o_briefing(temas, config_real):
+    temas = [dict(t, importante=True) if t["numero"] == 6 else t for t in temas]
+    b = pauta.montar_briefing("2026-W40", config_real, temas)
+    assert b["posts"][0]["importante"] is True and "importante" not in b["posts"][1]

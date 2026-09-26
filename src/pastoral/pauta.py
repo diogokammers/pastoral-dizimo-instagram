@@ -7,6 +7,10 @@ Regras (docs/arquitetura.md §1.1, ADR-004):
   e pega o próximo tema ainda não usado daquele pilar, na ordem numérica da estratégia.
 - Se o pilar esgotou, usa o próximo tema não usado de qualquer pilar; se todos esgotaram, começa
   uma nova rodada (campo `rodada`).
+- `pauta.fixados_publicados: true` (content/estreia/publicado.json): os fixados já saíram antes da
+  semana inicial, então a série semanal começa no post seguinte (ex.: post 4), sem repeti-los.
+- `pauta.pular_pendencias: true`: temas com `pendencia` (dado real inexistente) ficam fora da fila;
+  a vaga do pilar dele cai no próximo tema livre (rotação 70/20/10 "o melhor possível").
 Como o resultado depende só da semana e dos arquivos de configuração, rodar de novo dá o mesmo JSON.
 
 Uso: python -m pastoral.pauta 2026-W41
@@ -37,9 +41,12 @@ def carregar_temas(caminho: Path) -> list[dict]:
     return sorted(carregar_yaml(caminho)["temas"], key=lambda t: t["numero"])
 
 
-def sequencia(temas: list[dict], ciclo: list[str], fixados: list[int], total: int) -> list[dict]:
+def sequencia(temas: list[dict], ciclo: list[str], fixados: list[int], total: int,
+              pular_pendencia: bool = False) -> list[dict]:
     """Os `total` primeiros posts da série, cada um = tema + campo `rodada`."""
     por_numero = {t["numero"]: t for t in temas}
+    if pular_pendencia:                          # fixados continuam valendo mesmo se tiverem pendência
+        temas = [t for t in temas if "pendencia" not in t or t["numero"] in fixados]
     usados: set[int] = set()
     rodada = 1
     saida = []
@@ -82,8 +89,11 @@ def montar_briefing(semana: str, config: dict, temas: list[dict]) -> dict:
     n = pub["posts_por_semana"]
     if not cfg_pauta.get("semana_inicial"):
         raise ValueError("pauta.semana_inicial não definida: sem data de estreia (ADR-005)")
-    primeiro = _indice_da_semana(semana, cfg_pauta["semana_inicial"]) * n
-    serie = sequencia(temas, cfg_pauta["ciclo_pilares"], cfg_pauta["fixados"], primeiro + n)
+    # Fixados já publicados (estreia): a série semanal começa depois deles, sem colidir na numeração.
+    deslocamento = len(cfg_pauta["fixados"]) if cfg_pauta.get("fixados_publicados") else 0
+    primeiro = _indice_da_semana(semana, cfg_pauta["semana_inicial"]) * n + deslocamento
+    serie = sequencia(temas, cfg_pauta["ciclo_pilares"], cfg_pauta["fixados"], primeiro + n,
+                      pular_pendencia=bool(cfg_pauta.get("pular_pendencias")))
     ano, num = _ler_semana(semana)
 
     posts = []
@@ -106,7 +116,7 @@ def montar_briefing(semana: str, config: dict, temas: list[dict]) -> dict:
             "tempo_liturgico": calendario.tempo_liturgico(dia),
             "cor_liturgica": calendario.cor_liturgica(dia),
         }
-        for opcional in ("pilar_original", "pendencia", "a_validar"):
+        for opcional in ("pilar_original", "pendencia", "a_validar", "importante"):
             if opcional in tema:
                 post[opcional] = tema[opcional]
         posts.append(post)

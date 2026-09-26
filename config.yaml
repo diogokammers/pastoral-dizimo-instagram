@@ -40,9 +40,13 @@ geracao:
 pauta:
   temas: content/temas.yaml
   saida: content/semanas         # content/semanas/AAAA-Www/briefing.json
-  # Sem data de estreia (ADR-005): a pauta só roda após a estreia. Os 3 primeiros posts são os fixados.
-  semana_inicial: null
+  # Estreia publicada em 2026-09-26 (content/estreia/publicado.json). A data real da série semanal ainda
+  # será definida: 2026-W40 só serve para gerar a RESERVA (gordura) de 2 semanas; quando a data real vier,
+  # troque aqui e renomeie as pastas content/semanas/ da reserva (e os dias de publicação no briefing).
+  semana_inicial: 2026-W40      # PROVISÓRIO (reserva) — a data real de estreia da série será definida depois
   fixados: [1, 2, 3]            # identidade-visual §7: apresentação, "O que é o dízimo?", "Para onde vai o dízimo?"
+  fixados_publicados: true      # os 3 já saíram na estreia: a série semanal começa no post 4, sem repeti-los
+  pular_pendencias: true        # tema com `pendencia` (dado real inexistente) fica fora até o dado existir
   # Rotação 70/20/10 em ciclo de 10 posts (arquitetura §1.1). Ordem das posições = decisão de projeto
   # (ADR-004): formações espaçadas, vida pastoral nas posições 4 e 8, convite na 7.
   ciclo_pilares:
