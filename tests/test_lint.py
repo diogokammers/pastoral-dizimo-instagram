@@ -190,6 +190,12 @@ def test_doc106_paragrafo_verificado_passa(config):
     assert erros_de(post, config) == []
 
 
+def test_doc106_por_extenso_no_alt_text_passa(config):
+    post = post_valido()
+    post["slides"][2]["alt_text"] = "Fonte: Documento 106 da CNBB, número 9."
+    assert erros_de(post, config) == []
+
+
 def test_quatro_dimensoes_nunca_atribuidas_ao_doc106(config):
     post = post_valido()
     post["legenda"] = ("As quatro dimensões do dízimo, segundo o Doc. CNBB 106, n. 12.\n\n" + ASSINATURA)

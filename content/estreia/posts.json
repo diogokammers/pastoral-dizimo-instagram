@@ -1,0 +1,209 @@
+{
+  "lote": "estreia",
+  "observacoes": [
+    "Pacote de estreia (ADR-005): os 3 posts fixados, escritos à mão a partir da estratégia (cap. 11, posts 1–3) e do cartão de marca.",
+    "Aprovação em dois níveis: Diogo (técnico) e depois o Padre responsável pela Pastoral (conteúdo).",
+    "Sem hashtags (ADR-005). Nenhum dado financeiro, nome de pessoa, número de paróquias ou evento foi usado."
+  ],
+  "posts": [
+    {
+      "numero": 1,
+      "titulo": "Bem-vindos à Pastoral do Dízimo",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Todos os públicos",
+      "cta": "seguir o perfil",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Apresentação",
+          "titulo": "Bem-vindos à Pastoral do Dízimo",
+          "texto": "Arquidiocese de Florianópolis",
+          "alt_text": "Capa em fundo vermelho-escuro. Em letras claras e serifadas: Bem-vindos à Pastoral do Dízimo. Abaixo, Arquidiocese de Florianópolis, e uma seta indicando que o conteúdo continua."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Quem somos",
+          "texto": "A Pastoral do Dízimo da Arquidiocese de Florianópolis, a serviço das paróquias, dos agentes e de cada fiel.",
+          "alt_text": "Slide em fundo claro com o título Quem somos e o texto: A Pastoral do Dízimo da Arquidiocese de Florianópolis, a serviço das paróquias, dos agentes e de cada fiel."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Nossa missão",
+          "texto": "Evangelizar, formar e comunicar, com fidelidade ao Magistério, fortalecendo a vivência do dízimo em toda a Arquidiocese.",
+          "alt_text": "Slide em fundo claro com o título Nossa missão e o texto: Evangelizar, formar e comunicar, com fidelidade ao Magistério, fortalecendo a vivência do dízimo em toda a Arquidiocese."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O dízimo que anunciamos",
+          "texto": "Expressão de fé, gratidão e corresponsabilidade na missão da Igreja. Um gesto livre, nascido do coração.",
+          "alt_text": "Slide em fundo claro com o título O dízimo que anunciamos e o texto: Expressão de fé, gratidão e corresponsabilidade na missão da Igreja. Um gesto livre, nascido do coração."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O que você vai encontrar aqui",
+          "texto": "Formação bíblica e catequética, a vida das paróquias, a agenda da Pastoral e respostas às dúvidas mais comuns.",
+          "alt_text": "Slide em fundo claro com o título O que você vai encontrar aqui e o texto: Formação bíblica e catequética, a vida das paróquias, a agenda da Pastoral e respostas às dúvidas mais comuns."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Caminhamos juntos",
+          "texto": "Em comunhão com o Arcebispo, os párocos e as equipes paroquiais, servimos à missão evangelizadora da Igreja.",
+          "alt_text": "Slide em fundo claro com o título Caminhamos juntos e o texto: Em comunhão com o Arcebispo, os párocos e as equipes paroquiais, servimos à missão evangelizadora da Igreja."
+        },
+        {
+          "template": "cta",
+          "titulo": "Siga o perfil",
+          "texto": "E caminhe conosco na formação e na missão.",
+          "alt_text": "Slide final em fundo vermelho-escuro com o convite: Siga o perfil e caminhe conosco na formação e na missão. Abaixo, a assinatura Pastoral do Dízimo, Arquidiocese de Florianópolis, e o nome do perfil."
+        }
+      ],
+      "legenda": "Bem-vindos! Este é o perfil da Pastoral do Dízimo da Arquidiocese de Florianópolis.\n\nAqui vamos partilhar formação bíblica e catequética sobre o dízimo, a vida das paróquias, a agenda da Pastoral e respostas às dúvidas mais comuns.\n\nNossa missão é evangelizar, formar e comunicar, com fidelidade ao Magistério, em comunhão com o Arcebispo, os párocos e as equipes paroquiais. Para nós, o dízimo é expressão de fé, gratidão e corresponsabilidade na missão da Igreja: um gesto livre, que nasce de um coração agradecido.\n\nNosso lema vem da Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSiga o perfil e caminhe conosco.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Lema da estratégia; conferir a redação literal na edição oficial."},
+        {"tipo": "estrategia", "referencia": "Estratégia de Instagram, cap. 3 (missão) e cap. 11 (post 1)"}
+      ],
+      "a_conferir": [
+        "Redação literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
+        "Se o Padre prefere nomear o Arcebispo ou manter só \"o Arcebispo\" (nenhum nome foi usado)."
+      ]
+    },
+    {
+      "numero": 2,
+      "titulo": "O que é o dízimo?",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Dizimistas e interessados",
+      "cta": "salvar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "O que é o dízimo?",
+          "texto": "Uma resposta livre ao amor de Deus",
+          "alt_text": "Capa em fundo vermelho-escuro com a pergunta O que é o dízimo? em letras claras e serifadas. Abaixo: Uma resposta livre ao amor de Deus."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Um gesto de fé",
+          "texto": "O dízimo é a resposta agradecida de quem reconhece que tudo o que tem vem de Deus.",
+          "alt_text": "Slide em fundo claro com o título Um gesto de fé e o texto: O dízimo é a resposta agradecida de quem reconhece que tudo o que tem vem de Deus."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Nasce do coração",
+          "texto": "É uma decisão pessoal e espontânea, de um coração agradecido. Ninguém é constrangido.",
+          "fonte": "cf. Doc. CNBB 106, n. 9",
+          "alt_text": "Slide em fundo claro com o título Nasce do coração e o texto: É uma decisão pessoal e espontânea, de um coração agradecido. Ninguém é constrangido. Fonte: Documento 106 da CNBB, número 9."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Cada um decide",
+          "texto": "A quantia é decisão da consciência de cada um, iluminada pela Palavra de Deus.",
+          "fonte": "cf. Doc. CNBB 106, n. 10",
+          "alt_text": "Slide em fundo claro com o título Cada um decide e o texto: A quantia é decisão da consciência de cada um, iluminada pela Palavra de Deus. Fonte: Documento 106 da CNBB, número 10."
+        },
+        {
+          "template": "citacao",
+          "texto": "Deus ama quem dá com alegria.",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Slide em fundo claro com aspas grandes em vermelho e o versículo em itálico: Deus ama quem dá com alegria. Referência: Segunda Carta aos Coríntios, capítulo 9, versículo 7."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Partilha e pertença",
+          "texto": "O dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado.",
+          "fonte": "cf. Doc. CNBB 106, n. 12",
+          "alt_text": "Slide em fundo claro com o título Partilha e pertença e o texto: O dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado. Fonte: Documento 106 da CNBB, número 12."
+        },
+        {
+          "template": "cta",
+          "titulo": "Salve este post",
+          "texto": "Para rever sempre que alguém perguntar o que é o dízimo.",
+          "alt_text": "Slide final em fundo vermelho-escuro com o convite: Salve este post para rever sempre que alguém perguntar o que é o dízimo. Abaixo, a assinatura Pastoral do Dízimo, Arquidiocese de Florianópolis, e o nome do perfil."
+        }
+      ],
+      "legenda": "O dízimo começa no coração, não no bolso.\n\nÉ a resposta agradecida de quem reconhece que tudo o que tem vem de Deus. Por isso é um gesto livre: nasce de uma decisão pessoal e espontânea, de um coração agradecido (cf. Doc. CNBB 106, n. 9), e a quantia é decisão da consciência de cada um, iluminada pela Palavra (cf. Doc. CNBB 106, n. 10).\n\nA CNBB ensina que o dízimo não é captação de recursos: é partilha, pertença e corresponsabilidade de cada batizado (cf. Doc. CNBB 106, n. 12). Pelo dízimo, a comunidade assume junta o sustento da sua vida e da missão da Igreja (cf. Doc. CNBB 106, n. 6).\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSalve este post para rever sempre que alguém perguntar o que é o dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Conferir a redação literal na edição oficial."},
+        {"tipo": "cnbb", "referencia": "Doc. CNBB 106, n. 6, 9, 10 e 12", "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)", "observacao": "Paráfrases a partir de docs/pesquisa/06-cnbb-doc-106.md; trechos obtidos de material de formação diocesano, conferir no exemplar."}
+      ],
+      "a_conferir": [
+        "Redação literal de 2Cor 9,7 na Bíblia Sagrada — Tradução Oficial da CNBB.",
+        "Paráfrases do Doc. CNBB 106 (n. 6, 9, 10, 12) contra o exemplar impresso."
+      ]
+    },
+    {
+      "numero": 3,
+      "titulo": "Para onde vai o dízimo?",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Dizimistas e agentes",
+      "cta": "compartilhar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "Para onde vai o dízimo?",
+          "texto": "Quatro dimensões de um mesmo gesto de fé",
+          "alt_text": "Capa em fundo vermelho-escuro com a pergunta Para onde vai o dízimo? em letras claras e serifadas. Abaixo: Quatro dimensões de um mesmo gesto de fé."
+        },
+        {
+          "template": "conteudo",
+          "eyebrow": "Dimensão religiosa",
+          "titulo": "Gratidão a Deus",
+          "texto": "O dízimo expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade.",
+          "alt_text": "Slide em fundo claro. Acima, Dimensão religiosa. Título: Gratidão a Deus. Texto: O dízimo expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade."
+        },
+        {
+          "template": "conteudo",
+          "eyebrow": "Dimensão eclesial",
+          "titulo": "A vida da Igreja",
+          "texto": "Sustenta a vida da comunidade e de seus ministros, e também as necessidades da Arquidiocese.",
+          "alt_text": "Slide em fundo claro. Acima, Dimensão eclesial. Título: A vida da Igreja. Texto: Sustenta a vida da comunidade e de seus ministros, e também as necessidades da Arquidiocese."
+        },
+        {
+          "template": "conteudo",
+          "eyebrow": "Dimensão missionária",
+          "titulo": "Além das fronteiras",
+          "texto": "Abre a comunidade às outras comunidades e ajuda o Evangelho a chegar mais longe.",
+          "alt_text": "Slide em fundo claro. Acima, Dimensão missionária. Título: Além das fronteiras. Texto: Abre a comunidade às outras comunidades e ajuda o Evangelho a chegar mais longe."
+        },
+        {
+          "template": "conteudo",
+          "eyebrow": "Dimensão caritativa",
+          "titulo": "Quem mais precisa",
+          "texto": "Alcança os pobres, como a coleta de Paulo em favor da Igreja de Jerusalém.",
+          "fonte": "cf. Rm 15,26-27",
+          "alt_text": "Slide em fundo claro. Acima, Dimensão caritativa. Título: Quem mais precisa. Texto: Alcança os pobres, como a coleta de Paulo em favor da Igreja de Jerusalém. Referência: Carta aos Romanos, capítulo 15, versículos 26 e 27."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O que a Igreja ensina",
+          "texto": "Os fiéis proveem às necessidades da Igreja: culto, apostolado, caridade e sustento dos ministros.",
+          "fonte": "Direito Canônico, cân. 222 §1",
+          "alt_text": "Slide em fundo claro com o título O que a Igreja ensina e o texto: Os fiéis proveem às necessidades da Igreja: culto, apostolado, caridade e sustento dos ministros. Fonte: Código de Direito Canônico, cânon 222, parágrafo 1."
+        },
+        {
+          "template": "cta",
+          "titulo": "Compartilhe com sua paróquia",
+          "texto": "Ajude sua comunidade a conhecer o sentido do dízimo.",
+          "alt_text": "Slide final em fundo vermelho-escuro com o convite: Compartilhe com sua paróquia e ajude sua comunidade a conhecer o sentido do dízimo. Abaixo, a assinatura Pastoral do Dízimo, Arquidiocese de Florianópolis, e o nome do perfil."
+        }
+      ],
+      "legenda": "Para onde vai o dízimo? Para a vida inteira da Igreja.\n\nNa caminhada pastoral, costuma-se apresentar o dízimo em quatro dimensões de um mesmo gesto de fé:\n\nReligiosa: expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade.\nEclesial: sustenta a vida da comunidade e de seus ministros, e também as necessidades da Arquidiocese.\nMissionária: abre a comunidade às outras comunidades e ajuda o Evangelho a chegar mais longe.\nCaritativa: alcança os pobres, como a coleta de Paulo em favor da Igreja de Jerusalém (cf. Rm 15,26-27).\n\nO Código de Direito Canônico lembra que os fiéis proveem às necessidades da Igreja para o culto, o apostolado, a caridade e o sustento dos ministros (cf. cân. 222 §1).\n\nCompartilhe com sua paróquia e ajude sua comunidade a conhecer o sentido do dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {"tipo": "biblia", "referencia": "Rm 15,26-27", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Só referência, sem citação literal."},
+        {"tipo": "direito_canonico", "referencia": "cân. 222 §1", "edicao": "Código de Direito Canônico (vatican.va, PDF em português)", "observacao": "Paráfrase; nenhuma citação literal."},
+        {"tipo": "estrategia", "referencia": "Estratégia de Instagram, cap. 11 (post 3), com \"eclesial\" no lugar de \"social\" (ADR-005)"}
+      ],
+      "a_conferir": [
+        "As quatro dimensões são apresentadas como síntese pastoral, sem atribuição ao Doc. CNBB 106 (regra do cartão).",
+        "Rm 15,26-27 como exemplo da coleta de Paulo: conferir na Bíblia Sagrada — Tradução Oficial da CNBB."
+      ]
+    }
+  ]
+}

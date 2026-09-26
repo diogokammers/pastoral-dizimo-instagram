@@ -58,7 +58,7 @@ RE_BIBLIA = re.compile(r"\b([1-3]?[A-Z][a-z]{0,3})\s?(\d{1,3}),(\d{1,3}(?:[-–]
 PARAGRAFOS_DOC106 = {6, 9, 10, 12, 22}
 RE_DOC106 = re.compile(
     r"Doc(?:\.|umento)?\s*(?:da\s+)?(?:CNBB\s*)?106(?:\s+da\s+CNBB)?\s*,?\s*"
-    r"(?:(?:n\.|nn\.|n\.º)\s*(\d+)|(Cap\.\s*II\b))?",
+    r"(?:(?:n\.|nn\.|n\.º|número)\s*(\d+)|(Cap\.\s*II\b))?",
     re.IGNORECASE,
 )
 
