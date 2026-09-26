@@ -9,6 +9,19 @@ publicacao:
     - {dia: terca, hora: "19:00"}
     - {dia: sexta, hora: "19:00"}
 
+# Fatia 7 (ADR-008): Instagram API with Instagram Login. Token e user id só por variáveis de ambiente
+# (IG_ACCESS_TOKEN / IG_USER_ID), nunca aqui. Versão exibida na doc oficial em 2026-09-25: v26.0.
+meta:
+  host: https://graph.instagram.com
+  versao_api: v26.0
+  poll_intervalo_s: 60           # doc: "consultar uma vez por minuto, por no máximo cinco minutos"
+  poll_max_s: 300
+
+# Imagens servidas pelo GitHub Pages (ADR-003): site/midia/<semana>/<arquivo>.jpg → base_url + midia/...
+midia:
+  base_url: https://diogokammers.github.io/pastoral-dizimo-instagram/
+  pasta: site/midia
+
 geracao:
   # ADR-001: gerado por `claude -p` no plano Max; arquitetura §2.5: Opus 5.5 padrão, Sonnet 5 testado no piloto.
   cliente: claude-cli
