@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "posts.schema.json",
+  "title": "Lote de posts da Pastoral do Dízimo",
+  "description": "Saída de gerar.py (ou escrita à mão, como no pacote de estreia). Regras de conteúdo ficam no lint.py; aqui só a forma.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["lote", "posts"],
+  "properties": {
+    "lote": {"type": "string", "minLength": 1, "description": "Ex.: 'estreia' ou '2026-W41'."},
+    "observacoes": {"type": "array", "items": {"type": "string"}, "description": "Notas para o aprovador (não publicadas)."},
+    "posts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/post"}}
+  },
+  "$defs": {
+    "post": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numero", "titulo", "pilar", "formato", "cta", "slides", "legenda", "hashtags", "fontes"],
+      "properties": {
+        "numero": {"type": "integer", "minimum": 1},
+        "titulo": {"type": "string", "minLength": 1},
+        "pilar": {"enum": ["Formação", "Vida pastoral", "Convite institucional"]},
+        "formato": {"enum": ["carrossel", "imagem_unica"]},
+        "publico": {"type": "string"},
+        "cta": {"type": "string", "minLength": 1},
+        "slides": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/slide"}},
+        "legenda": {"type": "string", "minLength": 1},
+        "hashtags": {"type": "array", "items": {"type": "string", "pattern": "^#[^\\s#]+$"}},
+        "fontes": {"type": "array", "items": {"$ref": "#/$defs/fonte"}},
+        "a_conferir": {"type": "array", "items": {"type": "string"}, "description": "Itens que o aprovador precisa conferir antes de publicar."},
+        "autocritica": {"type": "object", "description": "Notas 0–2 por critério da rubrica (arquitetura §4), quando gerado por LLM."}
+      }
+    },
+    "slide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template", "alt_text"],
+      "properties": {
+        "template": {"enum": ["capa", "conteudo", "citacao", "cta"]},
+        "eyebrow": {"type": "string"},
+        "titulo": {"type": "string"},
+        "texto": {"type": "string"},
+        "referencia": {"type": "string", "description": "Referência da citação (ex.: 2Cor 9,7)."},
+        "fonte": {"type": "string", "description": "Fonte discreta no rodapé do slide (ex.: Doc. CNBB 106, n. 12)."},
+        "alt_text": {"type": "string"}
+      }
+    },
+    "fonte": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tipo", "referencia"],
+      "properties": {
+        "tipo": {"enum": ["biblia", "catecismo", "direito_canonico", "cnbb", "estrategia"]},
+        "referencia": {"type": "string", "minLength": 1},
+        "edicao": {"type": "string"},
+        "observacao": {"type": "string"}
+      }
+    }
+  }
+}
