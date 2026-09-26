@@ -41,3 +41,15 @@ Evangelizar, formar e fortalecer o dízimo como expressão de fé, gratidão e c
 - Link na bio e botões de contato: nenhum por enquanto (ADR-003: sem e-mail institucional nem WhatsApp).
 - A redação literal de 2Cor 9,7 deve ser conferida na Bíblia Sagrada — Tradução Oficial da CNBB.
 - Sem hashtags e sem menções na bio.
+
+## Aplicada em 2026-09-27 (decisão do Diogo: opção "a", manter as menções) — 143 caracteres
+
+```text
+Evangelizar, formar e fortalecer o dízimo: fé, gratidão e corresponsabilidade.
+“Deus ama quem dá com alegria” 2Cor 9,7
+@pe.alexjr
+@arquifloripa
+```
+
+Nome do perfil aplicado: **Pastoral do Dízimo | Arquidiocese de Florianópolis** (Central de Contas; a Meta permite 2 trocas a cada 14 dias).
+2Cor 9,7: redação conferida no Doc. CNBB 106, n. 10.
