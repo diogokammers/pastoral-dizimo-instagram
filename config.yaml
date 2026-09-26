@@ -36,6 +36,7 @@ geracao:
   # ADR-001: gerado por `claude -p` no plano Max; arquitetura §2.5: Opus 5.5 padrão, Sonnet 5 testado no piloto.
   cliente: claude-cli
   modelo: claude-opus-5-5
+  alias: opus                    # se o CLI não reconhecer o modelo acima, gerar.py tenta de novo com o alias
 
 pauta:
   temas: content/temas.yaml
