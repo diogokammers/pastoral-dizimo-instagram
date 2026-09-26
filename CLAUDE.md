@@ -21,12 +21,14 @@ Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md`.
 - Testes: `python -m pytest -q`
 - Tokens do cartão: `python -m pastoral.medir_tokens cartao-marca.md` (com `PYTHONPATH=src`)
 - Pauta da semana: `python -m pastoral.pauta 2026-W41` (com `PYTHONPATH=src`)
+- Lint: `python -m pastoral.lint content/estreia/posts.json` · Render + QA: `python -m pastoral.render content/estreia/posts.json --destaques` · Prévia: `python -m pastoral.preview`
 
 ## Estrutura
 - `content/temas.yaml` — fila de temas da estratégia (sem Reels, que são manuais)
 - `content/semanas/AAAA-Www/` — briefing, posts, aprovação e ledger da semana
 - `src/pastoral/calendario.py` — calendário litúrgico calculado
 - `src/pastoral/pauta.py` — escolha dos posts da semana (ciclo 70/20/10)
+- `content/estreia/` — pacote de estreia (ADR-005/006): posts, bio, render/ · `templates/` — artes · `site/` — prévias
 
 ## Git
 - Commits em português, terminando com a linha Co-Authored-By.
