@@ -1,0 +1,189 @@
+{
+  "lote": "2026-W40",
+  "observacoes": [
+    "CTAs ajustados à lista permitida do cartão de marca: post 4 → \"marcar\"; post 5 → \"comentar\".",
+    "Post 4 (Vida pastoral) sem testemunho concreto de agente: o briefing não traz nome, paróquia nem depoimento. Texto mantido genérico.",
+    "Post 5 não define a oferta além do que o cartão confere (Doc. CNBB 106, Cap. II: dízimo distinto das ofertas)."
+  ],
+  "posts": [
+    {
+      "numero": 4,
+      "fixado": false,
+      "titulo": "Quem é o agente da Pastoral do Dízimo?",
+      "pilar": "Vida pastoral",
+      "formato": "carrossel",
+      "publico": "Agentes e coordenadores",
+      "cta": "marcar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Vida pastoral",
+          "titulo": "Quem é o agente da Pastoral do Dízimo?",
+          "alt_text": "Capa do carrossel com o sobrescrito \"Vida pastoral\" e o título \"Quem é o agente da Pastoral do Dízimo?\"."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Um servidor da comunidade",
+          "texto": "Dedica seu tempo, como voluntário, para que o dízimo seja vivido como gesto de fé.",
+          "alt_text": "Slide com o título \"Um servidor da comunidade\" e o texto: o agente dedica seu tempo, como voluntário, para que o dízimo seja vivido como gesto de fé."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Em comunhão com o clero",
+          "texto": "Serve junto ao pároco, nunca como instância paralela na paróquia.",
+          "alt_text": "Slide com o título \"Em comunhão com o clero\" e o texto: o agente serve junto ao pároco, nunca como instância paralela na paróquia."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Acolhe e forma",
+          "texto": "Ajuda a comunidade a entender o dízimo como partilha, gratidão e corresponsabilidade.",
+          "alt_text": "Slide com o título \"Acolhe e forma\" e o texto: o agente ajuda a comunidade a entender o dízimo como partilha, gratidão e corresponsabilidade."
+        },
+        {
+          "template": "citacao",
+          "eyebrow": "Inspiração",
+          "texto": "Deus ama quem dá com alegria",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Slide de citação bíblica com o texto \"Deus ama quem dá com alegria\" e a referência 2Cor 9,7."
+        },
+        {
+          "template": "cta",
+          "titulo": "Você conhece um agente?",
+          "texto": "Marque aqui alguém que serve na Pastoral do Dízimo da sua paróquia.",
+          "alt_text": "Slide final com o título \"Você conhece um agente?\" e o convite para marcar nos comentários alguém que serve na Pastoral do Dízimo da sua paróquia. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
+        }
+      ],
+      "legenda": "Por trás de cada comunidade que vive o dízimo como gesto de fé, há alguém que serve.\n\nO agente da Pastoral do Dízimo dedica seu tempo, de forma voluntária, para acolher, formar e acompanhar. Ajuda a comunidade a compreender o dízimo como partilha, gratidão e corresponsabilidade na missão.\n\nEsse serviço acontece sempre em comunhão com o pároco e o clero: a Pastoral nunca é uma instância paralela, mas parte da vida da paróquia.\n\nComo lembra São Paulo: \"Deus ama quem dá com alegria\" (2Cor 9,7). Isso vale também para quem oferece seu tempo e seu cuidado à comunidade.\n\nVocê conhece um agente da Pastoral do Dízimo? Marque essa pessoa nos comentários e agradeça pelo seu serviço.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+        },
+        {
+          "tipo": "estrategia",
+          "referencia": "Cartão de marca — Público e Valores (comunhão com o clero; a Pastoral nunca é instância paralela)"
+        }
+      ],
+      "a_conferir": [
+        "Confirmar se todos os agentes da Pastoral na Arquidiocese atuam de forma voluntária (o briefing fala em \"serviço voluntário\").",
+        "Se houver testemunho real de agente autorizado para publicação, o post pode ganhar um slide com ele; nenhum foi fornecido."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2,
+        "revisao": "CTA trocado para \"marcar\" (lista permitida). Slides conferidos: máximo de 16 palavras por slide. Nenhuma pessoa identificada como dizimista; o convite é para marcar um agente."
+      }
+    },
+    {
+      "numero": 5,
+      "fixado": false,
+      "titulo": "Dízimo x Oferta: qual a diferença?",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Católicos interessados",
+      "cta": "comentar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "Dízimo x Oferta: qual a diferença?",
+          "alt_text": "Capa do carrossel com o sobrescrito \"Formação\" e o título \"Dízimo x Oferta: qual a diferença?\"."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Dízimo: sistemático e periódico",
+          "texto": "A comunidade assume corresponsavelmente seu sustento e o da Igreja.",
+          "fonte": "Doc. CNBB 106, n. 6",
+          "alt_text": "Slide com o título \"Dízimo: sistemático e periódico\" e o texto: a comunidade assume corresponsavelmente seu sustento e o da Igreja. Fonte: Doc. CNBB 106, n. 6."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Uma decisão pessoal",
+          "texto": "Nasce de decisão pessoal: manifestação espontânea da fé e da pertença.",
+          "fonte": "Doc. CNBB 106, n. 9",
+          "alt_text": "Slide com o título \"Uma decisão pessoal\" e o texto: o dízimo nasce de decisão pessoal, manifestação espontânea da fé e da pertença. Fonte: Doc. CNBB 106, n. 9."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "A oferta é outro gesto",
+          "texto": "O dízimo é distinto das ofertas.",
+          "fonte": "Doc. CNBB 106, Cap. II",
+          "alt_text": "Slide com o título \"A oferta é outro gesto\" e o texto: o dízimo é distinto das ofertas. Fonte: Doc. CNBB 106, Cap. II."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Quanto dar?",
+          "texto": "A quantia é decisão da consciência, iluminada pela Palavra.",
+          "fonte": "Doc. CNBB 106, n. 10",
+          "alt_text": "Slide com o título \"Quanto dar?\" e o texto: a quantia é decisão da consciência, iluminada pela Palavra. Fonte: Doc. CNBB 106, n. 10."
+        },
+        {
+          "template": "citacao",
+          "texto": "Cada um dê conforme tiver decidido em seu coração",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Slide de citação bíblica com o texto \"Cada um dê conforme tiver decidido em seu coração\" e a referência 2Cor 9,7."
+        },
+        {
+          "template": "cta",
+          "titulo": "Ficou alguma dúvida?",
+          "texto": "Comente aqui sua pergunta sobre dízimo e oferta.",
+          "alt_text": "Slide final com o título \"Ficou alguma dúvida?\" e o convite para comentar a pergunta sobre dízimo e oferta. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
+        }
+      ],
+      "legenda": "Dízimo e oferta não são a mesma coisa.\n\nO Doc. CNBB 106, Cap. II, distingue o dízimo das ofertas.\n\nO dízimo é contribuição sistemática e periódica: por ele, a comunidade assume corresponsavelmente sua sustentação e a da Igreja (Doc. CNBB 106, n. 6). Nasce de uma decisão pessoal, como manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n\nE quanto dar? A quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10). Como ensina São Paulo: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nFicou alguma dúvida sobre dízimo e oferta? Comente aqui e continue essa conversa com a gente.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 9",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 10",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, Cap. II",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Dízimo distinto das ofertas."
+        },
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Redação conferida no cartão de marca (citada no Doc. CNBB 106, n. 10)."
+        }
+      ],
+      "a_conferir": [
+        "Definição de \"oferta\" segundo o Doc. CNBB 106, Cap. II: o cartão só confere que o dízimo é distinto das ofertas. Se o Diogo confirmar a caracterização da oferta no exemplar, acrescentar um slide que a descreva."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2,
+        "revisao": "CTA trocado para \"comentar\" (lista permitida). Todas as citações do Doc. CNBB 106 com parágrafo (n. 6, 9, 10) ou Cap. II, em slides, alt-text e legenda. Slides conferidos: máximo de 19 palavras por slide, somando título, texto e fonte. Oferta não foi definida além do conferido, para não inventar."
+      }
+    }
+  ]
+}
