@@ -309,6 +309,14 @@ def test_cli_falha_grave_retorna_1(repo, monkeypatch):
     assert publicar.main(["--raiz", str(repo), "--agora", DEPOIS.isoformat()]) == 1
 
 
+def test_cli_ignora_quebra_de_linha_no_segredo(repo, monkeypatch, capsys):
+    """Secret colado com Enter (PowerShell/gh) continua valendo: o Worker também faz trim (ADR-009)."""
+    monkeypatch.delenv("PUBLICAR", raising=False)
+    monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO + "\r\n")
+    assert publicar.main(["--raiz", str(repo), "--agora", DEPOIS.isoformat()]) == 0
+    assert "[ok]" in capsys.readouterr().out
+
+
 def test_sem_semanas_nao_falha(tmp_path, monkeypatch):
     monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO)
     assert publicar.main(["--raiz", str(tmp_path)]) == 0

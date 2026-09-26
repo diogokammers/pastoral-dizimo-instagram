@@ -1,0 +1,53 @@
+{
+  "lote": "2026-W41",
+  "posts": [
+    {
+      "numero": 12,
+      "titulo": "O dízimo é gratidão",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "cta": "salvar",
+      "slides": [
+        {
+          "template": "capa",
+          "titulo": "Gratidão",
+          "alt_text": "Capa em fundo creme com o título “Gratidão”."
+        },
+        {
+          "template": "citacao",
+          "texto": "Deus ama quem dá com alegria.",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Citação: \"Deus ama quem dá com alegria\" — 2Cor 9,7 ❤"
+        }
+      ],
+      "legenda": "  Vetor de teste: ação, coração e emoji 🙏\n\nSegunda linha. \n ",
+      "hashtags": [
+        "#dízimo",
+        "#gratidão"
+      ],
+      "fontes": [
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7"
+        }
+      ]
+    },
+    {
+      "numero": 13,
+      "titulo": "Imagem única",
+      "pilar": "Vida pastoral",
+      "formato": "imagem_unica",
+      "cta": "comentar",
+      "slides": [
+        {
+          "template": "capa",
+          "titulo": "Encontro",
+          "alt_text": "Arte única."
+        }
+      ],
+      "legenda": "Sem hashtags.",
+      "hashtags": [],
+      "fontes": []
+    }
+  ]
+}

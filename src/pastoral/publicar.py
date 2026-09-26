@@ -266,7 +266,7 @@ def main(argv: list[str] | None = None) -> int:
     config = meta.carregar_config(Path(args.config))
     agora = datetime.fromisoformat(args.agora) if args.agora else datetime.now(timezone.utc)
     dry_run = args.dry_run or os.environ.get("PUBLICAR") != "1"
-    segredo = os.environ.get("APROVACAO_HMAC_SECRET", "")
+    segredo = os.environ.get("APROVACAO_HMAC_SECRET", "").strip()   # Enter colado no secret não conta (ADR-009)
     cliente = None
     if not dry_run:
         try:

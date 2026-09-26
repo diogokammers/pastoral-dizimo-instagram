@@ -1,0 +1,238 @@
+{
+  "gerado_por": "python -m pastoral.aprovacao --vetores (não editar à mão)",
+  "canonico": [
+    {
+      "entrada": {
+        "b": 1,
+        "a": [
+          3,
+          {
+            "z": null,
+            "é": true,
+            "e": false
+          }
+        ],
+        "Z": "maiúscula antes"
+      },
+      "saida": "{\"Z\":\"maiúscula antes\",\"a\":[3,{\"e\":false,\"z\":null,\"é\":true}],\"b\":1}",
+      "sha256": "66836e01268124923bf772e31e2bdaa0458008ef42483d29e056c04177e9af19"
+    },
+    {
+      "entrada": {
+        "texto": "aspas \" barra \\ nova\nlinha tab\t ctrl\u0001 del acento ção emoji 🙏 / ok"
+      },
+      "saida": "{\"texto\":\"aspas \\\" barra \\\\ nova\\nlinha tab\\t ctrl\\u0001 del acento ção emoji 🙏 / ok\"}",
+      "sha256": "37752e892376fffbb56f564e082259cb5ae8371d8f1f629a963c5096c1b3b185"
+    },
+    {
+      "entrada": {
+        "😀": "astral",
+        "￿": "bmp alto",
+        "ä": "latin",
+        "": "vazia"
+      },
+      "saida": "{\"\":\"vazia\",\"ä\":\"latin\",\"￿\":\"bmp alto\",\"😀\":\"astral\"}",
+      "sha256": "b217e1be3fb77614397b962051835b06b993e655b2b5440ecfa1485216f3bc38"
+    },
+    {
+      "entrada": {
+        "lista": [],
+        "obj": {},
+        "zero": 0,
+        "neg": -42,
+        "grande": 9007199254740991
+      },
+      "saida": "{\"grande\":9007199254740991,\"lista\":[],\"neg\":-42,\"obj\":{},\"zero\":0}",
+      "sha256": "9d5af4f9f5bd0e4c887910b983b109f8b89304cf0a4a26b3bf99a0ff9f32c026"
+    }
+  ],
+  "assinar": [
+    {
+      "segredo": "segredo-aprovacao-de-teste",
+      "dados": {
+        "b": 1,
+        "a": [
+          3,
+          {
+            "z": null,
+            "é": true,
+            "e": false
+          }
+        ],
+        "Z": "maiúscula antes"
+      },
+      "assinatura": "96c564b1f34736eea8bea9e3ff6a69c1cfa1ac0de7b415e8b3fa1356560263c5"
+    },
+    {
+      "segredo": "segredo-aprovacao-de-teste",
+      "dados": {
+        "texto": "aspas \" barra \\ nova\nlinha tab\t ctrl\u0001 del acento ção emoji 🙏 / ok"
+      },
+      "assinatura": "3e173eac972f8645b0ceccc61e458eaf2a7d15b5654b12239bd4ac21478cd080"
+    },
+    {
+      "segredo": "segredo-aprovacao-de-teste",
+      "dados": {
+        "😀": "astral",
+        "￿": "bmp alto",
+        "ä": "latin",
+        "": "vazia"
+      },
+      "assinatura": "d8f6c3104651f38a6136b017d236ef4a4df45c1b22698413fd8f75deb23ce93d"
+    },
+    {
+      "segredo": "segredo-aprovacao-de-teste",
+      "dados": {
+        "lista": [],
+        "obj": {},
+        "zero": 0,
+        "neg": -42,
+        "grande": 9007199254740991
+      },
+      "assinatura": "a42203e06e0dd222d377eb984b8794c89babb90673ce40c214f770132d145932"
+    }
+  ],
+  "legendas": [
+    {
+      "post": {
+        "legenda": "  espaço antes e depois \n",
+        "hashtags": [
+          "#a",
+          "#b"
+        ]
+      },
+      "texto": "espaço antes e depois\n\n#a #b"
+    },
+    {
+      "post": {
+        "legenda": "  nbsp e em space　",
+        "hashtags": []
+      },
+      "texto": "nbsp e em space"
+    },
+    {
+      "post": {
+        "legenda": "\u001c\u001f separadores python ",
+        "hashtags": [
+          "#x"
+        ]
+      },
+      "texto": "separadores python\n\n#x"
+    },
+    {
+      "post": {
+        "legenda": "﻿BOM não é espaço no Python﻿"
+      },
+      "texto": "﻿BOM não é espaço no Python﻿"
+    }
+  ],
+  "semana": {
+    "semana": "2026-W41",
+    "itens": [
+      {
+        "numero": 12,
+        "agendado_para": "2026-10-06T19:00:00-03:00",
+        "legenda_sha256": "ccb188d91166a2d9a5cf246e010f5beb835226be92ab879db4edc3cc20501688",
+        "alt_text_sha256": "ae5fc8bd10f09a5d4015c1975efbfbeef81a8734742c412c39b955093c31cf5c",
+        "artes": [
+          {
+            "arquivo": "post-12-01.jpg",
+            "sha256": "37406a984824b6be4387a5b5c228d186834269e9f442999f5a25144dddf7f23e"
+          },
+          {
+            "arquivo": "post-12-02.jpg",
+            "sha256": "dea606228232f95a10580b4b67036a1d3f12856ba1b511895c3177c4fd2ced2c"
+          }
+        ]
+      },
+      {
+        "numero": 13,
+        "agendado_para": "2026-10-09T19:00:00-03:00",
+        "legenda_sha256": "ba037c52de838b700ead4ccde29a365886bf17b865d16f54b0aa862910060a4d",
+        "alt_text_sha256": "1b5d43a402fe2adec1d8f66d9ca03312cdb2b08ea5db4ee0ee22665c55f09dee",
+        "artes": [
+          {
+            "arquivo": "post-13-01.jpg",
+            "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
+          }
+        ]
+      }
+    ],
+    "versao": "64dfe8b751664a33e94890cd31e8a74a",
+    "artes_base64": {
+      "post-12-01.jpg": "/9j/4GNhcGEtMTIAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/",
+      "post-12-02.jpg": "/9j/4GNpdGFjYW8tMTIAAQ==",
+      "post-13-01.jpg": "/9j/4HVuaWNhLTEzAA=="
+    }
+  },
+  "links": {
+    "segredo": "segredo-link-de-teste",
+    "agora": 1790000000,
+    "validos": [
+      {
+        "s": "2026-W41",
+        "a": "aprovar_tudo",
+        "p": "",
+        "e": "1791000000",
+        "n": "0123456789abcdef",
+        "v": "64dfe8b751664a33e94890cd31e8a74a",
+        "h": "28050feeecde8c11f568366b8cf69a2c83903da0fe0cc7a2be6d198299d17b91"
+      },
+      {
+        "s": "2026-W41",
+        "a": "aprovar_post",
+        "p": "12",
+        "e": "1791000000",
+        "n": "0123456789abcdef",
+        "v": "64dfe8b751664a33e94890cd31e8a74a",
+        "h": "79454e56c4f8e4a1a67c8136fd3c72756bc8da6c06617b8eb1fbfac4c2f10f9f"
+      },
+      {
+        "s": "2026-W41",
+        "a": "ajustar_post",
+        "p": "13",
+        "e": "1791000000",
+        "n": "0123456789abcdef",
+        "v": "64dfe8b751664a33e94890cd31e8a74a",
+        "h": "7b115f3578b5d11dc9aa60cc3df02dbd5bc4c61c305faa55ab8b7495a38fc3a0"
+      }
+    ]
+  },
+  "aprovacao": {
+    "semana": "2026-W41",
+    "aprovado_por": "Diogo",
+    "aprovado_em": "2026-10-02T13:00:00+00:00",
+    "nonce": "0123456789abcdef",
+    "posts": [
+      {
+        "numero": 12,
+        "agendado_para": "2026-10-06T19:00:00-03:00",
+        "legenda_sha256": "ccb188d91166a2d9a5cf246e010f5beb835226be92ab879db4edc3cc20501688",
+        "alt_text_sha256": "ae5fc8bd10f09a5d4015c1975efbfbeef81a8734742c412c39b955093c31cf5c",
+        "artes": [
+          {
+            "arquivo": "post-12-01.jpg",
+            "sha256": "37406a984824b6be4387a5b5c228d186834269e9f442999f5a25144dddf7f23e"
+          },
+          {
+            "arquivo": "post-12-02.jpg",
+            "sha256": "dea606228232f95a10580b4b67036a1d3f12856ba1b511895c3177c4fd2ced2c"
+          }
+        ]
+      },
+      {
+        "numero": 13,
+        "agendado_para": "2026-10-09T19:00:00-03:00",
+        "legenda_sha256": "ba037c52de838b700ead4ccde29a365886bf17b865d16f54b0aa862910060a4d",
+        "alt_text_sha256": "1b5d43a402fe2adec1d8f66d9ca03312cdb2b08ea5db4ee0ee22665c55f09dee",
+        "artes": [
+          {
+            "arquivo": "post-13-01.jpg",
+            "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
+          }
+        ]
+      }
+    ],
+    "assinatura": "d178d982e5dd9e3627da4e1cc32a1218ccde8ac1d339705f84832687b5761f23"
+  }
+}

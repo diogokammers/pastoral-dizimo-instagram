@@ -1,0 +1,88 @@
+# Pipeline semanal (fatia 5, ADR-009, arquitetura §1): pauta → gerar (claude -p) → lint → render →
+# prévia → commit/push de content/ e site/ → e-mail de aprovação com links assinados.
+# DESLIGADO até a estreia (ADR-005: sem data): só roda se a variável de repositório SEMANAL_ATIVO = "1".
+# Nada é publicado aqui: a publicação é do publicar.yml, e só com aprovacao.json assinada pelo Worker.
+name: semanal
+on:
+  schedule:
+    - cron: "0 9 * * 1"          # segunda, 06:00 em Brasília (UTC-3)
+  workflow_dispatch:
+    inputs:
+      semana:
+        description: "Semana ISO (AAAA-Www); vazio = semana atual"
+        type: string
+        default: ""
+permissions:
+  contents: write                # commit de content/ e site/
+  actions: write                 # disparar o pages.yml (push feito com GITHUB_TOKEN não dispara workflows)
+concurrency:
+  group: semanal
+  cancel-in-progress: false
+jobs:
+  desligado:
+    if: vars.SEMANAL_ATIVO != '1'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Pipeline semanal desligado (variável SEMANAL_ATIVO != 1; ADR-005/ADR-009). Nada foi feito."
+
+  semana:
+    if: vars.SEMANAL_ATIVO == '1'
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Dependências
+        run: |
+          python -m pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+          npm install -g @anthropic-ai/claude-code
+      - name: Semana
+        env:
+          SEMANA_INPUT: ${{ inputs.semana }}
+        run: |
+          SEMANA="${SEMANA_INPUT:-$(date -u +%G-W%V)}"
+          if ! [[ "$SEMANA" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then echo "::error::semana inválida: $SEMANA"; exit 1; fi
+          echo "SEMANA=$SEMANA" >> "$GITHUB_ENV"
+      - name: Pauta
+        run: python -m pastoral.pauta "$SEMANA"
+      - name: Gerar
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Secret CLAUDE_CODE_OAUTH_TOKEN ausente. Gere com 'claude setup-token' e cadastre com 'gh secret set CLAUDE_CODE_OAUTH_TOKEN' (ADR-001/ADR-009)."
+            exit 1
+          fi
+          python -m pastoral.gerar "content/semanas/$SEMANA/briefing.json"
+      - name: Lint
+        run: python -m pastoral.lint "content/semanas/$SEMANA/posts.json"
+      - name: Render
+        run: python -m pastoral.render "content/semanas/$SEMANA/posts.json" --saida "content/semanas/$SEMANA/render"
+      - name: Prévia
+        run: python -m pastoral.preview --semana "$SEMANA"
+      - name: Commit e push
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/semanas site/semanas site/midia
+          if git diff --cached --quiet; then
+            echo "Nada novo para commitar."
+          else
+            git commit -m "content($SEMANA): posts, prévia e artes para aprovação"
+            git push
+          fi
+          gh workflow run pages.yml --ref "$GITHUB_REF_NAME"
+      - name: Notificar
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          LINK_HMAC_SECRET: ${{ secrets.LINK_HMAC_SECRET }}
+        run: python -m pastoral.notificar "$SEMANA"

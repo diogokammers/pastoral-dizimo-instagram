@@ -1,6 +1,8 @@
 """Fatia 5 (parte) — prévia autocontida do pacote de estreia para o Diogo e o Padre."""
 import json
 import re
+import shutil
+from pathlib import Path
 
 import pytest
 
@@ -94,3 +96,65 @@ def test_carrossel_navega_no_navegador(raiz, tmp_path):
         if "Executable doesn't exist" in str(erro):
             pytest.skip("Chromium indisponível")
         raise
+
+
+# ---------- fatia 5: prévia semanal (site/semanas/<semana>/) e artes públicas (site/midia/<semana>/) ----------
+
+FIXTURE_SEMANA = Path(__file__).parent / "fixtures" / "semana-exemplo" / "content" / "semanas" / "2026-W41"
+BRIEFING = {"semana": "2026-W41", "posts": [
+    {"indice": 12, "data": "2026-10-06", "hora": "19:00", "fuso": "America/Sao_Paulo"},
+    {"indice": 13, "data": "2026-10-09", "hora": "19:00", "fuso": "America/Sao_Paulo"}]}
+
+
+@pytest.fixture
+def repo_semana(tmp_path):
+    pasta = tmp_path / "content" / "semanas" / "2026-W41"
+    (pasta / "render").mkdir(parents=True)
+    shutil.copy(FIXTURE_SEMANA / "posts.json", pasta / "posts.json")
+    (pasta / "briefing.json").write_text(json.dumps(BRIEFING), encoding="utf-8")
+    for nome in ("post-12-01.jpg", "post-12-02.jpg", "post-13-01.jpg"):
+        (pasta / "render" / nome).write_bytes(b"\xff\xd8" + nome.encode())
+    (pasta / "render" / "qa.json").write_text(json.dumps({"posts": [
+        {"post": 12, "arquivo": "post-12-01.jpg", "ok": True}, {"post": 12, "arquivo": "post-12-02.jpg", "ok": True},
+        {"post": 13, "arquivo": "post-13-01.jpg", "ok": False}]}), encoding="utf-8")
+    return tmp_path
+
+
+def test_semana_grava_agenda_copia_artes_e_gera_pagina(repo_semana):
+    html_path = preview.gerar_semana(repo_semana, "2026-W41", usuario="@pastoraldodizimo.arquifln")
+    assert html_path == repo_semana / "site" / "semanas" / "2026-W41" / "index.html"
+
+    agenda = json.loads((repo_semana / "content/semanas/2026-W41/agenda.json").read_text(encoding="utf-8"))
+    assert agenda == json.loads((FIXTURE_SEMANA / "agenda.json").read_text(encoding="utf-8"))
+
+    midia = repo_semana / "site" / "midia" / "2026-W41"
+    assert sorted(p.name for p in midia.iterdir()) == ["post-12-01.jpg", "post-12-02.jpg", "post-13-01.jpg"]
+    assert (midia / "post-12-02.jpg").read_bytes() == b"\xff\xd8post-12-02.jpg"
+
+    html = html_path.read_text(encoding="utf-8")
+    assert 'src="../../midia/2026-W41/post-12-01.jpg"' in html
+    assert html.count('class="slide"') == 3
+    assert "O dízimo é gratidão" in html and "Imagem única" in html
+    assert "Nada foi publicado" in html
+    assert "terça-feira, 06/10/2026, 19:00" in html
+    assert "QA automático: revisar post-13-01.jpg" in html
+    assert not re.search(r'(src|href)="https?://', html)
+
+
+def test_semana_remove_arte_velha_de_versao_anterior(repo_semana):
+    midia = repo_semana / "site" / "midia" / "2026-W41"
+    midia.mkdir(parents=True)
+    (midia / "post-12-03.jpg").write_bytes(b"velha")
+    preview.gerar_semana(repo_semana, "2026-W41")
+    assert not (midia / "post-12-03.jpg").exists()
+
+
+def test_semana_sem_arte_renderizada_falha(repo_semana):
+    (repo_semana / "content/semanas/2026-W41/render/post-12-02.jpg").unlink()
+    with pytest.raises(FileNotFoundError, match="post-12-02.jpg"):
+        preview.gerar_semana(repo_semana, "2026-W41")
+
+
+def test_main_semana(repo_semana):
+    assert preview.main(["--semana", "2026-W41", "--raiz", str(repo_semana)]) == 0
+    assert (repo_semana / "site/semanas/2026-W41/index.html").exists()

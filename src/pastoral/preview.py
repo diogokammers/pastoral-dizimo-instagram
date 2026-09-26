@@ -1,11 +1,19 @@
-"""Prévia do pacote de estreia (ADR-005): página HTML única, autocontida, estilo perfil do Instagram.
+"""Prévias para aprovação: pacote de estreia (ADR-005) e semanas (fatia 5, ADR-009).
+
+Estreia: página HTML única, autocontida, estilo perfil do Instagram.
 
 Mostra bio, fileira de destaques, grade com os 3 posts fixados e, para cada post, o carrossel
 navegável com legenda, alt-text e itens a conferir. Abre com um texto de apoio para o Padre
 ("O que estamos pedindo para aprovar"). As imagens vão embutidas (data URI): o arquivo pode ser
 enviado por e-mail ou aberto direto do disco, sem internet.
 
+Semana (`--semana 2026-W41`): lê content/semanas/<semana>/{posts,briefing}.json e render/, grava
+content/semanas/<semana>/agenda.json (data agendada + artes de cada post, lida pelo Worker), copia as
+artes para site/midia/<semana>/ (as URLs públicas que publicar.py usa e cujo sha256 vai na aprovação)
+e gera site/semanas/<semana>/index.html, que aponta para essas mesmas imagens.
+
 Uso: python -m pastoral.preview  (lê content/estreia/, grava site/estreia/index.html)
+     python -m pastoral.preview --semana 2026-W41
 """
 from __future__ import annotations
 
@@ -13,12 +21,15 @@ import argparse
 import base64
 import json
 import re
+import shutil
 import sys
+from datetime import datetime
 from html import escape
 from pathlib import Path
 
 import yaml
 
+from pastoral import aprovacao
 from pastoral.render import DESTAQUES
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -54,8 +65,9 @@ def _grade(posts: list[dict], imagens: dict) -> str:
     return f'<div class="grade">{itens}</div>'
 
 
-def _post(post: dict, imagens: dict, usuario: str, qa: dict) -> str:
+def _post(post: dict, imagens: dict, usuario: str, qa: dict, rotulo: str | None = None) -> str:
     n = post["numero"]
+    rotulo = rotulo or f"Fixado · post {n}"
     total = len(post["slides"])
     slides = "".join(
         f'<img class="slide" src="{e(imagens[f"post-{n}-{i:02d}.jpg"])}" alt="{e(s["alt_text"])}" '
@@ -70,7 +82,7 @@ def _post(post: dict, imagens: dict, usuario: str, qa: dict) -> str:
     return f"""
 <article class="post" id="post-{n}" data-total="{total}">
   <header class="post-topo"><span class="mini-avatar"></span><b>{e(usuario.lstrip('@'))}</b>
-    <span class="fixado">Fixado · post {n}</span></header>
+    <span class="fixado">{e(rotulo)}</span></header>
   <div class="carrossel" tabindex="0" aria-roledescription="carrossel" aria-label="{e(post['titulo'])}">
     <div class="trilho">{slides}</div>
     <button class="anterior" aria-label="Imagem anterior">‹</button>
@@ -226,23 +238,107 @@ def montar_pagina(dados: dict, bio: dict, imagens: dict, qa: dict | None = None,
 """
 
 
+DIAS = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo")
+
+
+def data_por_extenso(iso: str) -> str:
+    """'2026-10-06T19:00:00-03:00' → 'terça-feira, 06/10/2026, 19:00' (hora local do agendamento)."""
+    d = datetime.fromisoformat(iso)
+    return f"{DIAS[d.weekday()]}, {d:%d/%m/%Y, %H:%M}"
+
+
+def montar_pagina_semana(semana: str, dados: dict, agenda: dict, imagens: dict, qa: dict | None = None,
+                         usuario: str = "@pastoraldodizimo.arquifln") -> str:
+    """Prévia da semana: aviso, grade e cada post com carrossel, legenda, alt-text e data agendada."""
+    qa = qa or {}
+    quando = {p["numero"]: data_por_extenso(p["agendado_para"]) for p in agenda["posts"]}
+    ordenados = sorted(dados["posts"], key=lambda p: p["numero"])
+    grade = "".join(
+        f'<a class="grade-item" href="#post-{p["numero"]}"><img src="{e(imagens[f"post-{p["numero"]}-01.jpg"])}" '
+        f'alt="Post {p["numero"]}: {e(p["titulo"])}">'
+        f'{"<span class=multi>❐</span>" if len(p["slides"]) > 1 else ""}</a>' for p in ordenados)
+    posts = "".join(_post(p, imagens, usuario, qa, f"Post {p['numero']} · {quando[p['numero']]}") for p in ordenados)
+    resumo = "".join(f"<li><b>Post {p['numero']}</b> — {e(p['titulo'])} ({e(p['pilar'])}) · {e(quando[p['numero']])}</li>"
+                     for p in ordenados)
+    return f"""<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prévia da semana {e(semana)}</title>
+<style>{CSS}</style></head>
+<body><main>
+<section class="apoio">
+  <h1>Semana {e(semana)} · Pastoral do Dízimo</h1>
+  <p class="aviso">Prévia para aprovação. <b>Nada foi publicado.</b></p>
+  <ul>{resumo}</ul>
+  <p>Para aprovar ou pedir ajuste, use os botões do e-mail desta semana. Só o que aparece aqui
+  (textos e imagens exatamente como estão) pode ser publicado, e só depois da aprovação.</p>
+</section>
+<section class="perfil" aria-label="Posts da semana">{f'<div class="grade">{grade}</div>'}</section>
+{posts}
+</main>
+<script>{JS}</script>
+</body></html>
+"""
+
+
+def gerar_semana(raiz: Path, semana: str, usuario: str = "@pastoraldodizimo.arquifln") -> Path:
+    """Grava agenda.json, copia as artes para site/midia/<semana>/ e gera site/semanas/<semana>/index.html."""
+    raiz = Path(raiz)
+    pasta = raiz / "content" / "semanas" / semana
+    dados = json.loads((pasta / "posts.json").read_text(encoding="utf-8"))
+    briefing = json.loads((pasta / "briefing.json").read_text(encoding="utf-8"))
+    render = pasta / "render"
+    qa_arq = render / "qa.json"
+    qa = json.loads(qa_arq.read_text(encoding="utf-8")) if qa_arq.exists() else {}
+
+    agenda = aprovacao.montar_agenda(semana, dados, briefing)
+    artes = [a for p in agenda["posts"] for a in p["artes"]]
+    faltando = [a for a in artes if not (render / a).is_file()]
+    if faltando:
+        raise FileNotFoundError(f"artes não renderizadas em {render}: {', '.join(faltando)}")
+
+    midia = raiz / "site" / "midia" / semana
+    midia.mkdir(parents=True, exist_ok=True)
+    for velho in midia.glob("*.jpg"):          # arte de versão anterior (ex.: post refeito com menos slides)
+        if velho.name not in artes:
+            velho.unlink()
+    for a in artes:
+        shutil.copyfile(render / a, midia / a)
+    (pasta / "agenda.json").write_text(json.dumps(agenda, ensure_ascii=False, indent=2) + "\n",
+                                       encoding="utf-8", newline="\n")
+
+    imagens = {a: f"../../midia/{semana}/{a}" for a in artes}
+    saida = raiz / "site" / "semanas" / semana / "index.html"
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    saida.write_text(montar_pagina_semana(semana, dados, agenda, imagens, qa, usuario), encoding="utf-8")
+    return saida
+
+
 def _data_uri(caminho: Path) -> str:
     return "data:image/jpeg;base64," + base64.b64encode(caminho.read_bytes()).decode("ascii")
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Gera a prévia autocontida do pacote de estreia")
+    ap = argparse.ArgumentParser(description="Gera a prévia do pacote de estreia ou de uma semana")
+    ap.add_argument("--semana", help="AAAA-Www: prévia semanal em site/semanas/ (em vez da estreia)")
+    ap.add_argument("--raiz", type=Path, default=RAIZ, help="raiz do repositório (testes)")
     ap.add_argument("--posts", type=Path, default=ESTREIA / "posts.json")
     ap.add_argument("--render", type=Path, default=ESTREIA / "render")
     ap.add_argument("--bio", type=Path, default=ESTREIA / "bio.md")
     ap.add_argument("--saida", type=Path, default=RAIZ / "site" / "estreia" / "index.html")
     args = ap.parse_args(argv)
 
+    usuario = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))["marca"]["usuario"]
+    if args.semana:
+        saida = gerar_semana(args.raiz, args.semana, usuario)
+        print(f"{saida} + site/midia/{args.semana}/ + agenda.json")
+        return 0
+
     dados = json.loads(args.posts.read_text(encoding="utf-8"))
     qa_arq = args.render / "qa.json"
     qa = json.loads(qa_arq.read_text(encoding="utf-8")) if qa_arq.exists() else {}
     imagens = {f.name: _data_uri(f) for f in sorted(args.render.glob("*.jpg"))}
-    usuario = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))["marca"]["usuario"]
     pagina = montar_pagina(dados, ler_bio(args.bio), imagens, qa, usuario)
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(pagina, encoding="utf-8")

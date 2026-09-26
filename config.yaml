@@ -17,6 +17,16 @@ meta:
   poll_intervalo_s: 60           # doc: "consultar uma vez por minuto, por no máximo cinco minutos"
   poll_max_s: 300
 
+# Fatias 5/6 (ADR-009): e-mail semanal pela Resend (sem domínio próprio: remetente onboarding@resend.dev,
+# que só entrega ao e-mail dono da conta Resend) com links assinados para o Worker de aprovação.
+# Segredos só por ambiente: RESEND_API_KEY, LINK_HMAC_SECRET (nunca aqui).
+aprovacao:
+  email: pastoraldodizimo.arquifln@gmail.com
+  remetente: "Pastoral do Dízimo <onboarding@resend.dev>"
+  # Placeholder até o deploy: trocar pela URL que `npx wrangler deploy` imprimir (notificar.py recusa enviar antes).
+  worker_url: https://pastoral-dizimo-aprovacao.SEU-SUBDOMINIO.workers.dev
+  validade_dias: 7
+
 # Imagens servidas pelo GitHub Pages (ADR-003): site/midia/<semana>/<arquivo>.jpg → base_url + midia/...
 midia:
   base_url: https://diogokammers.github.io/pastoral-dizimo-instagram/
