@@ -24,7 +24,7 @@ aprovacao:
   email: pastoraldodizimo.arquifln@gmail.com
   remetente: "Pastoral do Dízimo <onboarding@resend.dev>"
   # Placeholder até o deploy: trocar pela URL que `npx wrangler deploy` imprimir (notificar.py recusa enviar antes).
-  worker_url: https://pastoral-dizimo-aprovacao.SEU-SUBDOMINIO.workers.dev
+  worker_url: https://pastoral-dizimo-aprovacao.pastoral-dizimo-aprovacao.workers.dev
   validade_dias: 7
 
 # Imagens servidas pelo GitHub Pages (ADR-003): site/midia/<semana>/<arquivo>.jpg → base_url + midia/...
