@@ -37,22 +37,23 @@ Ciclo de 10 posts: **7 Formação · 2 Vida pastoral · 1 Convite**. Eixos trans
 Um CTA por post, desta lista: salvar · compartilhar · comentar · marcar · enviar dúvida · inscrever-se · seguir o perfil. Nunca pedir dinheiro, contribuição ou doação.
 
 ## Citação bíblica e doutrinária
-- Bíblia: referência completa "Livro cap,vers" (ex.: 2Cor 9,7); edição de referência: Bíblia Sagrada — Tradução Oficial da CNBB. Texto literal a conferir na edição oficial antes de publicar.
+- Bíblia: referência completa "Livro cap,vers" (ex.: 2Cor 9,7); edição de referência: Bíblia Sagrada — Tradução Oficial da CNBB. Redação de 2Cor 9,7 conferida (citada no Doc. 106, n. 10): "Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria". Outros versículos: conferir antes de publicar.
 - Catecismo: CIC 2043 (5º preceito: prover às necessidades materiais da Igreja, segundo as possibilidades). Direito Canônico: cân. 222 §1; cân. 1260–1261. Citação literal ≤ 15 palavras, sempre com o número.
 - Nem o CIC nem o Doc. 106 fixam percentual: **nunca** afirmar percentual obrigatório.
 - DGAE vigentes: 2026–2032 (Documentos da CNBB 114). Não existe "Estudos da CNBB 77"; o estudo antigo é o nº 8.
-- **Doc. CNBB 106** — "O Dízimo na Comunidade de Fé: orientações e propostas" (Edições CNBB), aprovado pelo Conselho Permanente da CNBB (divulgado em 2016; não dizer "Assembleia Geral"). Pode ser citado apenas no que está verificado:
+- **Doc. CNBB 106** — "O Dízimo na Comunidade de Fé: orientações e propostas" (Edições CNBB), aprovado pelo Conselho Permanente da CNBB (divulgado em 2016; não dizer "Assembleia Geral"). Pode ser citado apenas no que foi conferido no exemplar (docs/pesquisa/06, 2026-09-27):
   - n. 6: dízimo é contribuição sistemática e periódica, pela qual a comunidade assume corresponsavelmente sua sustentação e a da Igreja; pressupõe pessoas evangelizadas.
-  - n. 9: nasce de decisão pessoal, espontânea, de um coração agradecido.
+  - n. 7: características — ligado à experiência de Deus e ao amor fraterno; compromisso moral; fixado pela consciência; sistemático e periódico.
+  - n. 9: como compromisso moral, nasce de uma decisão pessoal; é manifestação espontânea da fé e da pertença à comunidade. (NÃO dizer que o n. 9 fala em "coração agradecido" nem em "constrangimento".)
   - n. 10: a quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7).
-  - n. 12: o dízimo não é captação de recursos; é partilha, pertença e corresponsabilidade.
+  - n. 12: o dízimo não pode ser proposto **unicamente** como captação de recursos (nem como motivação principal) — risco de reducionismo. (NÃO escrever "o dízimo não é captação de recursos"; dizer "não se reduz a".)
   - n. 22: a coleta de Paulo por Jerusalém inspira a dimensão caritativa.
   - Cap. II: dízimo distinto das ofertas; abertura às demais comunidades (missionariedade); destina-se também à Igreja Particular.
-- As "quatro dimensões" (religiosa, eclesial, missionária, caritativa) são síntese pastoral: **não** atribuir ao Doc. 106 como citação. O post 3 da estratégia cita "social" em vez de "eclesial" — a confirmar.
+- As "quatro dimensões" (religiosa, eclesial, missionária, caritativa) são síntese pastoral: **não** atribuir ao Doc. 106 como citação. Usar religiosa, eclesial, missionária e caritativa (decisão do Diogo, ADR-005).
 - Nunca inventar dado financeiro, valor, prestação de contas ou evento; informação não confirmada = não publicar.
 
 ## Formato
-- Legenda ≤ 1.500 caracteres, primeira linha forte; 3 a 8 hashtags (≤ 8 hashtags; lista fixa a confirmar); alt-text descritivo ≤ 1.000 caracteres.
+- Legenda ≤ 1.500 caracteres, primeira linha forte; sem hashtags por enquanto (decisão do Diogo, ADR-005; teto técnico de 8 hashtags se voltarem); alt-text descritivo ≤ 1.000 caracteres.
 - Slide ≤ 25 palavras, uma ideia por slide; carrossel de 2 a 10 slides; arte 1080×1350.
 - Sem "%" em nenhum texto.
 - Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis.
