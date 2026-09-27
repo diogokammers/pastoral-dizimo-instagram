@@ -222,8 +222,8 @@ def _cabecalho_perfil(perfil: dict, total: int) -> str:
   </div>
   <p class="bio">{bio}</p>
   <div class="acoes">
-    <button class="btn btn-azul" disabled title="Desativado na simulação">Seguir</button>
-    <button class="btn" disabled title="Desativado na simulação">Mensagem</button>
+    <button class="btn btn-azul" disabled>Seguir</button>
+    <button class="btn" disabled>Mensagem</button>
     <button class="btn btn-ico" disabled aria-label="Sugestões de contas">{_svg(ICO["add_pessoa"])}</button>
   </div>
 </section>"""
@@ -383,7 +383,6 @@ def _painel(posts: list[dict]) -> str:
     return f"""
 <aside class="painel" id="painel" aria-label="Aprovação das publicações">
   <div class="faixa" role="note">
-    <p><b>Simulação para aprovação</b></p>
     <p class="acesso" id="acesso" aria-live="polite">Carregando as decisões já enviadas…</p>
     <details><summary>Como usar</summary>
       <ol>

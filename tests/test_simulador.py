@@ -151,9 +151,9 @@ def test_agendadas_so_mostra_aprovadas(dados):
 
 
 def test_faixa_de_aviso(dados):
-    """Sai a frase sobre "nada foi publicado"; o título fica; o Como usar explica rascunho e envio."""
+    """Sem "simulação" nem "nada foi publicado" (a página é o instrumento real); o Como usar explica rascunho e envio."""
     html = simulador.montar_pagina(dados, API)
-    assert "<b>Simulação para aprovação</b>" in html
+    assert "simulação" not in html.lower()
     assert "nada disso foi publicado ainda" not in html and "exceto os 3 posts fixados" not in html
     assert "Como usar" in html and "a enviar" in html and "Enviar respostas" in html and "Desfazer" in html
     assert "15 minutos" in html
