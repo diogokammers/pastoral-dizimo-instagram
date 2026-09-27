@@ -18,32 +18,27 @@
   "posts": [
     {
       "numero": 1,
-      "url": "https://www.instagram.com/p/Ddwm2nCmxZv/",
+      "url": "https://www.instagram.com/p/DdxWxwim0-e/",
       "slides": 7,
       "alt_text": true,
-      "fixado": false,
-      "legenda_atualizada_em": "2026-09-26T21:18:38-03:00",
-      "motivo": "auditoria doutrinária 2026-09-27 (docs/auditoria)"
+      "fixado": false
     },
     {
       "numero": 2,
-      "url": "https://www.instagram.com/p/DdwmdYUmzMx/",
+      "url": "https://www.instagram.com/p/DdxWfm-mwIr/",
       "slides": 7,
       "alt_text": true,
-      "fixado": false,
-      "legenda_atualizada_em": "2026-09-26T21:18:38-03:00",
-      "motivo": "auditoria doutrinária 2026-09-27 (docs/auditoria)"
+      "fixado": false
     },
     {
       "numero": 3,
-      "url": "https://www.instagram.com/p/DdxTXvvm7b4/",
+      "url": "https://www.instagram.com/p/DdxWN7Rm62D/",
       "slides": 7,
       "alt_text": true,
-      "fixado": false,
-      "substitui": "https://www.instagram.com/p/DdwmCK6m2_M/",
-      "republicado_em": "2026-09-26T21:18:38-03:00",
-      "motivo": "slide 2 corrigido (dimensão religiosa, Doc. CNBB 106 n. 29) e legenda da auditoria; antigo excluído (fica 30 dias em Excluídos recentemente)"
+      "fixado": false
     }
   ],
-  "pendente": "Fixar no perfil pelo app do celular: fixar 3 (novo), depois 2, depois 1."
+  "pendente": "Opcional: fixar pelo app na ordem 3, 2, 1 (o último fixado aparece primeiro), para os 3 continuarem no topo quando entrarem posts novos.",
+  "republicado_em": "2026-09-26T21:47:40-03:00",
+  "motivo_republicacao": "Auditoria doutrinária 2026-09-27 (legendas 1–3 e slide 2 do post 3) e grade na ordem 1|2|3 sem depender de fixar. Versões anteriores excluídas (30 dias em Excluídos recentemente)."
 }
