@@ -80,6 +80,8 @@ def montar_html(slide: dict, config: dict, indice: int, total: int, tema: str = 
     campos = {c: html.escape(str(slide.get(c, ""))) for c in ("eyebrow", "titulo", "texto", "referencia", "fonte")}
     campos["numero"] = f"{indice}/{total}"
     campos["fundo"] = classe_fundo(slide["template"], tema)
+    # seta "→" só quando há próximo slide (imagem única não sugere carrossel)
+    campos["seta"] = '<span class="seta" aria-hidden="true">→</span>' if indice < total else ""
     return _preencher(slide["template"], campos, config)
 
 

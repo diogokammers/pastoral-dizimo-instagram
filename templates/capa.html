@@ -9,6 +9,7 @@
   .eyebrow { color: var(--c-eyebrow); }
   .titulo { font-size: 92px; line-height: 1.04; color: var(--c-titulo); }
   .texto { color: var(--c-texto); font-size: 40px; }
+  .fonte { margin-top: 28px; color: var(--c-texto); opacity: .8; }
 </style></head>
 <body><main class="arte $fundo">
   <section class="area" data-caixa>
@@ -16,10 +17,11 @@
     <h1 class="titulo">$titulo</h1>
     <div class="filete-titulo"></div>
     <p class="texto">$texto</p>
+    <p class="fonte">$fonte</p>
   </section>
   <footer class="rodape" data-rodape>
     <div class="filete"></div>
     <div class="assinatura"><span class="nome">$marca_nome</span><span class="usuario">$usuario</span></div>
-    <span class="seta" aria-hidden="true">→</span>
+    $seta
   </footer>
 </main></body></html>

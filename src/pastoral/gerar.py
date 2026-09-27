@@ -62,6 +62,9 @@ def montar_prompt(briefing: dict, cartao: str, schema: dict, erros: list[str] | 
         "Única exceção: a referência logo depois de uma citação literal entre aspas, no mesmo parágrafo "
         "(ex.: \"Deus ama quem dá com alegria\" (2Cor 9,7)). Use aspas só para citação literal. Nos slides, a "
         "fonte fica só no campo `fonte`/`referencia`, e o texto do slide também é simples.",
+        "Nunca use Malaquias 3,10 (texto usado pela teologia da prosperidade, que o Doc. CNBB 106, n. 27 declara "
+        "inaceitável) nem sugira troca, recompensa ou bênção material em troca do dízimo.",
+        "Não afirme ligação doutrinária (ex.: dízimo e Eucaristia) que não esteja literalmente numa fonte conferida.",
         "Responda apenas com um JSON válido segundo o schema, dentro de um bloco ```json.",
         "## Cartão de marca\n" + cartao,
         "## Briefing\n" + json.dumps(briefing, ensure_ascii=False, indent=1),

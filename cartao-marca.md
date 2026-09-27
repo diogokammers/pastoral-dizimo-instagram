@@ -76,6 +76,10 @@ Fatos da própria Pastoral (agenda, evento, inscrição) só confirmados pelo Di
   - Citar sempre pelo número; não usar "Cap. II" genérico (os trechos do Cap. II vistos antes vinham de slides de terceiros).
 - Nunca inventar dado financeiro, valor, prestação de contas ou evento; informação não confirmada = não publicar.
 
+## Cuidados doutrinários
+- Não usar Ml 3,10 nem sugerir recompensa material pelo dízimo (Doc. CNBB 106, n. 27: "teologia da prosperidade" é inaceitável).
+- Não afirmar ligação doutrinária sem fonte conferida (ex.: dízimo como parte da oferenda eucarística).
+
 ## Formato
 - Legenda ≤ 1.500 caracteres, primeira linha forte, última linha "Fontes:" se o post cita algo; sem hashtags por enquanto (decisão do Diogo, ADR-005; teto técnico de 8 hashtags se voltarem); alt-text descritivo ≤ 1.000 caracteres.
 - Slide ≤ 25 palavras, uma ideia por slide; carrossel de 2 a 10 slides; arte 1080×1350.

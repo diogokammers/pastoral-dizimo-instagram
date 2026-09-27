@@ -182,3 +182,11 @@ def test_renderiza_post_inteiro(renderizador, config, tmp_path):
     resultados = renderizador.renderizar_post(post, tmp_path, config)
     assert [r["arquivo"] for r in resultados] == ["post-9-01.jpg", "post-9-02.jpg", "post-9-03.jpg"]
     assert all(r["ok"] for r in resultados), resultados
+
+
+def test_capa_de_imagem_unica_sem_seta_e_com_fonte(config):
+    slide = {"template": "capa", "eyebrow": "Formação", "titulo": "T", "texto": "x", "fonte": "Doc. CNBB 106, n. 25"}
+    unica = render.montar_html(slide, config, 1, 1, "creme")
+    carrossel = render.montar_html(slide, config, 1, 3, "creme")
+    assert "→" not in unica and "Doc. CNBB 106, n. 25" in unica
+    assert "→" in carrossel
