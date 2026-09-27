@@ -4,7 +4,8 @@
     "CTAs ajustados à lista permitida do cartão de marca: post 4 → \"marcar\"; post 5 → \"comentar\".",
     "Auditoria doutrinária de 2026-09-27 (docs/auditoria/2026-09-27-auditoria-doutrinaria.md): escopo das 4 fontes (Doc. CNBB 106, CIC, CDC, Bíblia).",
     "Post 4: \"voluntário\" trocado por \"leigo que colabora com os pastores no serviço da comunidade eclesial\" (CIC 910); \"instância paralela\" e aplicação de 2Cor 9,7 ao tempo do agente retiradas (sem âncora nas 4 fontes).",
-    "Post 5: \"Cap. II\" trocado por Doc. CNBB 106, n. 51; novo slide sobre a oferta ancorado em CIC 1351; legenda cita cân. 1266 (coleta especial)."
+    "Post 5: \"Cap. II\" trocado por Doc. CNBB 106, n. 51; novo slide sobre a oferta ancorado em CIC 1351; legenda cita cân. 1266 (coleta especial).",
+    "Linguagem simples (ADR-010, 2026-09-27): legendas, slides e alt-text reescritos em frases curtas e palavras do dia a dia; referências só na linha final \"Fontes:\" da legenda (e na linha \"fonte\" do slide); conteúdo doutrinário da auditoria mantido."
   ],
   "posts": [
     {
@@ -25,23 +26,23 @@
         {
           "template": "conteudo",
           "titulo": "A serviço da comunidade",
-          "texto": "Leigo que colabora com os pastores no serviço da comunidade eclesial.",
+          "texto": "É um leigo que ajuda os pastores da Igreja a servir a comunidade.",
           "fonte": "cf. CIC 910",
-          "alt_text": "Slide com o título \"A serviço da comunidade\" e o texto: leigo que colabora com os pastores no serviço da comunidade eclesial. Fonte: Catecismo da Igreja Católica, parágrafo 910."
+          "alt_text": "Slide com o título \"A serviço da comunidade\" e o texto: é um leigo que ajuda os pastores da Igreja a servir a comunidade. Fonte: Catecismo da Igreja Católica, parágrafo 910."
         },
         {
           "template": "conteudo",
           "titulo": "Em equipe",
-          "texto": "Trabalha em equipe, inserido na Pastoral de Conjunto, participando dos Conselhos Pastoral e Econômico.",
+          "texto": "Trabalha em equipe, unido às outras pastorais, e participa dos Conselhos Pastoral e Econômico.",
           "fonte": "cf. Doc. CNBB 106, n. 63-66",
-          "alt_text": "Slide com o título \"Em equipe\" e o texto: o agente trabalha em equipe, inserido na Pastoral de Conjunto, participando dos Conselhos Pastoral e Econômico. Fonte: Documento 106 da CNBB, números 63 a 66."
+          "alt_text": "Slide com o título \"Em equipe\" e o texto: o agente trabalha em equipe, unido às outras pastorais, e participa dos Conselhos Pastoral e Econômico. Fonte: Documento 106 da CNBB, números 63 a 66."
         },
         {
           "template": "conteudo",
           "titulo": "Bem formado para servir",
-          "texto": "A formação espiritual, humana e técnico-organizativa do agente é indispensável.",
+          "texto": "O agente precisa de boa formação: espiritual, humana e para organizar bem o trabalho.",
           "fonte": "cf. Doc. CNBB 106, n. 63-66",
-          "alt_text": "Slide com o título \"Bem formado para servir\" e o texto: a formação espiritual, humana e técnico-organizativa do agente é indispensável. Fonte: Documento 106 da CNBB, números 63 a 66."
+          "alt_text": "Slide com o título \"Bem formado para servir\" e o texto: o agente precisa de boa formação, espiritual, humana e para organizar bem o trabalho. Fonte: Documento 106 da CNBB, números 63 a 66."
         },
         {
           "template": "citacao",
@@ -57,7 +58,7 @@
           "alt_text": "Slide final com o título \"Você conhece um agente?\" e o convite para marcar nos comentários alguém que serve na Pastoral do Dízimo da sua paróquia. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "Quem é o agente da Pastoral do Dízimo?\n\nÉ um leigo que colabora com os pastores no serviço da comunidade eclesial (cf. CIC 910). E todo ministério na Igreja se exerce \"num espírito de serviço fraterno e de dedicação à Igreja\" (CIC 2039).\n\nOs agentes precisam ser bem formados e trabalhar em equipe, inseridos na Pastoral de Conjunto e participando dos Conselhos Pastoral e Econômico; a formação espiritual, humana e técnico-organizativa é indispensável (cf. Doc. CNBB 106, n. 63-66).\n\nVocê conhece um agente da Pastoral do Dízimo? Marque essa pessoa nos comentários e agradeça pelo seu serviço.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Quem é o agente da Pastoral do Dízimo?\n\nÉ um leigo que ajuda os pastores da Igreja a servir a comunidade.\n\nO Catecismo lembra como deve ser todo serviço na Igreja: \"Os ministérios devem exercer-se num espírito de serviço fraterno e de dedicação à Igreja\" (CIC 2039).\n\nO agente não trabalha sozinho. Ele atua em equipe, unido às outras pastorais, e participa dos Conselhos Pastoral e Econômico.\n\nPara servir bem, ele precisa de boa formação: espiritual, humana e para organizar bem o trabalho.\n\nVocê conhece um agente da Pastoral do Dízimo? Marque essa pessoa nos comentários e agradeça pelo serviço dela.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Doc. CNBB 106, n. 63-66 · CIC 910 e 2039",
       "hashtags": [],
       "fontes": [
         {
@@ -112,38 +113,38 @@
         },
         {
           "template": "conteudo",
-          "titulo": "Dízimo: sistemático e periódico",
-          "texto": "A comunidade assume corresponsavelmente seu sustento e o da Igreja.",
+          "titulo": "Dízimo: um gesto regular",
+          "texto": "Com ele, cada um faz sua parte no sustento da comunidade e da Igreja.",
           "fonte": "Doc. CNBB 106, n. 6",
-          "alt_text": "Slide com o título \"Dízimo: sistemático e periódico\" e o texto: a comunidade assume corresponsavelmente seu sustento e o da Igreja. Fonte: Doc. CNBB 106, n. 6."
+          "alt_text": "Slide com o título \"Dízimo: um gesto regular\" e o texto: com ele, cada um faz sua parte no sustento da comunidade e da Igreja. Fonte: Documento 106 da CNBB, número 6."
         },
         {
           "template": "conteudo",
           "titulo": "Uma decisão pessoal",
-          "texto": "Nasce de decisão pessoal: manifestação espontânea da fé e da pertença.",
+          "texto": "Nasce de uma decisão sua: gesto livre de fé de quem faz parte da comunidade.",
           "fonte": "Doc. CNBB 106, n. 9",
-          "alt_text": "Slide com o título \"Uma decisão pessoal\" e o texto: o dízimo nasce de decisão pessoal, manifestação espontânea da fé e da pertença. Fonte: Doc. CNBB 106, n. 9."
+          "alt_text": "Slide com o título \"Uma decisão pessoal\" e o texto: o dízimo nasce de uma decisão sua, gesto livre de fé de quem faz parte da comunidade. Fonte: Documento 106 da CNBB, número 9."
         },
         {
           "template": "conteudo",
           "titulo": "Na celebração",
-          "texto": "Recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas.",
+          "texto": "Na Missa ou na Celebração da Palavra, cuidado para não confundir dízimo e oferta.",
           "fonte": "Doc. CNBB 106, n. 51",
-          "alt_text": "Slide com o título \"Na celebração\" e o texto: quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas. Fonte: Documento 106 da CNBB, número 51."
+          "alt_text": "Slide com o título \"Na celebração\" e o texto: na Missa ou na Celebração da Palavra, cuidado para não confundir dízimo e oferta. Fonte: Documento 106 da CNBB, número 51."
         },
         {
           "template": "conteudo",
           "titulo": "E a oferta?",
-          "texto": "Desde o princípio, os cristãos levam ofertas, com o pão e o vinho, para partilhar com os necessitados.",
+          "texto": "Desde o começo, junto com o pão e o vinho, os cristãos levam ofertas para quem precisa.",
           "fonte": "cf. CIC 1351",
-          "alt_text": "Slide com o título \"E a oferta?\" e o texto: desde o princípio, os cristãos levam ofertas, com o pão e o vinho, para partilhar com os necessitados. Fonte: Catecismo da Igreja Católica, parágrafo 1351."
+          "alt_text": "Slide com o título \"E a oferta?\" e o texto: desde o começo, junto com o pão e o vinho, os cristãos levam ofertas para quem precisa. Fonte: Catecismo da Igreja Católica, parágrafo 1351."
         },
         {
           "template": "conteudo",
           "titulo": "Quanto dar?",
-          "texto": "A quantia é decisão da consciência, iluminada pela Palavra.",
+          "texto": "Você decide o valor na sua consciência, iluminada pela Palavra de Deus.",
           "fonte": "Doc. CNBB 106, n. 10",
-          "alt_text": "Slide com o título \"Quanto dar?\" e o texto: a quantia é decisão da consciência, iluminada pela Palavra. Fonte: Doc. CNBB 106, n. 10."
+          "alt_text": "Slide com o título \"Quanto dar?\" e o texto: você decide o valor na sua consciência, iluminada pela Palavra de Deus. Fonte: Documento 106 da CNBB, número 10."
         },
         {
           "template": "citacao",
@@ -158,7 +159,7 @@
           "alt_text": "Slide final com o título \"Ficou alguma dúvida?\" e o convite para comentar a pergunta sobre dízimo e oferta. Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "Dízimo e oferta não são a mesma coisa.\n\nO dízimo é contribuição sistemática e periódica: por ele, a comunidade assume corresponsavelmente sua sustentação e a da Igreja (Doc. CNBB 106, n. 6). Nasce de uma decisão pessoal, como manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n\nQuando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas (Doc. CNBB 106, n. 51).\n\nE a oferta? Desde o princípio, com o pão e o vinho para a Eucaristia, os cristãos trazem suas ofertas para a partilha com os necessitados: é o costume da coleta (cf. CIC 1351). O Direito Canônico prevê ainda coletas especiais, mandadas pelo Ordinário do lugar, para determinadas obras (cf. cân. 1266).\n\nE quanto dar? A quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10): \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nFicou alguma dúvida sobre dízimo e oferta? Comente aqui.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Dízimo e oferta não são a mesma coisa. Você sabe a diferença?\n\nO dízimo é uma contribuição regular e constante. Com ele, a comunidade assume junto, cada um com sua parte, o seu sustento e o da Igreja.\n\nEle nasce de uma decisão pessoal. É um gesto livre, que mostra a sua fé e que você faz parte da comunidade.\n\nQuando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso cuidado para não confundi-lo com a oferta.\n\nE a oferta? Desde o começo, os cristãos levam ofertas junto com o pão e o vinho da Eucaristia. Elas são partilhadas com quem precisa. É o costume da coleta.\n\nO bispo também pode mandar fazer coletas especiais, para obras da paróquia, da diocese, do país ou de toda a Igreja.\n\nE quanto dar? Você decide o valor na sua consciência, iluminada pela Palavra de Deus. São Paulo ensina: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nFicou alguma dúvida sobre dízimo e oferta? Comente aqui.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Doc. CNBB 106, n. 6, 9, 10 e 51 · CIC 1351 · cân. 1266 · 2Cor 9,7",
       "hashtags": [],
       "fontes": [
         {
@@ -202,7 +203,8 @@
         }
       ],
       "a_conferir": [
-        "Diogo: confirmar se quer manter na legenda a menção às coletas especiais (cân. 1266); é opcional."
+        "Diogo: confirmar se quer manter na legenda a menção às coletas especiais (cân. 1266); é opcional.",
+        "Linguagem simples: no cân. 1266, \"Ordinário do lugar\" virou \"o bispo\" (o Ordinário inclui também os vigários geral e episcopais); confirmar se a simplificação serve."
       ],
       "autocritica": {
         "T1": 2,

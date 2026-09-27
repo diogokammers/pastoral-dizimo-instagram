@@ -3,7 +3,8 @@
   "observacoes": [
     "CTAs corrigidos para termos exatos da lista permitida: post 6 = 'salvar'; post 7 = 'enviar dúvida'.",
     "Auditoria doutrinária de 2026-09-27: removido \"Mês Missionário\" (fora do escopo das 4 fontes); \"Cap. II\" trocado por números conferidos (n. 34-35, 51); passos práticos do post 6 ancorados.",
-    "Todas as citações do Doc. CNBB 106 trazem o parágrafo conferido em docs/pesquisa/06."
+    "Todas as citações do Doc. CNBB 106 trazem o parágrafo conferido em docs/pesquisa/06.",
+    "Linguagem simples (ADR-010, 2026-09-27): legendas, slides e alt-text reescritos em frases curtas e palavras do dia a dia; referências só na linha final \"Fontes:\" da legenda (e na linha \"fonte\" do slide); conteúdo doutrinário da auditoria mantido."
   ],
   "posts": [
     {
@@ -23,7 +24,7 @@
           "alt_text": "Arte com a palavra 'Espiritualidade' no alto e, em destaque, a frase bíblica 'Deus ama quem dá com alegria', com a referência 2Cor 9,7 abaixo. Assinatura da Pastoral do Dízimo da Arquidiocese de Florianópolis."
         }
       ],
-      "legenda": "\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSão Paulo escreve: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\".\n\nA entrega do dízimo não pode perder seu significado interior (cf. Doc. CNBB 106, n. 25). Por isso, a quantia é decisão da consciência, iluminada pela Palavra (Doc. CNBB 106, n. 10).\n\nPara levar à oração:\n• Agradeça: o dízimo expressa gratidão a Deus, de quem provém tudo (cf. Doc. CNBB 106, n. 29).\n• Decida no coração, sem pesar nem constrangimento (cf. 2Cor 9,7).\n• Lembre: pelo dízimo, a comunidade assume sua sustentação e a da Igreja (cf. Doc. CNBB 106, n. 6).\n\nSalve este post para voltar a ele na sua oração.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "\"Deus ama quem dá com alegria.\"\n\nSão Paulo escreve: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nO gesto do dízimo nunca pode perder o seu sentido interior. Por isso, é você quem decide o valor, na sua consciência, iluminada pela Palavra de Deus.\n\nPara levar à oração:\n• Agradeça: o dízimo mostra gratidão a Deus, de quem vem tudo.\n• Decida no coração, sem pesar nem constrangimento.\n• Lembre: com o dízimo, a comunidade cuida do seu sustento e do sustento da Igreja.\n\nSalve este post para voltar a ele na sua oração.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Doc. CNBB 106, n. 6, 10, 25 e 29 · 2Cor 9,7",
       "hashtags": [],
       "fontes": [
         {
@@ -85,44 +86,44 @@
         {
           "template": "conteudo",
           "titulo": "O que é dízimo?",
-          "texto": "Contribuição sistemática e periódica: a comunidade assume sua sustentação e a da Igreja.",
+          "texto": "Uma contribuição regular. Com ela, a comunidade sustenta a si mesma e a Igreja.",
           "fonte": "Doc. CNBB 106, n. 6",
-          "alt_text": "Slide com a pergunta 'O que é dízimo?' e a resposta: contribuição sistemática e periódica pela qual a comunidade assume sua sustentação e a da Igreja. Fonte: Documento 106 da CNBB, número 6."
+          "alt_text": "Slide com a pergunta 'O que é dízimo?' e a resposta: uma contribuição regular, com a qual a comunidade sustenta a si mesma e a Igreja. Fonte: Documento 106 da CNBB, número 6."
         },
         {
           "template": "conteudo",
           "titulo": "Quanto dar?",
-          "texto": "A quantia é decisão da consciência, iluminada pela Palavra (2Cor 9,7).",
+          "texto": "Você decide o valor na sua consciência, iluminada pela Palavra de Deus.",
           "fonte": "Doc. CNBB 106, n. 10",
-          "alt_text": "Slide com a pergunta 'Quanto dar?' e a resposta: a quantia é decisão da consciência, iluminada pela Palavra, com referência a 2Cor 9,7. Fonte: Documento 106 da CNBB, número 10."
+          "alt_text": "Slide com a pergunta 'Quanto dar?' e a resposta: você decide o valor na sua consciência, iluminada pela Palavra de Deus. Fonte: Documento 106 da CNBB, número 10."
         },
         {
           "template": "conteudo",
           "titulo": "Por que partilhar?",
-          "texto": "Nasce de decisão pessoal: gesto espontâneo de fé e pertença.",
+          "texto": "É uma decisão sua: gesto livre de fé de quem faz parte da comunidade.",
           "fonte": "Doc. CNBB 106, n. 9",
-          "alt_text": "Slide com a pergunta 'Por que partilhar?' e a resposta: o dízimo nasce de uma decisão pessoal, como gesto espontâneo de fé e de pertença à comunidade. Fonte: Doc. CNBB 106, n. 9."
+          "alt_text": "Slide com a pergunta 'Por que partilhar?' e a resposta: é uma decisão sua, gesto livre de fé de quem faz parte da comunidade. Fonte: Documento 106 da CNBB, número 9."
         },
         {
           "template": "conteudo",
           "titulo": "Dízimo e oferta são iguais?",
-          "texto": "Não. Recolhido na Missa, é preciso evitar confundi-lo com as ofertas.",
+          "texto": "Não. Na Missa, cuidado para não confundir o dízimo com a oferta.",
           "fonte": "Doc. CNBB 106, n. 51",
-          "alt_text": "Slide com a pergunta 'Dízimo e oferta são iguais?' e a resposta: não; quando o dízimo é recolhido na Missa, é preciso evitar confundi-lo com as ofertas. Fonte: Documento 106 da CNBB, número 51."
+          "alt_text": "Slide com a pergunta 'Dízimo e oferta são iguais?' e a resposta: não; na Missa, cuidado para não confundir o dízimo com a oferta. Fonte: Documento 106 da CNBB, número 51."
         },
         {
           "template": "conteudo",
           "titulo": "Para onde vai?",
-          "texto": "Culto, sustento do clero e demais ministros, apostolado e caridade, sobretudo em favor dos pobres.",
+          "texto": "Celebrações, sustento do clero e dos ministros, evangelização e caridade, sobretudo com os pobres.",
           "fonte": "cf. Doc. CNBB 106, n. 34-35",
-          "alt_text": "Slide com a pergunta 'Para onde vai?' e a resposta: para o culto, o sustento do clero e dos demais ministros, o apostolado e a caridade, sobretudo em favor dos pobres. Fonte: Documento 106 da CNBB, números 34 e 35."
+          "alt_text": "Slide com a pergunta 'Para onde vai?' e a resposta: para as celebrações, o sustento do clero e dos ministros, a evangelização e a caridade, sobretudo com os pobres. Fonte: Documento 106 da CNBB, números 34 e 35."
         },
         {
           "template": "conteudo",
-          "titulo": "É captação de recursos?",
-          "texto": "Não se reduz a isso; liga-se à vivência da fé e à pertença eclesial.",
+          "titulo": "É só para arrecadar dinheiro?",
+          "texto": "Não se reduz a isso: está ligado à fé vivida em comunidade.",
           "fonte": "Doc. CNBB 106, n. 12 e 28",
-          "alt_text": "Slide com a pergunta 'É captação de recursos?' e a resposta: o dízimo não se reduz a isso; está ligado à vivência da fé e à pertença a uma comunidade eclesial. Fonte: Documento 106 da CNBB, números 12 e 28."
+          "alt_text": "Slide com a pergunta 'É só para arrecadar dinheiro?' e a resposta: o dízimo não se reduz a isso; está ligado à fé vivida em comunidade. Fonte: Documento 106 da CNBB, números 12 e 28."
         },
         {
           "template": "cta",
@@ -132,7 +133,7 @@
           "alt_text": "Slide final com a pergunta 'Ficou alguma dúvida?' e o convite para enviar a dúvida por mensagem direta ao perfil da Pastoral do Dízimo."
         }
       ],
-      "legenda": "Dízimo: as dúvidas mais comuns, respondidas com simplicidade.\n\n• O que é? Contribuição sistemática e periódica pela qual a comunidade assume, corresponsavelmente, a sua sustentação e a da Igreja (Doc. CNBB 106, n. 6).\n• Quanto dar? A quantia é decisão da consciência, iluminada pela Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7; Doc. CNBB 106, n. 10).\n• Por que partilhar? Porque nasce de uma decisão pessoal, manifestação espontânea da fé e da pertença à comunidade (Doc. CNBB 106, n. 9).\n• Dízimo e oferta são a mesma coisa? Não. Quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundi-lo com as ofertas (Doc. CNBB 106, n. 51).\n• Para onde vai? Para o culto, o sustento do clero e dos demais ministros, as obras de apostolado e de caridade, sobretudo em favor dos pobres (cf. Doc. CNBB 106, n. 34-35; cân. 222 §1).\n• É captação de recursos? Não pode ser proposto unicamente assim (Doc. CNBB 106, n. 12); está ligado à vivência da fé e à pertença a uma comunidade eclesial (Doc. CNBB 106, n. 28).\n\nFicou alguma dúvida? Envie por mensagem.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Dízimo: as dúvidas mais comuns, com respostas simples.\n\n• O que é? Uma contribuição regular e constante. Com ela, a comunidade assume junto, cada um com sua parte, o seu sustento e o da Igreja.\n• Quanto dar? Você decide o valor na sua consciência, iluminada pela Palavra de Deus: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n• Por que partilhar? Porque o dízimo nasce de uma decisão pessoal. É um gesto livre de fé de quem faz parte da comunidade.\n• Dízimo e oferta são a mesma coisa? Não. Quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso cuidado para não confundi-lo com a oferta.\n• Para onde vai? Para o culto (as celebrações), o sustento do clero e dos demais ministros, a evangelização e a caridade, sobretudo em favor dos pobres.\n• É só para arrecadar dinheiro? O dízimo não pode ser apresentado só assim. Ele está ligado à fé vivida e a fazer parte de uma comunidade da Igreja.\n\nFicou alguma dúvida? Envie por mensagem.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Doc. CNBB 106, n. 6, 9, 10, 12, 28, 34-35 e 51 · cân. 222 §1 · 2Cor 9,7",
       "hashtags": [],
       "fontes": [
         {
