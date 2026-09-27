@@ -74,23 +74,63 @@ def test_feed_tem_carrossel_contador_alt_e_data(dados):
 
 
 def test_legenda_longa_truncada_com_mais():
-    curta, resto = simulador.resumir_legenda("Bem-vindos! " + "palavra " * 40)
-    assert curta.startswith("Bem-vindos!") and len(curta) <= simulador.LIMITE_LEGENDA
-    assert resto
+    texto = "Bem-vindos! Este é o perfil.\n\n" + "palavra " * 40
+    curta, completo = simulador.resumir_legenda(texto, 100)
+    assert curta.startswith("Bem-vindos! Este é o perfil. palavra")   # corrida, sem quebras
+    assert len(curta) <= 100 and curta.endswith("palavra")               # corta no fim de palavra
+    assert completo == texto.strip()                                     # expandida: texto inteiro, com parágrafos
     assert simulador.resumir_legenda("Curta.") == ("Curta.", "")
-    assert simulador.resumir_legenda("Primeira linha.\n\nSegunda.")[0] == "Primeira linha"   # o app põe "… mais" no lugar do ponto
 
 
-def test_modo_aprovacao_com_data_numero_e_marca_de_legenda_proposta(dados):
+def test_legenda_no_post_recolhida_e_expandida_sem_repetir(dados):
     html = simulador.montar_pagina(dados)
-    assert "Ver como no Instagram" in html and "Modo aprovação" in html
-    assert html.count('class="aprov"') == 4
-    assert "terça-feira, 29/09/2026, 19:00" in html
-    assert html.count("legenda proposta — nova versão simples") == 2
-    assert "Aprovar" in html and "Pedir ajuste" in html
-    assert "Enviar minhas respostas" in html
+    post1 = html[html.index('id="post-1"'):html.index('id="post-2"')]
+    assert post1.count('class="link-mais"') == 1 and "leg-completa" in post1
+    assert post1.count("<b>pastoraldodizimo.arquifln</b>") == 3      # topo, recolhida e expandida
+    post2 = html[html.index('id="post-2"'):html.index('id="post-9"')]
+    assert "link-mais" not in post2                                   # legenda curta: sem "mais"
+
+
+def test_celular_so_mostra_o_instagram(dados):
+    html = simulador.montar_pagina(dados)
+    celular = html[html.index('<div class="celular">'):html.index('<aside class="painel"')]
+    for proibido in ("Aprovar", "Pedir ajuste", "legenda proposta", "Modo aprovação", "selo"):
+        assert proibido not in celular, proibido
+    assert "Modo aprovação" not in html and "Ver como no Instagram" not in html
+
+
+def test_painel_com_blocos_contadores_e_itens(dados):
+    html = simulador.montar_pagina(dados)
+    painel = html[html.index('<aside class="painel"'):html.index("</aside>")]
+    assert "Pendentes de aprovação" in painel and "Aprovadas" in painel and "Em ajuste" in painel
+    assert 'id="conta-pendentes">(4)' in painel
+    assert re.findall(r'<li class="item" id="item-(\d+)"', painel) == ["1", "2", "4", "9"]
+    assert painel.count('data-acao="aprovar"') == 4 and painel.count('data-acao="ajuste"') == 4
+    assert painel.count('data-acao="salvar"') == 4 and "Salvar ajuste" in painel
+    assert "Editar" in painel and "Desfazer" in painel
+    assert "terça-feira, 29/09/2026, 19:00" in painel and "Publicado em" in painel
+    assert painel.count("nova legenda simples") == 2                  # posts 1-3 (aqui, 1 e 2)
+    assert "Enviar minhas respostas" in painel
+    assert 'href="#painel"' in html and "Aprovações (4 pendentes)" in html
     assert "https://wa.me/?text=" in html and "mailto:?" in html
-    assert "localStorage" in html
+    assert "localStorage" in html and "try {" in html
+
+
+
+def test_painel_blocos_recolhiveis_e_listas_de_publicadas_e_agendadas(dados):
+    html = simulador.montar_pagina(dados)
+    painel = html[html.index('<aside class="painel"'):html.index("</aside>")]
+    ordem = re.findall(r'<section class="bloco" id="bloco-(\w+)"', painel)
+    assert ordem == ["pendentes", "aprovadas", "ajuste", "publicadas", "agendadas"]
+    assert painel.count('aria-expanded="false"') == 5 and 'aria-expanded="true"' not in painel
+    assert len(re.findall(r'class="bloco-corpo" id="corpo-\w+" hidden', painel)) == 5
+    assert 'id="conta-publicadas">(2)' in painel and 'id="conta-agendadas">(2)' in painel
+    publicadas = painel[painel.index('id="bloco-publicadas"'):painel.index('id="bloco-agendadas"')]
+    assert re.findall(r'item-titulo" data-abrir="(\d+)"', publicadas) == ["1", "2"]
+    assert "Publicado em sábado, 26/09/2026, 21:47" in publicadas
+    agendadas = painel[painel.index('id="bloco-agendadas"'):]
+    assert re.findall(r'item-titulo" data-abrir="(\d+)"', agendadas) == ["4", "9"]   # por data
+    assert "Previsto para terça-feira, 29/09/2026, 19:00 (provisória)" in agendadas
 
 
 def test_faixa_de_aviso(dados):

@@ -4,9 +4,10 @@ Gera site/aprovacao/index.html: uma página que imita o app do Instagram (celula
 perfil @pastoraldodizimo.arquifln, os destaques e TODAS as publicações — as 3 da estreia (já
 publicadas e fixadas, com a legenda simples proposta em docs/auditoria/) e as da reserva
 (content/semanas/*/, datas provisórias de agenda.json). Tocar num post abre o feed, com carrossel
-deslizável. No "Modo aprovação", cada post ganha "Aprovar" / "Pedir ajuste"; as respostas ficam no
-aparelho (localStorage) e o botão "Enviar minhas respostas" monta um resumo para WhatsApp, e-mail
-ou copiar. Nenhum servidor: é uma página estática no GitHub Pages.
+deslizável. O celular mostra só o Instagram; a aprovação fica num painel ao lado (abaixo, no celular),
+com os blocos Pendentes / Aprovadas / Em ajuste. As respostas ficam no aparelho (localStorage) e o
+botão "Enviar minhas respostas" monta um resumo para WhatsApp, e-mail ou copiar. Nenhum servidor:
+é uma página estática no GitHub Pages.
 
 As imagens são arquivos relativos em site/midia/ (não base64), para carregar rápido no celular:
 a estreia e os destaques são copiados para site/midia/estreia/ e site/midia/destaques/; as artes
@@ -33,7 +34,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 LEGENDAS_SIMPLES = "docs/auditoria/2026-09-27-legendas-simples-estreia.md"
 SEGUIDORES = 73
 SEGUINDO = 2
-LIMITE_LEGENDA = 90          # caracteres visíveis antes do "… mais", como no app
+LIMITE_LEGENDA = 100         # caracteres visíveis (nome + legenda) antes do "… mais", ~2 linhas no app
 MESES = ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
          "setembro", "outubro", "novembro", "dezembro")
 
@@ -114,16 +115,15 @@ def coletar(raiz: Path) -> dict:
 # ---------------------------------------------------------------- texto
 
 def resumir_legenda(texto: str, limite: int = LIMITE_LEGENDA) -> tuple[str, str]:
-    """(parte visível, resto) — o app corta na 1ª quebra de linha ou em ~2 linhas, num espaço."""
+    """(parte visível, texto inteiro) — recolhida, o app mostra ~2 linhas corridas, cortadas no fim de
+    uma palavra, e põe "… mais"; o texto inteiro (com parágrafos) só aparece ao tocar. Sem sobra: ("…", "")."""
     texto = texto.strip()
-    primeira = texto.split("\n", 1)[0].strip()
-    if len(primeira) > limite:
-        corte = primeira.rfind(" ", 0, limite)
-        primeira = primeira[:corte if corte > 0 else limite]
-    primeira = primeira.rstrip(" ,;:.…") if primeira != texto else primeira
-    if primeira == texto:
+    corrido = " ".join(texto.split())
+    if len(corrido) <= limite:
         return texto, ""
-    return primeira, texto
+    corte = corrido.rfind(" ", 0, limite + 1)
+    visivel = corrido[:corte if corte > 0 else limite].rstrip(" ,;:.…—-")
+    return visivel, texto
 
 
 def marcar(texto: str) -> str:
@@ -222,7 +222,7 @@ def _grade(posts: list[dict]) -> str:
         itens.append(
             f'<button class="grade-item" data-n="{p["numero"]}" aria-label="Abrir publicação {p["numero"]}: {e(p["titulo"])}">'
             f'<img src="{e(p["imagens"][0]["src"])}" alt="{e(p["imagens"][0]["alt"])}" loading="{carrega}">'
-            f'<span class="grade-icones">{icones}</span><span class="selo" aria-hidden="true"></span></button>')
+            f'<span class="grade-icones">{icones}</span></button>')
     return f"""
 <nav class="abas" aria-label="Abas do perfil">
   <span class="aba ativa" aria-current="page">{_svg(ICO["grade"], "Publicações")}</span>
@@ -230,6 +230,17 @@ def _grade(posts: list[dict]) -> str:
   <span class="aba">{_svg(ICO["marcados"], "Marcados")}</span>
 </nav>
 <div class="grade">{"".join(itens)}</div>"""
+
+
+def _legenda(texto: str, usuario: str) -> str:
+    """Nome em negrito + início da legenda (~2 linhas) e "… mais"; ao tocar, o texto inteiro."""
+    visivel, completo = resumir_legenda(texto, LIMITE_LEGENDA - len(usuario) - 1)
+    nome = f"<b>{e(usuario)}</b>"
+    if not completo:
+        return f'<p class="legenda">{nome} {marcar(visivel)}</p>'
+    return (f'<p class="legenda leg-curta">{nome} <span class="leg-texto">{marcar(visivel)}</span>… '
+            f'<button class="link-mais" data-expande="leg" aria-label="Ler a legenda inteira">mais</button></p>'
+            f'<p class="legenda leg-completa" hidden>{nome} {marcar(completo)}</p>')
 
 
 def _post(p: dict, usuario: str, avatar: str) -> str:
@@ -246,20 +257,8 @@ def _post(p: dict, usuario: str, avatar: str) -> str:
             f'<i{" class=on" if i == 0 else ""}></i>' for i in range(total)) + "</span>"
     else:
         navega = pontos = ""
-    visivel, completo = resumir_legenda(p["legenda"])
-    if completo:
-        legenda = (f'<span class="leg-curta">{marcar(visivel)}… <button class="link-mais" data-expande="leg">mais</button></span>'
-                   f'<span class="leg-completa" hidden>{marcar(completo)}</span>')
-    else:
-        legenda = marcar(visivel)
-    if p["publicado"]:
-        quando = f"Publicado em {data_por_extenso(p['data'])}"
-    else:
-        quando = f"Data prevista: {data_por_extenso(p['data'])} (provisória)"
-    proposta = ('<p class="aprov-nota">legenda proposta — nova versão simples (a publicada hoje é a anterior; '
-                'a imagem não muda)</p>' if p["legenda_proposta"] else "")
     return f"""
-<article class="post" id="post-{n}" data-n="{n}" data-titulo="{e(p["titulo"])}" aria-label="Publicação {n}">
+<article class="post" id="post-{n}" data-n="{n}" aria-label="Publicação {n}">
   <header class="post-topo">
     <img class="avatar-mini" src="{e(avatar)}" alt="" width="32" height="32">
     <b>{e(usuario)}</b>
@@ -276,22 +275,107 @@ def _post(p: dict, usuario: str, avatar: str) -> str:
     {pontos}
     <button class="acao acao-salvar" aria-label="Salvar">{_svg(ICO["salvar"])}</button>
   </div>
-  <p class="legenda"><b>{e(usuario)}</b> {legenda}</p>
+  {_legenda(p["legenda"], usuario)}
   <p class="post-data">{data_curta(p["data"])}</p>
-  <section class="aprov" aria-label="Aprovação da publicação {n}">
-    <p class="aprov-titulo"><b>Publicação {n}</b> · {e(p["pilar"])}</p>
-    <p class="aprov-tema">{e(p["titulo"])}</p>
-    <p class="aprov-data">{e(quando)}</p>
-    {proposta}
-    <div class="aprov-botoes" role="group" aria-label="Sua resposta para a publicação {n}">
-      <button class="btn-aprovar" aria-pressed="false">Aprovar</button>
-      <button class="btn-ajuste" aria-pressed="false">Pedir ajuste</button>
-    </div>
-    <label class="aprov-campo" hidden>O que ajustar?
-      <textarea rows="3" placeholder="Escreva aqui o que mudar (texto, imagem, data…)"></textarea>
-    </label>
-  </section>
 </article>"""
+
+
+def _item_painel(p: dict) -> str:
+    """Um cartão do painel de aprovação; o JS o move entre Pendentes, Aprovadas e Em ajuste."""
+    n = p["numero"]
+    quando = (f"Publicado em {data_por_extenso(p['data'])}" if p["publicado"]
+              else f"Data prevista: {data_por_extenso(p['data'])}")
+    nota = ('<p class="item-nota">Já está no ar. Aprovar aqui = aprovar a <b>nova legenda simples</b> '
+            '(legenda proposta — nova versão simples; a imagem não muda).</p>' if p["legenda_proposta"] else "")
+    return f"""
+<li class="item" id="item-{n}" data-n="{n}" data-titulo="{e(p["titulo"])}">
+  <button class="item-abrir" data-abrir="{n}" aria-label="Ver a publicação {n} no celular">
+    <img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" width="60" height="75">
+  </button>
+  <div class="item-texto">
+    <button class="item-titulo" data-abrir="{n}"><b>{n}.</b> {e(p["titulo"])}</button>
+    <p class="item-data">{e(quando)}</p>
+    {nota}
+    <p class="item-comentario" hidden></p>
+  </div>
+  <div class="item-acoes">
+    <button class="btn-aprovar" data-acao="aprovar">Aprovar</button>
+    <button class="btn-ajuste" data-acao="ajuste">Pedir ajuste</button>
+    <button class="btn-leve" data-acao="editar">Editar</button>
+    <button class="btn-leve" data-acao="desfazer">Desfazer</button>
+  </div>
+  <div class="item-campo" hidden>
+    <label>O que ajustar?<textarea rows="3" placeholder="Escreva aqui o que mudar (texto, imagem, data…)"></textarea></label>
+    <p class="item-aviso" aria-live="polite"></p>
+    <div class="item-acoes-campo">
+      <button class="btn-ajuste" data-acao="salvar">Salvar ajuste</button>
+      <button class="btn-leve" data-acao="cancelar">Cancelar</button>
+    </div>
+  </div>
+</li>"""
+
+
+def _bloco(chave: str, titulo: str, conta: int, corpo: str) -> str:
+    """Bloco recolhível do painel: começa sempre fechado; o título é o botão de abrir/fechar."""
+    return f"""
+  <section class="bloco" id="bloco-{chave}">
+    <h2><button class="bloco-botao" aria-expanded="false" aria-controls="corpo-{chave}">
+      <span>{titulo} <span class="conta" id="conta-{chave}">({conta})</span></span>
+      <span class="bloco-sinal" aria-hidden="true"></span></button></h2>
+    <div class="bloco-corpo" id="corpo-{chave}" hidden>{corpo}</div>
+  </section>"""
+
+
+def _item_simples(p: dict) -> str:
+    """Item das listas "Já publicadas" e "Agendadas": miniatura, nº, título e data; abre o post."""
+    n = p["numero"]
+    quando = (f"Publicado em {data_por_extenso(p['data'])}" if p["publicado"]
+              else f"Previsto para {data_por_extenso(p['data'])} (provisória)")
+    return (f'<li class="item item-simples"><button class="item-abrir" data-abrir="{n}" '
+            f'aria-label="Ver a publicação {n} no celular"><img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" '
+            f'width="60" height="75"></button><div class="item-texto"><button class="item-titulo" data-abrir="{n}">'
+            f'<b>{n}.</b> {e(p["titulo"])}</button><p class="item-data">{e(quando)}</p></div></li>')
+
+
+def _painel(posts: list[dict]) -> str:
+    por_numero = sorted(posts, key=lambda p: p["numero"])
+    itens = "".join(_item_painel(p) for p in por_numero)
+    publicadas = [p for p in por_numero if p["publicado"]]
+    agendadas = sorted((p for p in posts if not p["publicado"]), key=lambda p: (p["data"], p["numero"]))
+    blocos = "".join([
+        _bloco("pendentes", "Pendentes de aprovação", len(posts),
+               f'<ul class="lista" id="lista-pendentes">{itens}</ul>'
+               '<p class="vazio" id="vazio-pendentes" hidden>Nenhuma publicação pendente. Obrigado!</p>'),
+        _bloco("aprovadas", "Aprovadas", 0,
+               '<ul class="lista" id="lista-aprovadas"></ul><p class="vazio" id="vazio-aprovadas">Nenhuma ainda.</p>'),
+        _bloco("ajuste", "Em ajuste", 0,
+               '<ul class="lista" id="lista-ajuste"></ul><p class="vazio" id="vazio-ajuste">Nenhuma ainda.</p>'),
+        _bloco("publicadas", "Já publicadas", len(publicadas),
+               '<ul class="lista">' + "".join(_item_simples(p) for p in publicadas) + "</ul>"),
+        _bloco("agendadas", "Agendadas", len(agendadas),
+               '<p class="vazio">Datas previstas, ainda provisórias.</p>'
+               '<ul class="lista">' + "".join(_item_simples(p) for p in agendadas) + "</ul>"),
+    ])
+    return f"""
+<aside class="painel" id="painel" aria-label="Aprovação das publicações">
+  <div class="faixa" role="note">
+    <p><b>Simulação para aprovação — nada disso foi publicado ainda, exceto os 3 posts fixados.</b></p>
+    <details><summary>Como usar</summary>
+      <ol>
+        <li>O celular mostra como o Instagram da Pastoral vai ficar no fim de outubro. Toque numa publicação
+          para abri-la e deslize a imagem para o lado para ver as outras. Toque em "mais" para ler a legenda inteira.</li>
+        <li>Toque em <b>Pendentes de aprovação</b> para abrir a lista. Em cada publicação, toque em <b>Aprovar</b>
+          ou em <b>Pedir ajuste</b>; no ajuste, escreva o que mudar e toque em <b>Salvar ajuste</b>.
+          Tocar na imagem ou no título mostra a publicação no celular.</li>
+        <li>As respondidas vão para <b>Aprovadas</b> ou <b>Em ajuste</b>, onde dá para desfazer ou editar.</li>
+        <li>No fim, toque em <b>Enviar minhas respostas</b> e mande pelo WhatsApp ou por e-mail.</li>
+      </ol>
+      <p>Suas respostas ficam guardadas neste aparelho; pode parar e continuar depois.</p>
+    </details>
+  </div>
+  {blocos}
+  <button id="enviar" class="enviar">Enviar minhas respostas</button>
+</aside>"""
 
 
 def montar_pagina(dados: dict) -> str:
@@ -304,32 +388,14 @@ def montar_pagina(dados: dict) -> str:
 <meta name="theme-color" content="#ffffff">
 <title>Instagram da Pastoral — aprovação</title>
 <style>{CSS}</style></head>
-<body class="modo-insta">
+<body>
 <div class="palco">
-<div class="faixa" role="note">
-  <p><b>Simulação para aprovação — nada disso foi publicado ainda, exceto os 3 posts fixados.</b></p>
-  <details><summary>Como usar</summary>
-    <ol>
-      <li>Esta é uma imitação do Instagram da Pastoral, como ele vai ficar no fim de outubro.</li>
-      <li>Toque numa publicação para abri-la. Deslize a imagem para o lado para ver as outras.</li>
-      <li>Toque em <b>Modo aprovação</b>. Em cada publicação, toque em <b>Aprovar</b> ou em <b>Pedir ajuste</b> (e escreva o que mudar).</li>
-      <li>No fim, toque em <b>Enviar minhas respostas</b> e mande pelo WhatsApp ou por e-mail.</li>
-    </ol>
-    <p>Suas respostas ficam guardadas neste aparelho; pode parar e continuar depois.</p>
-  </details>
-  <div class="modos" role="group" aria-label="Modo de visualização">
-    <button id="modo-insta" aria-pressed="true">Ver como no Instagram</button>
-    <button id="modo-aprov" aria-pressed="false">Modo aprovação</button>
-  </div>
-  <button id="enviar" class="enviar" hidden>Enviar minhas respostas</button>
-</div>
 <div class="celular">
   <div class="tela" id="tela">
     <div id="tela-perfil">
       {_cabecalho_perfil(perfil, len(posts))}
       {_destaques(dados["destaques"])}
       {_grade(posts)}
-      <p class="rodape">Simulação feita pela Pastoral do Dízimo · datas provisórias</p>
     </div>
     <div id="tela-feed" hidden>
       <header class="topo">
@@ -341,7 +407,9 @@ def montar_pagina(dados: dict) -> str:
     </div>
   </div>
 </div>
+{_painel(posts)}
 </div>
+<a href="#painel" class="ir-painel" id="ir-painel">Aprovações ({len(posts)} pendentes)</a>
 <dialog id="dialogo" aria-labelledby="dialogo-titulo">
   <h2 id="dialogo-titulo">Suas respostas</h2>
   <p id="dialogo-contagem"></p>
@@ -361,46 +429,87 @@ def montar_pagina(dados: dict) -> str:
 
 CSS = """
 :root { --texto:#000; --suave:#737373; --linha:#dbdbdb; --fundo:#fff; --cinza:#efefef; --azul:#0095f6;
-  --mencao:#00376b; --foco:#0064e0; --verde:#1c8c4a; --ajuste:#b45309; }
+  --mencao:#00376b; --foco:#0064e0; --verde:#1c7a43; --ajuste:#a64a07; --painel:#fffbf0; --borda:#e3cf96; }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body { margin: 0; background: #fff; color: var(--texto);
   font: 14px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
 button:disabled { cursor: default; }
 :focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
 [hidden] { display: none !important; }
 .ico { width: 24px; height: 24px; display: block; }
 
-/* faixa de aviso, fora do "app" */
-.faixa { max-width: 430px; margin: 0 auto; padding: 10px 16px 12px; background: #fff8e6;
-  border-bottom: 1px solid #f0dca8; font-size: 14px; color: #3d2e00; }
-.faixa p { margin: 0 0 4px; }
-.faixa details { margin: 4px 0 8px; }
-.faixa summary { cursor: pointer; color: #6b4e00; text-decoration: underline; }
-.faixa ol { margin: 6px 0; padding-left: 20px; } .faixa li { margin: 3px 0; }
-.modos { display: flex; gap: 6px; }
-.modos button { flex: 1; padding: 9px 6px; border-radius: 8px; background: #fff; border: 1px solid #d9c38a;
-  font-weight: 600; font-size: 13px; }
-.modos button[aria-pressed="true"] { background: #3d2e00; color: #fff; border-color: #3d2e00; }
-
 /* o "celular" */
 .celular { max-width: 430px; margin: 0 auto; background: var(--fundo); }
-.tela { position: relative; background: var(--fundo); padding-bottom: 80px; }
-/* no computador: moldura de celular com rolagem própria; acima de 1000px, faixa ao lado */
+.tela { position: relative; background: var(--fundo); }
+
+/* painel de aprovação (fora do "app") */
+.painel { max-width: 430px; margin: 0 auto; padding: 16px 16px 90px; background: var(--painel);
+  border-top: 6px solid var(--borda); color: #2b2100; scroll-margin-top: 0; }
+.faixa { padding: 12px 14px; background: #fff3cf; border: 1px solid var(--borda); border-radius: 12px; font-size: 14px; }
+.faixa p { margin: 0 0 4px; }
+.faixa details { margin-top: 4px; }
+.faixa summary { cursor: pointer; color: #5c4300; text-decoration: underline; font-weight: 600; }
+.faixa ol { margin: 6px 0; padding-left: 20px; } .faixa li { margin: 4px 0; }
+.bloco { margin-top: 10px; background: #fff; border: 1px solid #e6dcc0; border-radius: 12px; }
+.bloco h2 { font-size: 16px; margin: 0; }
+.bloco-botao { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px;
+  min-height: 48px; padding: 8px 14px; font-weight: 700; color: #2b2100; }
+.bloco-sinal { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #f3ead2; position: relative; }
+.bloco-sinal::before, .bloco-sinal::after { content: ""; position: absolute; left: 7px; top: 12px; width: 12px; height: 2px;
+  background: #2b2100; }
+.bloco-sinal::after { transform: rotate(90deg); }
+.bloco-botao[aria-expanded="true"] .bloco-sinal::after { display: none; }
+.bloco-corpo { padding: 0 10px 10px; }
+.bloco-corpo > .vazio { margin: 0 4px 8px; }
+.conta { color: #5c4a1a; font-weight: 600; }
+.lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.vazio { margin: 0; color: #5c5c5c; font-size: 13px; }
+.bloco .item { background: #fffdf7; }
+.item { display: grid; grid-template-columns: 60px 1fr; gap: 6px 10px; padding: 10px; background: #fff;
+  border: 1px solid #e6dcc0; border-radius: 12px; }
+.item-abrir img { width: 60px; height: 75px; object-fit: cover; display: block; border-radius: 4px; }
+.item-texto { min-width: 0; }
+.item-titulo { display: block; font-weight: 600; color: #000; text-decoration: underline; text-decoration-color: #0003; }
+.item-texto p { margin: 3px 0 0; font-size: 13px; color: #4d4d4d; }
+.item-nota { font-style: italic; }
+.item-comentario { color: #6b3000 !important; background: #fff4ea; padding: 6px 8px; border-radius: 6px; white-space: pre-line; }
+.item-acoes, .item-campo { grid-column: 1 / -1; }
+.item-acoes, .item-acoes-campo { display: flex; gap: 8px; flex-wrap: wrap; }
+.item-acoes button, .item-acoes-campo button { flex: 1; min-height: 44px; border-radius: 8px; font-weight: 700; padding: 0 10px; text-align: center; }
+.btn-aprovar { background: var(--verde); color: #fff; }
+.btn-ajuste { background: #fff; color: var(--ajuste); border: 2px solid var(--ajuste) !important; }
+.item-acoes-campo .btn-ajuste { background: var(--ajuste); color: #fff; }
+.btn-leve { flex: 0 1 auto !important; min-height: 36px !important; background: #f2f2f2; color: #333; font-weight: 600 !important; }
+.item-campo label { display: block; font-weight: 600; font-size: 13px; }
+.item-campo textarea { display: block; width: 100%; margin-top: 4px; font: inherit; font-weight: 400; font-size: 16px;
+  padding: 8px; border: 1px solid #999; border-radius: 8px; }
+.item-aviso { margin: 4px 0; min-height: 1em; font-size: 13px; color: var(--ajuste); }
+.item[data-estado="aprovado"] { border-color: #b7dcc4; }
+.item[data-estado="ajuste"] { border-color: #f0c9a6; }
+.enviar { display: block; width: 100%; margin-top: 20px; min-height: 50px; border-radius: 25px; background: var(--azul);
+  color: #fff; font-weight: 700; font-size: 16px; text-align: center; box-shadow: 0 4px 14px #0003; }
+.ir-painel { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 20;
+  background: #2b2100e6; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: 18px; box-shadow: 0 2px 10px #0004; }
+
+/* no computador: moldura de celular com rolagem própria */
 @media (min-width: 700px) {
-  body { background: #e9e9ee; padding: 20px 0; }
-  .faixa { border: 1px solid #f0dca8; border-radius: 12px; margin-bottom: 16px; }
-  .celular { width: 414px; height: max(560px, min(860px, calc(100vh - 220px))); border: 12px solid #111;
+  body { background: #e9e9ee; }
+  .celular { width: 414px; margin: 20px auto; height: max(560px, min(860px, calc(100vh - 40px))); border: 12px solid #111;
     border-radius: 48px; overflow: hidden; box-shadow: 0 20px 60px #0003; }
   .tela { height: 100%; overflow-y: auto; scrollbar-width: none; }
   .tela::-webkit-scrollbar { display: none; }
+  .painel { border: 1px solid var(--borda); border-radius: 16px; margin-bottom: 20px; }
 }
+/* a partir de 1000px: painel à esquerda, celular à direita, cada um com sua rolagem */
 @media (min-width: 1000px) {
-  .palco { display: flex; justify-content: center; align-items: flex-start; gap: 32px; }
-  .faixa { width: 320px; margin: 0; padding: 16px; position: sticky; top: 20px; }
-  .celular { margin: 0; height: max(560px, min(860px, calc(100vh - 40px))); }
-  .faixa .enviar { position: static; transform: none; width: 100%; margin-top: 14px; }
+  .palco { display: flex; justify-content: center; align-items: flex-start; gap: 32px; padding: 20px; }
+  .painel { order: -1; width: 400px; max-width: none; margin: 0; padding-bottom: 16px;
+    max-height: calc(100vh - 40px); overflow-y: auto; }
+  .celular { margin: 0; flex: none; }
+  .ir-painel { display: none; }
 }
 
 .topo { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; height: 48px;
@@ -447,12 +556,9 @@ button:disabled { cursor: default; }
 .grade-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .grade-icones { position: absolute; top: 6px; right: 6px; display: flex; gap: 4px; }
 .ico-carrossel, .ico-fixado { width: 20px; height: 20px; filter: drop-shadow(0 0 2px #0008); }
-.selo { position: absolute; left: 6px; bottom: 6px; }
-.rodape { color: var(--suave); font-size: 12px; text-align: center; padding: 18px 16px; margin: 0; }
 
 /* feed */
 .post { border-bottom: 1px solid var(--linha); padding-bottom: 12px; scroll-margin-top: 48px; }
-.aprov { scroll-margin-top: 60px; scroll-margin-bottom: 90px; }
 .post-topo { display: flex; align-items: center; gap: 10px; padding: 8px 12px; }
 .avatar-mini { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--linha); }
 .post-opcoes { margin-left: auto; }
@@ -474,33 +580,10 @@ button:disabled { cursor: default; }
 .pontos { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
 .pontos i { width: 6px; height: 6px; border-radius: 50%; background: #c7c7c7; }
 .pontos i.on { background: var(--azul); }
-.legenda { margin: 4px 12px 0; white-space: pre-line; overflow-wrap: anywhere; }
+.legenda { margin: 4px 12px 0; overflow-wrap: anywhere; }
+.leg-completa { white-space: pre-line; }
 .post-data { margin: 6px 12px 0; color: var(--suave); font-size: 12px; }
 
-/* aprovação */
-.aprov { display: none; margin: 12px 12px 4px; padding: 12px; border: 2px solid #d9c38a; border-radius: 12px; background: #fffbf0; }
-.modo-aprov .aprov { display: block; }
-.aprov p { margin: 0 0 4px; }
-.aprov-tema { font-weight: 600; }
-.aprov-data { color: #4d4d4d; font-size: 13px; }
-.aprov-nota { font-size: 12px; font-style: italic; color: #4d4d4d; }
-.aprov-botoes { display: flex; gap: 8px; margin-top: 10px; }
-.aprov-botoes button { flex: 1; min-height: 44px; border-radius: 8px; border: 2px solid #bbb; background: #fff; font-weight: 700; }
-.btn-aprovar[aria-pressed="true"] { background: var(--verde); border-color: var(--verde); color: #fff; }
-.btn-ajuste[aria-pressed="true"] { background: var(--ajuste); border-color: var(--ajuste); color: #fff; }
-.aprov-campo { display: block; margin-top: 10px; font-weight: 600; font-size: 13px; }
-.aprov-campo textarea { display: block; width: 100%; margin-top: 4px; font: inherit; font-weight: 400; font-size: 16px;
-  padding: 8px; border: 1px solid #999; border-radius: 8px; }
-.modo-aprov .grade-item[data-estado] .selo { width: 22px; height: 22px; border-radius: 50%; color: #fff; font-weight: 700;
-  font-size: 13px; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px #fff; }
-.modo-aprov .grade-item[data-estado="aprovado"] .selo { background: var(--verde); }
-.modo-aprov .grade-item[data-estado="aprovado"] .selo::after { content: "✓"; }
-.modo-aprov .grade-item[data-estado="ajuste"] .selo { background: var(--ajuste); }
-.modo-aprov .grade-item[data-estado="ajuste"] .selo::after { content: "!"; }
-
-.enviar { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20;
-  width: min(398px, calc(100% - 32px)); min-height: 50px; border-radius: 25px; background: var(--azul); color: #fff;
-  font-weight: 700; font-size: 16px; box-shadow: 0 6px 20px #0005; }
 dialog { width: min(420px, calc(100% - 24px)); border: 0; border-radius: 16px; padding: 18px; }
 dialog::backdrop { background: #0008; }
 dialog h2 { margin: 0 0 6px; font-size: 18px; }
@@ -522,21 +605,24 @@ JS = r"""
   function guardar() { try { localStorage.setItem(CHAVE, JSON.stringify(respostas)); } catch (err) {} }
 
   // rolagem: no celular é a página; no computador, a tela dentro da moldura
-  function rolador() { return tela.scrollHeight > tela.clientHeight + 1 && getComputedStyle(tela).overflowY === 'auto' ? tela : null; }
+  function rolador() { return getComputedStyle(tela).overflowY === 'auto' ? tela : null; }
   function posicao() { var r = rolador(); return r ? r.scrollTop : window.scrollY; }
-  function rolarPara(y) { var r = rolador(); if (r) { r.scrollTop = y; } else { window.scrollTo(0, y); } }
+  function rolarPara(y) { var r = rolador(); if (r) { r.scrollTop = y; } else { window.scrollTo({ top: y, behavior: 'instant' }); } }
   var posGrade = 0;
 
   function abrir(n, empilhar) {
-    posGrade = posicao();
+    if (feed.hidden) posGrade = posicao();
     perfil.hidden = true; feed.hidden = false;
+    ajustarLegendas();
     var alvo = document.getElementById('post-' + n);
-    if (alvo) { alvo.scrollIntoView({ block: 'start' }); var t = alvo.querySelector('.trilho'); if (t) t.focus({ preventScroll: true }); }
+    if (alvo) {
+      var r = rolador();
+      if (r) { r.scrollTop = alvo.offsetTop - 48; } else { alvo.scrollIntoView({ block: 'start', behavior: 'instant' }); }
+      var t = alvo.querySelector('.trilho'); if (t) t.focus({ preventScroll: true });
+    }
     if (empilhar) { try { history.pushState({ post: n }, '', '#post-' + n); } catch (err) {} }
   }
-  function fechar() {
-    feed.hidden = true; perfil.hidden = false; rolarPara(posGrade);
-  }
+  function fechar() { feed.hidden = true; perfil.hidden = false; rolarPara(posGrade); }
   document.querySelectorAll('.grade-item').forEach(function (b) {
     b.addEventListener('click', function () { abrir(b.dataset.n, true); });
   });
@@ -547,13 +633,28 @@ JS = r"""
     if (ev.state && ev.state.post) { abrir(ev.state.post, false); } else { fechar(); }
   });
 
-  // "mais" da bio e da legenda
+  // telas estreitas: tira palavras do fim até a legenda recolhida caber em 2 linhas, como o app
+  function ajustarLegendas() {
+    document.querySelectorAll('.leg-curta').forEach(function (p) {
+      var t = p.querySelector('.leg-texto');
+      if (t.children.length) return;                       // com @menção no começo: deixa como está
+      if (!t.dataset.orig) t.dataset.orig = t.textContent;
+      t.textContent = t.dataset.orig;
+      var alt = parseFloat(getComputedStyle(p).lineHeight);
+      while (p.getBoundingClientRect().height > alt * 2.5 && t.textContent.indexOf(' ') > 0) {
+        t.textContent = t.textContent.replace(/\s+\S+$/, '').replace(/[\s,;:.…—-]+$/, '');
+      }
+    });
+  }
+  window.addEventListener('resize', function () { if (!feed.hidden) ajustarLegendas(); });
+
+  // "mais" da bio e da legenda (a versão curta some e entra o texto inteiro, sem repetir o começo)
   document.querySelectorAll('.link-mais').forEach(function (b) {
     b.addEventListener('click', function () {
       if (b.dataset.expande === 'bio') {
         b.previousElementSibling.hidden = false; b.remove();
       } else {
-        var curta = b.parentElement; curta.nextElementSibling.hidden = false; curta.remove();
+        var curta = b.closest('.leg-curta'); curta.nextElementSibling.hidden = false; curta.remove();
       }
     });
   });
@@ -591,64 +692,98 @@ JS = r"""
     });
   });
 
-  // modos
-  var botaoInsta = document.getElementById('modo-insta'), botaoAprov = document.getElementById('modo-aprov');
-  var enviar = document.getElementById('enviar');
-  function modo(aprov) {
-    document.body.classList.toggle('modo-aprov', aprov);
-    document.body.classList.toggle('modo-insta', !aprov);
-    botaoInsta.setAttribute('aria-pressed', String(!aprov));
-    botaoAprov.setAttribute('aria-pressed', String(aprov));
-    enviar.hidden = !aprov;
-    try { localStorage.setItem(CHAVE + '-modo', aprov ? 'aprov' : 'insta'); } catch (err) {}
+  // painel: cada cartão vai para Pendentes, Aprovadas ou Em ajuste conforme a resposta
+  var listas = { '': 'pendentes', aprovado: 'aprovadas', ajuste: 'ajuste' };
+  var itens = Array.prototype.slice.call(document.querySelectorAll('.item:not(.item-simples)'));
+  function estado(n) { return (respostas[n] && respostas[n].estado) || ''; }
+  function mostrarBotoes(item, visiveis) {
+    item.querySelectorAll('.item-acoes button').forEach(function (b) { b.hidden = visiveis.indexOf(b.dataset.acao) < 0; });
   }
-  botaoInsta.addEventListener('click', function () { modo(false); });
-  botaoAprov.addEventListener('click', function () { modo(true); });
-
-  // aprovar / pedir ajuste
-  function pintar(n) {
-    var post = document.getElementById('post-' + n), r = respostas[n] || {};
-    post.querySelector('.btn-aprovar').setAttribute('aria-pressed', String(r.estado === 'aprovado'));
-    post.querySelector('.btn-ajuste').setAttribute('aria-pressed', String(r.estado === 'ajuste'));
-    post.querySelector('.aprov-campo').hidden = r.estado !== 'ajuste';
-    var item = document.querySelector('.grade-item[data-n="' + n + '"]');
-    if (r.estado) { item.dataset.estado = r.estado; } else { delete item.dataset.estado; }
+  function pintarItem(item) {
+    var n = item.dataset.n, st = estado(n), editando = item.dataset.editando === '1';
+    var r = respostas[n] || {};
+    item.dataset.estado = st || 'pendente';
+    var campo = item.querySelector('.item-campo');
+    campo.hidden = !editando;
+    item.querySelector('.item-acoes').hidden = editando;
+    var com = item.querySelector('.item-comentario');
+    com.hidden = !(st === 'ajuste' && r.comentario && !editando);
+    com.textContent = st === 'ajuste' ? 'Ajuste pedido: ' + (r.comentario || '') : '';
+    if (st === 'aprovado') mostrarBotoes(item, ['desfazer']);
+    else if (st === 'ajuste') mostrarBotoes(item, ['editar', 'desfazer']);
+    else mostrarBotoes(item, ['aprovar', 'ajuste']);
   }
-  document.querySelectorAll('.post').forEach(function (post) {
-    var n = post.dataset.n, campo = post.querySelector('textarea');
-    campo.value = (respostas[n] && respostas[n].comentario) || '';
-    function marcar(estado) {
-      var r = respostas[n] || {};
-      r.estado = r.estado === estado ? '' : estado;       // tocar de novo desfaz
-      respostas[n] = r; guardar(); pintar(n);
-      if (r.estado === 'ajuste') campo.focus();
-    }
-    post.querySelector('.btn-aprovar').addEventListener('click', function () { marcar('aprovado'); });
-    post.querySelector('.btn-ajuste').addEventListener('click', function () { marcar('ajuste'); });
-    campo.addEventListener('input', function () {
-      respostas[n] = respostas[n] || {}; respostas[n].comentario = campo.value; guardar();
+  function redistribuir() {
+    var contas = { pendentes: 0, aprovadas: 0, ajuste: 0 };
+    itens.forEach(function (item) {
+      var nome = listas[estado(item.dataset.n)];
+      document.getElementById('lista-' + nome).appendChild(item);   // mantém a ordem por número
+      contas[nome]++;
+      pintarItem(item);
     });
-    pintar(n);
+    Object.keys(contas).forEach(function (k) {
+      document.getElementById('conta-' + k).textContent = '(' + contas[k] + ')';
+      document.getElementById('vazio-' + k).hidden = contas[k] > 0;
+    });
+    document.getElementById('ir-painel').textContent = contas.pendentes
+      ? 'Aprovações (' + contas.pendentes + (contas.pendentes === 1 ? ' pendente)' : ' pendentes)')
+      : 'Aprovações (tudo respondido)';
+  }
+  itens.forEach(function (item) {
+    var n = item.dataset.n, texto = item.querySelector('textarea'), aviso = item.querySelector('.item-aviso');
+    item.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button'); if (!b) return;
+      if (b.dataset.abrir) { abrir(b.dataset.abrir, true); return; }
+      var acao = b.dataset.acao; if (!acao) return;
+      var r = respostas[n] || {};
+      if (acao === 'aprovar') { respostas[n] = { estado: 'aprovado', comentario: r.comentario || '' }; }
+      else if (acao === 'ajuste' || acao === 'editar') {
+        item.dataset.editando = '1'; texto.value = r.comentario || ''; aviso.textContent = '';
+        pintarItem(item); texto.focus(); return;
+      }
+      else if (acao === 'cancelar') { item.dataset.editando = ''; pintarItem(item); return; }
+      else if (acao === 'salvar') {
+        if (!texto.value.trim()) { aviso.textContent = 'Escreva o que precisa mudar antes de salvar.'; texto.focus(); return; }
+        item.dataset.editando = ''; respostas[n] = { estado: 'ajuste', comentario: texto.value.trim() };
+      }
+      else if (acao === 'desfazer') { respostas[n] = { estado: '', comentario: r.comentario || '' }; }
+      guardar(); redistribuir();
+      var foco = item.querySelector('.item-acoes button:not([hidden])'); if (foco) foco.focus({ preventScroll: false });
+    });
+  });
+  redistribuir();
+
+  // blocos recolhíveis: sempre começam fechados
+  document.querySelectorAll('.bloco-botao').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var aberto = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', String(!aberto));
+      document.getElementById(b.getAttribute('aria-controls')).hidden = aberto;
+    });
+  });
+  document.querySelectorAll('.item-simples').forEach(function (li) {
+    li.addEventListener('click', function (ev) {
+      var b = ev.target.closest('button[data-abrir]'); if (b) abrir(b.dataset.abrir, true);
+    });
   });
 
   // resumo para enviar
   function montarResumo() {
-    var posts = Array.prototype.slice.call(document.querySelectorAll('.post'))
-      .sort(function (a, b) { return a.dataset.n - b.dataset.n; });
     var ok = 0, aj = 0, sem = 0;
-    var linhas = posts.map(function (p) {
-      var n = p.dataset.n, r = respostas[n] || {}, s;
+    var linhas = itens.map(function (item) {
+      var n = item.dataset.n, r = respostas[n] || {}, s;
       if (r.estado === 'aprovado') { ok++; s = 'APROVADO'; }
-      else if (r.estado === 'ajuste') { aj++; s = 'PEDIR AJUSTE' + (r.comentario && r.comentario.trim() ? ': ' + r.comentario.trim() : ''); }
+      else if (r.estado === 'ajuste') { aj++; s = 'PEDIR AJUSTE: ' + (r.comentario || ''); }
       else { sem++; s = 'sem resposta'; }
-      return 'Publicação ' + n + ' — ' + p.dataset.titulo + '\n→ ' + s;
+      var nota = item.querySelector('.item-nota') ? ' (nova legenda simples)' : '';
+      return 'Publicação ' + n + ' — ' + item.dataset.titulo + nota + '\n→ ' + s;
     });
     var cab = 'Respostas sobre o Instagram da Pastoral do Dízimo (simulação)\n' +
       'Aprovadas: ' + ok + ' · Ajustes: ' + aj + ' · Sem resposta: ' + sem + '\n';
-    return { texto: cab + '\n' + linhas.join('\n\n'), ok: ok, aj: aj, sem: sem };
+    return { texto: cab + '\n' + linhas.join('\n\n'), sem: sem };
   }
   var dialogo = document.getElementById('dialogo');
-  enviar.addEventListener('click', function () {
+  document.getElementById('enviar').addEventListener('click', function () {
     var r = montarResumo();
     document.getElementById('resumo').value = r.texto;
     document.getElementById('dialogo-contagem').textContent = r.sem
@@ -671,9 +806,6 @@ JS = r"""
     } else { campo.select(); document.execCommand('copy'); feito(); }
   });
 
-  var inicial = 'insta';
-  try { inicial = localStorage.getItem(CHAVE + '-modo') || 'insta'; } catch (err) {}
-  modo(inicial === 'aprov');
   if (/^#post-\d+$/.test(location.hash)) { var n0 = location.hash.slice(6); try { history.replaceState({ post: n0 }, ''); } catch (err) {} abrir(n0, false); }
 })();
 """
