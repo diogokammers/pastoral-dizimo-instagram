@@ -1,0 +1,25 @@
+# Manual: baixa a foto de perfil atual pela API (GET /me?fields=profile_picture_url) para o simulador de aprovação.
+name: avatar
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  avatar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixa a foto de perfil
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          url=$(curl -sf "https://graph.instagram.com/v23.0/me?fields=profile_picture_url" -H "Authorization: Bearer $IG_ACCESS_TOKEN" | python3 -c 'import sys,json;print(json.load(sys.stdin)["profile_picture_url"])')
+          mkdir -p site/midia/perfil
+          curl -sfL "$url" -o site/midia/perfil/avatar.jpg
+          file site/midia/perfil/avatar.jpg
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/midia/perfil/avatar.jpg
+          git diff --cached --quiet || (git commit -m "site: foto de perfil atual para o simulador" && git push)
