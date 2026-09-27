@@ -62,8 +62,16 @@
       "legenda": "Bem-vindos! Este é o perfil da Pastoral do Dízimo da Arquidiocese de Florianópolis.\n\nAqui vamos partilhar formação bíblica e catequética sobre o dízimo, a vida das paróquias, a agenda da Pastoral e respostas às dúvidas mais comuns.\n\nNossa missão é evangelizar, formar e comunicar, com fidelidade ao Magistério, em comunhão com o Arcebispo, os párocos e as equipes paroquiais. Para nós, o dízimo é expressão de fé, gratidão e corresponsabilidade na missão da Igreja: um gesto livre, que nasce de um coração agradecido.\n\nNosso lema vem da Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSiga o perfil e caminhe conosco.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
-        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Lema da estratégia; conferir a redação literal na edição oficial."},
-        {"tipo": "estrategia", "referencia": "Estratégia de Instagram, cap. 3 (missão) e cap. 11 (post 1)"}
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Lema da estratégia; conferir a redação literal na edição oficial."
+        },
+        {
+          "tipo": "estrategia",
+          "referencia": "Estratégia de Instagram, cap. 3 (missão) e cap. 11 (post 1)"
+        }
       ],
       "a_conferir": [
         "Se o Padre prefere nomear o Arcebispo ou manter só \"o Arcebispo\" (nenhum nome foi usado)."
@@ -128,11 +136,20 @@
       "legenda": "O dízimo começa no coração, não no bolso.\n\nÉ a resposta agradecida de quem reconhece que tudo o que tem vem de Deus. Por isso é um gesto livre: nasce de uma decisão pessoal e é manifestação espontânea da fé (cf. Doc. CNBB 106, n. 9), e a quantia é decisão da consciência de cada um, iluminada pela Palavra (cf. Doc. CNBB 106, n. 10).\n\nA CNBB lembra que o dízimo não pode ser reduzido a uma forma de captar recursos: sua riqueza está na fé, na partilha e na pertença (cf. Doc. CNBB 106, n. 12). Pelo dízimo, a comunidade assume junta o sustento da sua vida e da missão da Igreja (cf. Doc. CNBB 106, n. 6).\n\n\"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSalve este post para rever sempre que alguém perguntar o que é o dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
-        {"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Conferido: o Doc. CNBB 106, n. 10, cita 2Cor 9,7 com a mesma redação (\"Deus ama quem dá com alegria\")."},
-        {"tipo": "cnbb", "referencia": "Doc. CNBB 106, n. 6, 9, 10 e 12", "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)", "observacao": "Paráfrases conferidas no exemplar digital (Google Play Livros) em 2026-09-27."}
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Conferido: o Doc. CNBB 106, n. 10, cita 2Cor 9,7 com a mesma redação (\"Deus ama quem dá com alegria\")."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6, 9, 10 e 12",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Paráfrases conferidas no exemplar digital (Google Play Livros) em 2026-09-27."
+        }
       ],
-      "a_conferir": [
-      ]
+      "a_conferir": []
     },
     {
       "numero": 3,
@@ -154,8 +171,9 @@
           "template": "conteudo",
           "eyebrow": "Dimensão religiosa",
           "titulo": "Gratidão a Deus",
-          "texto": "O dízimo expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade.",
-          "alt_text": "Slide em fundo claro. Acima, Dimensão religiosa. Título: Gratidão a Deus. Texto: O dízimo expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade."
+          "texto": "Reconhece Deus como Senhor de todos os bens, com gratidão, fé e conversão.",
+          "alt_text": "Slide em fundo claro. Acima, Dimensão religiosa. Título: Gratidão a Deus. Texto: Reconhece Deus como Senhor de todos os bens, com gratidão, fé e conversão. Fonte: Documento 106 da CNBB, número 29.",
+          "fonte": "cf. Doc. CNBB 106, n. 29"
         },
         {
           "template": "conteudo",
@@ -193,17 +211,33 @@
           "alt_text": "Slide final em fundo vermelho-escuro com o convite: Compartilhe com sua paróquia e ajude sua comunidade a conhecer o sentido do dízimo. Abaixo, a assinatura Pastoral do Dízimo, Arquidiocese de Florianópolis, e o nome do perfil."
         }
       ],
-      "legenda": "Para onde vai o dízimo? Para a vida inteira da Igreja.\n\nNa caminhada pastoral, costuma-se apresentar o dízimo em quatro dimensões de um mesmo gesto de fé:\n\nReligiosa: expressa a gratidão a Deus e sustenta o culto e a vida celebrativa da comunidade.\nEclesial: sustenta a vida da comunidade e de seus ministros, e também as necessidades da Arquidiocese.\nMissionária: abre a comunidade às outras comunidades e ajuda o Evangelho a chegar mais longe.\nCaritativa: alcança os pobres, como a coleta de Paulo em favor da Igreja de Jerusalém (cf. Rm 15,26-27).\n\nO Código de Direito Canônico lembra que os fiéis proveem às necessidades da Igreja para o culto, o apostolado, a caridade e o sustento dos ministros (cf. cân. 222 §1).\n\nCompartilhe com sua paróquia e ajude sua comunidade a conhecer o sentido do dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
+      "legenda": "Para onde vai o dízimo? Para a vida inteira da Igreja.\n\nO Doc. CNBB 106, n. 29-32, apresenta quatro dimensões do dízimo:\n\nReligiosa: reconhece que Deus é o Senhor de todos os bens e expressa gratidão, fé e conversão (n. 29).\nEclesial: nasce da consciência de ser membro da Igreja, provê o necessário para o culto e a missão e inclui a contribuição das paróquias à Igreja particular, a Arquidiocese (n. 30).\nMissionária: partilha entre paróquias e entre Igrejas particulares, para o crescimento do Reino (n. 31).\nCaritativa: cuida dos pobres, como a coleta de Paulo em favor de Jerusalém (cf. Rm 15,26-27; Doc. CNBB 106, n. 22 e 32).\n\nO Código de Direito Canônico lembra que os fiéis proveem às necessidades da Igreja: o culto divino, as obras de apostolado e de caridade e a honesta sustentação dos ministros (cf. cân. 222 §1).\n\nCompartilhe com sua paróquia e ajude sua comunidade a conhecer o sentido do dízimo.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis",
       "hashtags": [],
       "fontes": [
-        {"tipo": "biblia", "referencia": "Rm 15,26-27", "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB", "observacao": "Só referência, sem citação literal."},
-        {"tipo": "direito_canonico", "referencia": "cân. 222 §1", "edicao": "Código de Direito Canônico (vatican.va, PDF em português)", "observacao": "Paráfrase; nenhuma citação literal."},
-        {"tipo": "estrategia", "referencia": "Estratégia de Instagram, cap. 11 (post 3), com \"eclesial\" no lugar de \"social\" (ADR-005)"}
+        {
+          "tipo": "biblia",
+          "referencia": "Rm 15,26-27",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
+          "observacao": "Só referência, sem citação literal."
+        },
+        {
+          "tipo": "direito_canonico",
+          "referencia": "cân. 222 §1",
+          "edicao": "Código de Direito Canônico (vatican.va, PDF em português)",
+          "observacao": "Paráfrase; nenhuma citação literal."
+        },
+        {
+          "tipo": "estrategia",
+          "referencia": "Estratégia de Instagram, cap. 11 (post 3), com \"eclesial\" no lugar de \"social\" (ADR-005)"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 22, 29-32",
+          "edicao": "O Dízimo na Comunidade de Fé: orientações e propostas (Edições CNBB)",
+          "observacao": "Conferido no exemplar em 2026-09-27; republicado após auditoria."
+        }
       ],
-      "a_conferir": [
-        "As quatro dimensões são apresentadas como síntese pastoral, sem atribuição ao Doc. CNBB 106 (regra do cartão).",
-        "Rm 15,26-27: conferido como exemplo da coleta no Doc. CNBB 106, n. 22."
-      ]
+      "a_conferir": []
     }
   ]
 }

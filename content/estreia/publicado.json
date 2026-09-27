@@ -1,13 +1,49 @@
 {
   "_comentario": "Ledger do pacote de estreia. Publicação manual pelo Instagram web (Claude no Chrome do Diogo), porque o portão de publicação por API (fatia 7) ainda não existe. Aprovação: Diogo e Padre responsável pela Pastoral (informada pelo Diogo em chat).",
-  "aprovacao": {"aprovadores": ["Diogo Kammers", "Padre responsável pela Pastoral"], "canal": "chat com o Diogo", "data": "2026-09-26"},
+  "aprovacao": {
+    "aprovadores": [
+      "Diogo Kammers",
+      "Padre responsável pela Pastoral"
+    ],
+    "canal": "chat com o Diogo",
+    "data": "2026-09-26"
+  },
   "publicado_em": "2026-09-26T14:52:35-03:00",
   "metodo": "manual-web",
-  "ordem_de_publicacao": [3, 2, 1],
-  "posts": [
-    {"numero": 1, "url": "https://www.instagram.com/p/Ddwm2nCmxZv/", "slides": 7, "alt_text": true, "fixado": false},
-    {"numero": 2, "url": "https://www.instagram.com/p/DdwmdYUmzMx/", "slides": 7, "alt_text": true, "fixado": false},
-    {"numero": 3, "url": "https://www.instagram.com/p/DdwmCK6m2_M/", "slides": 7, "alt_text": true, "fixado": false}
+  "ordem_de_publicacao": [
+    3,
+    2,
+    1
   ],
-  "pendente": "Fixar no perfil pelo app do celular (a web não oferece a opção): fixar 3, depois 2, depois 1."
+  "posts": [
+    {
+      "numero": 1,
+      "url": "https://www.instagram.com/p/Ddwm2nCmxZv/",
+      "slides": 7,
+      "alt_text": true,
+      "fixado": false,
+      "legenda_atualizada_em": "2026-09-26T21:18:38-03:00",
+      "motivo": "auditoria doutrinária 2026-09-27 (docs/auditoria)"
+    },
+    {
+      "numero": 2,
+      "url": "https://www.instagram.com/p/DdwmdYUmzMx/",
+      "slides": 7,
+      "alt_text": true,
+      "fixado": false,
+      "legenda_atualizada_em": "2026-09-26T21:18:38-03:00",
+      "motivo": "auditoria doutrinária 2026-09-27 (docs/auditoria)"
+    },
+    {
+      "numero": 3,
+      "url": "https://www.instagram.com/p/DdxTXvvm7b4/",
+      "slides": 7,
+      "alt_text": true,
+      "fixado": false,
+      "substitui": "https://www.instagram.com/p/DdwmCK6m2_M/",
+      "republicado_em": "2026-09-26T21:18:38-03:00",
+      "motivo": "slide 2 corrigido (dimensão religiosa, Doc. CNBB 106 n. 29) e legenda da auditoria; antigo excluído (fica 30 dias em Excluídos recentemente)"
+    }
+  ],
+  "pendente": "Fixar no perfil pelo app do celular: fixar 3 (novo), depois 2, depois 1."
 }

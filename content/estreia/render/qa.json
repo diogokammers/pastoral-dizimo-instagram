@@ -269,7 +269,7 @@
         1080,
         1350
       ],
-      "bytes": 107266,
+      "bytes": 101242,
       "ok": true
     },
     {
@@ -358,80 +358,9 @@
       "ok": true
     }
   ],
-  "destaques": [
-    {
-      "destaque": "Dízimo",
-      "overflow": [],
-      "contraste": [],
-      "area_segura": [],
-      "fontes_ok": true,
-      "arquivo": "destaque-dizimo.jpg",
-      "dimensoes": [
-        1080,
-        1920
-      ],
-      "bytes": 83015,
-      "ok": true
-    },
-    {
-      "destaque": "Formação",
-      "overflow": [],
-      "contraste": [],
-      "area_segura": [],
-      "fontes_ok": true,
-      "arquivo": "destaque-formacao.jpg",
-      "dimensoes": [
-        1080,
-        1920
-      ],
-      "bytes": 79792,
-      "ok": true
-    },
-    {
-      "destaque": "Agenda",
-      "overflow": [],
-      "contraste": [],
-      "area_segura": [],
-      "fontes_ok": true,
-      "arquivo": "destaque-agenda.jpg",
-      "dimensoes": [
-        1080,
-        1920
-      ],
-      "bytes": 74353,
-      "ok": true
-    },
-    {
-      "destaque": "Perguntas",
-      "overflow": [],
-      "contraste": [],
-      "area_segura": [],
-      "fontes_ok": true,
-      "arquivo": "destaque-perguntas.jpg",
-      "dimensoes": [
-        1080,
-        1920
-      ],
-      "bytes": 76034,
-      "ok": true
-    },
-    {
-      "destaque": "Arquifln",
-      "overflow": [],
-      "contraste": [],
-      "area_segura": [],
-      "fontes_ok": true,
-      "arquivo": "destaque-arquifln.jpg",
-      "dimensoes": [
-        1080,
-        1920
-      ],
-      "bytes": 61329,
-      "ok": true
-    }
-  ],
+  "destaques": [],
   "resumo": {
-    "imagens": 26,
+    "imagens": 21,
     "reprovadas": []
   }
 }
