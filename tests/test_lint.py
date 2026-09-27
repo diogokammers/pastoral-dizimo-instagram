@@ -31,7 +31,7 @@ def post_valido() -> dict:
             {"template": "cta", "titulo": "Salve este post", "texto": "Para rever quando precisar.",
              "alt_text": "Convite para salvar o post."},
         ],
-        "legenda": f"O dízimo é gesto de fé e gratidão.\n\nSalve este post.\n\n{ASSINATURA}",
+        "legenda": f"O dízimo é gesto de fé e gratidão.\n\nSalve este post.\n\n{ASSINATURA}\nFontes: 2Cor 9,7",
         "hashtags": [],
         "fontes": [{"tipo": "biblia", "referencia": "2Cor 9,7", "edicao": EDICAO}],
     }
@@ -199,7 +199,8 @@ def test_doc106_por_extenso_no_alt_text_passa(config):
 def test_quatro_dimensoes_podem_ser_atribuidas_ao_doc106(config):
     """Revogado em 2026-09-27: as dimensões estão no Doc. 106, seção 3, n. 29–32."""
     post = post_valido()
-    post["legenda"] = ("As quatro dimensões do dízimo (Doc. CNBB 106, n. 29-32).\n\n" + ASSINATURA)
+    post["legenda"] = ("As quatro dimensões do dízimo.\n\n" + ASSINATURA
+                       + "\nFontes: Doc. CNBB 106, n. 29-32 · 2Cor 9,7")
     assert erros_de(post, config) == []
 
 
@@ -315,3 +316,139 @@ def test_doc106_numeros_por_extenso_no_alt_text_passa(config):
     post = post_valido()
     post["slides"][2]["alt_text"] = "Fonte: Documento 106 da CNBB, números 63 a 66."
     assert erros_de(post, config) == []
+
+
+# ---------- linguagem simples (ADR-010) ----------
+
+def legenda(corpo: str, fontes: str = "Fontes: 2Cor 9,7") -> str:
+    return f"{corpo}\n\nSalve este post.\n\n{ASSINATURA}" + (f"\n{fontes}" if fontes else "")
+
+
+@pytest.mark.parametrize("trecho", [
+    "O dízimo nasce de uma decisão pessoal (Doc. CNBB 106, n. 9).",
+    "O leigo colabora com os pastores (cf. CIC 910).",
+    "Os fiéis ajudam a Igreja (cân. 222 §1).",
+    "Dê com o coração (cf. 2Cor 9,7).",
+    "Segundo o Doc. CNBB 106, n. 6, o dízimo é partilha.",
+])
+def test_referencia_no_meio_da_legenda_reprova(config, trecho):
+    post = post_valido()
+    post["legenda"] = legenda(trecho, "Fontes: Doc. CNBB 106, n. 6 e 9 · CIC 910 · cân. 222 §1 · 2Cor 9,7")
+    assert any("Fontes:" in e for e in erros_de(post, config))
+
+
+def test_referencia_logo_apos_citacao_literal_passa(config):
+    post = post_valido()
+    post["legenda"] = legenda('Paulo escreve: "Deus ama quem dá com alegria" (2Cor 9,7).')
+    assert erros_de(post, config) == []
+
+
+def test_referencia_em_outro_paragrafo_da_citacao_reprova(config):
+    post = post_valido()
+    post["legenda"] = legenda('"Deus ama quem dá com alegria".\n\nIsso está em 2Cor 9,7.')
+    assert any("Fontes:" in e for e in erros_de(post, config))
+
+
+def test_legenda_com_fontes_no_post_exige_linha_fontes(config):
+    post = post_valido()
+    post["legenda"] = legenda("O dízimo é gesto de fé.", fontes="")
+    assert any('linha "Fontes:"' in e for e in erros_de(post, config))
+
+
+def test_post_sem_fontes_dispensa_linha_fontes(config):
+    post = post_valido()
+    post["slides"][1] = {"template": "conteudo", "titulo": "Gratidão", "texto": "Tudo vem de Deus.",
+                         "alt_text": "Slide sobre gratidão."}
+    post["fontes"] = []
+    post["legenda"] = legenda("O dízimo é gesto de fé.", fontes="")
+    assert erros_de(post, config) == []
+
+
+def test_linha_fontes_precisa_ser_a_ultima(config):
+    post = post_valido()
+    post["legenda"] = f"O dízimo é gesto de fé.\n\nFontes: 2Cor 9,7\n\n{ASSINATURA}"
+    assert any("última linha" in e for e in erros_de(post, config))
+
+
+def test_linha_fontes_no_formato_consistente_passa(config):
+    post = post_valido()
+    post["legenda"] = legenda("O dízimo é gesto de fé.",
+                              "Fontes: Doc. CNBB 106, n. 6 e 9 · CIC 910 e 2039 · cân. 222 §1 · 2Cor 9,7")
+    assert erros_de(post, config) == []
+
+
+@pytest.mark.parametrize("fontes", [
+    "Fontes: Catecismo 910",                  # fora do formato
+    "Fontes: Doc. CNBB 106, n. 6 e 40",       # 40 não conferido
+    "Fontes: 2Cor 9,7; CIC 910",              # separador deve ser " · "
+])
+def test_linha_fontes_fora_do_formato_reprova(config, fontes):
+    post = post_valido()
+    post["legenda"] = legenda("O dízimo é gesto de fé.", fontes)
+    assert erros_de(post, config)
+
+
+def test_frase_longa_na_legenda_reprova(config):
+    post = post_valido()
+    post["legenda"] = legenda(" ".join(["palavra"] * 31) + ".")
+    assert any("31 palavras" in e for e in erros_de(post, config))
+
+
+def test_frase_de_30_palavras_passa(config):
+    post = post_valido()
+    post["legenda"] = legenda(" ".join(["palavra"] * 30) + ".")
+    assert erros_de(post, config) == []
+
+
+def test_citacao_literal_longa_nao_conta_como_frase_longa(config):
+    post = post_valido()
+    citacao = " ".join(["palavra"] * 35)
+    post["legenda"] = legenda(f'Paulo escreve: "{citacao}" (2Cor 9,7).')
+    assert erros_de(post, config) == []
+
+
+@pytest.mark.parametrize("termo", ["corresponsavelmente", "outrossim", "destarte", "hodierno", "mister",
+                                   "sustentação"])
+def test_termo_formal_fora_de_aspas_reprova(config, termo):
+    post = post_valido()
+    post["legenda"] = legenda(f"A comunidade fala de {termo} aqui.")
+    assert any("termo formal" in e for e in erros_de(post, config))
+
+
+def test_termo_formal_no_slide_reprova(config):
+    post = post_valido()
+    post["slides"][2]["texto"] = "A comunidade assume corresponsavelmente."
+    assert any("termo formal" in e for e in erros_de(post, config))
+
+
+def test_termo_formal_dentro_de_aspas_passa(config):
+    post = post_valido()
+    post["legenda"] = legenda('O documento diz: "assume corresponsavelmente sua sustentação" (Doc. CNBB 106, n. 6).',
+                              "Fontes: Doc. CNBB 106, n. 6 · 2Cor 9,7")
+    assert erros_de(post, config) == []
+
+
+def test_termos_formais_vem_do_config(config):
+    config = copy.deepcopy(config)
+    config["linguagem"]["termos_formais"].append("supracitado")
+    post = post_valido()
+    post["legenda"] = legenda("O texto supracitado ajuda.")
+    assert any("supracitado" in e for e in erros_de(post, config))
+
+
+def test_modo_legado_ignora_regras_de_linguagem(config):
+    """Posts publicados antes do ADR-010 (estreia) não podem ser alterados."""
+    post = post_valido()
+    post["legenda"] = "A comunidade assume corresponsavelmente (Doc. CNBB 106, n. 6).\n\n" + ASSINATURA
+    assert lint.verificar_post(post, config, linguagem=False) == []
+    assert lint.verificar_post(post, config) != []
+
+
+def test_main_legado(tmp_path, raiz):
+    import json
+    post = post_valido()
+    post["legenda"] = "A comunidade assume corresponsavelmente (Doc. CNBB 106, n. 6).\n\n" + ASSINATURA
+    arq = tmp_path / "posts.json"
+    arq.write_text(json.dumps({"lote": "t", "posts": [post]}, ensure_ascii=False), encoding="utf-8")
+    assert lint.main([str(arq), "--config", str(raiz / "config.yaml")]) == 1
+    assert lint.main([str(arq), "--config", str(raiz / "config.yaml"), "--legado"]) == 0

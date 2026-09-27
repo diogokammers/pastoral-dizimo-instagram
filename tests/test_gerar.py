@@ -201,3 +201,10 @@ def test_prompt_exige_escopo_das_quatro_fontes():
     prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
     for trecho in ["Doc. CNBB 106", "CIC", "cân.", "Bíblia", "voluntário"]:
         assert trecho in prompt
+
+
+def test_prompt_exige_linguagem_simples():
+    """ADR-010: linguagem simples, fontes só na linha final "Fontes:" da legenda."""
+    prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
+    for trecho in ["Fontes:", "30 palavras", "você", "aspas", "corresponsavelmente"]:
+        assert trecho in prompt, trecho

@@ -51,6 +51,17 @@ def montar_prompt(briefing: dict, cartao: str, schema: dict, erros: list[str] | 
         "de Direito Canônico (\"cân. 222 §1\") ou na Bíblia, sempre com o número; nada de datas comemorativas, "
         "santos do dia, \"Mês Missionário\", estatísticas ou promessas de prazo. O agente presta um serviço à "
         "comunidade (CIC 910); nunca escreva \"voluntário\".",
+        "Linguagem simples (ADR-010, prioridade máxima): escreva para leigos, com frases curtas (ideal até 20 "
+        "palavras; na legenda, NUNCA mais de 30 palavras numa frase), palavras do dia a dia, falando com você, "
+        "em voz ativa e com um assunto por parágrafo; perguntas e exemplos concretos ajudam. Sem jargão "
+        "(\"corresponsavelmente\", \"sustentação\", \"outrossim\", \"destarte\", \"hodierno\", \"mister\"); "
+        "termo técnico necessário (\"Igreja particular\", \"ministério\") vem explicado em palavras simples. "
+        "Simplificar muda a forma, nunca o conteúdo: não afirme nada além das fontes.",
+        "Fontes na legenda: NENHUMA referência no meio da frase. Todas vão na ÚLTIMA linha, depois da "
+        "assinatura, neste formato: \"Fontes: Doc. CNBB 106, n. 6 e 9 · CIC 910 · cân. 222 §1 · 2Cor 9,7\". "
+        "Única exceção: a referência logo depois de uma citação literal entre aspas, no mesmo parágrafo "
+        "(ex.: \"Deus ama quem dá com alegria\" (2Cor 9,7)). Use aspas só para citação literal. Nos slides, a "
+        "fonte fica só no campo `fonte`/`referencia`, e o texto do slide também é simples.",
         "Responda apenas com um JSON válido segundo o schema, dentro de um bloco ```json.",
         "## Cartão de marca\n" + cartao,
         "## Briefing\n" + json.dumps(briefing, ensure_ascii=False, indent=1),

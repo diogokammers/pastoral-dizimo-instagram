@@ -82,3 +82,13 @@ def test_cartao_cita_doc_106_verificado(cartao):
 def test_cartao_compacto(cartao):
     # meta da arquitetura: ≤ 3k tokens; chars/4 como teto grosseiro
     assert len(cartao) / 4 <= 3000
+
+
+def test_cartao_linguagem_simples_prioritaria(cartao):
+    """ADR-010: seção "Linguagem" vem antes do tom de voz e dos termos."""
+    m = re.search(r"^##\s.*Linguagem", cartao, re.MULTILINE)
+    assert m and m.start() < cartao.index("## Tom de voz")
+    secao = cartao[m.start():cartao.index("\n## ", m.end())]
+    for trecho in ["20 palavras", "você", "voz ativa", "corresponsavelmente", "aspas",
+                   "Fontes: Doc. CNBB 106, n. 6 e 9 · CIC 910 · 2Cor 9,7"]:
+        assert trecho in secao, trecho

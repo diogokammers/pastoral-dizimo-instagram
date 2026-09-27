@@ -68,3 +68,11 @@ def test_ciclo_de_pilares_tem_10(config):
 def test_claude_md_curto(raiz):
     linhas = (raiz / "CLAUDE.md").read_text(encoding="utf-8").splitlines()
     assert len(linhas) <= 40
+
+
+def test_linguagem_simples(config):
+    """ADR-010: frase até 30 palavras na legenda e termos formais proibidos fora de aspas."""
+    ling = config["linguagem"]
+    assert ling["frase_max_palavras"] == 30
+    for termo in ["corresponsavelmente", "outrossim", "destarte", "hodierno", "mister", "sustentação"]:
+        assert termo in ling["termos_formais"]

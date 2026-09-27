@@ -3,6 +3,15 @@
 Destilado de `docs/marca/` e `docs/pesquisa/`. Não acrescente nada que não esteja aqui; lacuna = "a confirmar".
 Perfil: @pastoraldodizimo.arquifln. Lema: "Deus ama quem dá com alegria" (2Cor 9,7).
 
+## Linguagem (prioritária — ADR-010)
+Escrevemos para leigos: simples, acolhedor, fácil de ler. Simplificar muda a **forma**, nunca o conteúdo (vale o escopo das 4 fontes).
+- Frases curtas: ideal até 20 palavras; na legenda, nunca mais de 30 (lint). Um assunto por parágrafo.
+- Palavras do dia a dia; fale com "você"; voz ativa. Perguntas e exemplos concretos são bem-vindos.
+- Sem jargão: nada de "corresponsavelmente", "sustentação", "outrossim", "destarte", "hodierno", "mister" (lista no config.yaml). Termo técnico necessário ("Igreja particular", "ministério", "comunidade eclesial") vem explicado em palavras simples na mesma frase ou na seguinte (ex.: "a Igreja particular, isto é, a nossa Arquidiocese").
+- Legenda: **nenhuma citação de fonte no meio da frase**. Todas as referências vão na última linha, depois da assinatura, sempre assim: `Fontes: Doc. CNBB 106, n. 6 e 9 · CIC 910 · 2Cor 9,7`. Única exceção: a referência logo após uma citação literal entre aspas, no mesmo parágrafo.
+- Aspas só para citação literal (Bíblia, CIC, CDC, Doc. 106), que fica como no original.
+- Slides: a fonte fica na linha pequena "fonte"; o texto do slide também é simples.
+
 ## Propósito
 Ajudar paróquias, agentes e fiéis a viver o dízimo como espiritualidade de gratidão e participação ativa na missão evangelizadora da Igreja. O perfil é instrumento de evangelização e serviço, **não canal de captação de recursos**.
 
@@ -44,7 +53,7 @@ Fora do escopo (ancorar numa das 4 ou tirar): "Mês Missionário", santos do dia
 Fatos da própria Pastoral (agenda, evento, inscrição) só confirmados pelo Diogo; não são afirmação doutrinária.
 
 ## Citação bíblica e doutrinária
-- Bíblia: referência completa "Livro cap,vers" (ex.: 2Cor 9,7); edição de referência: Bíblia Sagrada — Tradução Oficial da CNBB. Redação de 2Cor 9,7 conferida (citada no Doc. 106, n. 10): "Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria". Outros versículos: sem texto literal conferido, **sem aspas** — parafrasear com "cf.".
+- Bíblia: referência completa "Livro cap,vers" (ex.: 2Cor 9,7); edição de referência: Bíblia Sagrada — Tradução Oficial da CNBB. Redação de 2Cor 9,7 conferida (citada no Doc. 106, n. 10): "Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria". Outros versículos: sem texto literal conferido, **sem aspas** — parafrasear (referência na linha "Fontes:").
 - Catecismo (conferido no vatican.va): CIC 2041 (preceitos da Igreja, ligados à vida litúrgica); CIC 2043 (5º preceito: prover às necessidades materiais da Igreja, consoante as possibilidades de cada um); CIC 1351 (ofertas e coleta, ver "Oferta"); CIC 910 e 2039 (serviço, ver "Agente"); CIC 911 (leigos nos conselhos pastorais e econômicos).
 - Direito Canônico (conferido no vatican.va): cân. 222 §1 (fiéis proveem às necessidades da Igreja: culto, apostolado e caridade, sustento dos ministros); cân. 1254 §2 (fins dos bens da Igreja); cân. 1260 e 1261 §1 (liberdade de contribuir); cân. 1266 (coleta especial). Citação literal ≤ 15 palavras, sempre com o número.
 - Nem o CIC nem o Doc. 106 fixam percentual: **nunca** afirmar percentual obrigatório.
@@ -68,7 +77,7 @@ Fatos da própria Pastoral (agenda, evento, inscrição) só confirmados pelo Di
 - Nunca inventar dado financeiro, valor, prestação de contas ou evento; informação não confirmada = não publicar.
 
 ## Formato
-- Legenda ≤ 1.500 caracteres, primeira linha forte; sem hashtags por enquanto (decisão do Diogo, ADR-005; teto técnico de 8 hashtags se voltarem); alt-text descritivo ≤ 1.000 caracteres.
+- Legenda ≤ 1.500 caracteres, primeira linha forte, última linha "Fontes:" se o post cita algo; sem hashtags por enquanto (decisão do Diogo, ADR-005; teto técnico de 8 hashtags se voltarem); alt-text descritivo ≤ 1.000 caracteres.
 - Slide ≤ 25 palavras, uma ideia por slide; carrossel de 2 a 10 slides; arte 1080×1350.
 - Sem "%" em nenhum texto.
 - Assinatura: Pastoral do Dízimo — Arquidiocese de Florianópolis.

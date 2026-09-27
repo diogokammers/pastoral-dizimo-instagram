@@ -72,6 +72,19 @@ limites:                         # arquitetura §1.1 (lint) e §4 (rubrica)
   alt_text_max_caracteres: 1000
   proibir_porcentagem: true      # nada de "%" (sem percentual obrigatório)
 
+# ADR-010: linguagem simples. Frase da legenda até N palavras (fora de citação literal entre aspas) e
+# termos formais proibidos fora de aspas (em slides, alt-text e legenda). Lista curta e ajustável.
+linguagem:
+  frase_max_palavras: 30
+  termos_formais:
+    - corresponsavelmente
+    - outrossim
+    - destarte
+    - hodierno
+    - hodierna
+    - mister
+    - sustentação
+
 # A estratégia (docs/marca/) NÃO define hashtags. Lista vazia até o Diogo aprovar uma (a confirmar).
 hashtags_fixas: []
 
