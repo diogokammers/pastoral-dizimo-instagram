@@ -17,7 +17,20 @@ def test_estreia_passa_no_schema(dados, raiz):
 
 
 def test_estreia_passa_no_lint(dados, raiz):
-    assert lint.verificar_lote(dados, lint.carregar_config(raiz / "config.yaml")) == []
+    """Publicada antes do ADR-010: passa no lint legado (sem as regras de linguagem simples)."""
+    assert lint.verificar_lote(dados, lint.carregar_config(raiz / "config.yaml"), linguagem=False) == []
+
+
+def test_legendas_simples_da_estreia_passam_no_lint(dados, raiz):
+    """ADR-010: as legendas prontas para colar (docs/auditoria) passam no lint completo."""
+    import copy
+    md = (raiz / "docs/auditoria/2026-09-27-legendas-simples-estreia.md").read_text(encoding="utf-8")
+    legendas = re.findall(r"```text\n(.*?)\n```", md, re.DOTALL)
+    assert len(legendas) == 3
+    lote = copy.deepcopy(dados)
+    for post, texto in zip(lote["posts"], legendas):
+        post["legenda"] = texto
+    assert lint.verificar_lote(lote, lint.carregar_config(raiz / "config.yaml")) == []
 
 
 def test_estreia_tem_os_tres_fixados(dados):
