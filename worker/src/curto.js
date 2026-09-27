@@ -1,13 +1,13 @@
-// Worker "aprovar" (ADR-011): só o link curto /p/<código> → página do painel com o código no fragmento.
-// Não tem segredos, banco nem acesso ao GitHub; qualquer outra rota dá 404. O Worker principal
-// (pastoral-dizimo-aprovacao) continua respondendo /a, /api e também /p/.
-import { redirecionarCurto } from "./acesso.js";
+// Worker "aprovar" (ADR-012): link curto SEM código. https://aprovar.<subdomínio>.workers.dev/ redireciona
+// para a página do painel. Não tem segredos, banco nem acesso ao GitHub; qualquer outra rota dá 404
+// (inclusive a antiga /p/<código>, desativada).
+import { redirecionarPagina } from "./acesso.js";
 
 export default {
   fetch(request, env) {
     const url = new URL(request.url);
     if (request.method === "GET" || request.method === "HEAD") {
-      const r = redirecionarCurto(env, url);
+      const r = redirecionarPagina(env, url);
       if (r) return r;
     }
     return new Response("Página não encontrada.", {

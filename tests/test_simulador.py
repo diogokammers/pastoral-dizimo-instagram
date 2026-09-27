@@ -1,4 +1,4 @@
-"""Simulador do perfil no Instagram para o Padre aprovar (site/aprovacao/) — painel ligado ao Worker (ADR-011)."""
+"""Simulador do perfil no Instagram para o aprovador (site/aprovacao/) — painel ligado ao Worker (ADR-011/012)."""
 import json
 import re
 import shutil
@@ -151,25 +151,35 @@ def test_agendadas_so_mostra_aprovadas(dados):
 
 
 def test_faixa_de_aviso(dados):
-    """Pedido 3: sai a frase sobre "nada foi publicado"; o título e o Como usar ficam."""
+    """Sai a frase sobre "nada foi publicado"; o título fica; o Como usar explica rascunho e envio."""
     html = simulador.montar_pagina(dados, API)
     assert "<b>Simulação para aprovação</b>" in html
     assert "nada disso foi publicado ainda" not in html and "exceto os 3 posts fixados" not in html
-    assert "Como usar" in html and "gravada na hora" in html and "Desfazer" in html
+    assert "Como usar" in html and "a enviar" in html and "Enviar respostas" in html and "Desfazer" in html
+    assert "15 minutos" in html
     assert "Enviar minhas respostas" not in html and "wa.me" not in html
 
 
-def test_codigo_de_acesso_so_no_fragmento_e_api_restrita(dados):
-    """Pedidos 6–8: o código vem no #c=… (sai da barra de endereço), vai só no header Authorization e
-    só para a API do Worker (CSP connect-src); sem código, o painel fica só leitura."""
+def test_sem_mencao_a_padre(dados):
+    """O sistema usa o termo neutro "aprovador" (ADR-012)."""
+    html = simulador.montar_pagina(dados, API).lower()
+    assert "padre" not in html
+
+
+def test_rascunho_no_aparelho_e_envio_com_codigo(dados):
+    """ADR-012: respostas como rascunho no localStorage (com try/catch); o código só é pedido no envio,
+    vai só no header Authorization e só para a API (CSP connect-src); não há código na página."""
     html = simulador.montar_pagina(dados, API)
     assert f'var API = "{API}";' in html
     assert f"connect-src {API}" in html and '<meta name="referrer" content="no-referrer">' in html
-    assert "location.hash" in html and "c=([A-Za-z0-9_-]{32,128})" in html and "history.replaceState" in html
+    assert "pastoral-painel-rascunho-v1" in html and "try { localStorage.setItem(CHAVE" in html
+    assert "localStorage.removeItem('pastoral-painel-codigo-v1')" in html, "apaga o código guardado pela versão antiga"
+    assert '<input id="codigo" type="password" autocomplete="off"' in html
     assert "'Authorization': 'Bearer ' + codigo" in html
-    assert "/api/estado" in html and "/api/decisao" in html
-    assert "so-leitura" in html and "Modo só leitura" in html
-    assert "?c=" not in html and "codigo=" not in html
+    assert "/api/estado" in html and "/api/decisoes" in html and "/api/decisao'" not in html
+    assert 'id="enviar"' in html and 'data-acao="descartar"' in html
+    assert "#c=" not in html and "?c=" not in html and "location.hash.match" not in html
+    assert "localStorage.setItem(CHAVE, codigo" not in html and "so-leitura" not in html
 
 
 def test_url_da_api_precisa_ser_https(dados):

@@ -7,7 +7,7 @@ CREATE TABLE eventos (
   acao            TEXT    NOT NULL CHECK (acao IN ('aprovar', 'ajustar', 'desfazer')),
   comentario      TEXT    NOT NULL DEFAULT '' CHECK (length(comentario) <= 2000),
   versao_conteudo TEXT    NOT NULL CHECK (length(versao_conteudo) = 32),  -- aprovacao.versao_post no momento
-  autor           TEXT    NOT NULL,                                        -- "Padre", "Diogo"…
+  autor           TEXT    NOT NULL,                                        -- "Aprovador", "Diogo"…
   criado_em       TEXT    NOT NULL,                                        -- ISO 8601 UTC (+00:00)
   origem          TEXT    NOT NULL DEFAULT 'painel' CHECK (origem IN ('painel', 'email')),
   commit_sha      TEXT,                                                    -- commit do GitHub desta decisão

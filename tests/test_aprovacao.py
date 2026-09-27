@@ -224,22 +224,22 @@ def test_versao_post_muda_com_qualquer_parte_do_item(posts, agenda):
 def test_remover_da_aprovacao_reassina_sem_o_post(posts, agenda):
     itens = aprovacao.itens_semana(agenda, posts, ler_arte)
     d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12, 13], "n1", "Diogo", "t1", SEGREDO_APROV)
-    d2, mudou = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Padre", "t2", SEGREDO_APROV)
+    d2, mudou = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Aprovador", "t2", SEGREDO_APROV)
     assert mudou and [p["numero"] for p in d2["posts"]] == [13]
-    assert d2["aprovado_por"] == "Padre" and d2["nonce"] == "n2"
+    assert d2["aprovado_por"] == "Aprovador" and d2["nonce"] == "n2"
     assert list(d2) == ["semana", "aprovado_por", "aprovado_em", "nonce", "posts", "assinatura"]
     assert publicar.assinatura_valida(d2, SEGREDO_APROV)
-    d3, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 12, "n3", "Padre", "t3", SEGREDO_APROV)
+    d3, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 12, "n3", "Aprovador", "t3", SEGREDO_APROV)
     assert not mudou and d3 is d2, "remover o que não está lá não grava"
-    d4, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 13, "n4", "Padre", "t4", SEGREDO_APROV)
+    d4, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 13, "n4", "Aprovador", "t4", SEGREDO_APROV)
     assert mudou and d4["posts"] == [] and publicar.assinatura_valida(d4, SEGREDO_APROV)
-    assert aprovacao.remover_da_aprovacao(None, SEMANA, 12, "n5", "Padre", "t5", SEGREDO_APROV) == (None, False)
+    assert aprovacao.remover_da_aprovacao(None, SEMANA, 12, "n5", "Aprovador", "t5", SEGREDO_APROV) == (None, False)
 
 
 def test_post_removido_da_aprovacao_e_recusado_pelo_portao(tmp_path, posts, agenda):
     itens = aprovacao.itens_semana(agenda, posts, ler_arte)
-    d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12, 13], "n1", "Padre", "t1", SEGREDO_APROV)
-    d2, _ = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Padre", "t2", SEGREDO_APROV)
+    d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12, 13], "n1", "Aprovador", "t1", SEGREDO_APROV)
+    d2, _ = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Aprovador", "t2", SEGREDO_APROV)
     raiz = repo_com_aprovacao(tmp_path, d2)
     agora = datetime(2026, 10, 10, tzinfo=timezone.utc)
     prontos, recusados = publicar.avaliar_semana(raiz, raiz / "site" / "midia", SEMANA, SEGREDO_APROV, agora, set())

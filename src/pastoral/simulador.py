@@ -1,4 +1,4 @@
-"""Simulador do perfil no Instagram para o Padre ver e aprovar tudo de uma vez.
+"""Simulador do perfil no Instagram para o aprovador ver e aprovar tudo de uma vez.
 
 Gera site/aprovacao/index.html: uma página que imita o app do Instagram (celular, tema claro) com o
 perfil @pastoraldodizimo.arquifln, os destaques e TODAS as publicações — as 3 da estreia (já
@@ -7,10 +7,11 @@ publicadas e fixadas, com a legenda simples proposta em docs/auditoria/) e as da
 deslizável. O celular mostra só o Instagram; a aprovação fica num painel ao lado (abaixo, no celular),
 com os blocos Pendentes / Aprovadas / Em ajuste / Já publicadas / Agendadas.
 
-Painel (ADR-011): a página é estática e pública no GitHub Pages, mas as decisões vão para o Worker
-(D1 + aprovacao.json assinado, como o link do e-mail do ADR-009). Para decidir é preciso o código de
-acesso secreto, que chega no fragmento do link (#c=…, nunca vai a servidor nenhum), sai da barra de
-endereço e segue só no header Authorization para a API. Sem código, o painel fica só leitura.
+Painel (ADR-011/012): a página é estática e pública no GitHub Pages; o estado das decisões vem do
+Worker (GET público). As respostas do aprovador ficam como RASCUNHO no aparelho (localStorage, "a enviar")
+e só valem depois de "Enviar respostas" com o código de envio, validado no Worker (com limite de
+tentativas), que grava no D1 e aplica ao fluxo (aprovacao.json assinado / ajuste-<n>.json / desfazer),
+como o link do e-mail do ADR-009. O código nunca está na página nem no repositório.
 Cada post leva data-versao = aprovacao.versao_post (o hash do que está na página); se o conteúdo mudar
 depois de uma resposta, a versão guardada deixa de bater e o post volta para Pendentes.
 
@@ -321,6 +322,7 @@ def _item_painel(p: dict) -> str:
     <button class="btn-ajuste" data-acao="ajuste">Pedir ajuste</button>
     <button class="btn-leve" data-acao="editar">Editar</button>
     <button class="btn-leve" data-acao="desfazer">Desfazer</button>
+    <button class="btn-leve" data-acao="descartar">Descartar</button>
   </div>
   <div class="item-campo" hidden>
     <label>O que ajustar?<textarea rows="3" maxlength="2000" placeholder="Escreva aqui o que mudar (texto, imagem, data…)"></textarea></label>
@@ -382,8 +384,7 @@ def _painel(posts: list[dict]) -> str:
 <aside class="painel" id="painel" aria-label="Aprovação das publicações">
   <div class="faixa" role="note">
     <p><b>Simulação para aprovação</b></p>
-    <p class="acesso" id="acesso" aria-live="polite">Modo só leitura: para aprovar, abra o link de aprovação que você recebeu.</p>
-    <p class="acesso-sair" id="acesso-sair" hidden><button class="link-sair" id="sair">Sair deste aparelho</button></p>
+    <p class="acesso" id="acesso" aria-live="polite">Carregando as decisões já enviadas…</p>
     <details><summary>Como usar</summary>
       <ol>
         <li>O celular mostra como o Instagram da Pastoral vai ficar. Toque numa publicação
@@ -391,17 +392,38 @@ def _painel(posts: list[dict]) -> str:
         <li>Toque em <b>Pendentes de aprovação</b> para abrir a lista. Em cada publicação, toque em <b>Aprovar</b>
           ou em <b>Pedir ajuste</b>; no ajuste, escreva o que mudar e toque em <b>Salvar ajuste</b>.
           Tocar na imagem ou no título mostra a publicação no celular.</li>
-        <li>Cada resposta é gravada na hora, com o seu nome: não precisa enviar nada. As aprovadas aparecem em
-          <b>Aprovadas</b> e em <b>Agendadas</b>, com a data prevista, e serão publicadas nessa data.</li>
-        <li>Mudou de ideia? Em <b>Aprovadas</b> ou <b>Em ajuste</b>, toque em <b>Desfazer</b>: a publicação volta
-          para Pendentes e não será publicada.</li>
+        <li>Suas respostas ficam guardadas neste aparelho, marcadas como <b>a enviar</b>: pode parar e continuar depois.
+          Enquanto não forem enviadas, ainda não valem.</li>
+        <li>No fim, toque em <b>Enviar respostas</b> e digite o código de envio. Só então elas são gravadas: as
+          aprovadas vão para <b>Agendadas</b> e serão publicadas na data prevista.</li>
+        <li>Mudou de ideia? Toque em <b>Desfazer</b>. Se a resposta já tinha sido enviada, o desfazer também
+          precisa ser enviado; depois disso a publicação não sai.</li>
         <li>Se uma publicação for alterada depois da sua resposta, ela volta para Pendentes para você conferir de novo.</li>
+        <li>Cinco códigos errados seguidos bloqueiam o envio por 15 minutos.</li>
       </ol>
       <p>Os pedidos de ajuste ficam guardados num arquivo público: não escreva dados pessoais.</p>
     </details>
   </div>
   {blocos}
-</aside>"""
+  <div class="envio" id="envio">
+    <p class="envio-resumo" id="envio-resumo">Nenhuma resposta a enviar.</p>
+    <button id="enviar" class="enviar" disabled>Enviar respostas</button>
+    <p class="envio-resultado" id="envio-resultado" aria-live="polite" hidden></p>
+  </div>
+</aside>
+<dialog id="dialogo-codigo" aria-labelledby="dialogo-titulo">
+  <form id="form-codigo" novalidate>
+    <h2 id="dialogo-titulo">Enviar respostas</h2>
+    <p id="dialogo-resumo"></p>
+    <label class="rotulo-codigo">Código de envio
+      <input id="codigo" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128"></label>
+    <p class="dialogo-aviso" id="dialogo-aviso" aria-live="assertive"></p>
+    <div class="dialogo-botoes">
+      <button type="submit" id="confirmar" class="btn btn-verde">Enviar</button>
+      <button type="button" id="cancelar-envio" class="btn">Cancelar</button>
+    </div>
+  </form>
+</dialog>"""
 
 
 def validar_api(api_url: str) -> str:
@@ -506,10 +528,27 @@ button:disabled { cursor: default; }
 .item[data-ocupado="1"] .item-acoes button, .item[data-ocupado="1"] .item-acoes-campo button { opacity: .5; }
 .item-aviso:empty { display: none; }
 .item-simples .item-aviso { display: none; }
-.so-leitura .item-acoes, .so-leitura .item-campo { display: none !important; }
+.item[data-rascunho="1"] { border-style: dashed; border-color: #b58a1b; }
+.item[data-rascunho="1"] .item-status { color: #7a5400 !important; }
 .acesso { margin: 4px 0 0 !important; }
-.acesso-sair { margin: 2px 0 0 !important; }
-.link-sair { color: #5c4300; text-decoration: underline; font-size: 13px; }
+.envio { position: sticky; bottom: 0; margin-top: 14px; padding: 12px 0 4px; background: var(--painel); }
+.envio-resumo { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+.enviar { display: block; width: 100%; min-height: 50px; border-radius: 25px; background: var(--azul); color: #fff;
+  font-weight: 700; font-size: 16px; text-align: center; box-shadow: 0 4px 14px #0003; }
+.enviar:disabled { background: #b9c7d3; box-shadow: none; }
+.envio-resultado { margin: 8px 0 0; padding: 8px 10px; border-radius: 8px; background: #e9f6ee; color: #14532d;
+  font-size: 14px; white-space: pre-line; }
+.envio-resultado[data-falhou="1"] { background: #fff1e6; color: #6b3000; }
+dialog { width: min(420px, calc(100% - 24px)); border: 0; border-radius: 16px; padding: 18px; }
+dialog::backdrop { background: #0008; }
+dialog h2 { margin: 0 0 6px; font-size: 18px; }
+.rotulo-codigo { display: block; font-weight: 600; margin-top: 8px; }
+.rotulo-codigo input { display: block; width: 100%; margin-top: 4px; font-size: 18px; padding: 10px; border: 1px solid #999;
+  border-radius: 8px; }
+.dialogo-aviso { min-height: 1.2em; margin: 8px 0; color: var(--ajuste); font-weight: 600; }
+.dialogo-botoes { display: grid; gap: 8px; }
+.dialogo-botoes .btn { min-height: 44px; }
+.btn-verde { background: #1a7f45; color: #fff; }
 .item-comentario { color: #6b3000 !important; background: #fff4ea; padding: 6px 8px; border-radius: 6px; white-space: pre-line; }
 .item-acoes, .item-campo { grid-column: 1 / -1; }
 .item-acoes, .item-acoes-campo { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -524,6 +563,7 @@ button:disabled { cursor: default; }
 .item-aviso { grid-column: 1 / -1; margin: 0; font-size: 13px; color: var(--ajuste); }
 .item[data-estado="aprovado"] { border-color: #b7dcc4; }
 .item[data-estado="ajuste"] { border-color: #f0c9a6; }
+.ir-painel[data-escondido="1"] { display: none; }
 .ir-painel { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 20;
   background: #2b2100e6; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600;
   padding: 8px 14px; border-radius: 18px; box-shadow: 0 2px 10px #0004; }
@@ -626,24 +666,6 @@ JS = r"""
   var perfil = document.getElementById('tela-perfil');
   var feed = document.getElementById('tela-feed');
 
-  // ---------- código de acesso (ADR-011) ----------
-  // Chega no fragmento (#c=…), que nunca vai a servidor nenhum; sai da barra de endereço na hora e fica
-  // guardado só neste aparelho. Vai para a API apenas no header Authorization (a CSP só deixa falar com a API).
-  var CHAVE = 'pastoral-painel-codigo-v1';
-  function lerCodigo() {
-    var m = /(?:^#|&)c=([A-Za-z0-9_-]{32,128})(?:&|$)/.exec(location.hash);
-    if (m) {
-      try { localStorage.setItem(CHAVE, m[1]); } catch (err) {}
-      try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
-      return m[1];
-    }
-    try { return localStorage.getItem(CHAVE); } catch (err) { return null; }
-  }
-  function esquecerCodigo() { codigo = null; try { localStorage.removeItem(CHAVE); } catch (err) {} }
-  var codigo = lerCodigo();
-  var estado = {};          // post → último evento (vem do Worker)
-  var autor = null;
-
   // rolagem: no celular é a página; no computador, a tela dentro da moldura
   function rolador() { return getComputedStyle(tela).overflowY === 'auto' ? tela : null; }
   function posicao() { var r = rolador(); return r ? r.scrollTop : window.scrollY; }
@@ -669,8 +691,10 @@ JS = r"""
   document.getElementById('voltar').addEventListener('click', function () {
     if (history.state && history.state.post) { history.back(); } else { fechar(); }
   });
+  // Voltar do feed. Só fecha se o feed estiver aberto: um popstate sem post (ex.: o salto para #painel)
+  // chamava fechar() → rolarPara(0), e no Safari/iOS a página voltava ao topo e o painel nunca aparecia.
   window.addEventListener('popstate', function (ev) {
-    if (ev.state && ev.state.post) { abrir(ev.state.post, false); } else { fechar(); }
+    if (ev.state && ev.state.post) { abrir(ev.state.post, false); } else if (!feed.hidden) { fechar(); }
   });
 
   // telas estreitas: tira palavras do fim até a legenda recolhida caber em 2 linhas, como o app
@@ -732,45 +756,85 @@ JS = r"""
     });
   });
 
-  // ---------- painel: estado vem do Worker; cada cartão vai para Pendentes, Aprovadas ou Em ajuste ----------
+  // ---------- painel (ADR-012): rascunho neste aparelho + envio com código ----------
+  // As respostas ficam como RASCUNHO no localStorage ("a enviar") e só valem depois de "Enviar respostas"
+  // com o código de envio. O código nunca é guardado: vive só no campo do diálogo durante o envio.
+  var CHAVE = 'pastoral-painel-rascunho-v1';
+  try { localStorage.removeItem('pastoral-painel-codigo-v1'); } catch (err) {}   // a versão anterior guardava um código
+  var rascunho = {};
+  try { rascunho = JSON.parse(localStorage.getItem(CHAVE) || '{}') || {}; } catch (err) { rascunho = {}; }
+  function guardar() { try { localStorage.setItem(CHAVE, JSON.stringify(rascunho)); } catch (err) {} }
+  var estado = {};          // post → último evento no servidor (GET /api/estado, público)
+
   var listas = { '': 'pendentes', aprovado: 'aprovadas', ajuste: 'ajuste' };
   var itens = Array.prototype.slice.call(document.querySelectorAll('.item:not(.item-simples)'));
   var agendados = Array.prototype.slice.call(document.querySelectorAll('.item-agendado'));
   var aviso = document.getElementById('acesso');
+  var porN = {};
+  itens.forEach(function (item) { porN[item.dataset.n] = item; });
+  // rascunho de um post que sumiu ou mudou de conteúdo não vale mais
+  Object.keys(rascunho).forEach(function (n) {
+    var it = porN[n], r = rascunho[n];
+    if (!it || !r || r.versao !== it.dataset.versao || r.semana !== it.dataset.semana) delete rascunho[n];
+  });
+  guardar();
 
   function quando(iso) {
     try { return new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }); } catch (err) { return iso; }
   }
-  // Situação de um cartão: o último evento só vale se for da mesma semana E da mesma versão do conteúdo
+  // Situação no servidor: o último evento só vale se for da mesma semana E da mesma versão do conteúdo
   // que a página mostra; se o post mudou depois da resposta, volta para Pendentes.
-  function situacao(item) {
+  function doServidor(item) {
     var ev = estado[item.dataset.n];
     if (!ev || ev.semana !== item.dataset.semana || ev.acao === 'desfazer') return { st: '' };
     if (ev.versao_conteudo !== item.dataset.versao) return { st: '', mudou: true, ev: ev };
     return { st: ev.acao === 'aprovar' ? 'aprovado' : 'ajuste', ev: ev };
   }
+  // O que o aprovador vê: o rascunho por cima do servidor.
+  function situacao(item) {
+    var s = doServidor(item), r = rascunho[item.dataset.n];
+    if (!r) return s;
+    return { st: r.acao === 'aprovar' ? 'aprovado' : r.acao === 'ajustar' ? 'ajuste' : '', rascunho: r, servidor: s };
+  }
+  // Marca um rascunho; se ficar igual ao que já vale no servidor, não há o que enviar.
+  function marcar(item, acao, comentario) {
+    var n = item.dataset.n, s = doServidor(item);
+    var igual = (acao === 'aprovar' && s.st === 'aprovado') || (acao === 'desfazer' && s.st === '' && !s.mudou) ||
+      (acao === 'ajustar' && s.st === 'ajuste' && s.ev.comentario === comentario);
+    if (igual) { delete rascunho[n]; }
+    else { rascunho[n] = { acao: acao, comentario: comentario || '', semana: item.dataset.semana, versao: item.dataset.versao }; }
+    guardar();
+  }
   function mostrarBotoes(item, visiveis) {
     item.querySelectorAll('.item-acoes button').forEach(function (b) { b.hidden = visiveis.indexOf(b.dataset.acao) < 0; });
   }
   function pintarItem(item) {
-    var s = situacao(item), editando = item.dataset.editando === '1';
+    var s = situacao(item), editando = item.dataset.editando === '1', r = s.rascunho;
     item.dataset.estado = s.st || 'pendente';
-    item.dataset.mudou = s.mudou ? '1' : '';
+    item.dataset.rascunho = r ? '1' : '';
+    item.dataset.mudou = !r && s.mudou ? '1' : '';
     item.querySelector('.item-campo').hidden = !editando;
     item.querySelector('.item-acoes').hidden = editando;
-    var status = item.querySelector('.item-status');
     var texto = '';
-    if (s.st === 'aprovado') texto = 'Aprovado por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '. Será publicado na data prevista.';
+    if (r && r.acao === 'aprovar') texto = 'A enviar: aprovação (ainda não vale).';
+    else if (r && r.acao === 'ajustar') texto = 'A enviar: pedido de ajuste (ainda não vale).';
+    else if (r) texto = 'A enviar: ' + (s.servidor.st === 'aprovado' ? 'tirar a aprovação.' : 'tirar o pedido de ajuste.');
+    else if (s.st === 'aprovado') texto = 'Aprovado por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '. Será publicado na data prevista.';
     else if (s.st === 'ajuste') texto = 'Ajuste pedido por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '.';
     else if (s.mudou) texto = 'Esta publicação mudou depois da resposta de ' + quando(s.ev.criado_em) + '. Confira de novo.';
+    var status = item.querySelector('.item-status');
     status.textContent = texto; status.hidden = !texto;
     var com = item.querySelector('.item-comentario');
-    com.textContent = s.st === 'ajuste' ? 'O que ajustar: ' + s.ev.comentario : '';
-    com.hidden = !(s.st === 'ajuste' && !editando);
+    var comentario = s.st === 'ajuste' ? (r ? r.comentario : s.ev.comentario) : '';
+    com.textContent = comentario ? 'O que ajustar: ' + comentario : '';
+    com.hidden = !(comentario && !editando);
     if (s.st === 'aprovado') mostrarBotoes(item, ['desfazer']);
     else if (s.st === 'ajuste') mostrarBotoes(item, ['editar', 'desfazer']);
-    else mostrarBotoes(item, ['aprovar', 'ajuste']);
+    else mostrarBotoes(item, r ? ['aprovar', 'ajuste', 'descartar'] : ['aprovar', 'ajuste']);
   }
+  var btnEnviar = document.getElementById('enviar');
+  var resumoEnvio = document.getElementById('envio-resumo');
+  function aEnviar() { return itens.filter(function (item) { return rascunho[item.dataset.n]; }); }
   function redistribuir() {
     var contas = { pendentes: 0, aprovadas: 0, ajuste: 0 };
     itens.forEach(function (item) {
@@ -785,74 +849,34 @@ JS = r"""
     });
     var agendadas = 0;
     agendados.forEach(function (li) {
-      var item = document.getElementById('item-' + li.dataset.n);
-      li.hidden = !(item && situacao(item).st === 'aprovado');
+      var item = porN[li.dataset.n];
+      li.hidden = !(item && doServidor(item).st === 'aprovado');     // só o que já vale no servidor
       if (!li.hidden) agendadas++;
     });
     document.getElementById('conta-agendadas').textContent = '(' + agendadas + ')';
     document.getElementById('vazio-agendadas').hidden = agendadas > 0;
-    document.getElementById('ir-painel').textContent = contas.pendentes
-      ? 'Aprovações (' + contas.pendentes + (contas.pendentes === 1 ? ' pendente)' : ' pendentes)')
-      : 'Aprovações (tudo respondido)';
-  }
-  function modoLeitura(msg) {
-    document.body.classList.add('so-leitura');
-    aviso.textContent = msg;
-    document.getElementById('acesso-sair').hidden = !codigo;
-  }
-  function modoDecisao() {
-    document.body.classList.remove('so-leitura');
-    aviso.textContent = 'Você está aprovando como ' + autor + '. Cada resposta é gravada na hora.';
-    document.getElementById('acesso-sair').hidden = false;
+    var n = aEnviar().length;
+    resumoEnvio.textContent = n ? (n === 1 ? '1 resposta a enviar.' : n + ' respostas a enviar.') : 'Nenhuma resposta a enviar.';
+    btnEnviar.disabled = !n;
+    document.getElementById('ir-painel').textContent = 'Aprovações (' + contas.pendentes +
+      (contas.pendentes === 1 ? ' pendente' : ' pendentes') + (n ? ' · ' + n + ' a enviar)' : ')');
   }
 
-  function chamar(metodo, caminho, corpo) {
-    var headers = { 'Authorization': 'Bearer ' + codigo };
-    if (corpo) headers['Content-Type'] = 'application/json';
-    return fetch(API + caminho, {
-      method: metodo, headers: headers, body: corpo ? JSON.stringify(corpo) : undefined,
-      cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
-    }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; });
-    });
-  }
   function carregar() {
-    if (!codigo) { modoLeitura('Modo só leitura: para aprovar, abra o link de aprovação que você recebeu.'); redistribuir(); return; }
-    modoLeitura('Carregando as decisões…');
-    chamar('GET', '/api/estado').then(function (j) {
-      if (j._status === 200) { autor = j.autor; estado = j.posts || {}; modoDecisao(); }
-      else if (j._status === 401) { esquecerCodigo(); estado = {}; modoLeitura('Modo só leitura: este link de aprovação não vale mais. Peça um novo ao Diogo.'); }
-      else { modoLeitura('Modo só leitura: não foi possível carregar as decisões (' + (j.mensagem || ('erro ' + j._status)) + '). Recarregue a página.'); }
-      redistribuir();
+    aviso.textContent = 'Carregando as decisões já enviadas…';
+    fetch(API + '/api/estado', { cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer' }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (r.status === 200) {
+          estado = j.posts || {};
+          aviso.textContent = 'Marque suas respostas e, no fim, toque em "Enviar respostas".';
+        } else {
+          aviso.textContent = 'Não foi possível carregar as decisões já enviadas (' + (j.mensagem || ('erro ' + r.status)) + '). Recarregue a página.';
+        }
+        redistribuir();
+      });
     }, function () {
-      modoLeitura('Modo só leitura: sem conexão com o servidor de aprovação. Recarregue a página.');
+      aviso.textContent = 'Sem conexão com o servidor de aprovação: as decisões já enviadas não aparecem. Recarregue a página.';
       redistribuir();
-    });
-  }
-
-  function decidir(item, corpo) {
-    var avisoItem = item.querySelector('.item-aviso');
-    item.dataset.ocupado = '1';
-    item.querySelectorAll('button[data-acao]').forEach(function (b) { b.disabled = true; });
-    avisoItem.textContent = 'Gravando…';
-    corpo.semana = item.dataset.semana; corpo.post = +item.dataset.n;
-    return chamar('POST', '/api/decisao', corpo).then(function (j) {
-      if (j._status === 200 && j.ok) {
-        estado[item.dataset.n] = j.estado; avisoItem.textContent = ''; item.dataset.editando = '';
-      } else if (j._status === 401) {
-        esquecerCodigo(); estado = {}; modoLeitura('Modo só leitura: este link de aprovação não vale mais. Peça um novo ao Diogo.');
-      } else if (j._status === 409) {
-        avisoItem.textContent = 'Esta publicação mudou depois que a página foi aberta. Nada foi gravado: recarregue a página e confira de novo.';
-      } else {
-        avisoItem.textContent = 'Não foi gravado: ' + (j.mensagem || ('erro ' + j._status)) + ' Tente de novo.';
-      }
-    }, function () {
-      avisoItem.textContent = 'Sem conexão: nada foi gravado. Tente de novo.';
-    }).then(function () {
-      item.dataset.ocupado = '';
-      item.querySelectorAll('button[data-acao]').forEach(function (b) { b.disabled = false; });
-      redistribuir();
-      var foco = item.querySelector('.item-acoes button:not([hidden])'); if (foco) foco.focus({ preventScroll: true });
     });
   }
 
@@ -861,25 +885,112 @@ JS = r"""
     item.addEventListener('click', function (ev) {
       var b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.abrir) { abrir(b.dataset.abrir, true); return; }
-      var acao = b.dataset.acao; if (!acao || item.dataset.ocupado === '1' || !codigo) return;
+      var acao = b.dataset.acao; if (!acao) return;
       var s = situacao(item);
-      if (acao === 'aprovar') { decidir(item, { acao: 'aprovar', versao: item.dataset.versao }); }
+      avisoItem.textContent = '';
+      if (acao === 'aprovar') { marcar(item, 'aprovar'); }
       else if (acao === 'ajuste' || acao === 'editar') {
-        item.dataset.editando = '1'; texto.value = s.st === 'ajuste' ? s.ev.comentario : ''; avisoItem.textContent = '';
-        pintarItem(item); texto.focus();
+        item.dataset.editando = '1';
+        texto.value = s.st === 'ajuste' ? (s.rascunho ? s.rascunho.comentario : s.ev.comentario) : '';
+        pintarItem(item); texto.focus(); return;
       }
-      else if (acao === 'cancelar') { item.dataset.editando = ''; avisoItem.textContent = ''; pintarItem(item); }
+      else if (acao === 'cancelar') { item.dataset.editando = ''; }
       else if (acao === 'salvar') {
         if (!texto.value.trim()) { avisoItem.textContent = 'Escreva o que precisa mudar antes de salvar.'; texto.focus(); return; }
-        decidir(item, { acao: 'ajustar', comentario: texto.value.trim() });
+        item.dataset.editando = ''; marcar(item, 'ajustar', texto.value.trim());
       }
-      else if (acao === 'desfazer') { decidir(item, { acao: 'desfazer' }); }
+      else if (acao === 'desfazer') {
+        if (rascunho[n]) { delete rascunho[n]; guardar(); } else { marcar(item, 'desfazer'); }
+      }
+      else if (acao === 'descartar') { delete rascunho[n]; guardar(); }
+      redistribuir();
+      var foco = item.querySelector('.item-acoes button:not([hidden])'); if (foco) foco.focus({ preventScroll: true });
     });
   });
-  document.getElementById('sair').addEventListener('click', function () {
-    esquecerCodigo(); estado = {}; autor = null;
-    modoLeitura('Você saiu deste aparelho. Para aprovar de novo, abra o link de aprovação.');
-    redistribuir();
+
+  // ---------- envio ----------
+  // Um post por pedido, em sequência: o plano gratuito do Worker limita as chamadas ao GitHub e o tempo de
+  // CPU por pedido. Código errado (401) ou bloqueio (429) param tudo antes de gravar qualquer coisa.
+  var dialogo = document.getElementById('dialogo-codigo');
+  var campoCodigo = document.getElementById('codigo');
+  var avisoDialogo = document.getElementById('dialogo-aviso');
+  var resultado = document.getElementById('envio-resultado');
+  var enviando = false;
+  function abrirDialogo() {
+    var n = aEnviar().length; if (!n) return;
+    document.getElementById('dialogo-resumo').textContent = (n === 1 ? '1 resposta' : n + ' respostas') +
+      ' será(ão) enviada(s). Digite o código de envio.';
+    campoCodigo.value = ''; avisoDialogo.textContent = '';
+    if (dialogo.showModal) { dialogo.showModal(); } else { dialogo.setAttribute('open', ''); }
+    campoCodigo.focus();
+  }
+  function fecharDialogo() { campoCodigo.value = ''; if (dialogo.close) { dialogo.close(); } else { dialogo.removeAttribute('open'); } }
+  function travar(sim) {
+    enviando = sim;
+    ['confirmar', 'cancelar-envio'].forEach(function (id) { document.getElementById(id).disabled = sim; });
+    campoCodigo.disabled = sim;
+  }
+  function chamarLote(codigo, decisoes) {
+    return fetch(API + '/api/decisoes', {
+      method: 'POST', cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer',
+      headers: { 'Authorization': 'Bearer ' + codigo, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ decisoes: decisoes })
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; });
+    });
+  }
+  function enviar(codigo) {
+    var fila = aEnviar(), feitos = 0, falhas = [];
+    travar(true);
+    resultado.hidden = true;
+    function fim(parou) {
+      travar(false);
+      redistribuir();
+      if (parou) return;                        // código errado/bloqueio: o diálogo continua aberto com o aviso
+      fecharDialogo();
+      var linhas = [feitos ? (feitos === 1 ? '1 resposta enviada e gravada.' : feitos + ' respostas enviadas e gravadas.') : 'Nenhuma resposta foi gravada.'];
+      falhas.forEach(function (f) { linhas.push('Publicação ' + f.n + ': não enviada — ' + f.msg); });
+      resultado.textContent = linhas.join('\n');
+      resultado.dataset.falhou = falhas.length ? '1' : '';
+      resultado.hidden = false;
+    }
+    function proximo(i) {
+      if (i >= fila.length) return fim(false);
+      var item = fila[i], n = item.dataset.n, r = rascunho[n];
+      avisoDialogo.textContent = 'Enviando ' + (i + 1) + ' de ' + fila.length + '…';
+      var d = { semana: r.semana, post: +n, acao: r.acao };
+      if (r.acao === 'aprovar') d.versao = r.versao;
+      if (r.acao === 'ajustar') d.comentario = r.comentario;
+      return chamarLote(codigo, [d]).then(function (j) {
+        if (j._status === 401 || j._status === 429) {
+          avisoDialogo.textContent = (j.mensagem || 'Código recusado.') + (feitos ? ' (' + feitos + ' já tinham sido enviadas.)' : '');
+          campoCodigo.value = ''; fim(true); campoCodigo.focus(); return;
+        }
+        var res = j._status === 200 && j.resultados ? j.resultados[0] : null;
+        if (res && res.ok) {
+          estado[n] = res.estado; delete rascunho[n]; guardar(); feitos++;
+        } else {
+          var msg = res ? res.mensagem : (j.mensagem || ('erro ' + j._status));
+          falhas.push({ n: n, msg: msg });
+          item.querySelector('.item-aviso').textContent = 'Não foi enviado: ' + msg;
+        }
+        return proximo(i + 1);
+      }, function () {
+        falhas.push({ n: n, msg: 'sem conexão.' });
+        item.querySelector('.item-aviso').textContent = 'Não foi enviado: sem conexão. Tente de novo.';
+        return proximo(i + 1);
+      });
+    }
+    proximo(0);
+  }
+  btnEnviar.addEventListener('click', abrirDialogo);
+  document.getElementById('cancelar-envio').addEventListener('click', fecharDialogo);
+  document.getElementById('form-codigo').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (enviando) return;
+    var codigo = campoCodigo.value;
+    if (!codigo) { avisoDialogo.textContent = 'Digite o código de envio.'; campoCodigo.focus(); return; }
+    enviar(codigo);
   });
 
   // blocos recolhíveis: sempre começam fechados
@@ -896,6 +1007,23 @@ JS = r"""
     });
   });
 
+  // Botão fixo "Aprovações (N)": rola até o painel (sem mexer no histórico) e abre Pendentes. Some
+  // enquanto o painel está na tela, para não cobrir o botão "Enviar respostas".
+  var irPainel = document.getElementById('ir-painel');
+  var painel = document.getElementById('painel');
+  irPainel.addEventListener('click', function (ev) {
+    ev.preventDefault();
+    var pend = document.querySelector('#bloco-pendentes .bloco-botao');
+    if (pend && pend.getAttribute('aria-expanded') === 'false') pend.click();
+    painel.scrollIntoView({ block: 'start', behavior: 'instant' });
+  });
+  try {
+    new IntersectionObserver(function (vistos) {
+      irPainel.dataset.escondido = vistos[0].isIntersecting ? '1' : '';
+    }, { threshold: 0 }).observe(painel);
+  } catch (err) {}
+
+  redistribuir();
   carregar();
   if (/^#post-\d+$/.test(location.hash)) { var n0 = location.hash.slice(6); try { history.replaceState({ post: n0 }, ''); } catch (err) {} abrir(n0, false); }
 })();

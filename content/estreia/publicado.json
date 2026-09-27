@@ -1,9 +1,9 @@
 {
-  "_comentario": "Ledger do pacote de estreia. Publicação manual pelo Instagram web (Claude no Chrome do Diogo), porque o portão de publicação por API (fatia 7) ainda não existe. Aprovação: Diogo e Padre responsável pela Pastoral (informada pelo Diogo em chat).",
+  "_comentario": "Ledger do pacote de estreia. Publicação manual pelo Instagram web (Claude no Chrome do Diogo), porque o portão de publicação por API (fatia 7) ainda não existe. Aprovação: Diogo e aprovador responsável pela Pastoral (informada pelo Diogo em chat).",
   "aprovacao": {
     "aprovadores": [
       "Diogo Kammers",
-      "Padre responsável pela Pastoral"
+      "Aprovador responsável pela Pastoral"
     ],
     "canal": "chat com o Diogo",
     "data": "2026-09-26"

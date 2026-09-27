@@ -1,4 +1,4 @@
-"""Fatia 5 (parte) — prévia autocontida do pacote de estreia para o Diogo e o Padre."""
+"""Fatia 5 (parte) — prévia autocontida do pacote de estreia para o Diogo e o aprovador."""
 import json
 import re
 import shutil
@@ -31,7 +31,7 @@ def test_ler_bio(bio):
     assert len(bio["alternativas"]) == 2
 
 
-def test_pagina_tem_texto_de_apoio_para_o_padre(dados, bio):
+def test_pagina_tem_texto_de_apoio_para_o_aprovador(dados, bio):
     html = preview.montar_pagina(dados, bio, imagens_falsas(dados))
     assert "O que estamos pedindo para aprovar" in html
 

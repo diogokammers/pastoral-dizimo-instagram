@@ -42,7 +42,7 @@ def avaliar(tmp_path, aprov):
 
 def test_aprovacao_do_painel_passa_no_portao(vetor, tmp_path):
     aprov = vetor["apos_aprovar"]
-    assert aprov["aprovado_por"] == "Padre"
+    assert aprov["aprovado_por"] == "Aprovador"
     assert publicar.assinatura_valida(aprov, SEGREDO_APROV)
     prontos, recusados = avaliar(tmp_path, aprov)
     assert recusados == [] and [p["numero"] for p in prontos] == [12, 13]

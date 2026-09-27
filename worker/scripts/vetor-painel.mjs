@@ -14,17 +14,18 @@ if (!saida) {
   process.exit(2);
 }
 const codigo = "codigo-de-teste-do-vetor-0123456789abcdef";
-const env = { ...ENV, DB: new D1Falso(), CODIGO_PADRE: codigo };
+const env = { ...ENV, DB: new D1Falso(), CODIGO_APROVADOR: codigo };
 const gh = new GitHubFalso();
 const caminho = "content/semanas/2026-W41/aprovacao.json";
 
 async function decidir(corpo) {
-  const r = await tratar(new Request("https://w.exemplo.workers.dev/api/decisao", {
+  const r = await tratar(new Request("https://w.exemplo.workers.dev/api/decisoes", {
     method: "POST",
     headers: { Origin: "https://diogokammers.github.io", Authorization: `Bearer ${codigo}`, "Content-Type": "application/json" },
-    body: JSON.stringify(corpo),
+    body: JSON.stringify({ decisoes: [corpo] }),
   }), env, { fetch: gh.fetch, agora: () => new Date("2026-10-02T13:00:00Z"), waitUntil: () => {} });
-  if (r.status !== 200) {
+  const j = r.status === 200 ? await r.clone().json() : null;
+  if (r.status !== 200 || !j.ok) {
     console.error(`falhou: HTTP ${r.status} ${await r.text()}`);
     process.exit(1);
   }

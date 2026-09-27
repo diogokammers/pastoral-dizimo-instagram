@@ -210,7 +210,7 @@ def gerar_vetores(fixture: Path = FIXTURE) -> dict:
         links.append(params)
     aprov, _ = montar_aprovacao(None, semana, itens, [12, 13], "0123456789abcdef", "Diogo",
                                 "2026-10-02T13:00:00+00:00", "segredo-aprovacao-de-teste")
-    remocao, _ = remover_da_aprovacao(aprov, semana, 12, "fedcba9876543210", "Padre",
+    remocao, _ = remover_da_aprovacao(aprov, semana, 12, "fedcba9876543210", "Aprovador",
                                       "2026-10-03T10:00:00+00:00", "segredo-aprovacao-de-teste")
     return {
         "gerado_por": "python -m pastoral.aprovacao --vetores (não editar à mão)",

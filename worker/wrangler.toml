@@ -12,7 +12,7 @@ workers_dev = true
 enabled = false
 
 # Valores públicos (não são segredos). Os segredos vão por `npx wrangler secret put` (via stdin):
-# LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER, CODIGO_PADRE (e, se um dia existir, CODIGO_DIOGO).
+# LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER, CODIGO_APROVADOR (código de envio do painel).
 [vars]
 GITHUB_REPO = "diogokammers/pastoral-dizimo-instagram"
 GITHUB_BRANCH = "master"
@@ -55,15 +55,15 @@ EVENTO_AJUSTE = "ajustar_post_teste"
 [[env.teste.d1_databases]]
 binding = "DB"
 database_name = "pastoral-aprovacoes-teste"
-database_id = "279898c5-0702-4786-94c0-278db7d62139"
+database_id = "c203ab60-b929-4359-a0a7-0b9131ce56e3"
 migrations_dir = "migrations"
 
 [env.teste.triggers]
 crons = []
 
 # ---------------------------------------------------------------------------------------------------
-# Link curto: Worker "aprovar" → https://aprovar.pastoral-dizimo-aprovacao.workers.dev/p/<código>.
-# Só redireciona para a página com o código no fragmento (#c=…); sem segredos, sem banco, sem GitHub.
+# Link curto: Worker "aprovar" → https://aprovar.pastoral-dizimo-aprovacao.workers.dev/ redireciona para a
+# página do painel (sem código). Sem segredos, sem banco, sem GitHub; qualquer outra rota dá 404.
 # `npx wrangler deploy --env curto`
 [env.curto]
 name = "aprovar"

@@ -3,7 +3,7 @@
 Estreia: página HTML única, autocontida, estilo perfil do Instagram.
 
 Mostra bio, fileira de destaques, grade com os 3 posts fixados e, para cada post, o carrossel
-navegável com legenda, alt-text e itens a conferir. Abre com um texto de apoio para o Padre
+navegável com legenda, alt-text e itens a conferir. Abre com um texto de apoio para o aprovador
 ("O que estamos pedindo para aprovar"). As imagens vão embutidas (data URI): o arquivo pode ser
 enviado por e-mail ou aberto direto do disco, sem internet.
 
@@ -107,7 +107,7 @@ def _apoio(dados: dict, bio: dict) -> str:
   <h1>Pacote de estreia · Pastoral do Dízimo</h1>
   <p class="aviso">Prévia para aprovação. <b>Nada foi publicado.</b></p>
   <h2>O que estamos pedindo para aprovar</h2>
-  <p>Padre, esta página mostra como o perfil ficará na estreia. Pedimos sua aprovação, ou seus ajustes, para três coisas:</p>
+  <p>Esta página mostra como o perfil ficará na estreia. Pedimos sua aprovação, ou seus ajustes, para três coisas:</p>
   <ol>
     <li><b>Nome e bio do perfil</b> — a proposta aparece no topo do perfil abaixo; há duas alternativas no fim desta seção.</li>
     <li><b>Capas dos 5 destaques</b> — Dízimo, Formação, Agenda, Perguntas e Arquifln. Só ícones, nas cores da Arquidiocese; o nome do destaque aparece no próprio Instagram.</li>

@@ -1,9 +1,9 @@
-"""Validação ponta a ponta do painel (ADR-011) contra o Worker de TESTE, o D1 de teste e o ramo teste-aprovacao.
+"""Validação ponta a ponta do painel (ADR-011/012) contra o Worker de TESTE, o D1 de teste e o ramo teste-aprovacao.
 
 Nunca aponte para produção: o script recusa o Worker de produção e ramos diferentes de teste-aprovacao.
 Chamadas HTTP reais; depois de cada passo relê o ramo (git pull num checkout dele) e roda o portão
 (publicar.avaliar_semana) localmente com o segredo de TESTE. Consulta o D1 de teste pelo wrangler.
-O código de acesso e os segredos são lidos de arquivos e nunca aparecem na saída (o código é mascarado).
+O código de envio e os segredos são lidos de arquivos e nunca aparecem na saída (o código é mascarado).
 
 Uso (PYTHONPATH=src, da raiz do repositório):
   python scripts/e2e_painel.py --api https://pastoral-dizimo-aprovacao-teste.<sub>.workers.dev \\
@@ -129,17 +129,22 @@ class E2E:
         print(("OK   " if ok else "FALHA") + " " + nome, flush=True)
         return ok
 
+    def lote(self, decisoes, **kw):
+        status, _, texto = self.http("POST", "/api/decisoes", {"decisoes": decisoes}, **kw)
+        try:
+            return status, json.loads(texto)
+        except ValueError:
+            return status, {"bruto": texto[:300]}
+
     def decidir(self, post, acao, versao=None, comentario=None, **kw):
+        """Lote de um post; devolve (status HTTP, resultado do post ou o corpo inteiro se o lote foi recusado)."""
         corpo = {"semana": SEMANA, "post": post, "acao": acao}
         if versao:
             corpo["versao"] = versao
         if comentario is not None:
             corpo["comentario"] = comentario
-        status, _, texto = self.http("POST", "/api/decisao", corpo, **kw)
-        try:
-            return status, json.loads(texto)
-        except ValueError:
-            return status, {"bruto": texto[:300]}
+        status, j = self.lote([corpo], **kw)
+        return status, (j["resultados"][0] if status == 200 and "resultados" in j else j)
 
     # ---------- roteiro ----------
     def rodar(self):
@@ -149,30 +154,49 @@ class E2E:
         v901, v902 = self.versao_atual(901), self.versao_atual(902)
         self.registrar("estado inicial", True, head=head0, eventos_d1=n0, versao_901=v901, versao_902=v902)
 
-        s, h, _ = self.http("OPTIONS", "/api/decisao", codigo=None)
+        s, h, _ = self.http("OPTIONS", "/api/decisoes", codigo=None)
         self.registrar("preflight CORS do origin permitido → 204", s == 204 and h.get("Access-Control-Allow-Origin") == ORIGEM,
                        status=s, allow_origin=h.get("Access-Control-Allow-Origin"))
 
-        s, _, _ = self.http("GET", "/api/estado", codigo="X" * 43)
-        s2, b2 = self.decidir(901, "aprovar", v901, codigo="X" * 43)
-        s3, b3 = self.decidir(901, "aprovar", v901, codigo=None)
-        head, n = self.atualizar(), self.total_eventos()
-        self.registrar("código errado ou ausente → 401 sem gravar", s == 401 and s2 == 401 and s3 == 401 and head == head0 and n == n0,
-                       status_estado=s, status_decisao=s2, status_sem_codigo=s3, resposta=b2, head=head, eventos_d1=n)
+        s, h, texto = self.http("GET", "/api/estado", codigo=None)
+        self.registrar("GET /api/estado é público (sem código) e não expõe ip_hash",
+                       s == 200 and "ip_hash" not in texto and json.loads(texto) == {"posts": {}},
+                       status=s, corpo=json.loads(texto), cache=h.get("Cache-Control"))
 
-        s, h, _ = self.http("GET", "/api/estado", origem="https://evil.example")
+        trocado = self.codigo.swapcase()
+        s1, b1 = self.decidir(901, "aprovar", v901, codigo=trocado)
+        s2, b2 = self.decidir(901, "aprovar", v901, codigo=None)
+        head, n = self.atualizar(), self.total_eventos()
+        self.registrar("código com maiúsculas/minúsculas trocadas ou ausente → 401 sem gravar",
+                       s1 == 401 and b1.get("tentativas_restantes") == 4 and s2 == 401 and b2.get("tentativas_restantes") == 3
+                       and head == head0 and n == n0,
+                       status_trocado=s1, resposta_trocado=b1, status_sem_codigo=s2, restantes=b2.get("tentativas_restantes"),
+                       head=head, eventos_d1=n)
+
+        s, h, _ = self.http("GET", "/api/estado", origem="https://evil.example", codigo=None)
         s2, b2 = self.decidir(901, "aprovar", v901, origem="https://evil.example")
-        s3, b3 = self.decidir(901, "aprovar", v901, origem=None)
+        s3, _ = self.decidir(901, "aprovar", v901, origem=None)
         head, n = self.atualizar(), self.total_eventos()
-        self.registrar("origin errado ou ausente (com código válido) → 403 sem gravar",
+        self.registrar("origin errado ou ausente (com código certo) → 403 sem gravar",
                        s == 403 and s2 == 403 and s3 == 403 and "Access-Control-Allow-Origin" not in h and head == head0 and n == n0,
-                       status_estado=s, status_decisao=s2, status_sem_origin=s3, resposta=b2, head=head, eventos_d1=n)
+                       status_estado=s, status_decisao=s2, status_sem_origin=s3, head=head, eventos_d1=n)
 
-        s, h, texto = self.http("GET", "/api/estado")
-        corpo = json.loads(texto)
-        self.registrar("GET /api/estado com código → 200 (autor Padre)", s == 200 and corpo.get("autor") == "Padre",
-                       status=s, autor=corpo.get("autor"), posts=list(corpo.get("posts", {})),
-                       allow_origin=h.get("Access-Control-Allow-Origin"), cache=h.get("Cache-Control"))
+        s3, b3 = self.decidir(901, "aprovar", v901, codigo="errado-3")
+        s4, b4 = self.decidir(901, "aprovar", v901, codigo="errado-4")
+        s5, b5 = self.decidir(901, "aprovar", v901, codigo="errado-5")
+        s6, b6 = self.decidir(901, "aprovar", v901)                    # código CERTO, mas bloqueado
+        falhas = self.d1("SELECT COUNT(*) AS n, MIN(length(ip_hash)) AS tam FROM falhas_acesso")[0]
+        head, n = self.atualizar(), self.total_eventos()
+        self.registrar("5 códigos errados → 429 (bloqueio de 15 min), até o código certo é recusado; nada gravado",
+                       s3 == 401 and s4 == 401 and s5 == 429 and s6 == 429 and b6.get("erro") == "bloqueado"
+                       and head == head0 and n == n0 and falhas["n"] == 5 and falhas["tam"] == 16,
+                       status=[s3, s4, s5, s6], mensagem_bloqueio=b6.get("mensagem"), bloqueado_ate=b6.get("bloqueado_ate"),
+                       falhas_d1=falhas, head=head, eventos_d1=n)
+
+        self.d1("DELETE FROM falhas_acesso")                             # libera (mesmo procedimento da produção)
+        s, h, texto = self.http("GET", "/api/estado", codigo=None)
+        self.registrar("falhas apagadas no D1 → liberado", self.d1("SELECT COUNT(*) AS n FROM falhas_acesso")[0]["n"] == 0,
+                       status_estado=s)
 
         s, b = self.decidir(901, "aprovar", v901)
         head1 = self.atualizar()
@@ -180,64 +204,73 @@ class E2E:
         port = self.portao()
         linhas = self.d1("SELECT id, post, semana, acao, versao_conteudo, autor, criado_em, origem, commit_sha, "
                          "ip_hash IS NOT NULL AS tem_ip_hash FROM eventos ORDER BY id DESC LIMIT 1")
-        self.registrar("aprovar 901 → evento no D1 + aprovacao.json assinado no ramo + portão aceita",
-                       s == 200 and b.get("commit") and head1 != head0 and publicar.assinatura_valida(aprov, self.segredo)
+        self.registrar("código certo: aprovar 901 → evento no D1 + aprovacao.json assinado no ramo + portão aceita",
+                       s == 200 and b.get("ok") and b.get("commit") and head1 != head0
+                       and publicar.assinatura_valida(aprov, self.segredo) and aprov["aprovado_por"] == "Aprovador"
                        and [p["numero"] for p in aprov["posts"]] == [901] and port["prontos"] == [901]
-                       and linhas[0]["commit_sha"] == b["commit"] and linhas[0]["versao_conteudo"] == v901,
-                       status=s, resposta=b, head=head1, aprovado_por=aprov["aprovado_por"],
-                       assinatura_valida=publicar.assinatura_valida(aprov, self.segredo), portao=port, d1=linhas)
+                       and linhas[0]["commit_sha"] == b["commit"] and linhas[0]["autor"] == "Aprovador",
+                       status=s, commit=b.get("commit"), head=head1, aprovado_por=aprov["aprovado_por"],
+                       assinatura_valida=publicar.assinatura_valida(aprov, self.segredo), portao=port, d1=linhas,
+                       falhas_d1=self.d1("SELECT COUNT(*) AS n FROM falhas_acesso")[0]["n"])
 
         n1 = self.total_eventos()
         s, b = self.decidir(901, "aprovar", v901)
         head, n = self.atualizar(), self.total_eventos()
         self.registrar("aprovar 901 de novo → idempotente (sem commit, sem evento)",
                        s == 200 and b.get("idempotente") is True and head == head1 and n == n1,
-                       status=s, resposta=b, head=head, eventos_d1=n)
+                       status=s, idempotente=b.get("idempotente"), head=head, eventos_d1=n)
 
-        s, b = self.decidir(902, "aprovar", "0" * 32)
-        head, n = self.atualizar(), self.total_eventos()
-        self.registrar("aprovar 902 com versão velha → 409 sem gravar", s == 409 and head == head1 and n == n1,
-                       status=s, resposta=b, head=head, eventos_d1=n)
-
-        s, b = self.decidir(902, "aprovar", v902)
+        s, j = self.lote([{"semana": SEMANA, "post": 902, "acao": "aprovar", "versao": "0" * 32},
+                          {"semana": SEMANA, "post": 901, "acao": "desfazer"}])
         head2 = self.atualizar()
         aprov, port = self.aprovacao_json(), self.portao()
-        self.registrar("aprovar 902 → acumula no aprovacao.json; portão aceita 901 e 902",
-                       s == 200 and [p["numero"] for p in aprov["posts"]] == [901, 902] and port["prontos"] == [901, 902],
-                       status=s, commit=b.get("commit"), head=head2, portao=port)
+        res = j.get("resultados", [])
+        self.registrar("lote misto num só pedido: 902 com versão velha → 409; 901 desfazer é aplicado mesmo assim",
+                       s == 200 and j.get("ok") is False and [(r["post"], r["ok"], r["status"]) for r in res] == [(902, False, 409), (901, True, 200)]
+                       and aprov["posts"] == [] and port["prontos"] == [] and publicar.assinatura_valida(aprov, self.segredo),
+                       status=s, resultados=[{k: r.get(k) for k in ("post", "acao", "ok", "status", "erro", "commit")} for r in res],
+                       head=head2, posts_aprovados=aprov["posts"], portao=port)
+
+        s, j = self.lote([{"semana": SEMANA, "post": 901, "acao": "aprovar", "versao": v901},
+                          {"semana": SEMANA, "post": 902, "acao": "aprovar", "versao": v902}])
+        head3 = self.atualizar()
+        aprov, port = self.aprovacao_json(), self.portao()
+        self.registrar("lote com 2 aprovações (901 com 10 artes + 902) → as duas gravadas; portão aceita 901 e 902",
+                       s == 200 and j.get("ok") is True and [p["numero"] for p in aprov["posts"]] == [901, 902]
+                       and port["prontos"] == [901, 902],
+                       status=s, commits=[r.get("commit") for r in j.get("resultados", [])], head=head3, portao=port)
 
         s, b = self.decidir(901, "desfazer")
-        head3 = self.atualizar()
+        head4 = self.atualizar()
         aprov, port = self.aprovacao_json(), self.portao()
         self.registrar("desfazer 901 → sai do aprovacao.json (reassinado); portão não o publica",
                        s == 200 and b.get("estado", {}).get("acao") == "desfazer"
                        and [p["numero"] for p in aprov["posts"]] == [902] and publicar.assinatura_valida(aprov, self.segredo)
-                       and 901 not in port["prontos"] and port["prontos"] == [902],
-                       status=s, commit=b.get("commit"), head=head3, posts_aprovados=[p["numero"] for p in aprov["posts"]],
-                       assinatura_valida=publicar.assinatura_valida(aprov, self.segredo), portao=port)
+                       and port["prontos"] == [902],
+                       status=s, commit=b.get("commit"), head=head4, posts_aprovados=[p["numero"] for p in aprov["posts"]], portao=port)
 
-        n3 = self.total_eventos()
+        n4 = self.total_eventos()
         s, b = self.decidir(901, "desfazer")
         head, n = self.atualizar(), self.total_eventos()
-        self.registrar("desfazer 901 de novo → idempotente", s == 200 and b.get("idempotente") is True and head == head3 and n == n3,
+        self.registrar("desfazer 901 de novo → idempotente", s == 200 and b.get("idempotente") is True and head == head4 and n == n4,
                        status=s, head=head, eventos_d1=n)
 
         texto_ajuste = "[TESTE E2E] Trocar a imagem da capa."
         s, b = self.decidir(902, "ajustar", comentario=texto_ajuste)
-        head4 = self.atualizar()
+        head5 = self.atualizar()
         ajuste_arq = self.checkout / "content" / "semanas" / SEMANA / "ajuste-902.json"
         ajuste = json.loads(ajuste_arq.read_text(encoding="utf-8")) if ajuste_arq.exists() else None
         aprov, port = self.aprovacao_json(), self.portao()
         self.registrar("pedir ajuste 902 → ajuste-902.json + repository_dispatch (ajustar_post_teste) + sai da aprovação",
                        s == 200 and ajuste and ajuste["texto"] == texto_ajuste and aprov["posts"] == [] and port["prontos"] == [],
-                       status=s, commit=b.get("commit"), head=head4, ajuste=ajuste, posts_aprovados=aprov["posts"], portao=port,
-                       nota="o Worker só responde 200 depois do POST /dispatches ter devolvido 204 (senão seria 502)")
+                       status=s, commit=b.get("commit"), head=head5, ajuste=ajuste, portao=port,
+                       nota="o Worker só responde ok depois do POST /dispatches ter devolvido 204 (senão seria 502)")
 
-        n4 = self.total_eventos()
+        n5 = self.total_eventos()
         s, b = self.decidir(902, "ajustar", comentario=texto_ajuste)
         head, n = self.atualizar(), self.total_eventos()
         self.registrar("mesmo ajuste de novo → idempotente (sem novo arquivo nem dispatch)",
-                       s == 200 and b.get("idempotente") is True and head == head4 and n == n4, status=s, head=head, eventos_d1=n)
+                       s == 200 and b.get("idempotente") is True and head == head5 and n == n5, status=s, head=head, eventos_d1=n)
 
         # conteúdo muda depois da aprovação
         s, b = self.decidir(901, "aprovar", v901)
@@ -250,21 +283,21 @@ class E2E:
         self.git("add", "content/semanas/2099-W01/posts.json")
         self.git("commit", "-q", "-m", "teste(painel): muda a legenda do 901 depois da aprovação (E2E)")
         self.empurrar()
-        head5 = self.atualizar()
+        head6 = self.atualizar()
         v901_nova = self.versao_atual(901)
-        _, _, texto = self.http("GET", "/api/estado")
+        _, _, texto = self.http("GET", "/api/estado", codigo=None)
         ev901 = json.loads(texto)["posts"]["901"]
         port = self.portao()
         s2, b2 = self.decidir(901, "aprovar", v901)
         self.registrar("conteúdo muda depois da aprovação → versão guardada ≠ atual (página volta a pendente); portão recusa; aprovar com versão velha → 409",
                        s == 200 and ev901["acao"] == "aprovar" and ev901["versao_conteudo"] == v901 and v901_nova != v901
-                       and any(r["numero"] == 901 and "legenda" in r["motivo"] for r in port["recusados"]) and s2 == 409,
-                       status_aprovar=s, head=head5, versao_aprovada=ev901["versao_conteudo"], versao_atual=v901_nova,
-                       portao=port, status_reaprovar_velha=s2, resposta=b2)
+                       and any(r["numero"] == 901 and "legenda" in r["motivo"] for r in port["recusados"]) and b2.get("status") == 409,
+                       head=head6, versao_aprovada=ev901["versao_conteudo"], versao_atual=v901_nova, portao=port,
+                       status_reaprovar_velha=b2.get("status"))
         s, b = self.decidir(901, "aprovar", v901_nova)
         self.atualizar()
         port = self.portao()
-        self.registrar("aprovar 901 na versão nova → portão aceita de novo", s == 200 and port["prontos"] == [901],
+        self.registrar("aprovar 901 na versão nova → portão aceita de novo", s == 200 and b.get("ok") and port["prontos"] == [901],
                        status=s, commit=b.get("commit"), portao=port)
 
         # backup
@@ -279,27 +312,21 @@ class E2E:
                        ids_bkp == ids_d1 and all("ip_hash" not in json.loads(x) for x in linhas),
                        eventos_d1=total, linhas_backup=len(linhas), ids=ids_d1)
 
-        # append-only no D1 de verdade
         upd = self.d1("UPDATE eventos SET autor = 'x' WHERE id = 1")
         dele = self.d1("DELETE FROM eventos WHERE id = 1")
-        self.registrar("D1 recusa UPDATE e DELETE (append-only)",
+        self.registrar("D1 recusa UPDATE e DELETE em eventos (append-only)",
                        "append-only" in json.dumps(upd) and "append-only" in json.dumps(dele) and self.total_eventos() == total,
-                       update=str(upd)[:200], delete=str(dele)[:200])
+                       update=str(upd)[-160:], delete=str(dele)[-160:])
 
-        s, h, _ = self.http("GET", f"/p/{self.codigo}", codigo=None, origem=None, redirecionar=False)
-        destino = h.get("Location", "")
-        self.registrar("link curto /p/<código> → 302 para a página de teste com o código só no fragmento",
-                       s == 302 and destino.startswith("https://diogokammers.github.io/") and f"#c={self.codigo}" in destino
-                       and "?" not in destino, status=s, location=self.mascarar(destino),
-                       referrer=h.get("Referrer-Policy"), cache=h.get("Cache-Control"))
+        s, h, _ = self.http("GET", "/p/qualquercoisa0123456789abcdefghij", codigo=None, origem=None, redirecionar=False)
+        self.registrar("rota antiga /p/<código> desativada → 404", s == 404, status=s)
 
         todos = self.d1("SELECT id, post, semana, acao, comentario, versao_conteudo, autor, criado_em, origem, commit_sha "
                         "FROM eventos ORDER BY id")
         self.atualizar()
         historico = self.git("log", "--format=%H %s", f"{self.base}..HEAD").splitlines()
         return {"api": self.api, "ramo": RAMO, "semana": SEMANA, "passos": self.passos, "eventos_d1": todos,
-                "commits_no_ramo": historico,
-                "ok": all(p["ok"] for p in self.passos)}
+                "commits_no_ramo": historico, "ok": all(p["ok"] for p in self.passos)}
 
 
 class SemRedirecionar(urllib.request.HTTPRedirectHandler):

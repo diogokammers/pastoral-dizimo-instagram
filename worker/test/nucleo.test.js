@@ -98,13 +98,13 @@ test("versão de cada post idêntica à do Python", async () => {
 });
 
 test("remover da aprovação é byte a byte o do Python e idempotente", async () => {
-  const r = await n.removerDaAprovacao(VETORES.aprovacao, "2026-W41", 12, "fedcba9876543210", "Padre",
+  const r = await n.removerDaAprovacao(VETORES.aprovacao, "2026-W41", 12, "fedcba9876543210", "Aprovador",
     "2026-10-03T10:00:00+00:00", "segredo-aprovacao-de-teste");
   assert.equal(r.mudou, true);
   assert.deepEqual(r.dados, VETORES.remocao);
   assert.deepEqual(Object.keys(r.dados), ["semana", "aprovado_por", "aprovado_em", "nonce", "posts", "assinatura"]);
-  const de_novo = await n.removerDaAprovacao(r.dados, "2026-W41", 12, "n", "Padre", "t", "segredo-aprovacao-de-teste");
+  const de_novo = await n.removerDaAprovacao(r.dados, "2026-W41", 12, "n", "Aprovador", "t", "segredo-aprovacao-de-teste");
   assert.equal(de_novo.mudou, false);
   assert.equal(de_novo.dados, r.dados);
-  assert.deepEqual(await n.removerDaAprovacao(null, "2026-W41", 12, "n", "Padre", "t", "s"), { dados: null, mudou: false });
+  assert.deepEqual(await n.removerDaAprovacao(null, "2026-W41", 12, "n", "Aprovador", "t", "s"), { dados: null, mudou: false });
 });

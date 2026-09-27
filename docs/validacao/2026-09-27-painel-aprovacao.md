@@ -1,5 +1,9 @@
 # Validação do painel de aprovação (ADR-011) — 2026-09-27
 
+> Registro histórico da primeira versão. Depois disso o ADR-012 trocou o acesso por link com código por
+> rascunho + envio com código, renomeou o autor gravado para "Aprovador" e desativou `/p/<código>`;
+> a validação dessa versão está em `2026-09-27-painel-rascunho-envio.md`.
+
 Tudo abaixo foi executado de verdade nesta data. Os códigos de acesso e segredos nunca aparecem aqui
 (nas saídas dos scripts o código é trocado por `<CODIGO>`). Horários em UTC.
 
@@ -25,8 +29,8 @@ Tudo abaixo foi executado de verdade nesta data. Os códigos de acesso e segredo
 | 1 | Preflight `OPTIONS` do origin permitido | 204, `Access-Control-Allow-Origin: https://diogokammers.github.io` |
 | 2 | Código errado / ausente (estado e decisão) | 401 / 401 / 401 · nenhum commit (último commit da semana = `dafb3df`) · D1 = 0 eventos |
 | 3 | Origin `https://evil.example` / sem Origin, **com código válido** | 403 / 403 / 403, sem cabeçalho CORS · nenhum commit · D1 = 0 |
-| 4 | `GET /api/estado` com código | 200 `{"autor":"Padre","posts":{}}`, `Cache-Control: no-store` |
-| 5 | Aprovar 901 (versão `246dd267…`) | 200 · commit `a43829d` · `aprovacao.json` com `aprovado_por: Padre`, assinatura válida · portão: **prontos [901]** · D1 id 1 (`commit_sha a43829d`, `ip_hash` gravado) |
+| 4 | `GET /api/estado` com código | 200 com o autor do código e `posts` vazio, `Cache-Control: no-store` |
+| 5 | Aprovar 901 (versão `246dd267…`) | 200 · commit `a43829d` · `aprovacao.json` com `aprovado_por` = autor do código, assinatura válida · portão: **prontos [901]** · D1 id 1 (`commit_sha a43829d`, `ip_hash` gravado) |
 | 6 | Aprovar 901 de novo | 200 `idempotente: true` · nenhum commit de decisão · D1 continua com 1 evento |
 | 7 | Aprovar 902 com versão velha | **409** `conteudo_mudou` · nada gravado |
 | 8 | Aprovar 902 | 200 · commit `2e7a50e` · portão: **prontos [901, 902]** |
@@ -45,7 +49,7 @@ Página de teste temporária `site/aprovacao-teste/` (commit `4cbb5b2`, Worker d
 `scripts/e2e_pagina.py --modo teste` — decisões **só nos posts de teste 901/902**:
 - Sem código: modo só leitura, **nenhuma chamada à API**, Pendentes sem os posts 1–3 (estão em
   "Já publicadas" = [1, 2, 3]), sem botões de decisão, Agendadas vazia, sem a frase removida. ✔
-- Pelo link curto: redireciona, **o código sai da barra de endereço**, "Você está aprovando como Padre",
+- Pelo link curto: redireciona, **o código sai da barra de endereço**, "Você está aprovando como <autor>",
   `GET /api/estado` com `Authorization: Bearer <CODIGO>` e o código em nenhuma URL. ✔
 - Aprovar 901 → Aprovadas + Agendadas; 901 no `aprovacao.json` do ramo (commit `e506520`). ✔
 - Pedir ajuste 902 → Em ajuste com o texto; `ajuste-902.json` no ramo (commit `71a87ce`). ✔
@@ -54,21 +58,21 @@ Página de teste temporária `site/aprovacao-teste/` (commit `4cbb5b2`, Worker d
 - Desfazer 902 (ajuste) → volta a Pendentes (evento sem commit: não havia aprovação a tirar). ✔
 - Todas as decisões foram `POST /api/decisao` com o código só no cabeçalho. ✔
 
-Eventos finais do D1 de teste (12, todos `autor = Padre`, `origem = painel`, `ip_hash` presente):
+Eventos finais do D1 de teste (12, todos com o autor do código de teste, `origem = painel`, `ip_hash` presente):
 1 aprovar 901 · 2 aprovar 902 · 3 desfazer 901 · 4 ajustar 902 · 5 aprovar 901 · 6 aprovar 901 (versão nova)
 · 7–12 da sessão Playwright (desfazer 901, desfazer 902, aprovar 901, ajustar 902, desfazer 901, desfazer 902).
 
 ## 4. Produção (depois de tudo acima)
 - D1 `pastoral-aprovacoes` com a migration aplicada; Worker `pastoral-dizimo-aprovacao` implantado
-  (D1 ligado, cron `30 9 * * *`); secret `CODIGO_PADRE` gerado e gravado por stdin (nunca exibido);
+  (D1 ligado, cron `30 9 * * *`); secret do código de acesso gerado e gravado por stdin (nunca exibido);
   Worker `aprovar` (só o link curto) implantado. `PUBLICAR_ATIVO` **não** foi mexido.
 - Fumaça sem alterar decisões:
-  `GET /api/estado` com o código → 200 `{"autor":"Padre","posts":{}}` · `POST /api/decisao` com código
+  `GET /api/estado` com o código → 200 com o autor do código e `posts` vazio · `POST /api/decisao` com código
   inválido → 401 · sem código → 401 · origin errado com código válido → 403 · preflight → ACAO correto ·
   `GET /a` (link do e-mail) → 403 "link malformado" (rota antiga intacta) · `aprovar…/p/<código>` → 302
   para `…/aprovacao/#c=<CODIGO>` · outras rotas do Worker curto → 404 · `/p/` no Worker principal → 302.
 - Playwright na página real (`--modo fumaca`, **nenhum clique de decisão**): sem código = só leitura,
-  Pendentes = [4…11], Já publicadas = [1, 2, 3]; com o link real = modo de decisão como Padre, estado vazio.
+  Pendentes = [4…11], Já publicadas = [1, 2, 3]; com o link real = modo de decisão, estado vazio.
 - D1 de produção: **0 eventos** ao fim da validação.
 
 ## 5. Limpeza

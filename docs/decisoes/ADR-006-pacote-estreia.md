@@ -1,6 +1,6 @@
 # ADR-006 — Pacote de estreia e fatias 3–4 (parciais)
 
-Data: 2026-09-26. Status: proposto (aguarda aprovação do Diogo e, depois, do Padre).
+Data: 2026-09-26. Status: proposto (aguarda aprovação do Diogo e, depois, do aprovador).
 
 ## Contexto
 O ADR-005 pede, antes de qualquer pauta semanal, um pacote de estreia (bio, 6 capas de destaques e os 3 posts
@@ -21,7 +21,7 @@ fixados) aprovado em dois níveis. Para produzi-lo foi preciso adiantar partes d
    faixa, marcado como não essencial), dimensões e < 8 MB → `qa.json`.
 5. **Sem símbolo** (`marca.simbolo: null`): assinatura tipográfica. Capas de destaques só com ícone de linha próprio
    (mãos com chama, livro, calendário, mapa, balão, cruz) dentro de um círculo com filete dourado; sem texto.
-6. **Prévia autocontida** (`site/estreia/index.html`, imagens embutidas) com texto de apoio para o Padre.
+6. **Prévia autocontida** (`site/estreia/index.html`, imagens embutidas) com texto de apoio para o aprovador.
 
 ## Resultado
 21 slides (3 × 7) + 6 capas 1080×1920 em `content/estreia/render/`; QA sem reprovações; lint OK.

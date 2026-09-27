@@ -11,11 +11,10 @@
 //     (evento ajustar_post).
 // Segredos (wrangler secret put): LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER.
 //
-// Painel (ADR-011): /api/* (painel.js, código de acesso CODIGO_PADRE/CODIGO_DIOGO, D1 em env.DB),
-// /p/<código> (link curto → página do Pages com o código no fragmento) e cron diário de backup do D1.
+// Painel (ADR-011/012): /api/* (painel.js: estado público; envio com o código CODIGO_APROVADOR e limite
+// de tentativas; D1 em env.DB) e cron diário de backup do D1. A antiga rota /p/<código> foi desativada (404).
 // Decisões feitas pelo link do e-mail também viram eventos no D1 (origem "email"), se houver banco.
 
-import { redirecionarCurto } from "./acesso.js";
 import { Recusa, TEXTO_MAX, atualizarAprovacao, isoUtc, itensDe, lerSemana, registrarAjuste } from "./acoes.js";
 import { exportarEventos } from "./backup.js";
 import { Banco } from "./banco.js";
@@ -167,9 +166,6 @@ export async function tratar(request, env, deps = {}) {
   const waitUntil = deps.waitUntil ?? (() => {});
   const url = new URL(request.url);
   if (url.pathname.startsWith("/api/")) return tratarApi(request, env, { fetch: fetchFn, agora, waitUntil });
-  if (url.pathname.startsWith("/p/")) {
-    return redirecionarCurto(env, url) ?? pagina(404, "Página não encontrada", "<p>Link incompleto.</p>");
-  }
   if (url.pathname !== "/a") return pagina(404, "Página não encontrada", "<p>Use o link do e-mail.</p>");
   if (request.method !== "GET" && request.method !== "POST") {
     return pagina(405, "Método não permitido", "<p>Use o link do e-mail.</p>");

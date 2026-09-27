@@ -4,8 +4,12 @@ Data: 2026-09-27. Status: aceito (implementado, testado e validado de ponta a po
 isolado; produção implantada — evidências em `docs/validacao/2026-09-27-painel-aprovacao.md`).
 Depende do ADR-008 (portão e `aprovacao.json`) e do ADR-009 (Worker, JSON canônico, links do e-mail).
 
+> **Atualizado pelo ADR-012 (2026-09-27):** o acesso por link com código (decisões 5 e 6) foi trocado por
+> rascunho no aparelho + envio com código de envio e limite de tentativas; o estado ficou público; o link
+> curto não leva mais código e a rota `/p/<código>` foi desativada. O resto continua valendo.
+
 ## Contexto
-O simulador (`site/aprovacao/`) virou o instrumento de trabalho do Padre, mas guardava as respostas só no
+O simulador (`site/aprovacao/`) virou o instrumento de trabalho do aprovador, mas guardava as respostas só no
 aparelho (localStorage) e mandava um resumo por WhatsApp: nada chegava ao portão de publicação e nada
 ficava registrado. O Diogo pediu: posts publicados fora de "Pendentes"; "Agendadas" só com aprovados;
 um banco que não perca nenhuma decisão; aprovar no painel = aprovar pelo link do e-mail; desfazer que
@@ -41,17 +45,12 @@ realmente impede a publicação; acesso por código secreto; link curto; CORS re
 4. **Backup fora do D1**: depois de cada decisão (`waitUntil`) e todo dia às 06:30 de Brasília (cron do
    Worker), o D1 inteiro é exportado para `content/aprovacoes/eventos.jsonl` (um evento por linha, JSON
    canônico, ordem do id; sem commit se nada mudou). O `ip_hash` **não** vai para o backup (repo público).
-5. **Acesso por código (capability)**: segredos do Worker `CODIGO_PADRE` (autor "Padre") e, quando
-   existir, `CODIGO_DIOGO` (autor "Diogo") — basta o secret; o par código→autor está em `acesso.js`.
-   24 bytes aleatórios em base64url (192 bits). Validação: formato, sha256 dos dois lados e comparação
-   sem saída antecipada, conferindo todos os códigos. O código vai **só** no header
-   `Authorization: Bearer`; nunca em URL. A página é pública; sem código ela fica **só leitura**.
-6. **Link curto**: `/p/<código>` responde 302 para a página do Pages com o código no **fragmento**
-   (`#c=…`), que não vai ao Pages, a logs nem ao Referer; a página grava o código só no aparelho e o
-   apaga da barra de endereço. Para encurtar, um segundo Worker **`aprovar`** (`wrangler --env curto`,
-   `src/curto.js`: só o redirecionamento, sem segredos/banco/GitHub) dá
-   `https://aprovar.pastoral-dizimo-aprovacao.workers.dev/p/<código>`. O Worker antigo continua com
-   `/a`, `/api` e `/p/`. Nada de encurtador de terceiros. Logs de invocação desligados.
+5. *(Substituído pelo ADR-012.)* Acesso por um código longo que vinha no link, validado no Worker em
+   tempo constante e enviado só no header `Authorization: Bearer`; sem código, a página era só leitura.
+6. *(Substituído pelo ADR-012.)* Link curto com o código no fragmento (`/p/<código>` → `#c=…`) e um
+   segundo Worker **`aprovar`** (`wrangler --env curto`, `src/curto.js`, sem segredos/banco/GitHub) só para
+   redirecionar. Hoje o `aprovar` redireciona a raiz, sem código, e `/p/…` dá 404. Nada de encurtador de
+   terceiros. Logs de invocação desligados.
 7. **CORS**: `/api/*` exige `Origin: https://diogokammers.github.io` (`ORIGEM_PERMITIDA`); outro origin ou
    nenhum → 403 sem tocar em nada. A página tem CSP (`connect-src` só a API, `img-src 'self'`) e
    `referrer no-referrer`. CORS não é autenticação: quem autentica é o código.
@@ -70,11 +69,7 @@ realmente impede a publicação; acesso por código secreto; link curto; CORS re
 `W() { env -u CLOUDFLARE_API_TOKEN -u CLOUDFLARE_ACCOUNT_ID XDG_CONFIG_HOME="C:/Users/odnac/.config-pastoral-dizimo" npx wrangler "$@"; }`
 - Deploy: `W deploy` (principal) e `W deploy --env curto` (link curto).
 - Migrations: `W d1 migrations apply pastoral-aprovacoes --remote`.
-- Novo código (ou revogar o atual): gerar e gravar sem exibir, p. ex.
-  `python -c "import secrets;print(secrets.token_urlsafe(24),end='')" > arq && W secret put CODIGO_PADRE < arq`,
-  montar o link `https://aprovar.pastoral-dizimo-aprovacao.workers.dev/p/<código>` e entregar por canal
-  seguro; apagar o arquivo. Trocar o secret invalida o link antigo na hora.
-- Segundo aprovador: `W secret put CODIGO_DIOGO` (mesmo procedimento).
+- Código de envio, limite de tentativas e link curto: ver ADR-012.
 - Consultar: `W d1 execute pastoral-aprovacoes --remote --command "SELECT * FROM estado_atual"`.
 
 ## Consequências e riscos
@@ -85,5 +80,5 @@ realmente impede a publicação; acesso por código secreto; link curto; CORS re
 - Cada decisão gera 1–2 commits (decisão + backup) na master; o backup não dispara o Pages.
 - O texto dos ajustes e os eventos (sem IP) ficam públicos no repositório: o painel avisa para não
   escrever dado pessoal.
-- Quem tiver o link pode decidir como "Padre": não encaminhar; se vazar, trocar o `CODIGO_PADRE`.
-- As respostas que o Padre tenha marcado na versão anterior da página (só no aparelho dele) não migram.
+- Quem souber o código de envio pode decidir como "Aprovador": se vazar, trocar o `CODIGO_APROVADOR` (ADR-012).
+- As respostas que o aprovador tenha marcado na versão anterior da página (só no aparelho dele) não migram.
