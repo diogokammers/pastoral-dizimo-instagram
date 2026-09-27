@@ -5,15 +5,22 @@ perfil @pastoraldodizimo.arquifln, os destaques e TODAS as publicações — as 
 publicadas e fixadas, com a legenda simples proposta em docs/auditoria/) e as da reserva
 (content/semanas/*/, datas provisórias de agenda.json). Tocar num post abre o feed, com carrossel
 deslizável. O celular mostra só o Instagram; a aprovação fica num painel ao lado (abaixo, no celular),
-com os blocos Pendentes / Aprovadas / Em ajuste. As respostas ficam no aparelho (localStorage) e o
-botão "Enviar minhas respostas" monta um resumo para WhatsApp, e-mail ou copiar. Nenhum servidor:
-é uma página estática no GitHub Pages.
+com os blocos Pendentes / Aprovadas / Em ajuste / Já publicadas / Agendadas.
+
+Painel (ADR-011): a página é estática e pública no GitHub Pages, mas as decisões vão para o Worker
+(D1 + aprovacao.json assinado, como o link do e-mail do ADR-009). Para decidir é preciso o código de
+acesso secreto, que chega no fragmento do link (#c=…, nunca vai a servidor nenhum), sai da barra de
+endereço e segue só no header Authorization para a API. Sem código, o painel fica só leitura.
+Cada post leva data-versao = aprovacao.versao_post (o hash do que está na página); se o conteúdo mudar
+depois de uma resposta, a versão guardada deixa de bater e o post volta para Pendentes.
 
 As imagens são arquivos relativos em site/midia/ (não base64), para carregar rápido no celular:
 a estreia e os destaques são copiados para site/midia/estreia/ e site/midia/destaques/; as artes
 das semanas já estão em site/midia/<semana>/ (copiadas por preview.py --semana).
 
-Uso: python -m pastoral.simulador   (com PYTHONPATH=src)
+Uso (com PYTHONPATH=src):
+  python -m pastoral.simulador                         → site/aprovacao/ (API = aprovacao.worker_url do config)
+  python -m pastoral.simulador --destino aprovacao-teste --api https://…workers.dev --semanas 2099-W01
 """
 from __future__ import annotations
 
@@ -26,8 +33,10 @@ from datetime import datetime
 from html import escape
 from pathlib import Path
 
+from pastoral import aprovacao
+from pastoral.meta import carregar_config
 from pastoral.preview import data_por_extenso
-from pastoral.publicar import texto_legenda
+from pastoral.publicar import numeros_publicados, texto_legenda
 from pastoral.render import DESTAQUES
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -68,9 +77,11 @@ def _slides(post: dict, srcs: list[str]) -> list[dict]:
     return [{"src": s, "alt": sl["alt_text"]} for s, sl in zip(srcs, post["slides"])]
 
 
-def coletar(raiz: Path) -> dict:
-    """Junta perfil, destaques e posts (já na ordem da grade) a partir do repositório."""
+def coletar(raiz: Path, semanas: list[str] | None = None) -> dict:
+    """Junta perfil, destaques e posts (já na ordem da grade) a partir do repositório.
+    `semanas` limita as semanas da reserva (a estreia entra sempre). Publicado = consta em algum ledger."""
     raiz = Path(raiz)
+    publicados = numeros_publicados(raiz)
     estreia = raiz / "content" / "estreia"
     bio_md = estreia / "bio.md"
     publicado = json.loads((estreia / "publicado.json").read_text(encoding="utf-8"))
@@ -84,19 +95,29 @@ def coletar(raiz: Path) -> dict:
         posts.append({"numero": n, "titulo": p["titulo"], "pilar": p["pilar"], "semana": "estreia",
                       "data": data_estreia, "publicado": True, "fixado": True,
                       "legenda": simples.get(n, texto_legenda(p)), "legenda_proposta": n in simples,
-                      "imagens": _slides(p, srcs)})
+                      "versao": None, "imagens": _slides(p, srcs)})
 
     for agenda_arq in sorted((raiz / "content" / "semanas").glob("*/agenda.json")):
         semana = agenda_arq.parent.name
+        if semanas is not None and semana not in semanas:
+            continue
         agenda = json.loads(agenda_arq.read_text(encoding="utf-8"))
         lote = json.loads((agenda_arq.parent / "posts.json").read_text(encoding="utf-8"))
         por_numero = {p["numero"]: p for p in lote["posts"]}
+        midia = raiz / "site" / "midia" / semana
+        faltando = [a for e in agenda["posts"] for a in e["artes"] if not (midia / a).is_file()]
+        if faltando:
+            raise FileNotFoundError(f"artes ausentes em site/midia/{semana}/ (rode preview --semana): "
+                                    + ", ".join(faltando))
+        # mesma conta do Worker: o hash do que a página mostra (site/midia é o que o Pages serve)
+        itens = {i["numero"]: i for i in aprovacao.itens_semana(agenda, lote, lambda a: (midia / a).read_bytes())}
         for a in agenda["posts"]:
             p = por_numero[a["numero"]]
             srcs = [f"../midia/{semana}/{arte}" for arte in a["artes"]]
             posts.append({"numero": p["numero"], "titulo": p["titulo"], "pilar": p["pilar"], "semana": semana,
-                          "data": a["agendado_para"], "publicado": False, "fixado": False,
+                          "data": a["agendado_para"], "publicado": p["numero"] in publicados, "fixado": False,
                           "legenda": texto_legenda(p), "legenda_proposta": False,
+                          "versao": aprovacao.versao_post(semana, itens[p["numero"]]),
                           "imagens": _slides(p, srcs)})
 
     # grade: fixados na ordem 1|2|3; depois do mais recente para o mais antigo
@@ -281,21 +302,18 @@ def _post(p: dict, usuario: str, avatar: str) -> str:
 
 
 def _item_painel(p: dict) -> str:
-    """Um cartão do painel de aprovação; o JS o move entre Pendentes, Aprovadas e Em ajuste."""
+    """Um cartão do painel de aprovação; o JS o move entre Pendentes, Aprovadas e Em ajuste conforme o
+    estado que vem do Worker. data-semana e data-versao vão na decisão (a versão é conferida no Worker)."""
     n = p["numero"]
-    quando = (f"Publicado em {data_por_extenso(p['data'])}" if p["publicado"]
-              else f"Data prevista: {data_por_extenso(p['data'])}")
-    nota = ('<p class="item-nota">Já está no ar. Aprovar aqui = aprovar a <b>nova legenda simples</b> '
-            '(legenda proposta — nova versão simples; a imagem não muda).</p>' if p["legenda_proposta"] else "")
     return f"""
-<li class="item" id="item-{n}" data-n="{n}" data-titulo="{e(p["titulo"])}">
+<li class="item" id="item-{n}" data-n="{n}" data-semana="{e(p["semana"])}" data-versao="{e(p["versao"])}" data-titulo="{e(p["titulo"])}">
   <button class="item-abrir" data-abrir="{n}" aria-label="Ver a publicação {n} no celular">
     <img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" width="60" height="75">
   </button>
   <div class="item-texto">
     <button class="item-titulo" data-abrir="{n}"><b>{n}.</b> {e(p["titulo"])}</button>
-    <p class="item-data">{e(quando)}</p>
-    {nota}
+    <p class="item-data">{e("Data prevista: " + data_por_extenso(p["data"]))}</p>
+    <p class="item-status" hidden></p>
     <p class="item-comentario" hidden></p>
   </div>
   <div class="item-acoes">
@@ -305,13 +323,13 @@ def _item_painel(p: dict) -> str:
     <button class="btn-leve" data-acao="desfazer">Desfazer</button>
   </div>
   <div class="item-campo" hidden>
-    <label>O que ajustar?<textarea rows="3" placeholder="Escreva aqui o que mudar (texto, imagem, data…)"></textarea></label>
-    <p class="item-aviso" aria-live="polite"></p>
+    <label>O que ajustar?<textarea rows="3" maxlength="2000" placeholder="Escreva aqui o que mudar (texto, imagem, data…)"></textarea></label>
     <div class="item-acoes-campo">
       <button class="btn-ajuste" data-acao="salvar">Salvar ajuste</button>
       <button class="btn-leve" data-acao="cancelar">Cancelar</button>
     </div>
   </div>
+  <p class="item-aviso" aria-live="polite"></p>
 </li>"""
 
 
@@ -326,12 +344,15 @@ def _bloco(chave: str, titulo: str, conta: int, corpo: str) -> str:
   </section>"""
 
 
-def _item_simples(p: dict) -> str:
-    """Item das listas "Já publicadas" e "Agendadas": miniatura, nº, título e data; abre o post."""
+def _item_simples(p: dict, agendado: bool = False) -> str:
+    """Item das listas "Já publicadas" e "Agendadas": miniatura, nº, título e data; abre o post.
+    Os de "Agendadas" começam escondidos: o JS mostra só os aprovados."""
     n = p["numero"]
     quando = (f"Publicado em {data_por_extenso(p['data'])}" if p["publicado"]
               else f"Previsto para {data_por_extenso(p['data'])} (provisória)")
-    return (f'<li class="item item-simples"><button class="item-abrir" data-abrir="{n}" '
+    abre = (f'<li class="item item-simples item-agendado" data-n="{n}" hidden>' if agendado
+            else '<li class="item item-simples">')
+    return (f'{abre}<button class="item-abrir" data-abrir="{n}" '
             f'aria-label="Ver a publicação {n} no celular"><img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" '
             f'width="60" height="75"></button><div class="item-texto"><button class="item-titulo" data-abrir="{n}">'
             f'<b>{n}.</b> {e(p["titulo"])}</button><p class="item-data">{e(quando)}</p></div></li>')
@@ -339,12 +360,12 @@ def _item_simples(p: dict) -> str:
 
 def _painel(posts: list[dict]) -> str:
     por_numero = sorted(posts, key=lambda p: p["numero"])
-    itens = "".join(_item_painel(p) for p in por_numero)
+    abertos = [p for p in por_numero if not p["publicado"]]
     publicadas = [p for p in por_numero if p["publicado"]]
-    agendadas = sorted((p for p in posts if not p["publicado"]), key=lambda p: (p["data"], p["numero"]))
+    por_data = sorted(abertos, key=lambda p: (p["data"], p["numero"]))
     blocos = "".join([
-        _bloco("pendentes", "Pendentes de aprovação", len(posts),
-               f'<ul class="lista" id="lista-pendentes">{itens}</ul>'
+        _bloco("pendentes", "Pendentes de aprovação", len(abertos),
+               '<ul class="lista" id="lista-pendentes">' + "".join(_item_painel(p) for p in abertos) + "</ul>"
                '<p class="vazio" id="vazio-pendentes" hidden>Nenhuma publicação pendente. Obrigado!</p>'),
         _bloco("aprovadas", "Aprovadas", 0,
                '<ul class="lista" id="lista-aprovadas"></ul><p class="vazio" id="vazio-aprovadas">Nenhuma ainda.</p>'),
@@ -352,38 +373,56 @@ def _painel(posts: list[dict]) -> str:
                '<ul class="lista" id="lista-ajuste"></ul><p class="vazio" id="vazio-ajuste">Nenhuma ainda.</p>'),
         _bloco("publicadas", "Já publicadas", len(publicadas),
                '<ul class="lista">' + "".join(_item_simples(p) for p in publicadas) + "</ul>"),
-        _bloco("agendadas", "Agendadas", len(agendadas),
-               '<p class="vazio">Datas previstas, ainda provisórias.</p>'
-               '<ul class="lista">' + "".join(_item_simples(p) for p in agendadas) + "</ul>"),
+        _bloco("agendadas", "Agendadas", 0,
+               '<p class="vazio">Só as aprovadas, na data prevista (ainda provisória).</p>'
+               '<p class="vazio" id="vazio-agendadas">Nenhuma publicação aprovada ainda.</p>'
+               '<ul class="lista" id="lista-agendadas">' + "".join(_item_simples(p, True) for p in por_data) + "</ul>"),
     ])
     return f"""
 <aside class="painel" id="painel" aria-label="Aprovação das publicações">
   <div class="faixa" role="note">
-    <p><b>Simulação para aprovação — nada disso foi publicado ainda, exceto os 3 posts fixados.</b></p>
+    <p><b>Simulação para aprovação</b></p>
+    <p class="acesso" id="acesso" aria-live="polite">Modo só leitura: para aprovar, abra o link de aprovação que você recebeu.</p>
+    <p class="acesso-sair" id="acesso-sair" hidden><button class="link-sair" id="sair">Sair deste aparelho</button></p>
     <details><summary>Como usar</summary>
       <ol>
-        <li>O celular mostra como o Instagram da Pastoral vai ficar no fim de outubro. Toque numa publicação
+        <li>O celular mostra como o Instagram da Pastoral vai ficar. Toque numa publicação
           para abri-la e deslize a imagem para o lado para ver as outras. Toque em "mais" para ler a legenda inteira.</li>
         <li>Toque em <b>Pendentes de aprovação</b> para abrir a lista. Em cada publicação, toque em <b>Aprovar</b>
           ou em <b>Pedir ajuste</b>; no ajuste, escreva o que mudar e toque em <b>Salvar ajuste</b>.
           Tocar na imagem ou no título mostra a publicação no celular.</li>
-        <li>As respondidas vão para <b>Aprovadas</b> ou <b>Em ajuste</b>, onde dá para desfazer ou editar.</li>
-        <li>No fim, toque em <b>Enviar minhas respostas</b> e mande pelo WhatsApp ou por e-mail.</li>
+        <li>Cada resposta é gravada na hora, com o seu nome: não precisa enviar nada. As aprovadas aparecem em
+          <b>Aprovadas</b> e em <b>Agendadas</b>, com a data prevista, e serão publicadas nessa data.</li>
+        <li>Mudou de ideia? Em <b>Aprovadas</b> ou <b>Em ajuste</b>, toque em <b>Desfazer</b>: a publicação volta
+          para Pendentes e não será publicada.</li>
+        <li>Se uma publicação for alterada depois da sua resposta, ela volta para Pendentes para você conferir de novo.</li>
       </ol>
-      <p>Suas respostas ficam guardadas neste aparelho; pode parar e continuar depois.</p>
+      <p>Os pedidos de ajuste ficam guardados num arquivo público: não escreva dados pessoais.</p>
     </details>
   </div>
   {blocos}
-  <button id="enviar" class="enviar">Enviar minhas respostas</button>
 </aside>"""
 
 
-def montar_pagina(dados: dict) -> str:
+def validar_api(api_url: str) -> str:
+    """A URL da API entra no JS e na CSP: só https://host[:porta], sem caminho nem caracteres estranhos."""
+    if not re.fullmatch(r"https://[a-z0-9.-]+(:\d+)?", api_url or ""):
+        raise ValueError(f"URL da API inválida (use https://host, sem barra no fim): {api_url!r}")
+    return api_url
+
+
+def montar_pagina(dados: dict, api_url: str) -> str:
+    api = validar_api(api_url)
     perfil, posts = dados["perfil"], dados["posts"]
     feed = "".join(_post(p, perfil["usuario"], perfil["avatar"]) for p in posts)
+    pendentes = sum(1 for p in posts if not p["publicado"])
+    csp = (f"default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; "
+           f"connect-src {api}; base-uri 'none'; form-action 'none'")
     return f"""<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="{e(csp)}">
+<meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#ffffff">
 <title>Instagram da Pastoral — aprovação</title>
@@ -409,20 +448,8 @@ def montar_pagina(dados: dict) -> str:
 </div>
 {_painel(posts)}
 </div>
-<a href="#painel" class="ir-painel" id="ir-painel">Aprovações ({len(posts)} pendentes)</a>
-<dialog id="dialogo" aria-labelledby="dialogo-titulo">
-  <h2 id="dialogo-titulo">Suas respostas</h2>
-  <p id="dialogo-contagem"></p>
-  <textarea id="resumo" rows="10" readonly aria-label="Texto do resumo"></textarea>
-  <div class="dialogo-botoes">
-    <a id="por-whatsapp" class="btn btn-verde" target="_blank" rel="noopener" autofocus>Enviar pelo WhatsApp</a>
-    <button id="copiar" class="btn">Copiar texto</button>
-    <a id="por-email" class="btn">Enviar por e-mail</a>
-    <button id="fechar" class="btn">Fechar</button>
-  </div>
-  <p id="copiado" class="copiado" aria-live="polite"></p>
-</dialog>
-<script>{JS}</script>
+<a href="#painel" class="ir-painel" id="ir-painel">Aprovações ({pendentes} pendentes)</a>
+<script>var API = {json.dumps(api)};{JS}</script>
 </body></html>
 """
 
@@ -473,7 +500,16 @@ button:disabled { cursor: default; }
 .item-texto { min-width: 0; }
 .item-titulo { display: block; font-weight: 600; color: #000; text-decoration: underline; text-decoration-color: #0003; }
 .item-texto p { margin: 3px 0 0; font-size: 13px; color: #4d4d4d; }
-.item-nota { font-style: italic; }
+.item-status { font-weight: 600; }
+.item[data-estado="aprovado"] .item-status { color: var(--verde) !important; }
+.item[data-mudou="1"] .item-status { color: var(--ajuste) !important; }
+.item[data-ocupado="1"] .item-acoes button, .item[data-ocupado="1"] .item-acoes-campo button { opacity: .5; }
+.item-aviso:empty { display: none; }
+.item-simples .item-aviso { display: none; }
+.so-leitura .item-acoes, .so-leitura .item-campo { display: none !important; }
+.acesso { margin: 4px 0 0 !important; }
+.acesso-sair { margin: 2px 0 0 !important; }
+.link-sair { color: #5c4300; text-decoration: underline; font-size: 13px; }
 .item-comentario { color: #6b3000 !important; background: #fff4ea; padding: 6px 8px; border-radius: 6px; white-space: pre-line; }
 .item-acoes, .item-campo { grid-column: 1 / -1; }
 .item-acoes, .item-acoes-campo { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -485,11 +521,9 @@ button:disabled { cursor: default; }
 .item-campo label { display: block; font-weight: 600; font-size: 13px; }
 .item-campo textarea { display: block; width: 100%; margin-top: 4px; font: inherit; font-weight: 400; font-size: 16px;
   padding: 8px; border: 1px solid #999; border-radius: 8px; }
-.item-aviso { margin: 4px 0; min-height: 1em; font-size: 13px; color: var(--ajuste); }
+.item-aviso { grid-column: 1 / -1; margin: 0; font-size: 13px; color: var(--ajuste); }
 .item[data-estado="aprovado"] { border-color: #b7dcc4; }
 .item[data-estado="ajuste"] { border-color: #f0c9a6; }
-.enviar { display: block; width: 100%; margin-top: 20px; min-height: 50px; border-radius: 25px; background: var(--azul);
-  color: #fff; font-weight: 700; font-size: 16px; text-align: center; box-shadow: 0 4px 14px #0003; }
 .ir-painel { position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 20;
   background: #2b2100e6; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600;
   padding: 8px 14px; border-radius: 18px; box-shadow: 0 2px 10px #0004; }
@@ -584,25 +618,31 @@ button:disabled { cursor: default; }
 .leg-completa { white-space: pre-line; }
 .post-data { margin: 6px 12px 0; color: var(--suave); font-size: 12px; }
 
-dialog { width: min(420px, calc(100% - 24px)); border: 0; border-radius: 16px; padding: 18px; }
-dialog::backdrop { background: #0008; }
-dialog h2 { margin: 0 0 6px; font-size: 18px; }
-#resumo { width: 100%; font: 13px/1.4 inherit; font-family: inherit; padding: 8px; border: 1px solid #ccc; border-radius: 8px; resize: vertical; }
-.dialogo-botoes { display: grid; gap: 8px; margin-top: 10px; }
-.dialogo-botoes .btn { min-height: 44px; }
-.btn-verde { background: #1a7f45; color: #fff; }
-.copiado { min-height: 1.2em; margin: 6px 0 0; color: var(--verde); font-weight: 600; }
 """
 
 JS = r"""
 (function () {
-  var CHAVE = 'pastoral-simulador-respostas-v1';
   var tela = document.getElementById('tela');
   var perfil = document.getElementById('tela-perfil');
   var feed = document.getElementById('tela-feed');
-  var respostas = {};
-  try { respostas = JSON.parse(localStorage.getItem(CHAVE) || '{}') || {}; } catch (err) { respostas = {}; }
-  function guardar() { try { localStorage.setItem(CHAVE, JSON.stringify(respostas)); } catch (err) {} }
+
+  // ---------- código de acesso (ADR-011) ----------
+  // Chega no fragmento (#c=…), que nunca vai a servidor nenhum; sai da barra de endereço na hora e fica
+  // guardado só neste aparelho. Vai para a API apenas no header Authorization (a CSP só deixa falar com a API).
+  var CHAVE = 'pastoral-painel-codigo-v1';
+  function lerCodigo() {
+    var m = /(?:^#|&)c=([A-Za-z0-9_-]{32,128})(?:&|$)/.exec(location.hash);
+    if (m) {
+      try { localStorage.setItem(CHAVE, m[1]); } catch (err) {}
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
+      return m[1];
+    }
+    try { return localStorage.getItem(CHAVE); } catch (err) { return null; }
+  }
+  function esquecerCodigo() { codigo = null; try { localStorage.removeItem(CHAVE); } catch (err) {} }
+  var codigo = lerCodigo();
+  var estado = {};          // post → último evento (vem do Worker)
+  var autor = null;
 
   // rolagem: no celular é a página; no computador, a tela dentro da moldura
   function rolador() { return getComputedStyle(tela).overflowY === 'auto' ? tela : null; }
@@ -692,31 +732,49 @@ JS = r"""
     });
   });
 
-  // painel: cada cartão vai para Pendentes, Aprovadas ou Em ajuste conforme a resposta
+  // ---------- painel: estado vem do Worker; cada cartão vai para Pendentes, Aprovadas ou Em ajuste ----------
   var listas = { '': 'pendentes', aprovado: 'aprovadas', ajuste: 'ajuste' };
   var itens = Array.prototype.slice.call(document.querySelectorAll('.item:not(.item-simples)'));
-  function estado(n) { return (respostas[n] && respostas[n].estado) || ''; }
+  var agendados = Array.prototype.slice.call(document.querySelectorAll('.item-agendado'));
+  var aviso = document.getElementById('acesso');
+
+  function quando(iso) {
+    try { return new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }); } catch (err) { return iso; }
+  }
+  // Situação de um cartão: o último evento só vale se for da mesma semana E da mesma versão do conteúdo
+  // que a página mostra; se o post mudou depois da resposta, volta para Pendentes.
+  function situacao(item) {
+    var ev = estado[item.dataset.n];
+    if (!ev || ev.semana !== item.dataset.semana || ev.acao === 'desfazer') return { st: '' };
+    if (ev.versao_conteudo !== item.dataset.versao) return { st: '', mudou: true, ev: ev };
+    return { st: ev.acao === 'aprovar' ? 'aprovado' : 'ajuste', ev: ev };
+  }
   function mostrarBotoes(item, visiveis) {
     item.querySelectorAll('.item-acoes button').forEach(function (b) { b.hidden = visiveis.indexOf(b.dataset.acao) < 0; });
   }
   function pintarItem(item) {
-    var n = item.dataset.n, st = estado(n), editando = item.dataset.editando === '1';
-    var r = respostas[n] || {};
-    item.dataset.estado = st || 'pendente';
-    var campo = item.querySelector('.item-campo');
-    campo.hidden = !editando;
+    var s = situacao(item), editando = item.dataset.editando === '1';
+    item.dataset.estado = s.st || 'pendente';
+    item.dataset.mudou = s.mudou ? '1' : '';
+    item.querySelector('.item-campo').hidden = !editando;
     item.querySelector('.item-acoes').hidden = editando;
+    var status = item.querySelector('.item-status');
+    var texto = '';
+    if (s.st === 'aprovado') texto = 'Aprovado por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '. Será publicado na data prevista.';
+    else if (s.st === 'ajuste') texto = 'Ajuste pedido por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '.';
+    else if (s.mudou) texto = 'Esta publicação mudou depois da resposta de ' + quando(s.ev.criado_em) + '. Confira de novo.';
+    status.textContent = texto; status.hidden = !texto;
     var com = item.querySelector('.item-comentario');
-    com.hidden = !(st === 'ajuste' && r.comentario && !editando);
-    com.textContent = st === 'ajuste' ? 'Ajuste pedido: ' + (r.comentario || '') : '';
-    if (st === 'aprovado') mostrarBotoes(item, ['desfazer']);
-    else if (st === 'ajuste') mostrarBotoes(item, ['editar', 'desfazer']);
+    com.textContent = s.st === 'ajuste' ? 'O que ajustar: ' + s.ev.comentario : '';
+    com.hidden = !(s.st === 'ajuste' && !editando);
+    if (s.st === 'aprovado') mostrarBotoes(item, ['desfazer']);
+    else if (s.st === 'ajuste') mostrarBotoes(item, ['editar', 'desfazer']);
     else mostrarBotoes(item, ['aprovar', 'ajuste']);
   }
   function redistribuir() {
     var contas = { pendentes: 0, aprovadas: 0, ajuste: 0 };
     itens.forEach(function (item) {
-      var nome = listas[estado(item.dataset.n)];
+      var nome = listas[situacao(item).st];
       document.getElementById('lista-' + nome).appendChild(item);   // mantém a ordem por número
       contas[nome]++;
       pintarItem(item);
@@ -725,33 +783,104 @@ JS = r"""
       document.getElementById('conta-' + k).textContent = '(' + contas[k] + ')';
       document.getElementById('vazio-' + k).hidden = contas[k] > 0;
     });
+    var agendadas = 0;
+    agendados.forEach(function (li) {
+      var item = document.getElementById('item-' + li.dataset.n);
+      li.hidden = !(item && situacao(item).st === 'aprovado');
+      if (!li.hidden) agendadas++;
+    });
+    document.getElementById('conta-agendadas').textContent = '(' + agendadas + ')';
+    document.getElementById('vazio-agendadas').hidden = agendadas > 0;
     document.getElementById('ir-painel').textContent = contas.pendentes
       ? 'Aprovações (' + contas.pendentes + (contas.pendentes === 1 ? ' pendente)' : ' pendentes)')
       : 'Aprovações (tudo respondido)';
   }
+  function modoLeitura(msg) {
+    document.body.classList.add('so-leitura');
+    aviso.textContent = msg;
+    document.getElementById('acesso-sair').hidden = !codigo;
+  }
+  function modoDecisao() {
+    document.body.classList.remove('so-leitura');
+    aviso.textContent = 'Você está aprovando como ' + autor + '. Cada resposta é gravada na hora.';
+    document.getElementById('acesso-sair').hidden = false;
+  }
+
+  function chamar(metodo, caminho, corpo) {
+    var headers = { 'Authorization': 'Bearer ' + codigo };
+    if (corpo) headers['Content-Type'] = 'application/json';
+    return fetch(API + caminho, {
+      method: metodo, headers: headers, body: corpo ? JSON.stringify(corpo) : undefined,
+      cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; });
+    });
+  }
+  function carregar() {
+    if (!codigo) { modoLeitura('Modo só leitura: para aprovar, abra o link de aprovação que você recebeu.'); redistribuir(); return; }
+    modoLeitura('Carregando as decisões…');
+    chamar('GET', '/api/estado').then(function (j) {
+      if (j._status === 200) { autor = j.autor; estado = j.posts || {}; modoDecisao(); }
+      else if (j._status === 401) { esquecerCodigo(); estado = {}; modoLeitura('Modo só leitura: este link de aprovação não vale mais. Peça um novo ao Diogo.'); }
+      else { modoLeitura('Modo só leitura: não foi possível carregar as decisões (' + (j.mensagem || ('erro ' + j._status)) + '). Recarregue a página.'); }
+      redistribuir();
+    }, function () {
+      modoLeitura('Modo só leitura: sem conexão com o servidor de aprovação. Recarregue a página.');
+      redistribuir();
+    });
+  }
+
+  function decidir(item, corpo) {
+    var avisoItem = item.querySelector('.item-aviso');
+    item.dataset.ocupado = '1';
+    item.querySelectorAll('button[data-acao]').forEach(function (b) { b.disabled = true; });
+    avisoItem.textContent = 'Gravando…';
+    corpo.semana = item.dataset.semana; corpo.post = +item.dataset.n;
+    return chamar('POST', '/api/decisao', corpo).then(function (j) {
+      if (j._status === 200 && j.ok) {
+        estado[item.dataset.n] = j.estado; avisoItem.textContent = ''; item.dataset.editando = '';
+      } else if (j._status === 401) {
+        esquecerCodigo(); estado = {}; modoLeitura('Modo só leitura: este link de aprovação não vale mais. Peça um novo ao Diogo.');
+      } else if (j._status === 409) {
+        avisoItem.textContent = 'Esta publicação mudou depois que a página foi aberta. Nada foi gravado: recarregue a página e confira de novo.';
+      } else {
+        avisoItem.textContent = 'Não foi gravado: ' + (j.mensagem || ('erro ' + j._status)) + ' Tente de novo.';
+      }
+    }, function () {
+      avisoItem.textContent = 'Sem conexão: nada foi gravado. Tente de novo.';
+    }).then(function () {
+      item.dataset.ocupado = '';
+      item.querySelectorAll('button[data-acao]').forEach(function (b) { b.disabled = false; });
+      redistribuir();
+      var foco = item.querySelector('.item-acoes button:not([hidden])'); if (foco) foco.focus({ preventScroll: true });
+    });
+  }
+
   itens.forEach(function (item) {
-    var n = item.dataset.n, texto = item.querySelector('textarea'), aviso = item.querySelector('.item-aviso');
+    var n = item.dataset.n, texto = item.querySelector('textarea'), avisoItem = item.querySelector('.item-aviso');
     item.addEventListener('click', function (ev) {
       var b = ev.target.closest('button'); if (!b) return;
       if (b.dataset.abrir) { abrir(b.dataset.abrir, true); return; }
-      var acao = b.dataset.acao; if (!acao) return;
-      var r = respostas[n] || {};
-      if (acao === 'aprovar') { respostas[n] = { estado: 'aprovado', comentario: r.comentario || '' }; }
+      var acao = b.dataset.acao; if (!acao || item.dataset.ocupado === '1' || !codigo) return;
+      var s = situacao(item);
+      if (acao === 'aprovar') { decidir(item, { acao: 'aprovar', versao: item.dataset.versao }); }
       else if (acao === 'ajuste' || acao === 'editar') {
-        item.dataset.editando = '1'; texto.value = r.comentario || ''; aviso.textContent = '';
-        pintarItem(item); texto.focus(); return;
+        item.dataset.editando = '1'; texto.value = s.st === 'ajuste' ? s.ev.comentario : ''; avisoItem.textContent = '';
+        pintarItem(item); texto.focus();
       }
-      else if (acao === 'cancelar') { item.dataset.editando = ''; pintarItem(item); return; }
+      else if (acao === 'cancelar') { item.dataset.editando = ''; avisoItem.textContent = ''; pintarItem(item); }
       else if (acao === 'salvar') {
-        if (!texto.value.trim()) { aviso.textContent = 'Escreva o que precisa mudar antes de salvar.'; texto.focus(); return; }
-        item.dataset.editando = ''; respostas[n] = { estado: 'ajuste', comentario: texto.value.trim() };
+        if (!texto.value.trim()) { avisoItem.textContent = 'Escreva o que precisa mudar antes de salvar.'; texto.focus(); return; }
+        decidir(item, { acao: 'ajustar', comentario: texto.value.trim() });
       }
-      else if (acao === 'desfazer') { respostas[n] = { estado: '', comentario: r.comentario || '' }; }
-      guardar(); redistribuir();
-      var foco = item.querySelector('.item-acoes button:not([hidden])'); if (foco) foco.focus({ preventScroll: false });
+      else if (acao === 'desfazer') { decidir(item, { acao: 'desfazer' }); }
     });
   });
-  redistribuir();
+  document.getElementById('sair').addEventListener('click', function () {
+    esquecerCodigo(); estado = {}; autor = null;
+    modoLeitura('Você saiu deste aparelho. Para aprovar de novo, abra o link de aprovação.');
+    redistribuir();
+  });
 
   // blocos recolhíveis: sempre começam fechados
   document.querySelectorAll('.bloco-botao').forEach(function (b) {
@@ -767,45 +896,7 @@ JS = r"""
     });
   });
 
-  // resumo para enviar
-  function montarResumo() {
-    var ok = 0, aj = 0, sem = 0;
-    var linhas = itens.map(function (item) {
-      var n = item.dataset.n, r = respostas[n] || {}, s;
-      if (r.estado === 'aprovado') { ok++; s = 'APROVADO'; }
-      else if (r.estado === 'ajuste') { aj++; s = 'PEDIR AJUSTE: ' + (r.comentario || ''); }
-      else { sem++; s = 'sem resposta'; }
-      var nota = item.querySelector('.item-nota') ? ' (nova legenda simples)' : '';
-      return 'Publicação ' + n + ' — ' + item.dataset.titulo + nota + '\n→ ' + s;
-    });
-    var cab = 'Respostas sobre o Instagram da Pastoral do Dízimo (simulação)\n' +
-      'Aprovadas: ' + ok + ' · Ajustes: ' + aj + ' · Sem resposta: ' + sem + '\n';
-    return { texto: cab + '\n' + linhas.join('\n\n'), sem: sem };
-  }
-  var dialogo = document.getElementById('dialogo');
-  document.getElementById('enviar').addEventListener('click', function () {
-    var r = montarResumo();
-    document.getElementById('resumo').value = r.texto;
-    document.getElementById('dialogo-contagem').textContent = r.sem
-      ? 'Ainda faltam ' + r.sem + ' publicações sem resposta. Pode enviar assim mesmo ou voltar e completar.'
-      : 'Todas as publicações têm resposta. Obrigado!';
-    document.getElementById('por-whatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(r.texto);
-    document.getElementById('por-email').href = 'mailto:?subject=' +
-      encodeURIComponent('Aprovação — Instagram da Pastoral do Dízimo') + '&body=' + encodeURIComponent(r.texto);
-    document.getElementById('copiado').textContent = '';
-    if (dialogo.showModal) { dialogo.showModal(); } else { dialogo.setAttribute('open', ''); }
-    document.getElementById('resumo').scrollTop = 0;
-    document.getElementById('por-whatsapp').focus();
-  });
-  document.getElementById('fechar').addEventListener('click', function () { dialogo.close ? dialogo.close() : dialogo.removeAttribute('open'); });
-  document.getElementById('copiar').addEventListener('click', function () {
-    var campo = document.getElementById('resumo'), aviso = document.getElementById('copiado');
-    function feito() { aviso.textContent = 'Texto copiado. Agora é só colar na conversa.'; }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(campo.value).then(feito, function () { campo.select(); document.execCommand('copy'); feito(); });
-    } else { campo.select(); document.execCommand('copy'); feito(); }
-  });
-
+  carregar();
   if (/^#post-\d+$/.test(location.hash)) { var n0 = location.hash.slice(6); try { history.replaceState({ post: n0 }, ''); } catch (err) {} abrir(n0, false); }
 })();
 """
@@ -813,11 +904,17 @@ JS = r"""
 
 # ---------------------------------------------------------------- gravação
 
-def gerar(raiz: Path = RAIZ, site: Path | None = None) -> Path:
-    """Copia estreia e destaques para <site>/midia/ e grava <site>/aprovacao/index.html."""
+def gerar(raiz: Path = RAIZ, site: Path | None = None, api_url: str | None = None, destino: str = "aprovacao",
+          semanas: list[str] | None = None) -> Path:
+    """Copia estreia e destaques para <site>/midia/ e grava <site>/<destino>/index.html.
+    `api_url`: Worker do painel (padrão: aprovacao.worker_url do config.yaml). Se <site> não for o
+    site/ da própria raiz (ex.: página de teste gerada de outro checkout), copia também as artes das semanas."""
     raiz = Path(raiz)
     site = Path(site) if site else raiz / "site"
-    dados = coletar(raiz)
+    if not re.fullmatch(r"[a-z0-9-]+", destino):
+        raise ValueError(f"destino inválido: {destino!r}")
+    api = validar_api(api_url or carregar_config(raiz / "config.yaml")["aprovacao"]["worker_url"].rstrip("/"))
+    dados = coletar(raiz, semanas)
     render = raiz / "content" / "estreia" / "render"
 
     estreia = site / "midia" / "estreia"
@@ -833,24 +930,31 @@ def gerar(raiz: Path = RAIZ, site: Path | None = None) -> Path:
         nome = f"destaque-{d['arquivo']}.jpg"
         shutil.copyfile(render / nome, destaques / nome)
 
-    # as artes das semanas e o avatar já moram em site/midia/ do repositório: confere que existem
-    faltando = [img["src"] for p in dados["posts"] if p["semana"] != "estreia" for img in p["imagens"]
-                if not (raiz / "site" / img["src"][3:]).is_file()]
-    if faltando:
-        raise FileNotFoundError("artes ausentes em site/midia/ (rode preview --semana): " + ", ".join(faltando))
+    # as artes das semanas e o avatar moram em site/midia/ da raiz (coletar já conferiu que existem)
+    if site.resolve() != (raiz / "site").resolve():
+        for p in dados["posts"]:
+            if p["semana"] != "estreia":
+                for img in p["imagens"]:
+                    alvo = site / img["src"][3:]
+                    alvo.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(raiz / "site" / img["src"][3:], alvo)
 
-    saida = site / "aprovacao" / "index.html"
+    saida = site / destino / "index.html"
     saida.parent.mkdir(parents=True, exist_ok=True)
-    saida.write_text(montar_pagina(dados), encoding="utf-8")
+    saida.write_text(montar_pagina(dados, api), encoding="utf-8")
     return saida
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Gera o simulador do Instagram para aprovação (site/aprovacao/)")
-    ap.add_argument("--raiz", type=Path, default=RAIZ, help="raiz do repositório")
+    ap.add_argument("--raiz", type=Path, default=RAIZ, help="raiz do repositório (de onde vêm os posts)")
+    ap.add_argument("--site", type=Path, help="pasta site/ de destino (padrão: <raiz>/site)")
+    ap.add_argument("--api", help="URL do Worker do painel (padrão: aprovacao.worker_url do config.yaml)")
+    ap.add_argument("--destino", default="aprovacao", help="subpasta de site/ (ex.: aprovacao-teste)")
+    ap.add_argument("--semanas", nargs="+", help="só estas semanas da reserva (a estreia entra sempre)")
     args = ap.parse_args(argv)
-    saida = gerar(args.raiz)
-    print(f"{saida} + site/midia/estreia/ + site/midia/destaques/")
+    saida = gerar(args.raiz, args.site, args.api, args.destino, args.semanas)
+    print(f"{saida} + midia/estreia/ + midia/destaques/")
     return 0
 
 

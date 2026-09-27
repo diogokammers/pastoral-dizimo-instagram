@@ -67,16 +67,21 @@ export class GitHub {
     return JSON.parse(deUtf8(await this.lerBytes(caminho)));
   }
 
-  // Arquivo pequeno com o sha do blob (necessário para atualizar). null se não existe.
-  async lerJsonComSha(caminho) {
+  // Arquivo pequeno (até 1 MB) com o sha do blob (necessário para atualizar). null se não existe.
+  async lerTextoComSha(caminho) {
     const r = await this.pedir("GET", `/contents/${caminhoUrl(caminho)}?ref=${encodeURIComponent(this.ramo)}`);
     if (r.status === 404) return null;
     if (!r.ok) throw await this.falha(r, `ler ${caminho}`);
     const meta = await r.json();
-    return { sha: meta.sha, dados: JSON.parse(deUtf8(deBase64(meta.content || ""))) };
+    return { sha: meta.sha, texto: deUtf8(deBase64(meta.content || "")) };
   }
 
-  // Cria ou atualiza com commit. 409/422 (sha desatualizado) viram ConflitoGitHub.
+  async lerJsonComSha(caminho) {
+    const atual = await this.lerTextoComSha(caminho);
+    return atual && { sha: atual.sha, dados: JSON.parse(atual.texto) };
+  }
+
+  // Cria ou atualiza com commit e devolve o sha do commit. 409/422 (sha desatualizado) viram ConflitoGitHub.
   async gravar(caminho, texto, mensagem, sha) {
     const corpo = { message: mensagem, content: paraBase64(utf8(texto)), branch: this.ramo };
     if (sha) corpo.sha = sha;
@@ -86,6 +91,11 @@ export class GitHub {
       throw new ConflitoGitHub(erro.message, r.status);
     }
     if (!r.ok) throw await this.falha(r, `gravar ${caminho}`);
+    try {
+      return (await r.json())?.commit?.sha ?? null;
+    } catch {
+      return null;
+    }
   }
 
   async disparar(evento, payload) {

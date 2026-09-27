@@ -1,15 +1,74 @@
-# Worker de aprovação por link assinado (ADR-009). Sem domínio próprio: publicado em
-# https://pastoral-dizimo-aprovacao.<seu-subdominio>.workers.dev. Sem account_id fixo: o
-# `npx wrangler login` do Diogo escolhe a conta.
+# Worker de aprovação (ADR-009: links assinados do e-mail; ADR-011: painel com D1). Sem domínio próprio:
+# https://pastoral-dizimo-aprovacao.pastoral-dizimo-aprovacao.workers.dev (conta Cloudflare da Pastoral).
+# Rodar o wrangler SEMPRE com o login da Pastoral (ver docs/decisoes/ADR-011-painel-aprovacao-d1.md).
 name = "pastoral-dizimo-aprovacao"
 main = "src/index.js"
 compatibility_date = "2026-06-01"
+account_id = "eb1966a0ce40748ee0ed8a1f510bcc1f"   # conta da Pastoral (não é segredo)
 workers_dev = true
 
-# Valores públicos (não são segredos). Os segredos vão por `npx wrangler secret put`:
-# LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER.
+# Sem logs de invocação: URLs e cabeçalhos não ficam guardados na Cloudflare.
+[observability]
+enabled = false
+
+# Valores públicos (não são segredos). Os segredos vão por `npx wrangler secret put` (via stdin):
+# LINK_HMAC_SECRET, APROVACAO_HMAC_SECRET, GH_PAT_WORKER, CODIGO_PADRE (e, se um dia existir, CODIGO_DIOGO).
 [vars]
 GITHUB_REPO = "diogokammers/pastoral-dizimo-instagram"
 GITHUB_BRANCH = "master"
 APROVADO_POR = "Diogo"
 PREVIA_BASE_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/"
+PAGINA_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao/"
+ORIGEM_PERMITIDA = "https://diogokammers.github.io"
+EVENTO_AJUSTE = "ajustar_post"
+
+# Eventos de aprovação (append-only). Migrations: `npx wrangler d1 migrations apply pastoral-aprovacoes --remote`.
+[[d1_databases]]
+binding = "DB"
+database_name = "pastoral-aprovacoes"
+database_id = "d4b7048d-a080-4a8c-a0d1-8a5a74fda080"
+migrations_dir = "migrations"
+
+# Backup diário do D1 → content/aprovacoes/eventos.jsonl (06:30 em Brasília). Também roda a cada decisão.
+[triggers]
+crons = ["30 9 * * *"]
+
+# ---------------------------------------------------------------------------------------------------
+# Ambiente de TESTE (ADR-011, validação ponta a ponta): Worker, D1 e ramo do GitHub próprios; nunca a master.
+# `npx wrangler deploy --env teste` · segredos com `--env teste` · o dispatch usa um evento que nada consome.
+[env.teste]
+name = "pastoral-dizimo-aprovacao-teste"
+workers_dev = true
+
+[env.teste.vars]
+GITHUB_REPO = "diogokammers/pastoral-dizimo-instagram"
+GITHUB_BRANCH = "teste-aprovacao"
+APROVADO_POR = "Diogo"
+PREVIA_BASE_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/"
+PAGINA_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao-teste/"
+ORIGEM_PERMITIDA = "https://diogokammers.github.io"
+EVENTO_AJUSTE = "ajustar_post_teste"
+
+[[env.teste.d1_databases]]
+binding = "DB"
+database_name = "pastoral-aprovacoes-teste"
+database_id = "279898c5-0702-4786-94c0-278db7d62139"
+migrations_dir = "migrations"
+
+[env.teste.triggers]
+crons = []
+
+# ---------------------------------------------------------------------------------------------------
+# Link curto: Worker "aprovar" → https://aprovar.pastoral-dizimo-aprovacao.workers.dev/p/<código>.
+# Só redireciona para a página com o código no fragmento (#c=…); sem segredos, sem banco, sem GitHub.
+# `npx wrangler deploy --env curto`
+[env.curto]
+name = "aprovar"
+main = "src/curto.js"
+workers_dev = true
+
+[env.curto.vars]
+PAGINA_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao/"
+
+[env.curto.triggers]
+crons = []

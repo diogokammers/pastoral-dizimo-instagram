@@ -150,6 +150,11 @@ export async function versao(semana, itens) {
   return (await sha256Hex(canonico({ semana, posts: itens }))).slice(0, 32);
 }
 
+// Versão de UM post (painel, ADR-011) — espelho de aprovacao.versao_post.
+export async function versaoPost(semana, item) {
+  return (await sha256Hex(canonico({ semana, post: item }))).slice(0, 32);
+}
+
 // ---------- links assinados ----------
 
 const mensagemLink = (params) => utf8([PREFIXO_LINK, ...CAMPOS_LINK.map((c) => String(params[c] ?? ""))].join("\n"));
@@ -193,6 +198,21 @@ export async function montarAprovacao(existente, semana, itens, alvo, nonce, apr
     aprovado_em: aprovadoEm,
     nonce,
     posts: [...aprovados.keys()].sort((a, b) => a - b).map((n) => aprovados.get(n)),
+  };
+  dados.assinatura = await assinar(dados, segredo);
+  return { dados, mudou: true };
+}
+
+// Tira o post `numero` da aprovação e reassina (desfazer no painel, ADR-011) — espelho de
+// aprovacao.remover_da_aprovacao. Sem o post no arquivo, o portão (publicar.py) não o publica.
+export async function removerDaAprovacao(existente, semana, numero, nonce, aprovadoPor, aprovadoEm, segredo) {
+  if (!existente || !(existente.posts ?? []).some((i) => i.numero === numero)) return { dados: existente, mudou: false };
+  const dados = {
+    semana,
+    aprovado_por: aprovadoPor,
+    aprovado_em: aprovadoEm,
+    nonce,
+    posts: existente.posts.filter((i) => i.numero !== numero),
   };
   dados.assinatura = await assinar(dados, segredo);
   return { dados, mudou: true };

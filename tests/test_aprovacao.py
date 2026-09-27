@@ -207,3 +207,40 @@ def test_worker_regenera_o_mesmo_vetor(tmp_path):
                           capture_output=True, text=True, encoding="utf-8", timeout=60)
     assert proc.returncode == 0, proc.stderr
     assert ler(saida) == ler(FIXTURE / "aprovacao-worker.json")
+
+
+# ---------- painel (ADR-011): versão de um post e remoção da aprovação ----------
+
+def test_versao_post_muda_com_qualquer_parte_do_item(posts, agenda):
+    itens = aprovacao.itens_semana(agenda, posts, ler_arte)
+    v = aprovacao.versao_post(SEMANA, itens[0])
+    assert len(v) == 32 and v == aprovacao.versao_post(SEMANA, dict(itens[0]))
+    assert v != aprovacao.versao_post("2026-W42", itens[0])
+    assert v != aprovacao.versao_post(SEMANA, {**itens[0], "legenda_sha256": "0" * 64})
+    assert v != aprovacao.versao_post(SEMANA, {**itens[0], "agendado_para": "2026-10-07T19:00:00-03:00"})
+    assert v != aprovacao.versao_post(SEMANA, itens[1])
+
+
+def test_remover_da_aprovacao_reassina_sem_o_post(posts, agenda):
+    itens = aprovacao.itens_semana(agenda, posts, ler_arte)
+    d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12, 13], "n1", "Diogo", "t1", SEGREDO_APROV)
+    d2, mudou = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Padre", "t2", SEGREDO_APROV)
+    assert mudou and [p["numero"] for p in d2["posts"]] == [13]
+    assert d2["aprovado_por"] == "Padre" and d2["nonce"] == "n2"
+    assert list(d2) == ["semana", "aprovado_por", "aprovado_em", "nonce", "posts", "assinatura"]
+    assert publicar.assinatura_valida(d2, SEGREDO_APROV)
+    d3, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 12, "n3", "Padre", "t3", SEGREDO_APROV)
+    assert not mudou and d3 is d2, "remover o que não está lá não grava"
+    d4, mudou = aprovacao.remover_da_aprovacao(d2, SEMANA, 13, "n4", "Padre", "t4", SEGREDO_APROV)
+    assert mudou and d4["posts"] == [] and publicar.assinatura_valida(d4, SEGREDO_APROV)
+    assert aprovacao.remover_da_aprovacao(None, SEMANA, 12, "n5", "Padre", "t5", SEGREDO_APROV) == (None, False)
+
+
+def test_post_removido_da_aprovacao_e_recusado_pelo_portao(tmp_path, posts, agenda):
+    itens = aprovacao.itens_semana(agenda, posts, ler_arte)
+    d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12, 13], "n1", "Padre", "t1", SEGREDO_APROV)
+    d2, _ = aprovacao.remover_da_aprovacao(d1, SEMANA, 12, "n2", "Padre", "t2", SEGREDO_APROV)
+    raiz = repo_com_aprovacao(tmp_path, d2)
+    agora = datetime(2026, 10, 10, tzinfo=timezone.utc)
+    prontos, recusados = publicar.avaliar_semana(raiz, raiz / "site" / "midia", SEMANA, SEGREDO_APROV, agora, set())
+    assert [p["numero"] for p in prontos] == [13] and recusados == []

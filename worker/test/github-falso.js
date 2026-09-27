@@ -72,8 +72,9 @@ export class GitHubFalso {
       }
       const bytes = deBase64(corpo.content);
       this.arquivos.set(caminho, { bytes, sha: `sha${++contadorSha}` });
-      this.gravacoes.push({ caminho, texto: deUtf8(bytes), mensagem: corpo.message, ramo: corpo.branch });
-      return Response.json({ content: { path: caminho } }, { status: atual ? 200 : 201 });
+      const commit = `commit${++contadorSha}`;
+      this.gravacoes.push({ caminho, texto: deUtf8(bytes), mensagem: corpo.message, ramo: corpo.branch, commit });
+      return Response.json({ content: { path: caminho }, commit: { sha: commit } }, { status: atual ? 200 : 201 });
     }
     return new Response("método", { status: 405 });
   }

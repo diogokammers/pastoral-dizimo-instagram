@@ -234,5 +234,30 @@
       }
     ],
     "assinatura": "d178d982e5dd9e3627da4e1cc32a1218ccde8ac1d339705f84832687b5761f23"
+  },
+  "versao_post": {
+    "12": "4257a5dd1402fc34ed1cd05e973d7df8",
+    "13": "3283c3f271b6abac4e929da120c1b272"
+  },
+  "remocao": {
+    "semana": "2026-W41",
+    "aprovado_por": "Padre",
+    "aprovado_em": "2026-10-03T10:00:00+00:00",
+    "nonce": "fedcba9876543210",
+    "posts": [
+      {
+        "numero": 13,
+        "agendado_para": "2026-10-09T19:00:00-03:00",
+        "legenda_sha256": "ba037c52de838b700ead4ccde29a365886bf17b865d16f54b0aa862910060a4d",
+        "alt_text_sha256": "1b5d43a402fe2adec1d8f66d9ca03312cdb2b08ea5db4ee0ee22665c55f09dee",
+        "artes": [
+          {
+            "arquivo": "post-13-01.jpg",
+            "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
+          }
+        ]
+      }
+    ],
+    "assinatura": "376042ef6edf11e3182dcc7984e49420776288018e4513aef009ddb490607132"
   }
 }

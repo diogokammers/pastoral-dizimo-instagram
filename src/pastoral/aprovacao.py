@@ -93,6 +93,12 @@ def versao(semana: str, itens: list[dict]) -> str:
     return sha256(canonico({"semana": semana, "posts": itens}))[:32]
 
 
+def versao_post(semana: str, item: dict) -> str:
+    """Versão de UM post (painel, ADR-011): 32 hex do sha256 do JSON canônico {semana, post: item}.
+    Muda se legenda, alt-texts, artes ou data mudarem; a aprovação no painel vale só para ela."""
+    return sha256(canonico({"semana": semana, "post": item}))[:32]
+
+
 # ---------- links assinados ----------
 
 def mensagem_link(params: dict) -> bytes:
@@ -155,6 +161,18 @@ def montar_aprovacao(existente: dict | None, semana: str, itens: list[dict], alv
     return dados, True
 
 
+def remover_da_aprovacao(existente: dict | None, semana: str, numero: int, nonce: str, aprovado_por: str,
+                         aprovado_em: str, segredo: str) -> tuple[dict | None, bool]:
+    """Tira o post `numero` da aprovação e reassina (desfazer no painel, ADR-011). Devolve (dados, mudou);
+    se o post não estava aprovado, (existente, False). Sem o post no arquivo, o portão não o publica."""
+    if not existente or all(i["numero"] != numero for i in existente.get("posts", [])):
+        return existente, False
+    dados = {"semana": semana, "aprovado_por": aprovado_por, "aprovado_em": aprovado_em, "nonce": nonce,
+             "posts": [i for i in existente["posts"] if i["numero"] != numero]}
+    dados["assinatura"] = assinar(dados, segredo)
+    return dados, True
+
+
 # ---------- vetores para o teste cruzado ----------
 
 FIXTURE = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "semana-exemplo"
@@ -192,6 +210,8 @@ def gerar_vetores(fixture: Path = FIXTURE) -> dict:
         links.append(params)
     aprov, _ = montar_aprovacao(None, semana, itens, [12, 13], "0123456789abcdef", "Diogo",
                                 "2026-10-02T13:00:00+00:00", "segredo-aprovacao-de-teste")
+    remocao, _ = remover_da_aprovacao(aprov, semana, 12, "fedcba9876543210", "Padre",
+                                      "2026-10-03T10:00:00+00:00", "segredo-aprovacao-de-teste")
     return {
         "gerado_por": "python -m pastoral.aprovacao --vetores (não editar à mão)",
         "canonico": [{"entrada": o, "saida": canonico(o).decode("utf-8"),
@@ -204,6 +224,8 @@ def gerar_vetores(fixture: Path = FIXTURE) -> dict:
                                     for e in agenda["posts"] for a in e["artes"]}},
         "links": {"segredo": "segredo-link-de-teste", "agora": 1790000000, "validos": links},
         "aprovacao": aprov,
+        "versao_post": {str(i["numero"]): versao_post(semana, i) for i in itens},
+        "remocao": remocao,
     }
 
 

@@ -88,3 +88,23 @@ test("montarAprovacao é idempotente e acumula posts", async () => {
   assert.deepEqual(a4.dados.posts.map((p) => p.numero), [12, 13]);
   await assert.rejects(n.montarAprovacao(null, "2026-W41", itens, [99], "n", "D", "t", s));
 });
+
+// ---------- painel (ADR-011) ----------
+
+test("versão de cada post idêntica à do Python", async () => {
+  for (const item of VETORES.semana.itens) {
+    assert.equal(await n.versaoPost(VETORES.semana.semana, item), VETORES.versao_post[String(item.numero)]);
+  }
+});
+
+test("remover da aprovação é byte a byte o do Python e idempotente", async () => {
+  const r = await n.removerDaAprovacao(VETORES.aprovacao, "2026-W41", 12, "fedcba9876543210", "Padre",
+    "2026-10-03T10:00:00+00:00", "segredo-aprovacao-de-teste");
+  assert.equal(r.mudou, true);
+  assert.deepEqual(r.dados, VETORES.remocao);
+  assert.deepEqual(Object.keys(r.dados), ["semana", "aprovado_por", "aprovado_em", "nonce", "posts", "assinatura"]);
+  const de_novo = await n.removerDaAprovacao(r.dados, "2026-W41", 12, "n", "Padre", "t", "segredo-aprovacao-de-teste");
+  assert.equal(de_novo.mudou, false);
+  assert.equal(de_novo.dados, r.dados);
+  assert.deepEqual(await n.removerDaAprovacao(null, "2026-W41", 12, "n", "Padre", "t", "s"), { dados: null, mudou: false });
+});
