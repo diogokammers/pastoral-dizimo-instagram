@@ -24,6 +24,7 @@ Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md`.
 - Lint: `python -m pastoral.lint content/semanas/2026-W40/posts.json` (estreia publicada: acrescentar `--legado`) · Render + QA: `python -m pastoral.render content/estreia/posts.json --destaques` · Prévia: `python -m pastoral.preview` · Amostras creme: `python -m pastoral.amostras`
 - Portão de publicação (dry-run padrão; real só com `PUBLICAR=1`): `python -m pastoral.publicar` · Diagnóstico do token: `python -m pastoral.meta --verificar` (ADR-008)
 - Aprovação (ADR-009): prévia semanal `python -m pastoral.preview --semana 2026-W41` · e-mail `python -m pastoral.notificar 2026-W41 --dry-run` (HTML fora do repo) · Worker: `cd worker && npm test` (node:test; deploy só pelo Diogo) · `semanal.yml` só com `SEMANAL_ATIVO = 1`
+- Simulador do Instagram para o Padre aprovar tudo (perfil + 3 fixados + reserva; grava site/aprovacao/ e copia estreia/destaques para site/midia/): `python -m pastoral.simulador` (com `PYTHONPATH=src`)
 - Mudou hash/assinatura? Regenere os vetores cruzados: `python -m pastoral.aprovacao --vetores tests/fixtures/vetores-python.json` e `node worker/scripts/vetor-worker.mjs`
 
 ## Estrutura
