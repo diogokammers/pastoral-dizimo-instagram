@@ -1,0 +1,54 @@
+{
+  "gancho_liturgico": {
+    "celebracoes": [
+      {
+        "cor": "branco",
+        "data": "2026-10-12",
+        "nome": "Nossa Senhora Aparecida"
+      }
+    ],
+    "cor": "branco",
+    "fim": "2026-10-18",
+    "inicio": "2026-10-12",
+    "mes_tematico": null,
+    "tempo": "Tempo Comum"
+  },
+  "posts": [
+    {
+      "cor_liturgica": "verde",
+      "cta": "Marcar a paróquia vizinha",
+      "data": "2026-10-13",
+      "fixado": false,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 8,
+      "pilar": "Vida pastoral",
+      "publico": "Coordenadores e párocos",
+      "resumo": "Valorização da unidade arquidiocesana entre as comunidades locais.",
+      "rodada": 1,
+      "tema": 29,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "Comunhão entre paróquias: por que caminhar juntos"
+    },
+    {
+      "cor_liturgica": "verde",
+      "cta": "Salvar para estudo",
+      "data": "2026-10-16",
+      "fixado": false,
+      "formato": "imagem_unica",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 9,
+      "pilar": "Formação",
+      "pilar_original": "Espiritualidade",
+      "publico": "Interessados em formação",
+      "resumo": "Panorama bíblico do dízimo ao longo da Escritura.",
+      "rodada": 1,
+      "tema": 15,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "O dízimo na Bíblia: de Abraão a Malaquias"
+    }
+  ],
+  "semana": "2026-W42"
+}

@@ -1,0 +1,128 @@
+{
+  "posts": [
+    {
+      "post": 8,
+      "slide": 1,
+      "template": "capa",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 77716,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 2,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 73471,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 3,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 94928,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 4,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 92841,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 5,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 89985,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 6,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 97794,
+      "ok": true
+    },
+    {
+      "post": 9,
+      "slide": 1,
+      "template": "capa",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-9-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 78469,
+      "ok": true
+    }
+  ],
+  "destaques": [],
+  "resumo": {
+    "imagens": 7,
+    "reprovadas": []
+  }
+}

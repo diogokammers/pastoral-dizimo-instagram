@@ -1,0 +1,24 @@
+{
+  "semana": "2026-W42",
+  "posts": [
+    {
+      "numero": 8,
+      "agendado_para": "2026-10-13T19:00:00-03:00",
+      "artes": [
+        "post-8-01.jpg",
+        "post-8-02.jpg",
+        "post-8-03.jpg",
+        "post-8-04.jpg",
+        "post-8-05.jpg",
+        "post-8-06.jpg"
+      ]
+    },
+    {
+      "numero": 9,
+      "agendado_para": "2026-10-16T19:00:00-03:00",
+      "artes": [
+        "post-9-01.jpg"
+      ]
+    }
+  ]
+}
