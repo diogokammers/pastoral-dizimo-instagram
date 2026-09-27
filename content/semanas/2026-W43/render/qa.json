@@ -1,0 +1,315 @@
+{
+  "posts": [
+    {
+      "post": 10,
+      "slide": 1,
+      "template": "capa",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 100527,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 2,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 86173,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 3,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 80197,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 4,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 80892,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 5,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 78726,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 6,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 71881,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 7,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 83307,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 8,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-08.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 84059,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 9,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-09.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 87215,
+      "ok": true
+    },
+    {
+      "post": 10,
+      "slide": 10,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-10-10.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 103724,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 1,
+      "template": "capa",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-01.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 69902,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 2,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-02.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 90614,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 3,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-03.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 69021,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 4,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-04.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 82833,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 5,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-05.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 81415,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 6,
+      "template": "conteudo",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-06.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 76589,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 7,
+      "template": "citacao",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 60207,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 8,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-08.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 89716,
+      "ok": true
+    }
+  ],
+  "destaques": [],
+  "resumo": {
+    "imagens": 18,
+    "reprovadas": []
+  }
+}

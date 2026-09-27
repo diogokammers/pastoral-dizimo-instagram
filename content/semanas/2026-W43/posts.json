@@ -1,0 +1,257 @@
+{
+  "lote": "2026-W43",
+  "observacoes": [
+    "CTAs normalizados para a lista permitida: 'Compartilhar com coordenação' virou 'compartilhar'; 'Salvar para reflexão' virou 'salvar'.",
+    "Post 11: o título do briefing usa 'doação', termo do grupo 'com cuidado'. O título interno foi mantido, mas a capa e a legenda usam 'gratidão e partilha'.",
+    "Post 11: o cartão não traz nenhuma fonte conferida que ligue o dízimo à oferenda eucarística. O post fica no que está conferido (CIC 1351; Doc. CNBB 106, n. 29, 34 e 51) e não afirma essa ligação teológica."
+  ],
+  "posts": [
+    {
+      "numero": 10,
+      "fixado": false,
+      "titulo": "O que ensina a CNBB sobre a Pastoral do Dízimo",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Coordenadores e párocos",
+      "cta": "compartilhar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "O que a CNBB ensina sobre o dízimo",
+          "texto": "Um resumo simples das orientações dos bispos do Brasil",
+          "alt_text": "Capa em fundo creme com a palavra Formação no alto. Título: O que a CNBB ensina sobre o dízimo. Abaixo: Um resumo simples das orientações dos bispos do Brasil."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O que é o dízimo?",
+          "texto": "A comunidade assume, com regularidade, o sustento dela e da Igreja.",
+          "fonte": "Doc. CNBB 106, n. 6",
+          "alt_text": "Slide em fundo creme. Título: O que é o dízimo? Texto: A comunidade assume, com regularidade, o sustento dela e da Igreja. Fonte no rodapé: Doc. CNBB 106, n. 6."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Nasce da fé",
+          "texto": "É uma decisão pessoal, sinal da fé e da pertença à comunidade.",
+          "fonte": "Doc. CNBB 106, n. 9",
+          "alt_text": "Slide em fundo creme. Título: Nasce da fé. Texto: É uma decisão pessoal, sinal da fé e da pertença à comunidade. Fonte no rodapé: Doc. CNBB 106, n. 9."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Quem decide o valor?",
+          "texto": "Sua consciência, iluminada pela Palavra de Deus.",
+          "fonte": "Doc. CNBB 106, n. 10",
+          "alt_text": "Slide em fundo creme. Título: Quem decide o valor? Texto: Sua consciência, iluminada pela Palavra de Deus. Fonte no rodapé: Doc. CNBB 106, n. 10."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Mais que recursos",
+          "texto": "O dízimo não se reduz a juntar dinheiro para a Igreja.",
+          "fonte": "Doc. CNBB 106, n. 12",
+          "alt_text": "Slide em fundo creme. Título: Mais que recursos. Texto: O dízimo não se reduz a juntar dinheiro para a Igreja. Fonte no rodapé: Doc. CNBB 106, n. 12."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Tudo vem de Deus",
+          "texto": "O dízimo é gratidão, fé e conversão.",
+          "fonte": "Doc. CNBB 106, n. 29",
+          "alt_text": "Slide em fundo creme. Título: Tudo vem de Deus. Texto: O dízimo é gratidão, fé e conversão. Fonte no rodapé: Doc. CNBB 106, n. 29."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Partilha que vai longe",
+          "texto": "Ajuda na partilha entre as paróquias e entre as dioceses.",
+          "fonte": "Doc. CNBB 106, n. 31",
+          "alt_text": "Slide em fundo creme. Título: Partilha que vai longe. Texto: Ajuda na partilha entre as paróquias e entre as dioceses. Fonte no rodapé: Doc. CNBB 106, n. 31."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Para onde vai",
+          "texto": "Culto, sustento do clero, missão e caridade, sobretudo com os pobres.",
+          "fonte": "Doc. CNBB 106, n. 34",
+          "alt_text": "Slide em fundo creme. Título: Para onde vai. Texto: Culto, sustento do clero, missão e caridade, sobretudo com os pobres. Fonte no rodapé: Doc. CNBB 106, n. 34."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Agentes bem formados",
+          "texto": "Servem em equipe e participam dos conselhos da paróquia.",
+          "fonte": "Doc. CNBB 106, n. 63",
+          "alt_text": "Slide em fundo creme. Título: Agentes bem formados. Texto: Servem em equipe e participam dos conselhos da paróquia. Fonte no rodapé: Doc. CNBB 106, n. 63."
+        },
+        {
+          "template": "cta",
+          "titulo": "Compartilhe",
+          "texto": "Envie este resumo para quem coordena a Pastoral do Dízimo na sua paróquia.",
+          "alt_text": "Slide final em fundo creme. Título: Compartilhe. Texto: Envie este resumo para quem coordena a Pastoral do Dízimo na sua paróquia."
+        }
+      ],
+      "legenda": "O que a CNBB ensina sobre o dízimo? Fizemos um resumo simples para você.\n\nA base é um documento aprovado pelo Conselho Permanente da CNBB, a conferência dos bispos do Brasil.\n\nO dízimo é uma partilha regular. Com ela, a comunidade assume o próprio sustento e o da Igreja.\n\nEle nasce de uma decisão pessoal. É um sinal da sua fé e da sua pertença à comunidade.\n\nQuem decide o valor? A sua consciência, iluminada pela Palavra de Deus.\n\nO dízimo não se reduz a juntar dinheiro. Ele tem quatro dimensões: religiosa, eclesial (ligada à Igreja), missionária e caritativa.\n\nNa prática, você agradece a Deus, de quem vem tudo. Vive como membro da Igreja. Partilha com outras paróquias e dioceses. E ajuda a cuidar dos pobres.\n\nPara onde vai o dízimo? Para o culto, o sustento do clero, a missão e a caridade, sobretudo com os pobres.\n\nE os agentes da Pastoral? Eles servem em equipe, bem formados. Participam dos conselhos da paróquia, o pastoral e o econômico.\n\nCompartilhe este resumo com quem coordena a Pastoral do Dízimo na sua paróquia.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Doc. CNBB 106, n. 6, 9, 10, 12, 29, 30, 31, 32, 34 e 63",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 6"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 9"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 10"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 12"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 29"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 30"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 31"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 32"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 34",
+          "observacao": "Finalidades estão nos n. 34 e 35."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 63",
+          "observacao": "Agentes e formação estão nos n. 63 a 66."
+        }
+      ],
+      "a_conferir": [
+        "Agentes em equipe e nos conselhos: o cartão agrupa os n. 63 a 66. Conferir se o n. 63 é o número certo para o slide e a legenda.",
+        "Finalidades (culto, clero, missão, caridade): o cartão agrupa os n. 34 e 35. Conferir se basta citar o n. 34.",
+        "Capa: 'orientações dos bispos do Brasil'. O documento foi aprovado pelo Conselho Permanente da CNBB. Conferir se a formulação é adequada."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    },
+    {
+      "numero": 11,
+      "fixado": false,
+      "titulo": "Dízimo e Eucaristia: sinais de doação",
+      "pilar": "Formação",
+      "formato": "carrossel",
+      "publico": "Todos os públicos",
+      "cta": "salvar",
+      "slides": [
+        {
+          "template": "capa",
+          "eyebrow": "Formação",
+          "titulo": "Dízimo e Eucaristia",
+          "texto": "Sinais de gratidão e partilha",
+          "alt_text": "Capa em fundo creme com a palavra Formação no alto. Título: Dízimo e Eucaristia. Abaixo: Sinais de gratidão e partilha."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Desde o princípio",
+          "texto": "Com o pão e o vinho, os cristãos levam ofertas para partilhar com os necessitados.",
+          "fonte": "CIC 1351",
+          "alt_text": "Slide em fundo creme. Título: Desde o princípio. Texto: Com o pão e o vinho, os cristãos levam ofertas para partilhar com os necessitados. Fonte no rodapé: CIC 1351."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "A coleta na Missa",
+          "texto": "Esse costume da coleta continua atual.",
+          "fonte": "CIC 1351",
+          "alt_text": "Slide em fundo creme. Título: A coleta na Missa. Texto: Esse costume da coleta continua atual. Fonte no rodapé: CIC 1351."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Não confunda",
+          "texto": "Se o dízimo é recolhido na Missa, evite confundi-lo com as ofertas.",
+          "fonte": "Doc. CNBB 106, n. 51",
+          "alt_text": "Slide em fundo creme. Título: Não confunda. Texto: Se o dízimo é recolhido na Missa, evite confundi-lo com as ofertas. Fonte no rodapé: Doc. CNBB 106, n. 51."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "O que une os dois?",
+          "texto": "O dízimo também serve ao culto — as celebrações da Igreja.",
+          "fonte": "Doc. CNBB 106, n. 34",
+          "alt_text": "Slide em fundo creme. Título: O que une os dois? Texto: O dízimo também serve ao culto, as celebrações da Igreja. Fonte no rodapé: Doc. CNBB 106, n. 34."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Resposta de fé",
+          "texto": "Tudo vem de Deus. O dízimo é um gesto de gratidão.",
+          "fonte": "Doc. CNBB 106, n. 29",
+          "alt_text": "Slide em fundo creme. Título: Resposta de fé. Texto: Tudo vem de Deus. O dízimo é um gesto de gratidão. Fonte no rodapé: Doc. CNBB 106, n. 29."
+        },
+        {
+          "template": "citacao",
+          "texto": "Deus ama quem dá com alegria",
+          "referencia": "2Cor 9,7",
+          "alt_text": "Slide de citação em fundo creme com a frase bíblica: Deus ama quem dá com alegria. Referência: 2Cor 9,7."
+        },
+        {
+          "template": "cta",
+          "titulo": "Salve este post",
+          "texto": "Releia antes da próxima Missa e reze com ele.",
+          "alt_text": "Slide final em fundo creme. Título: Salve este post. Texto: Releia antes da próxima Missa e reze com ele."
+        }
+      ],
+      "legenda": "O que o dízimo tem a ver com a Missa?\n\nDesde o princípio, os cristãos levam ofertas junto com o pão e o vinho. Essas ofertas são partilhadas com quem passa necessidade. É o costume da coleta, que continua atual.\n\nO dízimo também serve ao culto, isto é, às celebrações da Igreja. E serve à missão e à caridade.\n\nMas atenção: dízimo e oferta não são a mesma coisa. Quando o dízimo é recolhido na Missa ou na Celebração da Palavra, é preciso evitar confundir os dois.\n\nTudo o que temos vem de Deus. Por isso o dízimo é um gesto de fé e de gratidão.\n\nComo diz a Palavra: \"Deus ama quem dá com alegria\" (2Cor 9,7).\n\nSalve este post e releia antes da próxima Missa.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: CIC 1351 · Doc. CNBB 106, n. 29, 34 e 51 · 2Cor 9,7",
+      "hashtags": [],
+      "fontes": [
+        {
+          "tipo": "catecismo",
+          "referencia": "CIC 1351"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 29"
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 34",
+          "observacao": "Finalidades estão nos n. 34 e 35."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 51"
+        },
+        {
+          "tipo": "biblia",
+          "referencia": "2Cor 9,7",
+          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB"
+        }
+      ],
+      "a_conferir": [
+        "O briefing pede a relação entre a oferenda do dízimo e a oferenda eucarística. O cartão não traz fonte conferida para essa ligação. O post não a afirma e fica no CIC 1351 e no Doc. CNBB 106, n. 29, 34 e 51. Confirmar se esse recorte atende o tema.",
+        "Título interno do briefing usa 'doação' (termo com cuidado). Confirmar se o título pode ficar assim ou se vira 'sinais de gratidão e partilha'.",
+        "CIC 1351: conferir no vatican.va se 'continua atual' traduz bem o 'sempre atual' do texto sobre a coleta."
+      ],
+      "autocritica": {
+        "T1": 2,
+        "T2": 2,
+        "T3": 2,
+        "T4": 2,
+        "T5": 2,
+        "T6": 2,
+        "T7": 2,
+        "T8": 2
+      }
+    }
+  ]
+}

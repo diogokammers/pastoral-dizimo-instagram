@@ -1,0 +1,47 @@
+{
+  "gancho_liturgico": {
+    "celebracoes": [],
+    "cor": "verde",
+    "fim": "2026-10-25",
+    "inicio": "2026-10-19",
+    "mes_tematico": null,
+    "tempo": "Tempo Comum"
+  },
+  "posts": [
+    {
+      "cor_liturgica": "verde",
+      "cta": "Compartilhar com coordenação",
+      "data": "2026-10-20",
+      "fixado": false,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 10,
+      "pilar": "Formação",
+      "publico": "Coordenadores e párocos",
+      "resumo": "Síntese acessível das orientações oficiais da CNBB.",
+      "rodada": 1,
+      "tema": 16,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "O que ensina a CNBB sobre a Pastoral do Dízimo"
+    },
+    {
+      "cor_liturgica": "verde",
+      "cta": "Salvar para reflexão",
+      "data": "2026-10-23",
+      "fixado": false,
+      "formato": "carrossel",
+      "fuso": "America/Sao_Paulo",
+      "hora": "19:00",
+      "indice": 11,
+      "pilar": "Formação",
+      "publico": "Todos os públicos",
+      "resumo": "Relação entre a oferenda do dízimo e a oferenda eucarística.",
+      "rodada": 1,
+      "tema": 18,
+      "tempo_liturgico": "Tempo Comum",
+      "titulo": "Dízimo e Eucaristia: sinais de doação"
+    }
+  ],
+  "semana": "2026-W43"
+}

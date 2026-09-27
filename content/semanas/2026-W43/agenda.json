@@ -1,0 +1,35 @@
+{
+  "semana": "2026-W43",
+  "posts": [
+    {
+      "numero": 10,
+      "agendado_para": "2026-10-20T19:00:00-03:00",
+      "artes": [
+        "post-10-01.jpg",
+        "post-10-02.jpg",
+        "post-10-03.jpg",
+        "post-10-04.jpg",
+        "post-10-05.jpg",
+        "post-10-06.jpg",
+        "post-10-07.jpg",
+        "post-10-08.jpg",
+        "post-10-09.jpg",
+        "post-10-10.jpg"
+      ]
+    },
+    {
+      "numero": 11,
+      "agendado_para": "2026-10-23T19:00:00-03:00",
+      "artes": [
+        "post-11-01.jpg",
+        "post-11-02.jpg",
+        "post-11-03.jpg",
+        "post-11-04.jpg",
+        "post-11-05.jpg",
+        "post-11-06.jpg",
+        "post-11-07.jpg",
+        "post-11-08.jpg"
+      ]
+    }
+  ]
+}
