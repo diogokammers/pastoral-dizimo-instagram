@@ -51,7 +51,7 @@ def test_post3_tem_as_quatro_dimensoes_sem_doc106(dados):
     post3 = json.dumps([p["slides"], p["legenda"]], ensure_ascii=False)  # só o que o público lê
     for d in ["religiosa", "eclesial", "missionária", "caritativa"]:
         assert d in post3.lower()
-    assert "106" not in post3 and "social" not in post3.lower()
+    assert "Doc. CNBB 106, n. 29" in post3 and "social" not in post3.lower()   # dimensões estão no Doc. 106 (n. 29–32)
 
 
 def test_bio_ate_150_caracteres(raiz):
