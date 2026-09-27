@@ -36,9 +36,9 @@ crons = ["30 9 * * *"]
 # ---------------------------------------------------------------------------------------------------
 # Ambiente de TESTE (ADR-011, validação ponta a ponta): Worker, D1 e ramo do GitHub próprios; nunca a master.
 # `npx wrangler deploy --env teste` · segredos com `--env teste` · o dispatch usa um evento que nada consome.
-# Validação de 2026-09-27 concluída: Worker, D1 e ramo de teste APAGADOS. Para validar de novo: criar o D1
+# Validações de 2026-09-27 (ADR-011 e ADR-012) concluídas: Worker, D1 e ramo de teste APAGADOS. Para validar de novo: criar o D1
 # (`d1 create pastoral-aprovacoes-teste`), trocar o database_id abaixo, aplicar as migrations, `deploy --env teste`,
-# gravar os 4 segredos de teste e seguir docs/validacao/2026-09-27-painel-aprovacao.md.
+# gravar os 4 segredos de teste e seguir docs/validacao/2026-09-27-painel-rascunho-envio.md.
 [env.teste]
 name = "pastoral-dizimo-aprovacao-teste"
 workers_dev = true
