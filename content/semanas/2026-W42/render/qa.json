@@ -14,7 +14,7 @@
         1080,
         1350
       ],
-      "bytes": 77716,
+      "bytes": 80556,
       "ok": true
     },
     {
@@ -31,7 +31,7 @@
         1080,
         1350
       ],
-      "bytes": 73471,
+      "bytes": 88116,
       "ok": true
     },
     {
@@ -48,7 +48,7 @@
         1080,
         1350
       ],
-      "bytes": 94928,
+      "bytes": 95210,
       "ok": true
     },
     {
@@ -65,7 +65,7 @@
         1080,
         1350
       ],
-      "bytes": 92841,
+      "bytes": 102475,
       "ok": true
     },
     {
@@ -82,13 +82,13 @@
         1080,
         1350
       ],
-      "bytes": 89985,
+      "bytes": 102266,
       "ok": true
     },
     {
       "post": 8,
       "slide": 6,
-      "template": "cta",
+      "template": "conteudo",
       "tema": "creme",
       "overflow": [],
       "contraste": [],
@@ -99,7 +99,24 @@
         1080,
         1350
       ],
-      "bytes": 97794,
+      "bytes": 93075,
+      "ok": true
+    },
+    {
+      "post": 8,
+      "slide": 7,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-8-07.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 107112,
       "ok": true
     },
     {
@@ -116,13 +133,13 @@
         1080,
         1350
       ],
-      "bytes": 78469,
+      "bytes": 80907,
       "ok": true
     }
   ],
   "destaques": [],
   "resumo": {
-    "imagens": 7,
+    "imagens": 8,
     "reprovadas": []
   }
 }

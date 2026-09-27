@@ -3,7 +3,8 @@
   "observacoes": [
     "Nossa Senhora Aparecida (12/10) não foi citada: datas comemorativas estão fora do escopo de fontes, e nenhum dos posts cai no dia 12.",
     "CTAs normalizados para a lista permitida: 'Marcar a paróquia vizinha' → marcar; 'Salvar para estudo' → salvar.",
-    "O post 8 (Vida pastoral) não cita encontro, visita nem evento concreto, porque nenhum veio confirmado no briefing. Ele fica só no que o Doc. CNBB 106 afirma."
+    "O post 8 (Vida pastoral) não cita encontro, visita nem evento concreto, porque nenhum veio confirmado no briefing. Ele fica só no que o Doc. CNBB 106 afirma.",
+    "Auditoria doutrinária 2026-09-27 (docs/auditoria/2026-09-27-auditoria-doutrinaria.md, seção 'Semanas 3 e 4'): post 9 sem Malaquias e com o n. 27; post 8 com CIC 833 e os exemplos do n. 31."
   ],
   "posts": [
     {
@@ -20,51 +21,63 @@
           "eyebrow": "Vida pastoral",
           "titulo": "Comunhão entre paróquias",
           "texto": "Por que caminhar juntos?",
-          "alt_text": "Capa em fundo creme. Acima, em letras pequenas, 'Vida pastoral'. Título: 'Comunhão entre paróquias'. Abaixo, a pergunta: 'Por que caminhar juntos?'."
+          "alt_text": "Capa em fundo creme. Acima, em letras pequenas: Vida pastoral. Título: Comunhão entre paróquias. Texto: Por que caminhar juntos?"
         },
         {
           "template": "conteudo",
-          "titulo": "Um só corpo",
-          "texto": "Juntos, somos o corpo de Cristo. Cada um é membro dele.",
+          "titulo": "Somos o corpo de Cristo",
+          "texto": "Juntos, somos o corpo de Cristo. Cada um de nós é membro dele.",
           "fonte": "1Cor 12,27",
-          "alt_text": "Slide com o título 'Um só corpo' e o texto: 'Juntos, somos o corpo de Cristo. Cada um é membro dele.' No rodapé, a fonte: 1Cor 12,27."
+          "alt_text": "Slide em fundo creme. Título: Somos o corpo de Cristo. Texto: Juntos, somos o corpo de Cristo. Cada um de nós é membro dele. Fonte no rodapé: 1Cor 12,27."
         },
         {
           "template": "conteudo",
-          "titulo": "Nenhuma paróquia sozinha",
-          "texto": "Cada paróquia contribui com a Igreja particular, isto é, a Arquidiocese.",
+          "titulo": "Parte de algo maior",
+          "texto": "Cada paróquia contribui com a Igreja particular, isto é, a nossa Arquidiocese.",
           "fonte": "Doc. CNBB 106, n. 30",
-          "alt_text": "Slide com o título 'Nenhuma paróquia sozinha' e o texto: 'Cada paróquia contribui com a Igreja particular, isto é, a Arquidiocese.' No rodapé, a fonte: Doc. CNBB 106, n. 30."
+          "alt_text": "Slide em fundo creme. Título: Parte de algo maior. Texto: Cada paróquia contribui com a Igreja particular, isto é, a nossa Arquidiocese. Fonte no rodapé: Doc. CNBB 106, n. 30."
         },
         {
           "template": "conteudo",
           "titulo": "Partilha entre irmãos",
-          "texto": "A dimensão missionária do dízimo inclui a partilha entre paróquias e dioceses.",
+          "texto": "O dízimo também abre a paróquia às outras: há partilha entre paróquias e entre dioceses.",
           "fonte": "Doc. CNBB 106, n. 31",
-          "alt_text": "Slide com o título 'Partilha entre irmãos' e o texto: 'A dimensão missionária do dízimo inclui a partilha entre paróquias e dioceses.' No rodapé, a fonte: Doc. CNBB 106, n. 31."
+          "alt_text": "Slide em fundo creme. Título: Partilha entre irmãos. Texto: O dízimo também abre a paróquia às outras: há partilha entre paróquias e entre dioceses. Fonte no rodapé: Doc. CNBB 106, n. 31."
+        },
+        {
+          "template": "conteudo",
+          "titulo": "Exemplos da CNBB",
+          "texto": "Paróquias-irmãs e um fundo de comunhão e partilha são caminhos citados pelos bispos.",
+          "fonte": "Doc. CNBB 106, n. 31",
+          "alt_text": "Slide em fundo creme. Título: Exemplos da CNBB. Texto: Paróquias-irmãs e um fundo de comunhão e partilha são caminhos citados pelos bispos. Fonte no rodapé: Doc. CNBB 106, n. 31."
         },
         {
           "template": "conteudo",
           "titulo": "Como fez Paulo",
-          "texto": "Paulo organizou uma coleta das comunidades para ajudar os irmãos da Judeia.",
+          "texto": "Paulo organizou uma coleta nas comunidades para ajudar os irmãos da Judeia.",
           "fonte": "Doc. CNBB 106, n. 22",
-          "alt_text": "Slide com o título 'Como fez Paulo' e o texto: 'Paulo organizou uma coleta das comunidades para ajudar os irmãos da Judeia.' No rodapé, a fonte: Doc. CNBB 106, n. 22."
+          "alt_text": "Slide em fundo creme. Título: Como fez Paulo. Texto: Paulo organizou uma coleta nas comunidades para ajudar os irmãos da Judeia. Fonte no rodapé: Doc. CNBB 106, n. 22."
         },
         {
           "template": "cta",
           "titulo": "Caminhe junto",
-          "texto": "Marque aqui a paróquia vizinha e fortaleça essa comunhão.",
-          "alt_text": "Slide final com o título 'Caminhe junto' e o convite: 'Marque aqui a paróquia vizinha e fortaleça essa comunhão.'"
+          "texto": "Marque a paróquia vizinha nos comentários e fortaleça essa comunhão.",
+          "alt_text": "Slide final em fundo creme. Título: Caminhe junto. Texto: Marque a paróquia vizinha nos comentários e fortaleça essa comunhão."
         }
       ],
-      "legenda": "Nenhuma paróquia caminha sozinha.\n\nNa Igreja, somos um só corpo. Cada um de nós é membro do corpo de Cristo. O dízimo está ligado a essa pertença à comunidade.\n\nA sua paróquia faz parte de algo maior: a Igreja particular, isto é, a nossa Arquidiocese. As paróquias contribuem com ela. Essa é a dimensão eclesial do dízimo.\n\nHá também a dimensão missionária. Paróquias e dioceses partilham entre si o que têm.\n\nIsso não é novo. O apóstolo Paulo organizou uma coleta nas comunidades para ajudar os irmãos da Judeia. Esse gesto inspira a partilha entre as Igrejas até hoje.\n\nCoordenador, padre: você conhece a paróquia vizinha? Marque aqui a paróquia vizinha nos comentários.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: 1Cor 12,27 · Doc. CNBB 106, n. 22, 28, 30 e 31",
+      "legenda": "Sua paróquia não caminha sozinha.\n\nNa Igreja, somos o corpo de Cristo. Cada um de nós é membro dele. O dízimo está ligado a essa pertença à comunidade.\n\nSua paróquia faz parte de algo maior: a Igreja particular, isto é, a nossa Arquidiocese. Por isso, cada paróquia também contribui com ela.\n\nO dízimo abre ainda a paróquia às outras. Paróquias e dioceses partilham entre si. Os bispos do Brasil dão exemplos: paróquias-irmãs e um fundo de comunhão e partilha.\n\nIsso não é novo. O apóstolo Paulo organizou uma coleta nas comunidades para ajudar os irmãos da Judeia. Esse gesto inspira a partilha entre as Igrejas.\n\nE você, conhece a paróquia vizinha? Marque a paróquia nos comentários.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: 1Cor 12,27 · CIC 833 · Doc. CNBB 106, n. 22, 28, 30 e 31",
       "hashtags": [],
       "fontes": [
         {
           "tipo": "biblia",
           "referencia": "1Cor 12,27",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas; citado no Doc. CNBB 106, n. 28."
+          "observacao": "Parafraseado, sem aspas; citado no Doc. CNBB 106, n. 28. Conferido o sentido na Nova Vulgata (vatican.va)."
+        },
+        {
+          "tipo": "catecismo",
+          "referencia": "CIC 833",
+          "observacao": "Igreja particular é, em primeiro lugar, a diocese (vatican.va). Justifica 'dioceses' para 'Igrejas particulares'."
         },
         {
           "tipo": "cnbb",
@@ -84,12 +97,11 @@
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 31",
-          "observacao": "Dimensão missionária: partilha entre paróquias e Igrejas particulares."
+          "observacao": "Dimensão missionária: partilha entre paróquias e Igrejas particulares; exemplos: paróquias-irmãs, fundo de comunhão e partilha."
         }
       ],
       "a_conferir": [
-        "Confirmar se o post deve mencionar algum encontro, visita ou ação concreta entre paróquias (nenhum veio no briefing, então nenhum foi citado).",
-        "Conferir se 'dioceses' como tradução simples de 'Igrejas particulares' (n. 31) está adequado."
+        "Os exemplos (paróquias-irmãs, fundo de comunhão e partilha) são do Doc. CNBB 106, n. 31. O post não diz que a Arquidiocese já os tem; se houver iniciativa local, só o Diogo confirma."
       ],
       "autocritica": {
         "T1": 2,
@@ -100,13 +112,13 @@
         "T6": 2,
         "T7": 2,
         "T8": 2,
-        "revisao": "Tirei a frase 'caminhar juntos é viver a comunhão', uma frase pastoral sem fonte. Na legenda, troquei 'irmãos pobres' por 'irmãos da Judeia', fiel ao n. 22. Todos os slides têm no máximo 20 palavras."
+        "revisao": "Auditoria 2026-09-27: título do slide 2 fiel a 1Cor 12,27 ('somos o corpo de Cristo'); 'dioceses' ancorado em CIC 833; exemplos do n. 31 acrescentados sem atribuir projeto à Arquidiocese; 'até hoje' retirado do n. 22; CTA sem redundância."
       }
     },
     {
       "numero": 9,
       "fixado": false,
-      "titulo": "O dízimo na Bíblia: de Abraão a Malaquias",
+      "titulo": "O dízimo na Bíblia: da décima parte à partilha",
       "pilar": "Formação",
       "formato": "imagem_unica",
       "publico": "Interessados em formação",
@@ -118,47 +130,41 @@
           "titulo": "O dízimo na Bíblia",
           "texto": "Da décima parte à partilha: a mesma atitude de fé.",
           "fonte": "Doc. CNBB 106, n. 25",
-          "alt_text": "Imagem em fundo creme. Acima, em letras pequenas, 'Formação'. Título: 'O dízimo na Bíblia'. Texto: 'Da décima parte à partilha: a mesma atitude de fé.' No rodapé, a fonte: Doc. CNBB 106, n. 25."
+          "alt_text": "Capa em fundo creme. Acima, em letras pequenas: Formação. Título: O dízimo na Bíblia. Texto: Da décima parte à partilha: a mesma atitude de fé. Fonte no rodapé: Doc. CNBB 106, n. 25."
         }
       ],
-      "legenda": "O dízimo aparece na Bíblia desde Abraão.\n\nAbraão entregou a Melquisedec, sacerdote do Deus Altíssimo, a décima parte de tudo.\n\nMais tarde, Jacó prometeu dar a Deus a décima parte de tudo o que recebesse.\n\nNa Lei de Moisés, o dízimo pertence ao Senhor. Ele servia também para o levita, o estrangeiro, o órfão e a viúva.\n\nO profeta Malaquias chamou o povo a trazer o dízimo inteiro ao Templo, para haver alimento na casa de Deus.\n\nNo Novo Testamento, a primeira comunidade partilhava os bens. Assim, ninguém passava necessidade entre eles.\n\nPaulo ensina: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nA décima parte e a partilha dos bens são formas da mesma atitude de fé. Hoje, o valor do seu dízimo é decisão da sua consciência, iluminada pela Palavra.\n\nSalve este post para estudar com calma.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Gn 14,18-20 · Gn 28,22 · Lv 27,30 · Dt 14,28-29 · Ml 3,10 · At 4,34-35 · 2Cor 9,7 · Doc. CNBB 106, n. 10 e 25",
+      "legenda": "O dízimo aparece na Bíblia desde Abraão.\n\nAbraão deu a Melquisedec, sacerdote do Deus Altíssimo, a décima parte de tudo.\n\nJacó prometeu a Deus a décima parte de tudo o que recebesse dele.\n\nNa Lei de Moisés, a décima parte do que a terra produz pertence ao Senhor. A cada três anos, ela servia ao levita, ao estrangeiro, ao órfão e à viúva.\n\nNa primeira comunidade cristã, os fiéis partilhavam os bens. Assim, ninguém passava necessidade.\n\nA décima parte e a partilha dos bens são formas diferentes da mesma atitude de fé. O que conta é o coração: \"Cada um dê conforme tiver decidido em seu coração, sem pesar nem constrangimento, pois Deus ama quem dá com alegria\" (2Cor 9,7).\n\nO dízimo não é uma troca com Deus. Os bispos do Brasil ensinam que é inaceitável apresentar o dízimo como um jeito de negociar com Deus.\n\nE o valor? É decisão da sua consciência, iluminada pela Palavra.\n\nSalve este post para estudar com calma.\n\nPastoral do Dízimo — Arquidiocese de Florianópolis\nFontes: Gn 14,18-20 · Gn 28,22 · Lv 27,30 · Dt 14,28-29 · At 4,34-35 · 2Cor 9,7 · Doc. CNBB 106, n. 10, 25 e 27",
       "hashtags": [],
       "fontes": [
         {
           "tipo": "biblia",
           "referencia": "Gn 14,18-20",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas."
+          "observacao": "Parafraseado, sem aspas. Conferido na Nova Vulgata (vatican.va): 'dedit ei decimas ex omnibus'."
         },
         {
           "tipo": "biblia",
           "referencia": "Gn 28,22",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas."
+          "observacao": "Parafraseado, sem aspas. Conferido na Nova Vulgata: 'cunctorumque, quae dederis mihi, decimas offeram tibi'."
         },
         {
           "tipo": "biblia",
           "referencia": "Lv 27,30",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas."
+          "observacao": "Parafraseado, sem aspas. Conferido na Nova Vulgata: o dízimo da terra 'Domini est'."
         },
         {
           "tipo": "biblia",
           "referencia": "Dt 14,28-29",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas."
-        },
-        {
-          "tipo": "biblia",
-          "referencia": "Ml 3,10",
-          "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado só na primeira parte (trazer o dízimo ao Templo). A promessa de bênção foi omitida de propósito, para evitar leitura de prosperidade (Doc. CNBB 106, n. 27)."
+          "observacao": "Parafraseado, sem aspas. Conferido na Nova Vulgata: no terceiro ano, para o levita, o estrangeiro, o órfão e a viúva."
         },
         {
           "tipo": "biblia",
           "referencia": "At 4,34-35",
           "edicao": "Bíblia Sagrada — Tradução Oficial da CNBB",
-          "observacao": "Parafraseado, sem aspas; citado no Doc. CNBB 106, n. 32."
+          "observacao": "Parafraseado, sem aspas; citado no Doc. CNBB 106, n. 32. Conferido na Nova Vulgata."
         },
         {
           "tipo": "biblia",
@@ -174,12 +180,17 @@
         {
           "tipo": "cnbb",
           "referencia": "Doc. CNBB 106, n. 25",
-          "observacao": "A décima parte (AT) e a partilha dos bens (primeira comunidade) são formas da mesma atitude de fé."
+          "observacao": "A décima parte (AT) e a partilha dos bens (primeira comunidade) são formas da mesma atitude de fé; significado interior (2Cor 9,7)."
+        },
+        {
+          "tipo": "cnbb",
+          "referencia": "Doc. CNBB 106, n. 27",
+          "observacao": "É inaceitável propor o dízimo pela teologia da prosperidade (leitura fundamentalista; negociar com Deus). O termo 'prosperidade' é proibido no perfil; parafraseado."
         }
       ],
       "a_conferir": [
-        "Conferir na Tradução Oficial da CNBB a numeração e o conteúdo parafraseado de Gn 14,18-20, Gn 28,22, Lv 27,30, Dt 14,28-29 e Ml 3,10. Esses versículos não constam do cartão como conferidos.",
-        "Confirmar se a omissão da promessa de bênção de Ml 3,10 está de acordo com a orientação pastoral desejada."
+        "Malaquias 3,10 foi retirado de propósito: o versículo une o dízimo à promessa de bênção ('provai-me') e o contexto (Ml 3,8-9) fala em defraudar a Deus e em maldição. É o texto preferido da leitura que o Doc. CNBB 106, n. 27 declara inaceitável, e citá-lo pela metade seria seletivo.",
+        "Paráfrases conferidas na Nova Vulgata (vatican.va); a redação em português da Tradução Oficial da CNBB não foi lida. Sem aspas, só referência."
       ],
       "autocritica": {
         "T1": 2,
@@ -190,7 +201,7 @@
         "T6": 2,
         "T7": 2,
         "T8": 2,
-        "revisao": "Evitei afirmar que a décima parte é regra hoje e fechei com o n. 10: o valor é decisão da consciência. Não usei aspas em versículos não conferidos. O slide único tem 20 palavras."
+        "revisao": "Auditoria 2026-09-27: título sem 'Malaquias'; Ml 3,10 retirado (n. 27); n. 27 acrescentado; Jacó parafraseado só pelo v. 22 (Gn 28,22); Dt 14,28-29 com 'a cada três anos'; Lv 27,30 com 'do que a terra produz'."
       }
     }
   ]

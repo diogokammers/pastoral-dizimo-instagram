@@ -14,7 +14,7 @@
         1080,
         1350
       ],
-      "bytes": 100527,
+      "bytes": 101720,
       "ok": true
     },
     {
@@ -31,7 +31,7 @@
         1080,
         1350
       ],
-      "bytes": 86173,
+      "bytes": 96956,
       "ok": true
     },
     {
@@ -48,7 +48,7 @@
         1080,
         1350
       ],
-      "bytes": 80197,
+      "bytes": 83543,
       "ok": true
     },
     {
@@ -65,7 +65,7 @@
         1080,
         1350
       ],
-      "bytes": 80892,
+      "bytes": 99202,
       "ok": true
     },
     {
@@ -82,7 +82,7 @@
         1080,
         1350
       ],
-      "bytes": 78726,
+      "bytes": 81552,
       "ok": true
     },
     {
@@ -99,7 +99,7 @@
         1080,
         1350
       ],
-      "bytes": 71881,
+      "bytes": 79518,
       "ok": true
     },
     {
@@ -116,7 +116,7 @@
         1080,
         1350
       ],
-      "bytes": 83307,
+      "bytes": 86154,
       "ok": true
     },
     {
@@ -133,7 +133,7 @@
         1080,
         1350
       ],
-      "bytes": 84059,
+      "bytes": 99348,
       "ok": true
     },
     {
@@ -150,7 +150,7 @@
         1080,
         1350
       ],
-      "bytes": 87215,
+      "bytes": 96708,
       "ok": true
     },
     {
@@ -167,7 +167,7 @@
         1080,
         1350
       ],
-      "bytes": 103724,
+      "bytes": 107449,
       "ok": true
     },
     {
@@ -184,7 +184,7 @@
         1080,
         1350
       ],
-      "bytes": 69902,
+      "bytes": 84067,
       "ok": true
     },
     {
@@ -201,7 +201,7 @@
         1080,
         1350
       ],
-      "bytes": 90614,
+      "bytes": 102823,
       "ok": true
     },
     {
@@ -218,7 +218,7 @@
         1080,
         1350
       ],
-      "bytes": 69021,
+      "bytes": 90054,
       "ok": true
     },
     {
@@ -235,7 +235,7 @@
         1080,
         1350
       ],
-      "bytes": 82833,
+      "bytes": 98680,
       "ok": true
     },
     {
@@ -252,7 +252,7 @@
         1080,
         1350
       ],
-      "bytes": 81415,
+      "bytes": 94668,
       "ok": true
     },
     {
@@ -269,13 +269,13 @@
         1080,
         1350
       ],
-      "bytes": 76589,
+      "bytes": 90053,
       "ok": true
     },
     {
       "post": 11,
       "slide": 7,
-      "template": "citacao",
+      "template": "conteudo",
       "tema": "creme",
       "overflow": [],
       "contraste": [],
@@ -286,13 +286,13 @@
         1080,
         1350
       ],
-      "bytes": 60207,
+      "bytes": 81027,
       "ok": true
     },
     {
       "post": 11,
       "slide": 8,
-      "template": "cta",
+      "template": "citacao",
       "tema": "creme",
       "overflow": [],
       "contraste": [],
@@ -303,13 +303,30 @@
         1080,
         1350
       ],
-      "bytes": 89716,
+      "bytes": 60926,
+      "ok": true
+    },
+    {
+      "post": 11,
+      "slide": 9,
+      "template": "cta",
+      "tema": "creme",
+      "overflow": [],
+      "contraste": [],
+      "area_segura": [],
+      "fontes_ok": true,
+      "arquivo": "post-11-09.jpg",
+      "dimensoes": [
+        1080,
+        1350
+      ],
+      "bytes": 84327,
       "ok": true
     }
   ],
   "destaques": [],
   "resumo": {
-    "imagens": 18,
+    "imagens": 19,
     "reprovadas": []
   }
 }

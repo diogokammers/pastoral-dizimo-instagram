@@ -193,3 +193,77 @@ Resultado: `python -m pastoral.lint` = OK nos dois lotes; `pastoral.render` = 14
 2. **Diogo:** o CIC do vatican.va está em português de Portugal ("exercer-se", "num", "colecta"). A citação literal de CIC 2039 (post 4) segue esse texto; se preferir a edição brasileira da CNBB, conferir antes de aprovar.
 3. `src/pastoral/calendario.py` ainda coloca no briefing "Mês Missionário" (outubro) e santos do dia (ex.: Santa Teresinha). O lint agora barra o uso no post, mas o ideal é o briefing parar de sugerir esses ganchos.
 4. O lint ainda aceita "Doc. CNBB 106, Cap. II"; o cartão orienta citar só por número. Pode virar erro numa próxima rodada.
+
+---
+
+## 6. Semanas 3 e 4 (posts 8–11)
+
+Escopo: `content/semanas/2026-W42/posts.json` (posts 8–9) e `content/semanas/2026-W43/posts.json` (posts 10–11), reserva gerada pelo `gerar.py`. Mesmo método e mesmos vereditos das seções 1–3, mais a linguagem do ADR-010.
+
+**Fontes conferidas nesta rodada (2026-09-27):**
+- CIC 1351 (vatican.va): as ofertas vêm "com o pão e o vinho para a Eucaristia", para a partilha com os necessitados; o costume da colecta é "sempre actual" e se inspira em Cristo, que Se fez pobre para nos enriquecer.
+- CIC 833 (vatican.va): a Igreja particular é, "em primeiro lugar, a diocese". Base para traduzir "Igrejas particulares" (n. 31) por "dioceses".
+- Bíblia, na Nova Vulgata (vatican.va; o site não tem tradução portuguesa): Gn 14,18-20 (Abrão dá a Melquisedec a décima parte de tudo); Gn 28,20-22 (voto de Jacó; o v. 22 é a décima parte "de tudo o que me deres"); Lv 27,30 (o dízimo da terra pertence ao Senhor); Dt 14,22-29 (dízimo anual comido diante do Senhor; no terceiro ano, para o levita, o estrangeiro, o órfão e a viúva); Ml 3,8-10 (defraudar a Deus, maldição, "provai-me" e bênção em abundância); At 4,34-35; 1Cor 12,12 e 27. A redação da Tradução Oficial da CNBB **não** foi lida: tudo parafraseado, sem aspas.
+
+### Post 8 — "Comunhão entre paróquias" (W42)
+
+| Afirmação | Fonte | Veredito | Correção |
+|---|---|---|---|
+| "Um só corpo" / somos o corpo de Cristo, cada um é membro | 1Cor 12,27 (citado no n. 28). "Um só corpo" é do v. 12, não do 27 | AJUSTAR | Título "Somos o corpo de Cristo" |
+| "Nenhuma paróquia sozinha" (slide) / "Nenhuma paróquia caminha sozinha" | Frase pastoral genérica; o conteúdo está no n. 30–31 | AJUSTAR | Slide "Parte de algo maior"; legenda "Sua paróquia não caminha sozinha", seguida do n. 30 e 31 |
+| Paróquias contribuem com a Igreja particular, a Arquidiocese | n. 30 | OK | — |
+| Partilha entre paróquias e dioceses | n. 31 ("Igrejas particulares"); diocese = CIC 833 | OK | CIC 833 na linha "Fontes:"; `a_conferir` resolvido |
+| — (faltava) | n. 31: paróquias-irmãs, fundo de comunhão e partilha | Novo | Slide "Exemplos da CNBB", sem atribuir projeto à Arquidiocese |
+| Paulo e a coleta para a Judeia | n. 22 | OK | — |
+| "inspira a partilha entre as Igrejas **até hoje**" | O n. 22 não diz "até hoje" | AJUSTAR | "até hoje" retirado |
+| CTA "Marque aqui a paróquia vizinha nos comentários" | — | AJUSTAR (redação) | "Marque a paróquia nos comentários" |
+
+### Post 9 — "O dízimo na Bíblia" (W42)
+
+| Afirmação | Fonte | Veredito | Correção |
+|---|---|---|---|
+| Título "de Abraão a Malaquias" | Ml 3,10 é o texto preferido da leitura que o n. 27 declara inaceitável | REMOVER | "O dízimo na Bíblia: da décima parte à partilha" |
+| "Malaquias chamou o povo a trazer o dízimo inteiro ao Templo" | Ml 3,10 diz isso, mas o mesmo versículo promete bênção em troca ("provai-me") e os v. 8-9 falam em defraudar a Deus e em maldição. Citar só a metade é seletivo; citar inteiro contraria o n. 27 e o cartão (culpa associada a não dizimar) | REMOVER | Parágrafo e referência retirados |
+| — (faltava) | n. 27: inaceitável propor o dízimo como negociação com Deus | Novo | "O dízimo não é uma troca com Deus…" (sem a palavra "prosperidade", proibida no perfil) |
+| Abraão deu a Melquisedec a décima parte de tudo | Gn 14,18-20 | OK | — |
+| Jacó prometeu a décima parte de tudo o que recebesse | Gn 28,22 | OK | — |
+| Na Lei, o dízimo "pertence ao Senhor" e "servia também" ao levita, estrangeiro, órfão e viúva | Lv 27,30; Dt 14,28-29 fala do dízimo **do terceiro ano** | AJUSTAR | "a décima parte do que a terra produz"; "A cada três anos, ela servia…" |
+| A primeira comunidade partilhava; ninguém passava necessidade | At 4,34-35 (n. 32) | OK | — |
+| Décima parte e partilha: formas da mesma atitude de fé | n. 25 | OK | Ligado ao significado interior (2Cor 9,7, literal conferida) |
+| O valor é decisão da consciência | n. 10 | OK | — |
+
+### Post 10 — "O que ensina a CNBB" (W43)
+
+| Afirmação | Fonte | Veredito | Correção |
+|---|---|---|---|
+| Documento aprovado pelo Conselho Permanente | Apresentação (conferida) | OK | Nenhum outro documento da CNBB citado |
+| Partilha regular; a comunidade assume o próprio sustento e o da Igreja | n. 6 | OK | — |
+| Decisão pessoal, sinal da fé e da pertença | n. 9 | OK | — |
+| O valor é decisão da consciência | n. 10 | OK | Acrescentado "A Igreja não fixa porcentagem" (n. 10) |
+| Não se reduz a juntar dinheiro | n. 12 | OK | — |
+| "O dízimo **é** gratidão, fé e conversão" | n. 29: **expressa** | AJUSTAR | "expressa" |
+| Quatro dimensões | n. 29–32 | OK | Uma linha por dimensão; "sua paróquia partilha" (quem partilha é a comunidade, não o fiel isolado) |
+| Finalidades: culto, clero, missão, caridade "com os pobres" (fonte n. 34) | n. 34–35 (bloco conferido): clero **e demais ministros**; "em favor dos pobres" | AJUSTAR | Fonte "n. 34-35" e redação do bloco |
+| Agentes em equipe, nos conselhos (fonte n. 63) | n. 63–66 conferidos em bloco | AJUSTAR | Fonte "n. 63-66"; "conselhos pastoral e econômico"; formação necessária |
+
+### Post 11 — "Dízimo e Eucaristia" (W43)
+
+| Afirmação | Fonte | Veredito | Correção |
+|---|---|---|---|
+| Título "Dízimo e Eucaristia: sinais de doação"; capa "Sinais de gratidão e partilha" | Nenhuma das 4 fontes conferidas liga o dízimo à oferenda eucarística como "sinal"; "doação" é termo com cuidado | REMOVER | "Dízimo e oferta na Missa: qual a diferença?" |
+| Com o pão e o vinho, os cristãos levam ofertas para os necessitados; a coleta continua atual | CIC 1351 | OK | Completado: "para a Eucaristia" e o exemplo de Cristo, que se fez pobre (CIC 1351) |
+| — (faltava) | n. 6 e 10: o que é o dízimo | Novo | Slide "E o dízimo?", para a diferença ficar clara |
+| Não confundir dízimo e ofertas quando recolhido na Missa | n. 51 | OK | — |
+| "O que une os dois? O dízimo também serve ao culto" | Serve ao culto: n. 30 e 34–35. "O que une os dois" sugere ligação doutrinária sem fonte | AJUSTAR | Título "Também para o culto"; fonte n. 30 |
+| Tudo vem de Deus; gratidão | n. 29 | OK | "expressa" |
+| "Deus ama quem dá com alegria" | 2Cor 9,7 | OK | — |
+
+**Linguagem (ADR-010):** as quatro legendas foram relidas em voz alta; frases encurtadas, "você" nas perguntas, termos técnicos explicados ("Igreja particular, isto é, a nossa Arquidiocese"; "culto, isto é, as celebrações"); nenhuma referência no meio da frase, fora a de 2Cor 9,7 logo após a citação literal.
+
+**Resultado:** `pastoral.lint` OK nas duas semanas; `pastoral.render` = 8 (W42) + 19 (W43) imagens, nenhuma reprovada no QA; prévias refeitas em `site/semanas/2026-W42/` e `site/semanas/2026-W43/`; `pytest` 330 passando. Conferidos visualmente: post 8 slide 5, post 9 (capa), post 11 slide 4.
+
+**Pendências:**
+1. **Diogo:** confirmar a retirada de Malaquias do post 9 (recomendação desta auditoria: não usar Ml 3,10 em nenhum post, pelo n. 27).
+2. Paráfrases bíblicas conferidas na Nova Vulgata; se o Diogo quiser aspas em algum versículo além de 2Cor 9,7, conferir antes na Tradução Oficial da CNBB.
+3. Template `capa` em post de imagem única (post 9): a linha "fonte" não aparece e a seta "→" sugere carrossel. Questão de template, não de conteúdo.
+4. `gerar.py` e briefing: o tema do post 9 veio com "Malaquias" no título e o do post 11 com "sinais de doação". Vale acrescentar ao prompt: não usar Ml 3,10 e não afirmar ligação doutrinária sem fonte conferida.
