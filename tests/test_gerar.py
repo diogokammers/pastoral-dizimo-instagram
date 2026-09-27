@@ -208,3 +208,11 @@ def test_prompt_exige_linguagem_simples():
     prompt = gerar.montar_prompt({"posts": []}, "cartão", {})
     for trecho in ["Fontes:", "30 palavras", "você", "aspas", "corresponsavelmente"]:
         assert trecho in prompt, trecho
+
+
+def test_normalizar_cta_reduz_texto_descritivo_ao_valor_permitido():
+    permitidos = ["salvar", "marcar", "enviar dúvida"]
+    assert gerar.normalizar_cta("Marcar a paróquia vizinha", permitidos) == "marcar"
+    assert gerar.normalizar_cta("Salvar para estudo", permitidos) == "salvar"
+    assert gerar.normalizar_cta("enviar dúvida", permitidos) == "enviar dúvida"
+    assert gerar.normalizar_cta("Doar agora", permitidos) == "Doar agora"   # continua reprovado pelo lint

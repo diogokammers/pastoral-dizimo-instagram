@@ -118,6 +118,15 @@ def extrair_json(texto: str) -> dict:
         raise ErroGeracao(f"resposta sem JSON válido: {erro}") from erro
 
 
+def normalizar_cta(cta: str, permitidos: list[str]) -> str:
+    """Reduz um CTA descritivo ("Marcar a paróquia vizinha") ao valor permitido que ele começa ("marcar")."""
+    texto = str(cta or "").strip().casefold()
+    for p in sorted(permitidos, key=len, reverse=True):
+        if texto == p.casefold() or texto.startswith(p.casefold() + " "):
+            return p
+    return str(cta or "")
+
+
 def aplicar_briefing(dados: dict, briefing: dict) -> dict:
     """Impõe o que o briefing decide: numeração global e fundo (ADR-007: creme salvo fixado/importante).
 
@@ -157,6 +166,8 @@ def gerar(briefing: dict, cartao: str, caminho_schema: Path, config: dict,
         uso.append({**(envelope.get("usage") or {}), "custo_usd": envelope.get("total_cost_usd"),
                     "duracao_ms": envelope.get("duration_ms"), "modelo": modelo})
         dados = aplicar_briefing(extrair_json(envelope.get("result") or ""), briefing)
+        for post in dados.get("posts", []):
+            post["cta"] = normalizar_cta(post.get("cta", ""), config.get("ctas_permitidos", []))
         erros = lint.validar_schema(dados, caminho_schema) or lint.verificar_lote(dados, config)
         if not erros:
             break
