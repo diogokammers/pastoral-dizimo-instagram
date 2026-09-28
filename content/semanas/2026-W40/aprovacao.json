@@ -1,0 +1,41 @@
+{
+  "semana": "2026-W40",
+  "aprovado_por": "Aprovador",
+  "aprovado_em": "2026-09-28T20:03:47+00:00",
+  "nonce": "f27b063cac86ffb4abdcdafd9afd2d74",
+  "posts": [
+    {
+      "numero": 4,
+      "agendado_para": "2026-09-29T19:00:00-03:00",
+      "legenda_sha256": "f54332f5a5f3597df977e8a7bc5661f4b84f6a320f3bd582866b83d982eb5f98",
+      "alt_text_sha256": "2fd9fe5cd5b068ad3c90d703b3c860425f8e9d3d0de632dd650856d00d28aac3",
+      "artes": [
+        {
+          "arquivo": "post-4-01.jpg",
+          "sha256": "7062ca7a0b4b98614d32e691bc595f751a37361b9c1c6dc73b9e5188ae635d50"
+        },
+        {
+          "arquivo": "post-4-02.jpg",
+          "sha256": "7da192f89fa6350a1fa5a73156f3923bdeb99949a3867b4ff223d91125d2d49a"
+        },
+        {
+          "arquivo": "post-4-03.jpg",
+          "sha256": "16342669df4c64d963a40b908161d3313119324a9917f35b7fcceeca61e90fff"
+        },
+        {
+          "arquivo": "post-4-04.jpg",
+          "sha256": "3d35ef75b932b006a2a079fd3015110a4db6fbb7d69ea54543ff6bce7d506794"
+        },
+        {
+          "arquivo": "post-4-05.jpg",
+          "sha256": "5c9191da6feb16f2d99d7e4a58ec36f8fcbba32bbcc9ebd4e03b79549605a756"
+        },
+        {
+          "arquivo": "post-4-06.jpg",
+          "sha256": "da94c82ed647cfe85a6ce9974882b00dcc47504d49d867db1a4d73cc18e887ea"
+        }
+      ]
+    }
+  ],
+  "assinatura": "8e19afeaa63f26dd705db52657aa597aaf0b4ab2add4257b662a3708bbe73d2f"
+}
