@@ -84,3 +84,60 @@ def test_formularios_coerentes():
 def test_textos_dos_formularios_seguem_o_cartao():
     for texto in textos(ler(FORMULARIOS)):
         assert problemas_de_texto(texto) == [], texto
+
+
+# ---------- página e campos gerados (python -m pastoral.links) ----------
+
+def gerados():
+    from pastoral import links
+    dados = links.carregar(RAIZ)
+    return dados, links.montar_pagina(dados), links.montar_campos_js(dados)
+
+
+def test_arquivos_gerados_estao_atualizados():
+    _, pagina, campos = gerados()
+    assert (RAIZ / "links" / "public" / "index.html").read_text(encoding="utf-8") == pagina, \
+        "rode: python -m pastoral.links"
+    assert (RAIZ / "links" / "lib" / "campos.js").read_text(encoding="utf-8") == campos, \
+        "rode: python -m pastoral.links"
+    assert (RAIZ / "links" / "public" / "avatar.jpg").read_bytes() == \
+        (RAIZ / "site" / "midia" / "perfil" / "avatar.jpg").read_bytes()
+
+
+def test_campos_js_espelha_os_yaml():
+    import json
+    dados, _, campos = gerados()
+    assert campos.startswith("// GERADO")
+    objeto = json.loads(campos.split("export const CAMPOS = ", 1)[1].rstrip().rstrip(";"))
+    f = ler(FORMULARIOS)
+    assert objeto == {
+        "versao": f["versao"],
+        "limites": f["limites"],
+        "paroquias": ler(PAROQUIAS)["paroquias"],
+        "outra": f["textos"]["outra_paroquia"],
+        "prefiro_nao_dizer": f["textos"]["prefiro_nao_dizer"],
+        "agente": {k: f["agente"][k] for k in ("funcoes", "pedidos", "pedidos_com_contato", "temas")},
+        "fiel": {"assuntos": f["fiel"]["assuntos"]},
+    }
+
+
+def test_pagina_tem_dados_marca_e_seguranca():
+    import html
+    import json
+    _, pagina, _ = gerados()
+    dados_pagina = json.loads(re.search(r'<script id="dados" type="application/json">(.*?)</script>', pagina, re.S).group(1))
+    assert dados_pagina["campos"]["paroquias"] == ler(PAROQUIAS)["paroquias"]
+    assert dados_pagina["campos"]["agente"]["temas"] == TEMAS_SPEC
+    csp = html.unescape(re.search(r'http-equiv="Content-Security-Policy" content="([^"]+)"', pagina).group(1))
+    assert "unsafe-eval" not in csp and "connect-src 'self'" in csp and "form-action 'none'" in csp
+    config = ler(RAIZ / "config.yaml")
+    for cor in ("vermelho", "creme", "grafite", "cinza", "dourado"):
+        assert config["marca"]["paleta"][cor] in pagina
+    assert "Cormorant+Garamond" in pagina and "Source+Sans+3" in pagina
+    assert 'name="site"' in pagina  # campo invisível contra robôs
+
+
+def test_texto_fixo_da_pagina_segue_o_cartao():
+    _, pagina, _ = gerados()
+    visivel = re.sub(r"<script.*?</script>|<style.*?</style>|<[^>]+>", " ", pagina, flags=re.S)
+    assert problemas_de_texto(visivel) == []
