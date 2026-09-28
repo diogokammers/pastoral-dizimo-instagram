@@ -1,0 +1,98 @@
+# Formulários da página de links da bio (ADR-013; spec docs/superpowers/specs/2026-09-28-link-bio-formularios-design.md).
+# Fonte única: `python -m pastoral.links` gera daqui a página (links/public/index.html) e a validação do servidor
+# (links/lib/campos.js). Mudou uma opção? Suba `versao` (fica gravada em cada resposta) e gere de novo.
+# Textos em linguagem simples (ADR-010) e dentro do cartão de marca (teste em tests/test_links.py).
+versao: 1
+
+limites:
+  texto_curto: 120
+  texto_longo: 2000
+
+textos:
+  titulo: Pastoral do Dízimo
+  subtitulo: Arquidiocese de Florianópolis
+  lema: Deus ama quem dá com alegria
+  lema_ref: 2Cor 9,7
+  convite: Queremos ouvir você. Escolha o caminho que combina com você.
+  botao_agente: Sou agente da Pastoral
+  botao_agente_apoio: Conte suas dificuldades e peça formação ou material.
+  botao_fiel: Sou fiel
+  botao_fiel_apoio: Tire dúvidas, dê sugestões ou venha servir na Pastoral.
+  outra_paroquia: Outra
+  prefiro_nao_dizer: Prefiro não dizer
+  enviar: Enviar
+  voltar: Voltar
+  enviando: Enviando…
+  obrigado_titulo: Recebemos sua mensagem. Obrigado!
+  obrigado_texto: A equipe da Pastoral vai ler com carinho. Se você deixou um contato, vamos falar com você.
+  erro_limite: Muitos envios seguidos deste aparelho. Espere um pouco e tente de novo.
+  erro_geral: Não conseguimos enviar agora. Seu texto continua aqui. Tente de novo em instantes.
+  erro_campos: Confira os campos marcados.
+
+agente:
+  titulo: Agente da Pastoral
+  rotulos:
+    paroquia: Sua paróquia
+    paroquia_outra: Qual paróquia?
+    funcao: Qual é o seu serviço?
+    pedido: O que você quer nos contar?
+    temas: Sobre quais temas? (pode marcar mais de um)
+    descricao: Conte com suas palavras
+    nome: Seu nome
+    contato: E-mail ou WhatsApp
+    contato_ajuda_opcional: Opcional. Deixe se quiser que a gente fale com você.
+    contato_ajuda_obrigatorio: Para atender seu pedido, precisamos saber como falar com você.
+  funcoes:
+    - Coordenador(a)
+    - Membro da equipe
+    - Pároco ou vigário
+    - Diácono
+    - Outro serviço
+  pedidos:
+    - Dificuldade na pastoral
+    - Pedido de capacitação
+    - Pedido de material
+    - Sugestão
+    - Outro
+  # pedidos que só podem ser atendidos com um contato: nome e contato viram obrigatórios
+  pedidos_com_contato:
+    - Pedido de capacitação
+    - Pedido de material
+  # Doc. CNBB 106, Cap. II (fichamento docs/pesquisa/07). Números, na ordem:
+  # n. 37, 75, 83 · n. 37–45 · n. 46–50 · n. 64 · n. 76 · n. 76 · n. 52, 54 · n. 55, 79 · n. 58–59 ·
+  # n. 46, 62 · n. 71 · n. 56–57 · (outro)
+  temas:
+    - Sentido do dízimo e motivação da comunidade
+    - Implantação ou retomada do dízimo na paróquia
+    - Organização e funcionamento da equipe
+    - "Formação dos agentes: espiritual, humana e técnico-organizativa"
+    - Acolhida e visitas missionárias
+    - Cadastro e comunicação com os fiéis
+    - Registro, recibo e aspectos legais
+    - Prestação de contas e transparência
+    - Relação com os Conselhos Econômico e Pastoral
+    - Participação do clero
+    - Dízimo na catequese e na preparação dos noivos
+    - Linguagem sobre o dízimo
+    - Outro
+
+fiel:
+  titulo: Fiel
+  rotulos:
+    paroquia: Sua paróquia (opcional)
+    paroquia_outra: Qual paróquia?
+    assunto: Sobre o que você quer falar?
+    mensagem: Sua mensagem
+    nome: Seu nome (opcional)
+    contato: E-mail ou WhatsApp (opcional)
+    contato_ajuda_opcional: Deixe se quiser que a gente fale com você.
+  assuntos:
+    - Dúvida sobre o dízimo
+    - Sugestão
+    - Quero servir na Pastoral
+    - Outro
+
+consentimento: >-
+  Autorizo a Pastoral do Dízimo da Arquidiocese de Florianópolis a guardar estas respostas para planejar
+  formações e responder ao meu pedido. Os dados não são publicados nem repassados. Para pedir a exclusão,
+  escreva para pastoraldodizimo.arquifln@gmail.com.
