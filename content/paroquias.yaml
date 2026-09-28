@@ -1,4 +1,5 @@
-# Paróquias da Arquidiocese de Florianópolis — lista pública, na ordem do site oficial (por cidade).
+# Paróquias da Arquidiocese de Florianópolis — lista pública do site oficial, em ordem alfabética
+# (cidade e depois nome, sem considerar acentos — pedido do Diogo, 2026-09-28).
 # Formato: "Cidade - Nome" ou "Cidade - Nome (Bairro)": a cidade vem antes porque há paróquias de mesmo nome
 # em cidades diferentes (pedido do Diogo, 2026-09-28). O prefixo "Paróquia" foi tirado para caber no celular.
 # Conferida linha a linha em 2026-09-28: 82 entradas (79 paróquias, 2 capelanias e o Santuário Santa Paulina).
@@ -9,82 +10,82 @@ paroquias:
   - Angelina - Nossa Senhora da Imaculada Conceição
   - Anitápolis - São Sebastião
   - Antônio Carlos - Sagrado Coração de Jesus
+  - Balneário Camboriú - Nossa Senhora Aparecida (Vila Real)
   - Balneário Camboriú - Santa Inês (Centro)
   - Balneário Camboriú - São Sebastião (Ariribá)
-  - Balneário Camboriú - Nossa Senhora Aparecida (Vila Real)
   - Biguaçu - São João Batista
   - Biguaçu - São João Evangelista
   - Bombinhas - Nossa Senhora da Imaculada Conceição
   - Botuverá - São José
-  - Brusque - São Judas Tadeu (Águas Claras)
   - Brusque - Nossa Senhora de Azambuja (Azambuja)
   - Brusque - Santa Catarina (Dom Joaquim)
   - Brusque - Santa Teresinha (Santa Teresinha)
+  - Brusque - São Judas Tadeu (Águas Claras)
   - Brusque - São Luís Gonzaga (Centro)
   - Camboriú - Divino Espírito Santo
-  - Camboriú - Senhor Bom Jesus (Monte Alegre)
   - Camboriú - Nossa Senhora do Bom Sucesso (Areias)
+  - Camboriú - Senhor Bom Jesus (Monte Alegre)
   - Canelinha - Sant'Ana
-  - Florianópolis - Nossa Senhora de Lourdes e São Luís (Agronômica)
-  - Florianópolis - Nossa Senhora da Glória (Balneário do Estreito)
+  - Florianópolis - Capelania Militar Santa Catarina (Exército)
+  - Florianópolis - Militar Cristo Rei (Polícia Militar)
   - Florianópolis - Militar Nossa Senhora do Loreto (Base Aérea)
+  - Florianópolis - Nossa Senhora da Boa Viagem (Saco dos Limões)
+  - Florianópolis - Nossa Senhora da Glória (Balneário do Estreito)
+  - Florianópolis - Nossa Senhora da Imaculada Conceição da Lagoa (Lagoa da Conceição)
+  - Florianópolis - Nossa Senhora da Lapa (Ribeirão da Ilha)
+  - Florianópolis - Nossa Senhora das Necessidades (Santo Antônio de Lisboa)
+  - Florianópolis - Nossa Senhora de Fátima e Santa Teresinha do Menino Jesus (Estreito)
   - Florianópolis - Nossa Senhora de Guadalupe (Canasvieiras)
-  - Florianópolis - São João Batista e Santa Luzia (Capoeiras)
+  - Florianópolis - Nossa Senhora de Lourdes e São Luís (Agronômica)
+  - Florianópolis - Nossa Senhora do Carmo (Coqueiros)
   - Florianópolis - Nossa Senhora do Desterro e Santa Catarina (Catedral)
   - Florianópolis - Nossa Senhora do Sagrado Coração (Campeche)
-  - Florianópolis - Santa Catarina de Alexandria (Colégio Catarinense)
-  - Florianópolis - Santo Antônio e Santa Maria Goretti (Coloninha)
-  - Florianópolis - Nossa Senhora do Carmo (Coqueiros)
-  - Florianópolis - Nossa Senhora de Fátima e Santa Teresinha do Menino Jesus (Estreito)
   - Florianópolis - Sagrado Coração de Jesus (Ingleses)
-  - Florianópolis - São José e Santa Rita de Cássia (Jardim Atlântico)
-  - Florianópolis - Nossa Senhora da Imaculada Conceição da Lagoa (Lagoa da Conceição)
-  - Florianópolis - São Francisco Xavier (Monte Verde)
-  - Florianópolis - Nossa Senhora das Necessidades (Santo Antônio de Lisboa)
+  - Florianópolis - Santa Catarina de Alexandria (Colégio Catarinense)
   - Florianópolis - Santa Teresinha do Menino Jesus (Prainha)
-  - Florianópolis - Nossa Senhora da Lapa (Ribeirão da Ilha)
-  - Florianópolis - Nossa Senhora da Boa Viagem (Saco dos Limões)
-  - Florianópolis - Santo Antônio (Centro)
   - Florianópolis - Santíssima Trindade (Trindade)
-  - Florianópolis - Militar Cristo Rei (Polícia Militar)
-  - Florianópolis - Capelania Militar Santa Catarina (Exército)
+  - Florianópolis - Santo Antônio (Centro)
+  - Florianópolis - Santo Antônio e Santa Maria Goretti (Coloninha)
+  - Florianópolis - São Francisco Xavier (Monte Verde)
+  - Florianópolis - São João Batista e Santa Luzia (Capoeiras)
+  - Florianópolis - São José e Santa Rita de Cássia (Jardim Atlântico)
   - Garopaba - São Joaquim
   - Governador Celso Ramos - Nossa Senhora dos Navegantes
   - Guabiruba - Nossa Senhora do Perpétuo Socorro
   - Itajaí - Capelania Spiritus Veritatis (UNIVALI)
   - Itajaí - Nossa Senhora de Fátima (Cidade Nova)
-  - Itajaí - São Cristóvão (Cordeiros)
-  - Itajaí - São João Bosco (Dom Bosco)
   - Itajaí - Nossa Senhora de Lourdes (Fazenda)
   - Itajaí - Santíssimo Sacramento (Centro)
+  - Itajaí - São Cristóvão (Cordeiros)
   - Itajaí - São João Batista (São João)
-  - Itajaí - São Vicente de Paulo (São Vicente)
+  - Itajaí - São João Bosco (Dom Bosco)
   - Itajaí - São Pedro Apóstolo (Itaipava)
-  - Itapema - Santo Antônio (Centro)
+  - Itajaí - São Vicente de Paulo (São Vicente)
   - Itapema - Sagrado Coração de Jesus (Meia Praia)
+  - Itapema - Santo Antônio (Centro)
   - Leoberto Leal - Sagrado Coração de Jesus
   - Major Gercino - Senhor Bom Jesus
-  - Nova Trento - São Virgílio
   - Nova Trento - Santuário Santa Paulina
-  - Palhoça - São Francisco de Assis (Aririú)
+  - Nova Trento - São Virgílio
   - Palhoça - Nossa Senhora do Rosário (Enseada do Brito)
-  - Palhoça - Senhor Bom Jesus de Nazaré (Centro)
+  - Palhoça - São Francisco de Assis (Aririú)
   - Palhoça - São Judas Tadeu e São João Batista (Ponte do Imaruim)
   - Palhoça - São Sebastião (São Sebastião)
+  - Palhoça - Senhor Bom Jesus de Nazaré (Centro)
   - Paulo Lopes - Sagrado Coração de Jesus
   - Porto Belo - Senhor Bom Jesus dos Aflitos
   - Santo Amaro da Imperatriz - Santo Amaro
   - São Bonifácio - São Bonifácio
   - São João Batista - São João Batista
-  - São José - Santa Cruz (Areias)
-  - São José - São Judas Tadeu (Barreiros)
-  - São José - Sagrados Corações (Barreiros)
-  - São José - Santo Antônio (Campinas)
-  - São José - São José (Centro Histórico)
-  - São José - São Francisco de Assis (Forquilhinhas)
-  - São José - Nossa Senhora dos Navegantes e São Pedro (Serraria)
-  - São José - Nossa Senhora do Rosário (Nossa Senhora do Rosário)
   - São José - Nossa Senhora Aparecida (Procasa)
+  - São José - Nossa Senhora do Rosário (Nossa Senhora do Rosário)
+  - São José - Nossa Senhora dos Navegantes e São Pedro (Serraria)
+  - São José - Sagrados Corações (Barreiros)
   - São José - Sant'Ana (Colônia Santana)
+  - São José - Santa Cruz (Areias)
+  - São José - Santo Antônio (Campinas)
+  - São José - São Francisco de Assis (Forquilhinhas)
+  - São José - São José (Centro Histórico)
+  - São José - São Judas Tadeu (Barreiros)
   - São Pedro de Alcântara - São Pedro de Alcântara
   - Tijucas - São Sebastião

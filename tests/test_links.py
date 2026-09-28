@@ -1,5 +1,6 @@
 """ADR-013 — página de links da bio e formulários de escuta: dados (paróquias e campos) e página gerada."""
 import re
+import unicodedata
 from pathlib import Path
 
 import yaml
@@ -65,6 +66,9 @@ def test_paroquias_da_fonte_oficial():
     assert len(set(lista)) == len(lista)
     for item in lista:
         assert re.fullmatch(r"[^()]+? - [^()]+( \([^()]+\))?", item), item
+    # ordem alfabética (cidade na frente), sem considerar acentos nem maiúsculas
+    chave = lambda t: unicodedata.normalize("NFD", t).encode("ascii", "ignore").decode().casefold()
+    assert lista == sorted(lista, key=chave)
 
 
 def test_formularios_coerentes():
