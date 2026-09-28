@@ -121,3 +121,11 @@ marca:
     altura: 1350
     margem_segura_px: 72
     rodape_livre_px: 180
+
+# ADR-013: página de links da bio (https://dizimoarquifln.pages.dev) e formulários de escuta.
+# Respostas no D1 abaixo; `python -m pastoral.formularios --exportar` copia para o clone do repositório
+# PRIVADO diogokammers/pastoral-dizimo-dados (caminho relativo à raiz deste repositório; nunca dentro dele).
+formularios:
+  d1: pastoral-formularios
+  pages_projeto: dizimoarquifln
+  dados_dir: ../pastoral-dizimo-dados
