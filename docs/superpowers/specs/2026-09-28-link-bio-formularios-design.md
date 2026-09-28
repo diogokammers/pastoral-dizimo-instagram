@@ -69,7 +69,7 @@ escreva para pastoraldodizimo.arquifln@gmail.com." (Dados que revelam vínculo r
 consentimento específico e destacado.)
 
 ### 3.5 Paróquias (`content/paroquias.yaml`)
-Lista pública copiada de https://arquifln.org.br/paroquias em 2026-09-28, formato `Nome — Cidade (Bairro)`,
+Lista pública copiada de https://arquifln.org.br/paroquias em 2026-09-28, formato `Cidade - Nome (Bairro)`,
 com `fonte` e `consultado_em` no arquivo. Conferida linha a linha contra o site na implementação
 (a leitura automática divergiu na contagem; o site cita 76 paróquias). A página recebe a lista embutida
 no build (script gera o trecho JS a partir do YAML; teste garante que estão iguais).

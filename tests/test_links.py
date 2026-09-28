@@ -64,7 +64,7 @@ def test_paroquias_da_fonte_oficial():
     assert len(lista) == 82
     assert len(set(lista)) == len(lista)
     for item in lista:
-        assert re.fullmatch(r"[^—()]+ — [^—()]+( \([^()]+\))?", item), item
+        assert re.fullmatch(r"[^()]+? - [^()]+( \([^()]+\))?", item), item
 
 
 def test_formularios_coerentes():

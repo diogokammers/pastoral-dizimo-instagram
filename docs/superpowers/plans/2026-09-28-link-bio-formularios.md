@@ -43,7 +43,7 @@
 **Files:** Create `content/paroquias.yaml`, `content/formularios.yaml`; Test `tests/test_links.py`
 **Produces:** YAML com chaves `paroquias.yaml: {fonte, consultado_em, paroquias: [str]}`; `formularios.yaml: {versao: 1, textos: {...}, agente: {funcoes, pedidos, pedidos_com_contato, temas}, fiel: {assuntos}, consentimento: str, limites: {texto_curto: 120, texto_longo: 2000}}`.
 - [ ] Conferir a lista no https://arquifln.org.br/paroquias (página e categoria), linha a linha; registrar total real.
-- [ ] Teste: paróquias sem duplicatas, ≥ 70 itens, formato `Nome — Cidade` ou `Nome — Cidade (Bairro)`; temas = os 13 da spec 3.3; `pedidos_com_contato` ⊂ `pedidos`; nenhum texto com termo proibido/"%".
+- [ ] Teste: paróquias sem duplicatas, ≥ 70 itens, formato `Cidade - Nome` ou `Cidade - Nome (Bairro)`; temas = os 13 da spec 3.3; `pedidos_com_contato` ⊂ `pedidos`; nenhum texto com termo proibido/"%".
 - [ ] Rodar (falha) → escrever YAML → rodar (passa) → commit.
 
 ### Task 2: D1 e validação no servidor
