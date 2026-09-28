@@ -13,8 +13,8 @@ Painel de estatísticas, aviso por e-mail a cada resposta, captcha, outros links
 (o espaço existe, mas fica vazio até o Diogo confirmar cada link — nada é inventado).
 
 ## 1. Endereço
-- Cloudflare Pages, projeto `pastoraldodizimo` → `https://pastoraldodizimo.pages.dev`
-  (se o nome estiver ocupado: `dizimoarquifln`, depois `pastoraldizimo`; registrar o escolhido na ADR-013).
+- Cloudflare Pages, projeto `dizimoarquifln` → `https://dizimoarquifln.pages.dev` (escolha do Diogo, 2026-09-28;
+  se o nome estiver ocupado, o Pages acrescenta sufixo — registrar o endereço real na ADR-013).
 - Conta Cloudflare da Pastoral (mesmo login do Worker; `XDG_CONFIG_HOME="C:/Users/odnac/.config-pastoral-dizimo"`).
 - Sem GitHub no endereço. Domínio próprio `.com.br` fica como evolução opcional (pago).
 
