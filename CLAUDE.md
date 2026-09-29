@@ -27,12 +27,12 @@ Arquitetura: `docs/arquitetura.md` · decisões: `docs/decisoes/ADR-*.md` · val
 - Simulador do Instagram para o aprovador aprovar tudo (perfil + 3 fixados + reserva; grava site/aprovacao/ e copia estreia/destaques para site/midia/): `python -m pastoral.simulador` (com `PYTHONPATH=src`; API = `aprovacao.worker_url`)
 - Painel de aprovação (ADR-011/012): respostas como rascunho no aparelho e envio com o código de envio (secret `CODIGO_APROVADOR` do Worker; o valor NUNCA entra no repositório nem na página), com limite de 5 erros/15 min por IP (tabela `falhas_acesso`; para liberar: `… d1 execute pastoral-aprovacoes --remote --command "DELETE FROM falhas_acesso"`). D1 `pastoral-aprovacoes` (eventos append-only; migrations em `worker/migrations/`), estado público em `GET /api/estado`, link curto sem código `https://aprovar.pastoral-dizimo-aprovacao.workers.dev/`, backup em `content/aprovacoes/eventos.jsonl`. Wrangler SEMPRE com o login da Pastoral: `env -u CLOUDFLARE_API_TOKEN -u CLOUDFLARE_ACCOUNT_ID XDG_CONFIG_HOME="C:/Users/odnac/.config-pastoral-dizimo" npx wrangler …` dentro de `worker/` · deploy `… deploy` e `… deploy --env curto` · migrations `… d1 migrations apply pastoral-aprovacoes --remote` · E2E só no ambiente de teste (`--env teste`, ramo `teste-aprovacao`): `python scripts/e2e_painel.py` e `python scripts/e2e_pagina.py` · JS da página no navegador (inclui celular WebKit/Chromium): `tests/test_simulador_navegador.py` (Playwright; `python -m playwright install chromium webkit`)
 - Mudou hash/assinatura? Regenere os vetores cruzados: `python -m pastoral.aprovacao --vetores tests/fixtures/vetores-python.json` e `node worker/scripts/vetor-worker.mjs` (o vetor do painel, `vetor-painel.mjs`, roda dentro do pytest)
+- Link da bio + formulários (ADR-013): gerar página `python -m pastoral.links` · testes `cd links && npm test` e `tests/test_links*.py` · deploy (em `links/`, login da Pastoral) `… npx wrangler pages deploy --branch master` · migrations `… d1 migrations apply pastoral-formularios --remote` · exportar respostas para o repositório PRIVADO `../pastoral-dizimo-dados`: `python -m pastoral.formularios --exportar [--push]` (respostas nunca entram neste repositório)
 
 ## Estrutura
 - `content/temas.yaml` — fila de temas da estratégia (sem Reels, que são manuais)
 - `content/semanas/AAAA-Www/` — briefing, posts, aprovação e ledger da semana
-- `src/pastoral/calendario.py` — calendário litúrgico calculado
-- `src/pastoral/pauta.py` — escolha dos posts da semana (ciclo 70/20/10)
+- `src/pastoral/calendario.py` — calendário litúrgico calculado · `pauta.py` — escolha dos posts da semana (ciclo 70/20/10)
 - `content/estreia/` — pacote de estreia (ADR-005/006/007): posts, bio, render/ · `templates/` — artes · `site/` — prévias
 
 ## Git

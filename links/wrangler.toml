@@ -1,0 +1,12 @@
+# Cloudflare Pages: página de links da bio e formulários (ADR-013). https://dizimoarquifln.pages.dev
+# Deploy (de dentro de links/, com o login da Pastoral): npx wrangler pages deploy
+# Secret: IP_HMAC_SECRET (npx wrangler pages secret put IP_HMAC_SECRET --project-name dizimoarquifln)
+name = "dizimoarquifln"
+pages_build_output_dir = "public"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pastoral-formularios"
+database_id = "dc3975ae-2313-40ec-beca-192f2cf89f29"
+migrations_dir = "migrations"

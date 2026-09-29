@@ -99,7 +99,7 @@ def exportar(pasta: Path, executar=executar_wrangler, push: bool = False, empurr
     _git(pasta, "add", "respostas.jsonl", "respostas.csv")
     if _git(pasta, "diff", "--cached", "--quiet").returncode != 0:
         quando = datetime.now().strftime("%Y-%m-%d %H:%M")
-        proc = _git(pasta, "commit", "-q", "-m", f"dados: exportação de {len(respostas)} respostas ({quando})")
+        proc = _git(pasta, "commit", "-q", "-m", f"dados: exportação de {len(respostas)} resposta(s) ({quando})")
         if proc.returncode != 0:
             raise SystemExit(f"git commit falhou:\n{proc.stderr}")
     if push:
@@ -116,7 +116,7 @@ def main(argv: list[str] | None = None) -> int:
     config = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))["formularios"]
     pasta = Path(args.dados_dir) if args.dados_dir else (RAIZ / config["dados_dir"])
     n = exportar(pasta.resolve(), push=args.push)
-    print(f"{n} respostas exportadas para {pasta.resolve()}" + (" (enviado ao GitHub)" if args.push else ""))
+    print(f"{n} resposta(s) exportada(s) para {pasta.resolve()}" + (" (enviado ao GitHub)" if args.push else ""))
     return 0
 
 

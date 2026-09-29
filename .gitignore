@@ -12,3 +12,4 @@ Thumbs.db
 # Respostas dos formulários da bio (ADR-013): dado pessoal, só no repositório PRIVADO pastoral-dizimo-dados
 respostas*.jsonl
 respostas*.csv
+.wrangler/

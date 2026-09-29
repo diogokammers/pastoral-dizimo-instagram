@@ -81,7 +81,7 @@ def test_exportar_faz_commit_sem_push(tmp_path):
     n = formularios.exportar(repo, saida_wrangler, push=False, empurrar=lambda p: empurrou.append(p))
     assert n == 2
     log = subprocess.run(["git", "-C", str(repo), "log", "--oneline"], capture_output=True, text=True).stdout
-    assert "2 respostas" in log
+    assert "2 resposta(s)" in log
     assert empurrou == []
     # de novo sem mudança: não cria commit vazio
     formularios.exportar(repo, saida_wrangler)

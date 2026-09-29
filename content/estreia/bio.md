@@ -38,7 +38,8 @@ Evangelizar, formar e fortalecer o dízimo como expressão de fé, gratidão e c
 ```
 
 ## Notas
-- Link na bio e botões de contato: nenhum por enquanto (ADR-003: sem e-mail institucional nem WhatsApp).
+- Link na bio: https://dizimoarquifln.pages.dev (ADR-013, 2026-09-28 — página de links com os formulários de escuta).
+  Botões de contato: nenhum por enquanto (ADR-003: sem e-mail institucional nem WhatsApp).
 - A redação literal de 2Cor 9,7 deve ser conferida na Bíblia Sagrada — Tradução Oficial da CNBB.
 - Sem hashtags e sem menções na bio.
 
