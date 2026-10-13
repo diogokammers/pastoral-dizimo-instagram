@@ -10,10 +10,13 @@ def test_publicar_yml(raiz):
     wf = carregar(raiz, "publicar.yml")
     gatilhos = wf[True]                   # PyYAML lê a chave "on" como True
     assert "schedule" in gatilhos and "workflow_dispatch" in gatilhos
+    # o cron do GitHub atrasa horas; o Worker dispara às 19h em ponto (repository_dispatch "publicar")
+    assert gatilhos["repository_dispatch"]["types"] == ["publicar"]
     assert wf["concurrency"]["group"] == "publicar"
     passo = next(p for p in wf["jobs"]["portao"]["steps"] if p.get("name") == "Portão de publicação")
     assert passo["run"] == "python -m pastoral.publicar"
     assert "vars.PUBLICAR_ATIVO == '1'" in passo["env"]["PUBLICAR"]
+    assert "github.event_name == 'repository_dispatch'" in passo["env"]["PUBLICAR"]
     assert passo["env"]["APROVACAO_HMAC_SECRET"] == "${{ secrets.APROVACAO_HMAC_SECRET }}"
     assert passo["env"]["IG_ACCESS_TOKEN"] == "${{ secrets.IG_ACCESS_TOKEN }}"
 

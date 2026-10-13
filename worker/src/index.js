@@ -214,6 +214,22 @@ export async function tratar(request, env, deps = {}) {
   }
 }
 
+// Cron das 19:00 em Brasília (22:00 UTC): dispara o portão de publicação (repository_dispatch). O cron do
+// GitHub Actions atrasava horas; este chega na hora. Sem EVENTO_PUBLICAR (ex.: ambiente de teste), nada.
+export const CRON_PUBLICAR = "0 22 * * *";
+
+export async function dispararPublicacao(env, deps = {}) {
+  if (!env.EVENTO_PUBLICAR) return false;
+  const fetchFn = deps.fetch ?? ((...a) => fetch(...a));
+  await new GitHub(env, fetchFn).disparar(env.EVENTO_PUBLICAR, { origem: "cron-worker" });
+  return true;
+}
+
+// Um handler para os dois crons do wrangler.toml.
+export function agendado(evento, env, deps = {}) {
+  return evento.cron === CRON_PUBLICAR ? dispararPublicacao(env, deps) : backupAgendado(env, deps);
+}
+
 // Backup diário (cron do wrangler.toml): D1 → content/aprovacoes/eventos.jsonl.
 export async function backupAgendado(env, deps = {}) {
   if (!env.DB) return { mudou: false, eventos: 0, commit: null };
@@ -225,7 +241,7 @@ export default {
   fetch(request, env, ctx) {
     return tratar(request, env, { waitUntil: (p) => ctx.waitUntil(p) });
   },
-  scheduled(_evento, env, ctx) {
-    ctx.waitUntil(backupAgendado(env));
+  scheduled(evento, env, ctx) {
+    ctx.waitUntil(agendado(evento, env));
   },
 };

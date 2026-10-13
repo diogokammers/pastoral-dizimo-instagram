@@ -9,6 +9,11 @@ Um post só vai ao ar se TODAS as condições valem:
 6. o número do post não consta em nenhum ledger (`content/semanas/*/publicado.json`, `content/estreia/publicado.json`);
 7. (só na publicação real) a arte servida na URL pública tem o mesmo sha256 do aprovado.
 
+Alerta (2026-10-13): post da agenda com data a menos de 30 h (antes ou depois de agora) que não está em
+nenhum aprovacao.json nem no ledger sai como "SEM APROVAÇÃO" e o comando termina com erro — o job fica
+vermelho e o GitHub avisa por e-mail. Antes, uma aprovação que ficou como rascunho no aparelho fazia o post
+simplesmente não sair, sem aviso nenhum.
+
 Modo `--dry-run` é o padrão: publica de verdade só com a variável de ambiente `PUBLICAR=1`
 (e sem `--dry-run`). Em dry-run o cliente da Meta nem é criado.
 
@@ -213,6 +218,39 @@ def publicar_post(cliente, pronto: dict, base_url: str, intervalo: float, maximo
             "metodo": "api", "artes": len(urls)}
 
 
+JANELA_ALERTA_H = 30      # cobre a véspera (o portão roda às 19h) e o próprio dia, depois da hora
+
+
+def _aprovados(pasta: Path) -> set[int]:
+    """Números listados no aprovacao.json da semana (a validade completa é do avaliar_semana)."""
+    arq = pasta / "aprovacao.json"
+    try:
+        return {int(i["numero"]) for i in _ler_json(arq).get("posts", [])} if arq.exists() else set()
+    except (ValueError, KeyError, TypeError):
+        return set()
+
+
+def sem_aprovacao(raiz: Path, semana: str, agora: datetime, publicados: set[int]) -> list[dict]:
+    """Posts da agenda.json da semana com data perto de agora que ninguém aprovou e que não saíram."""
+    pasta = raiz / "content" / "semanas" / semana
+    arq = pasta / "agenda.json"
+    if not arq.exists():
+        return []
+    aprovados = _aprovados(pasta)
+    alertas = []
+    for entrada in _ler_json(arq).get("posts", []):
+        n = entrada.get("numero")
+        try:
+            agendado = datetime.fromisoformat(entrada["agendado_para"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if agendado.tzinfo is None or n in publicados or n in aprovados:
+            continue
+        if abs((agendado - agora).total_seconds()) <= JANELA_ALERTA_H * 3600:
+            alertas.append({"semana": semana, "numero": n, "agendado_para": entrada["agendado_para"]})
+    return alertas
+
+
 def semanas_existentes(raiz: Path) -> list[str]:
     pasta = raiz / "content" / "semanas"
     return sorted(p.name for p in pasta.iterdir() if p.is_dir()) if pasta.exists() else []
@@ -229,8 +267,9 @@ def executar(raiz: Path, config: dict, segredo: str, agora: datetime, cliente=No
     intervalo, maximo = m.get("poll_intervalo_s", 60), m.get("poll_max_s", 300)
     publicados_antes = numeros_publicados(raiz)
 
-    resultado = {"prontos": [], "recusados": [], "publicados": [], "erros": []}
+    resultado = {"prontos": [], "recusados": [], "publicados": [], "erros": [], "sem_aprovacao": []}
     for semana in semanas or semanas_existentes(raiz):
+        resultado["sem_aprovacao"] += sem_aprovacao(raiz, semana, agora, publicados_antes)
         prontos, recusados = avaliar_semana(raiz, pasta_midia, semana, segredo, agora, publicados_antes)
         resultado["recusados"] += recusados
         for pronto in prontos:
@@ -288,9 +327,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  [publicado] {d['semana']} post {d['numero']}: {d['permalink'] or d['ig_media_id']}")
     for d in r["erros"]:
         print(f"  [ERRO] {d['semana']} post {d['numero']}: {d['erro']}")
+    for d in r["sem_aprovacao"]:
+        print(f"  [ALERTA] {d['semana']} post {d['numero']}: SEM APROVAÇÃO para {d['agendado_para']} — "
+              "abra o painel e toque em \"Enviar respostas\" (rascunho no aparelho não vale)")
     if dry_run:
         print("dry-run: nada foi enviado à Meta nem gravado no ledger.")
-    grave = any(d["grave"] for d in r["recusados"]) or r["erros"]
+    grave = any(d["grave"] for d in r["recusados"]) or r["erros"] or r["sem_aprovacao"]
     return 1 if grave else 0
 
 

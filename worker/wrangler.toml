@@ -21,6 +21,7 @@ PREVIA_BASE_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/"
 PAGINA_URL = "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao/"
 ORIGEM_PERMITIDA = "https://diogokammers.github.io"
 EVENTO_AJUSTE = "ajustar_post"
+EVENTO_PUBLICAR = "publicar"      # repository_dispatch que roda o portão (publicar.yml) às 19:00
 
 # Eventos de aprovação (append-only). Migrations: `npx wrangler d1 migrations apply pastoral-aprovacoes --remote`.
 [[d1_databases]]
@@ -30,8 +31,9 @@ database_id = "d4b7048d-a080-4a8c-a0d1-8a5a74fda080"
 migrations_dir = "migrations"
 
 # Backup diário do D1 → content/aprovacoes/eventos.jsonl (06:30 em Brasília). Também roda a cada decisão.
+# Portão de publicação às 19:00 em Brasília (22:00 UTC): dispara o publicar.yml na hora (CRON_PUBLICAR).
 [triggers]
-crons = ["30 9 * * *"]
+crons = ["30 9 * * *", "0 22 * * *"]
 
 # ---------------------------------------------------------------------------------------------------
 # Ambiente de TESTE (ADR-011, validação ponta a ponta): Worker, D1 e ramo do GitHub próprios; nunca a master.

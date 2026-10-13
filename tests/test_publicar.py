@@ -326,3 +326,43 @@ def test_url_publica():
     assert publicar.url_publica("https://a.io/r/", "2026-W41", "post-1-01.jpg") == \
         "https://a.io/r/midia/2026-W41/post-1-01.jpg"
     assert publicar.url_publica("https://a.io/r", "2026-W41", "x.jpg") == "https://a.io/r/midia/2026-W41/x.jpg"
+
+
+# ---------- alerta: post agendado sem aprovação (falha silenciosa de 2026-10-06) ----------
+
+def gravar_agenda(raiz, posts):
+    caminho = raiz / "content" / "semanas" / SEMANA / "agenda.json"
+    caminho.write_text(json.dumps({"semana": SEMANA, "posts": posts}, ensure_ascii=False), encoding="utf-8")
+
+
+def test_alerta_post_da_janela_sem_aprovacao(repo):
+    """Post agendado a menos de 30 h (antes ou depois) sem aprovação nem publicação vira alerta."""
+    gravar_agenda(repo, [{"numero": 12, "agendado_para": AGENDADO, "artes": []},
+                         {"numero": 13, "agendado_para": "2026-10-07T19:00:00-03:00", "artes": []},
+                         {"numero": 14, "agendado_para": "2026-10-20T19:00:00-03:00", "artes": []},
+                         {"numero": 11, "agendado_para": "2026-09-29T19:00:00-03:00", "artes": []}])
+    r = rodar(repo, MetaFalsa(), dry_run=True)
+    # 12 está aprovado; 13 é amanhã e não tem aprovação; 14 está longe; 11 já passou há dias
+    assert [(a["semana"], a["numero"]) for a in r["sem_aprovacao"]] == [(SEMANA, 13)]
+
+
+def test_alerta_some_depois_de_publicado(repo):
+    gravar_agenda(repo, [{"numero": 13, "agendado_para": AGENDADO, "artes": []}])
+    publicar.registrar(repo, SEMANA, {"numero": 13})
+    assert rodar(repo, MetaFalsa(), dry_run=True)["sem_aprovacao"] == []
+
+
+def test_alerta_sem_aprovacao_json(repo):
+    (repo / "content" / "semanas" / SEMANA / "aprovacao.json").unlink()
+    gravar_agenda(repo, [{"numero": 12, "agendado_para": AGENDADO, "artes": []}])
+    assert [a["numero"] for a in rodar(repo, MetaFalsa(), dry_run=True)["sem_aprovacao"]] == [12]
+
+
+def test_cli_alerta_sem_aprovacao_retorna_1(repo, monkeypatch, capsys):
+    """O job fica vermelho e o GitHub avisa por e-mail: nunca mais um post perdido em silêncio."""
+    monkeypatch.delenv("PUBLICAR", raising=False)
+    monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO)
+    gravar_agenda(repo, [{"numero": 13, "agendado_para": AGENDADO, "artes": []}])
+    assert publicar.main(["--raiz", str(repo), "--agora", DEPOIS.isoformat()]) == 1
+    saida = capsys.readouterr().out
+    assert "post 13" in saida and "SEM APROVAÇÃO" in saida

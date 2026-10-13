@@ -7,7 +7,7 @@ import { beforeEach, test } from "node:test";
 import { autorDoCodigo } from "../src/acesso.js";
 import { CAMINHO_BACKUP } from "../src/backup.js";
 import { Banco } from "../src/banco.js";
-import { backupAgendado, tratar } from "../src/index.js";
+import { agendado, backupAgendado, tratar } from "../src/index.js";
 import { assinarLink, assinaturaValida, utf8 } from "../src/nucleo.js";
 import { D1Falso } from "./d1-falso.js";
 import { ENV as ENV_BASE, GitHubFalso, VETORES } from "./github-falso.js";
@@ -26,7 +26,7 @@ let gh, db, env, pendentes;
 beforeEach(() => {
   gh = new GitHubFalso();
   db = new D1Falso();
-  env = { ...ENV_BASE, DB: db, CODIGO_APROVADOR: CODIGO, PAGINA_URL: "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao/" };
+  env = { ...ENV_BASE, DB: db, CODIGO_APROVADOR: CODIGO, EVENTO_PUBLICAR: "publicar", PAGINA_URL: "https://diogokammers.github.io/pastoral-dizimo-instagram/aprovacao/" };
   pendentes = [];
 });
 
@@ -441,4 +441,19 @@ test("aprovação e ajuste pelo link do e-mail viram eventos (origem email) quan
   assert.deepEqual(aprovacao().posts.map((p) => p.numero), [12], "ajuste pelo e-mail também tira da aprovação");
   const ultimo = db.linhas().at(-1);
   assert.deepEqual([ultimo.post, ultimo.acao, ultimo.comentario, ultimo.origem], [13, "ajustar", "Outra foto.", "email"]);
+});
+
+// ---------- cron das 19h: dispara o portão de publicação na hora (o cron do GitHub atrasa horas) ----------
+
+test("cron das 22:00 UTC dispara o portão; o das 09:30 só faz o backup", async () => {
+  await agendado({ cron: "0 22 * * *" }, env, { fetch: gh.fetch });
+  assert.deepEqual(gh.disparos, [{ event_type: "publicar", client_payload: { origem: "cron-worker" } }]);
+  await agendado({ cron: "30 9 * * *" }, env, { fetch: gh.fetch });
+  assert.equal(gh.disparos.length, 1);
+});
+
+test("ambiente sem EVENTO_PUBLICAR não dispara nada", async () => {
+  const { EVENTO_PUBLICAR, ...semEvento } = env;
+  await agendado({ cron: "0 22 * * *" }, semEvento, { fetch: gh.fetch });
+  assert.deepEqual(gh.disparos, []);
 });

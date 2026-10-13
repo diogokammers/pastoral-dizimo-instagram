@@ -178,9 +178,22 @@ def test_rascunho_nao_chama_a_api_e_sobrevive_a_recarregar(navegador, servidor):
     for b in pagina.locator(".bloco-botao").all():
         b.click()
     assert ids(pagina, "aprovadas") == ["9"] and ids(pagina, "ajuste") == ["7"] and ids(pagina, "pendentes") == ["4"]
+    # 2026-10-06: uma aprovação ficou só no aparelho e o post não saiu. Rascunho pendente agora grita no topo
+    # e o navegador pede confirmação antes de fechar a página.
+    assert pagina.get_attribute("#acesso", "data-alerta") == "1"
+    assert "3 respostas ainda NÃO foram enviadas" in pagina.inner_text("#acesso")
+    assert pagina.evaluate("(() => { var e = new Event('beforeunload', {cancelable: true}); "
+                           "window.dispatchEvent(e); return e.defaultPrevented; })()")
     pagina.click("#item-4 [data-acao=descartar]")
+    assert "2 respostas ainda NÃO foram enviadas" in pagina.inner_text("#acesso")
     assert ids(pagina, "aprovadas") == ["4", "9"] and pagina.inner_text("#envio-resumo") == "2 respostas a enviar."
     assert posts_enviados(api) == []
+    pagina.click("#item-9 [data-acao=desfazer]")
+    pagina.click("#item-7 [data-acao=desfazer]")
+    assert pagina.get_attribute("#acesso", "data-alerta") in (None, "")
+    assert "NÃO foram enviadas" not in pagina.inner_text("#acesso")
+    assert not pagina.evaluate("(() => { var e = new Event('beforeunload', {cancelable: true}); "
+                               "window.dispatchEvent(e); return e.defaultPrevented; })()")
     ctx.close()
 
 

@@ -530,6 +530,7 @@ button:disabled { cursor: default; }
 .item[data-rascunho="1"] { border-style: dashed; border-color: #b58a1b; }
 .item[data-rascunho="1"] .item-status { color: #7a5400 !important; }
 .acesso { margin: 4px 0 0 !important; }
+.acesso[data-alerta="1"] { background: #A3121C; color: #fff; font-weight: 600; padding: 8px 10px; border-radius: 6px; }
 .envio { position: sticky; bottom: 0; margin-top: 14px; padding: 12px 0 4px; background: var(--painel); }
 .envio-resumo { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
 .enviar { display: block; width: 100%; min-height: 50px; border-radius: 25px; background: var(--azul); color: #fff;
@@ -769,6 +770,18 @@ JS = r"""
   var itens = Array.prototype.slice.call(document.querySelectorAll('.item:not(.item-simples)'));
   var agendados = Array.prototype.slice.call(document.querySelectorAll('.item-agendado'));
   var aviso = document.getElementById('acesso');
+  var avisoBase = aviso.textContent;   // mensagem de carga/conexão; o alerta de rascunho fica por cima
+  function pintarAviso() {
+    var n = aEnviar().length;
+    aviso.dataset.alerta = n ? '1' : '';
+    aviso.textContent = n ? (n === 1 ? '1 resposta ainda NÃO foi enviada' : n + ' respostas ainda NÃO foram enviadas') +
+      ': só valem depois de "Enviar respostas" com o código.' : avisoBase;
+  }
+  // 2026-10-06: uma aprovação ficou só no aparelho e o post não saiu. Fechar a página com rascunho pede confirmação.
+  window.addEventListener('beforeunload', function (ev) {
+    if (!aEnviar().length) return;
+    ev.preventDefault(); ev.returnValue = '';
+  });
   var porN = {};
   itens.forEach(function (item) { porN[item.dataset.n] = item; });
   // rascunho de um post que sumiu ou mudou de conteúdo não vale mais
@@ -857,6 +870,7 @@ JS = r"""
     var n = aEnviar().length;
     resumoEnvio.textContent = n ? (n === 1 ? '1 resposta a enviar.' : n + ' respostas a enviar.') : 'Nenhuma resposta a enviar.';
     btnEnviar.disabled = !n;
+    pintarAviso();
     document.getElementById('ir-painel').textContent = 'Aprovações (' + contas.pendentes +
       (contas.pendentes === 1 ? ' pendente' : ' pendentes') + (n ? ' · ' + n + ' a enviar)' : ')');
   }
@@ -867,14 +881,14 @@ JS = r"""
       return r.json().catch(function () { return {}; }).then(function (j) {
         if (r.status === 200) {
           estado = j.posts || {};
-          aviso.textContent = 'Marque suas respostas e, no fim, toque em "Enviar respostas".';
+          avisoBase = 'Marque suas respostas e, no fim, toque em "Enviar respostas".';
         } else {
-          aviso.textContent = 'Não foi possível carregar as decisões já enviadas (' + (j.mensagem || ('erro ' + r.status)) + '). Recarregue a página.';
+          avisoBase = 'Não foi possível carregar as decisões já enviadas (' + (j.mensagem || ('erro ' + r.status)) + '). Recarregue a página.';
         }
         redistribuir();
       });
     }, function () {
-      aviso.textContent = 'Sem conexão com o servidor de aprovação: as decisões já enviadas não aparecem. Recarregue a página.';
+      avisoBase = 'Sem conexão com o servidor de aprovação: as decisões já enviadas não aparecem. Recarregue a página.';
       redistribuir();
     });
   }
