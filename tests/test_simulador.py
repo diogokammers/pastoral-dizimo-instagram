@@ -197,7 +197,7 @@ def test_sem_dependencias_externas(dados):
 
 def test_coletar_do_repositorio(raiz):
     d = simulador.coletar(raiz)
-    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 11, 10, 9, 8, 7, 6, 5, 4]
+    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 11, 10, 9, 8, 6, 7, 5, 4]  # post 6 reagendado para 13/10
     assert [p["fixado"] for p in d["posts"][:4]] == [True, True, True, False]
     assert all(p["publicado"] for p in d["posts"][:3])
     # posts 1-3 usam a legenda simples proposta (ADR-010), não a publicada
