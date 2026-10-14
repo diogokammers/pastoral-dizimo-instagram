@@ -1,0 +1,21 @@
+{
+  "semana": "2026-W41",
+  "aprovado_por": "Aprovador",
+  "aprovado_em": "2026-10-14T16:03:30+00:00",
+  "nonce": "335f2369207110ce8391af57a13bea64",
+  "posts": [
+    {
+      "numero": 6,
+      "agendado_para": "2026-10-13T19:00:00-03:00",
+      "legenda_sha256": "df812329f34005e5052157365e8e51fb43c423ac05ff82236d7e2213bc9790fe",
+      "alt_text_sha256": "d58d8f88b91603aebcf844e94d016055119eb657e3e922775884fbfad7bd649a",
+      "artes": [
+        {
+          "arquivo": "post-6-01.jpg",
+          "sha256": "fd6ececd0ed10c10d83b21455240fce1fdf8c9dd06d14d3197453e9e04546efe"
+        }
+      ]
+    }
+  ],
+  "assinatura": "d5013ceb7ce169ff38c1484865de8218c5701fbadcb872e6ceaca8b9f050c764"
+}
