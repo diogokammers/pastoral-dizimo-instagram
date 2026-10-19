@@ -14,8 +14,8 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from pastoral.pauta import DIAS_DA_SEMANA
-
+# Só biblioteca padrão aqui: o publicar.yml instala apenas PyYAML (pauta.py puxaria o dateutil).
+DIAS_DA_SEMANA = {"segunda": 1, "terca": 2, "quarta": 3, "quinta": 4, "sexta": 5, "sabado": 6, "domingo": 7}
 NOMES = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo")
 VESPERA_H = 30          # mesma janela do alerta "sem aprovação" (ADR-014)
 DIA_H = 24

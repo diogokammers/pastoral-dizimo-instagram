@@ -28,9 +28,9 @@ from pathlib import Path
 import yaml
 
 from pastoral import calendario
+from pastoral.fila import DIAS_DA_SEMANA   # noqa: F401 (reexportado: simulador.py e outros usam daqui)
 
 PILARES = ("Formação", "Vida pastoral", "Convite institucional")
-DIAS_DA_SEMANA = {"segunda": 1, "terca": 2, "quarta": 3, "quinta": 4, "sexta": 5, "sabado": 6, "domingo": 7}
 RAIZ = Path(__file__).resolve().parents[2]
 
 

@@ -142,3 +142,13 @@ def test_alerta_na_vespera_sem_nada_aprovado():
 
 def test_sem_alerta_quando_a_semana_foi_servida():
     assert fila.alerta([], [utc("2026-10-21T18:05:00-03:00")], AGORA, CFG) is None
+
+
+def test_fila_so_usa_a_biblioteca_padrao():
+    """O portão roda no publicar.yml só com PyYAML instalado: fila.py não pode puxar pauta/calendario (dateutil)."""
+    import ast
+    from pathlib import Path
+    arvore = ast.parse((Path(fila.__file__)).read_text(encoding="utf-8"))
+    modulos = {n.module.split(".")[0] for n in ast.walk(arvore) if isinstance(n, ast.ImportFrom) and n.module}
+    modulos |= {a.name.split(".")[0] for n in ast.walk(arvore) if isinstance(n, ast.Import) for a in n.names}
+    assert "pastoral" not in modulos and "dateutil" not in modulos, modulos
