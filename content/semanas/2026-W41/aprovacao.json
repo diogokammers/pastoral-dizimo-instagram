@@ -1,8 +1,8 @@
 {
   "semana": "2026-W41",
   "aprovado_por": "Aprovador",
-  "aprovado_em": "2026-10-14T16:03:30+00:00",
-  "nonce": "335f2369207110ce8391af57a13bea64",
+  "aprovado_em": "2026-10-19T22:03:19+00:00",
+  "nonce": "71118a05a90295835794377a45dda092",
   "posts": [
     {
       "numero": 6,
@@ -15,7 +15,47 @@
           "sha256": "fd6ececd0ed10c10d83b21455240fce1fdf8c9dd06d14d3197453e9e04546efe"
         }
       ]
+    },
+    {
+      "numero": 7,
+      "agendado_para": "2026-10-09T19:00:00-03:00",
+      "legenda_sha256": "80db9cb7d553d8138bee473882881d2ac7c1dac2ba61e71474c46e8ebd7174c5",
+      "alt_text_sha256": "1a8672ce9fbf71a3255f498087354ea5f0d7ac91f0aab5b505bc9aaa92bf904f",
+      "artes": [
+        {
+          "arquivo": "post-7-01.jpg",
+          "sha256": "3f855fa8fc9cbcf1a695e5bd26e5c2df460ae396e0dd7bab8037c6a8e16362d0"
+        },
+        {
+          "arquivo": "post-7-02.jpg",
+          "sha256": "e963649436df278dc0ed0441928461196cc268984904f7b7da54b12f6746300b"
+        },
+        {
+          "arquivo": "post-7-03.jpg",
+          "sha256": "93273a4e88fb569d6cac46ec2f9face7f6e4bd604ad3462d43752524d904f9d5"
+        },
+        {
+          "arquivo": "post-7-04.jpg",
+          "sha256": "3c6675afeaec295ff8f8717440b36b0b8442385e2b7ac86a90209d32da91135f"
+        },
+        {
+          "arquivo": "post-7-05.jpg",
+          "sha256": "92fcab6c882f25a63ad1ec63c8ca5d0c4855d6a010375d6e81649c8f8c4c1b2a"
+        },
+        {
+          "arquivo": "post-7-06.jpg",
+          "sha256": "bb2220a39de53b46a27874a5a3b520813012253c61404538206ef6867849c963"
+        },
+        {
+          "arquivo": "post-7-07.jpg",
+          "sha256": "ce14c68f0436f7a763cf1f03e25add707f0ebe6dd0b63e453c8696d515438d2a"
+        },
+        {
+          "arquivo": "post-7-08.jpg",
+          "sha256": "9857ef7befb75e3b3b7d5738693fcc0723284826cd3c31930bf16d8b7e923180"
+        }
+      ]
     }
   ],
-  "assinatura": "d5013ceb7ce169ff38c1484865de8218c5701fbadcb872e6ceaca8b9f050c764"
+  "assinatura": "b77fdec7c9bffed5906c91e64cd8370e171b0bb6cc2294c6829a8f4b10d9bcb5"
 }
