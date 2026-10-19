@@ -187,7 +187,8 @@ test("aprovar: aprovacao.json assinado (igual ao link do e-mail), evento no D1 e
   const dados = aprovacao();
   assert.equal(await assinaturaValida(dados, env.APROVACAO_HMAC_SECRET), true);
   assert.equal(dados.aprovado_por, "Aprovador");
-  assert.deepEqual(dados.posts, [VETORES.semana.itens.find((i) => i.numero === 12)]);
+  // ADR-015: o item leva o carimbo aprovado_em (ordem da fila)
+  assert.deepEqual(dados.posts, [{ ...VETORES.semana.itens.find((i) => i.numero === 12), aprovado_em: "2026-10-02T13:00:00+00:00" }]);
   const [g] = gravacoesEm(APROV);
   assert.equal(g.ramo, "master");
   assert.equal(r.commit, g.commit);
@@ -445,8 +446,8 @@ test("aprovação e ajuste pelo link do e-mail viram eventos (origem email) quan
 
 // ---------- cron das 19h: dispara o portão de publicação na hora (o cron do GitHub atrasa horas) ----------
 
-test("cron das 22:00 UTC dispara o portão; o das 09:30 só faz o backup", async () => {
-  await agendado({ cron: "0 22 * * *" }, env, { fetch: gh.fetch });
+test("cron das 21:00 UTC (18h em Brasília, ADR-015) dispara o portão; o das 09:30 só faz o backup", async () => {
+  await agendado({ cron: "0 21 * * *" }, env, { fetch: gh.fetch });
   assert.deepEqual(gh.disparos, [{ event_type: "publicar", client_payload: { origem: "cron-worker" } }]);
   await agendado({ cron: "30 9 * * *" }, env, { fetch: gh.fetch });
   assert.equal(gh.disparos.length, 1);
@@ -454,6 +455,6 @@ test("cron das 22:00 UTC dispara o portão; o das 09:30 só faz o backup", async
 
 test("ambiente sem EVENTO_PUBLICAR não dispara nada", async () => {
   const { EVENTO_PUBLICAR, ...semEvento } = env;
-  await agendado({ cron: "0 22 * * *" }, semEvento, { fetch: gh.fetch });
+  await agendado({ cron: "0 21 * * *" }, semEvento, { fetch: gh.fetch });
   assert.deepEqual(gh.disparos, []);
 });

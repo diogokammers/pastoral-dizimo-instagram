@@ -50,17 +50,24 @@ def agendado_para(item: dict) -> str:
     return ingenua.replace(tzinfo=ZoneInfo(item["fuso"])).isoformat(timespec="seconds")
 
 
-def montar_agenda(semana: str, posts_dados: dict, briefing: dict) -> dict:
-    """Liga cada post (numero) ao briefing (indice = posição global = numero) e lista as artes."""
+def montar_agenda(semana: str, posts_dados: dict, briefing: dict, fila: bool = False) -> dict:
+    """Liga cada post (numero) ao briefing (indice = posição global = numero) e lista as artes.
+    Com `fila` (ADR-015) a data é null (o post sai na ordem de aprovação), salvo data fixa `agendado_para`
+    no post do briefing."""
     por_indice = {b["indice"]: b for b in briefing.get("posts", [])}
     posts = []
     for post in sorted(posts_dados["posts"], key=lambda p: p["numero"]):
         n = post["numero"]
         if n not in por_indice:
             raise ValueError(f"post {n} sem data no briefing.json")
+        b = por_indice[n]
+        if b.get("agendado_para"):
+            quando = b["agendado_para"]
+        else:
+            quando = None if fila else agendado_para(b)
         posts.append({
             "numero": n,
-            "agendado_para": agendado_para(por_indice[n]),
+            "agendado_para": quando,
             "artes": [f"post-{n}-{i:02d}.jpg" for i in range(1, len(post["slides"]) + 1)],
         })
     return {"semana": semana, "posts": posts}
@@ -140,10 +147,16 @@ def url_link(worker_url: str, segredo: str, semana: str, acao: str, post: int | 
 
 # ---------- aprovacao.json ----------
 
+def sem_carimbo(item: dict | None) -> dict | None:
+    """Item sem o campo aprovado_em (o que se compara para saber se o conteúdo já foi aprovado)."""
+    return None if item is None else {k: v for k, v in item.items() if k != "aprovado_em"}
+
+
 def montar_aprovacao(existente: dict | None, semana: str, itens: list[dict], alvo: list[int], nonce: str,
                      aprovado_por: str, aprovado_em: str, segredo: str) -> tuple[dict | None, bool]:
     """Junta os posts `alvo` à aprovação existente. Devolve (dados, mudou). Idempotente:
-    link já usado (mesmo nonce) ou posts já aprovados com o mesmo conteúdo → (existente, False)."""
+    link já usado (mesmo nonce) ou posts já aprovados com o mesmo conteúdo → (existente, False).
+    Cada item novo leva `aprovado_em` (ordem da fila, ADR-015); o carimbo não conta na comparação."""
     disponiveis = {i["numero"]: i for i in itens}
     faltando = [n for n in alvo if n not in disponiveis]
     if faltando or not alvo:
@@ -151,10 +164,11 @@ def montar_aprovacao(existente: dict | None, semana: str, itens: list[dict], alv
     aprovados = {i["numero"]: i for i in (existente or {}).get("posts", [])}
     if existente and existente.get("nonce") == nonce:
         return existente, False
-    if all(aprovados.get(n) == disponiveis[n] for n in alvo):
+    if all(sem_carimbo(aprovados.get(n)) == disponiveis[n] for n in alvo):
         return existente, False
     for n in alvo:
-        aprovados[n] = disponiveis[n]
+        if sem_carimbo(aprovados.get(n)) != disponiveis[n]:
+            aprovados[n] = {**disponiveis[n], "aprovado_em": aprovado_em}
     dados = {"semana": semana, "aprovado_por": aprovado_por, "aprovado_em": aprovado_em, "nonce": nonce,
              "posts": [aprovados[n] for n in sorted(aprovados)]}
     dados["assinatura"] = assinar(dados, segredo)

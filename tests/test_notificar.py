@@ -53,6 +53,18 @@ def test_config_real_tem_bloco_de_aprovacao(raiz):
     assert cfg["validade_dias"] == 7
 
 
+def test_email_de_post_na_fila_nao_mostra_data(raiz):
+    """ADR-015: post sem data fixa aparece como "na fila" no e-mail."""
+    agenda_arq = raiz / "content" / "semanas" / SEMANA / "agenda.json"
+    agenda = json.loads(agenda_arq.read_text(encoding="utf-8"))
+    for p in agenda["posts"]:
+        p["agendado_para"] = None
+    agenda_arq.write_text(json.dumps(agenda), encoding="utf-8")
+    email = notificar.preparar(raiz, SEMANA, CONFIG, SEGREDO, AGORA)["email"]
+    assert "na fila" in email["html"] and "na fila" in email["texto"]
+    assert "19:00" not in email["html"]
+
+
 def test_links_assinados_validos_com_nonce_proprio(raiz):
     prep = notificar.preparar(raiz, SEMANA, CONFIG, SEGREDO, AGORA)
     links = prep["links"]

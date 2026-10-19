@@ -28,7 +28,7 @@ from html import escape
 from pathlib import Path
 
 from pastoral import aprovacao, meta
-from pastoral.preview import data_por_extenso
+from pastoral.preview import quando_texto
 
 RAIZ = Path(__file__).resolve().parents[2]
 URL_RESEND = "https://api.resend.com/emails"
@@ -69,7 +69,7 @@ def _botao(url: str, rotulo: str, principal: bool = False) -> str:
 
 
 def montar_email(semana: str, dados: dict, agenda: dict, links: dict, previa_url: str, validade_dias: int) -> dict:
-    quando = {p["numero"]: data_por_extenso(p["agendado_para"]) for p in agenda["posts"]}
+    quando = {p["numero"]: quando_texto(p["agendado_para"]) for p in agenda["posts"]}
     blocos, linhas = [], []
     for post in sorted(dados["posts"], key=lambda p: p["numero"]):
         n = post["numero"]

@@ -37,6 +37,43 @@ def dados():
     }
 
 
+@pytest.fixture
+def dados_fila(dados):
+    """Os mesmos posts mais um da fila (sem data fixa, ADR-015) e os horários de publicação."""
+    d = json.loads(json.dumps(dados))
+    d["horarios"] = [{"dia": 3, "hora": 18, "minuto": 0}]
+    d["posts"].append({"numero": 8, "titulo": "Título 8", "pilar": "Formação", "semana": "2026-W42", "data": None,
+                       "publicado": False, "fixado": False, "legenda": "Legenda.", "legenda_proposta": False,
+                       "versao": f"{8:032x}", "imagens": [{"src": "../midia/x/post-8-01.jpg", "alt": "Alt 8"}]})
+    return d
+
+
+def test_item_sem_data_fixa_explica_a_fila(dados_fila):
+    painel = painel_de(simulador.montar_pagina(dados_fila, API))
+    item8 = painel[painel.index('id="item-8"'):painel.index('id="item-9"')]
+    assert 'data-n="8" data-data=""' in item8
+    assert "Sem data fixa: ao ser aprovada entra na fila (uma publicação por quarta-feira, às 18h)" in item8
+    item4 = painel[painel.index('id="item-4"'):painel.index('id="item-8"')]
+    assert 'data-data="2026-09-29T19:00:00-03:00"' in item4
+    assert "Data fixa: a partir de terça-feira, 29/09/2026, 19:00" in item4
+
+
+def test_agendadas_leva_a_data_e_o_js_leva_os_horarios(dados_fila):
+    html = simulador.montar_pagina(dados_fila, API)
+    assert 'var FILA = [{"dia": 3, "hora": 18, "minuto": 0}];' in html
+    agendadas = html[html.index('id="bloco-agendadas"'):html.index("</aside>")]
+    assert '<li class="item item-simples item-agendado" data-n="8" data-data="" hidden>' in agendadas
+    assert '<li class="item item-simples item-agendado" data-n="4" data-data="2026-09-29T19:00:00-03:00" hidden>' in agendadas
+    assert "Sem data fixa" in agendadas and "Data fixa: a partir de terça-feira, 29/09/2026, 19:00" in agendadas
+    assert "ordem em que sairão" in agendadas
+
+
+def test_feed_de_post_sem_data(dados_fila):
+    html = simulador.montar_pagina(dados_fila, API)
+    celular = html[html.index('<div class="celular">'):html.index('<aside class="painel"')]
+    assert "Na fila de publicação" in celular
+
+
 def test_pagina_tem_perfil_contadores_e_bio_com_mencoes(dados):
     html = simulador.montar_pagina(dados, API)
     assert "pastoraldodizimo.arquifln" in html
@@ -124,8 +161,8 @@ def test_painel_pendentes_so_com_o_que_nao_foi_publicado(dados):
 
 def test_itens_levam_semana_e_versao_do_conteudo(dados):
     painel = painel_de(simulador.montar_pagina(dados, API))
-    assert 'id="item-4" data-n="4" data-semana="2026-W40" data-versao="' + f"{4:032x}" + '"' in painel
-    assert 'id="item-9" data-n="9" data-semana="2026-W40" data-versao="' + f"{9:032x}" + '"' in painel
+    assert 'id="item-4" data-n="4" data-data="2026-09-29T19:00:00-03:00" data-semana="2026-W40" data-versao="' + f"{4:032x}" + '"' in painel
+    assert 'id="item-9" data-n="9" data-data="2026-10-16T19:00:00-03:00" data-semana="2026-W40" data-versao="' + f"{9:032x}" + '"' in painel
 
 
 def test_painel_blocos_recolhiveis_e_listas_de_publicadas_e_agendadas(dados):
@@ -145,8 +182,8 @@ def test_agendadas_so_mostra_aprovadas(dados):
     painel = painel_de(simulador.montar_pagina(dados, API))
     assert 'id="conta-agendadas">(0)' in painel
     agendadas = painel[painel.index('id="bloco-agendadas"'):]
-    assert re.findall(r'<li class="item item-simples item-agendado" data-n="(\d+)" hidden>', agendadas) == ["4", "9"]
-    assert "Previsto para terça-feira, 29/09/2026, 19:00 (provisória)" in agendadas
+    assert re.findall(r'<li class="item item-simples item-agendado" data-n="(\d+)" data-data="[^"]*" hidden>', agendadas) == ["4", "9"]
+    assert "Data fixa: a partir de terça-feira, 29/09/2026, 19:00" in agendadas
     assert 'id="vazio-agendadas"' in agendadas
 
 
@@ -197,7 +234,10 @@ def test_sem_dependencias_externas(dados):
 
 def test_coletar_do_repositorio(raiz):
     d = simulador.coletar(raiz)
-    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 11, 10, 9, 8, 6, 7, 5, 4]  # post 6 reagendado para 13/10
+    # 8–11 sem data (fila) vêm primeiro; 6 e 7 mantêm as datas antigas (6 saiu em 13/10; 7 sai na quarta 21/10)
+    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 11, 10, 9, 8, 6, 7, 5, 4]
+    assert [p["data"] for p in d["posts"] if p["numero"] in (8, 9, 10, 11)] == [None] * 4
+    assert d["horarios"] == [{"dia": 3, "hora": 18, "minuto": 0}]
     assert [p["fixado"] for p in d["posts"][:4]] == [True, True, True, False]
     assert all(p["publicado"] for p in d["posts"][:3])
     # posts 1-3 usam a legenda simples proposta (ADR-010), não a publicada
@@ -264,4 +304,4 @@ def test_gerar_pagina_de_teste_em_outro_destino_copia_as_artes(raiz, tmp_path):
     assert saida == tmp_path / "aprovacao-teste" / "index.html"
     assert (tmp_path / "midia" / "2026-W41" / "post-7-08.jpg").is_file()
     html = saida.read_text(encoding="utf-8")
-    assert 'id="item-6"' in html and 'id="item-4"' not in html
+    assert 'id="item-7"' in html and 'id="item-4"' not in html and 'id="item-6"' not in html   # 6 já saiu

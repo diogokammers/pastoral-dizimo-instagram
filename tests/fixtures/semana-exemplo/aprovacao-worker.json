@@ -18,7 +18,8 @@
           "arquivo": "post-12-02.jpg",
           "sha256": "dea606228232f95a10580b4b67036a1d3f12856ba1b511895c3177c4fd2ced2c"
         }
-      ]
+      ],
+      "aprovado_em": "2026-10-02T13:00:00+00:00"
     },
     {
       "numero": 13,
@@ -30,8 +31,9 @@
           "arquivo": "post-13-01.jpg",
           "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
         }
-      ]
+      ],
+      "aprovado_em": "2026-10-02T13:00:00+00:00"
     }
   ],
-  "assinatura": "d178d982e5dd9e3627da4e1cc32a1218ccde8ac1d339705f84832687b5761f23"
+  "assinatura": "14e25a847aab34a03467e8e101033bf0503793a4e4cae348f4b2822c79e4832f"
 }

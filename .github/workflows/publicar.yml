@@ -3,14 +3,16 @@
 # Publicação REAL exige as três coisas: variável de repositório PUBLICAR_ATIVO = "1", execução agendada
 # (cron do GitHub, disparo do Worker ou manual com "publicar" marcado) e nenhum --dry-run. Fora disso, dry-run.
 # Horário: o cron do GitHub chegou a atrasar 3–5 h (rodava entre 22h e 0h de Brasília). O Worker de
-# aprovação dispara repository_dispatch "publicar" às 19:00 em ponto; o cron abaixo fica de reserva.
+# aprovação dispara repository_dispatch "publicar" às 18:00 em ponto; o cron abaixo fica de reserva.
 # Post da agenda sem aprovação perto da data deixa o job vermelho (o GitHub avisa por e-mail).
+# ADR-015: uma publicação por semana (quarta, 18h), em ordem de aprovação; roda todo dia para se recuperar
+# se a quarta falhar. Quarta sem nada aprovado (ou véspera sem nada aprovado) também deixa o job vermelho.
 name: publicar
 on:
   schedule:
-    - cron: "15 22 * * *"        # 19:15 em Brasília (UTC-3), logo depois do horário de terça/sexta
+    - cron: "15 21 * * *"        # 18:15 em Brasília (UTC-3), logo depois do horário de quarta (reserva)
   repository_dispatch:
-    types: [publicar]            # Worker de aprovação, cron "0 22 * * *" (19:00 em Brasília)
+    types: [publicar]            # Worker de aprovação, cron "0 21 * * *" (18:00 em Brasília)
   workflow_dispatch:
     inputs:
       publicar:

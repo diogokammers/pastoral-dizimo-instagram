@@ -202,7 +202,7 @@ Em paralelo à sua revisão desta arquitetura, entrego o **estudo de identidade 
 ## 8. Decisões do Diogo (2026-09-25)
 1. **Alt. C escolhida:** pipeline da Alt. A, geração executada por `claude -p` com o plano **Max** (`CLAUDE_CODE_OAUTH_TOKEN` gerado por `claude setup-token`), não pela API paga. Consequências: o passo `gerar.py` invoca o CLI e lê tokens/custo do JSON de saída ([medição 05](pesquisa/05-medicoes-locais.md)); risco R5 (Termos de Uso) fica registrado e é monitorado; se um dia o OAuth em CI deixar de ser suportado, troca-se só o cliente de geração pela API.
 2. Chave de API: **não será criada.**
-3. Publicação: **terça e sexta, 19h (America/Sao_Paulo)**, ajustável em `config.yaml`.
+3. Publicação: **terça e sexta, 19h (America/Sao_Paulo)**, ajustável em `config.yaml`. *Alterado em 2026-10-19 (ADR-015): uma publicação por semana, quarta às 18h, em fila por ordem de aprovação.*
 4. Commits autorizados a cada fase.
 
 ### 8.1 Pendências originais (mantidas para referência)

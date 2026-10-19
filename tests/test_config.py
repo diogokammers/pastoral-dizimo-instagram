@@ -9,11 +9,15 @@ def config(raiz):
 
 
 def test_agenda(config):
+    """ADR-015: uma publicação por semana, quarta às 18h, em fila por ordem de aprovação."""
     pub = config["publicacao"]
-    assert pub["posts_por_semana"] == 2
+    assert pub["posts_por_semana"] == 1
     assert pub["fuso"] == "America/Sao_Paulo"
-    assert [d["dia"] for d in pub["dias"]] == ["terca", "sexta"]
-    assert all(d["hora"] == "19:00" for d in pub["dias"])
+    assert pub["dias"] == [{"dia": "quarta", "hora": "18:00"}]
+    assert pub["fila"] is True
+    # a numeração da série continua: até 2026-W43 eram 2 por semana (posts 4–11), terça e sexta às 19h
+    assert config["pauta"]["ritmos_anteriores"] == [
+        {"ate": "2026-W43", "posts_por_semana": 2, "dias": [{"dia": "terca", "hora": "19:00"}, {"dia": "sexta", "hora": "19:00"}]}]
 
 
 def test_marca_sem_simbolo(config):

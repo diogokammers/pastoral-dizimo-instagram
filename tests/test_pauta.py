@@ -137,17 +137,17 @@ def test_reserva_comeca_no_post_4_sem_repetir_fixados(temas, config_real):
 
 def test_reserva_pula_pendencias_e_nao_repete(temas, config_real):
     com_pendencia = {t["numero"] for t in temas if "pendencia" in t}
-    posts = [p for s in range(40, 47) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
+    posts = [p for s in range(40, 50) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
     numeros = [p["tema"] for p in posts]
-    assert len(set(numeros)) == len(numeros) == 14          # 17 temas sem pendência − 3 fixados
+    assert len(set(numeros)) == len(numeros) == 14          # 17 temas sem pendência − 3 fixados (8 + 6 semanas de 1)
     assert not set(numeros) & ({1, 2, 3} | com_pendencia)
     assert all("pendencia" not in p for p in posts)
 
 
 def test_reserva_mantem_rotacao_o_melhor_possivel(temas, config_real):
     """Sem convite sem pendência, a vaga do convite vira Formação; as 2 de Vida pastoral ficam."""
-    posts = [p for s in range(40, 45) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
-    c = Counter(p["pilar"] for p in posts)                  # 10 posts = um ciclo
+    posts = [p for s in range(40, 46) for p in pauta.montar_briefing(f"2026-W{s}", config_real, temas)["posts"]]
+    c = Counter(p["pilar"] for p in posts)                  # 10 posts = um ciclo (4 semanas de 2 + 2 de 1)
     assert c == {"Formação": 8, "Vida pastoral": 2}
 
 
@@ -156,6 +156,16 @@ def test_sequencia_pulando_pendencias_recomeca_ao_esgotar(temas, config):
                           pular_pendencia=True)
     assert all("pendencia" not in t for t in seq)
     assert all(t["rodada"] == 1 for t in seq[:17]) and seq[17]["rodada"] == 2
+
+
+def test_ritmo_novo_continua_a_numeracao_e_muda_o_dia(temas, config_real):
+    """ADR-015: até 2026-W43, 2 posts (terça/sexta 19h); de 2026-W44 em diante, 1 post (quarta 18h), do 12."""
+    w43 = pauta.montar_briefing("2026-W43", config_real, temas)
+    assert [p["indice"] for p in w43["posts"]] == [10, 11]
+    assert [(p["data"], p["hora"]) for p in w43["posts"]] == [("2026-10-20", "19:00"), ("2026-10-23", "19:00")]
+    w44 = pauta.montar_briefing("2026-W44", config_real, temas)
+    assert [(p["indice"], p["data"], p["hora"]) for p in w44["posts"]] == [(12, "2026-10-28", "18:00")]
+    assert [p["indice"] for p in pauta.montar_briefing("2026-W45", config_real, temas)["posts"]] == [13]
 
 
 def test_tema_importante_vai_para_o_briefing(temas, config_real):

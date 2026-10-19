@@ -247,11 +247,19 @@ def data_por_extenso(iso: str) -> str:
     return f"{DIAS[d.weekday()]}, {d:%d/%m/%Y, %H:%M}"
 
 
+NA_FILA = "na fila (sai na ordem de aprovação)"
+
+
+def quando_texto(iso: str | None) -> str:
+    """Data por extenso, ou o aviso de fila quando o post não tem data fixa (ADR-015)."""
+    return data_por_extenso(iso) if iso else NA_FILA
+
+
 def montar_pagina_semana(semana: str, dados: dict, agenda: dict, imagens: dict, qa: dict | None = None,
                          usuario: str = "@pastoraldodizimo.arquifln") -> str:
     """Prévia da semana: aviso, grade e cada post com carrossel, legenda, alt-text e data agendada."""
     qa = qa or {}
-    quando = {p["numero"]: data_por_extenso(p["agendado_para"]) for p in agenda["posts"]}
+    quando = {p["numero"]: quando_texto(p["agendado_para"]) for p in agenda["posts"]}
     ordenados = sorted(dados["posts"], key=lambda p: p["numero"])
     grade = "".join(
         f'<a class="grade-item" href="#post-{p["numero"]}"><img src="{e(imagens[f"post-{p["numero"]}-01.jpg"])}" '
@@ -282,8 +290,9 @@ def montar_pagina_semana(semana: str, dados: dict, agenda: dict, imagens: dict, 
 """
 
 
-def gerar_semana(raiz: Path, semana: str, usuario: str = "@pastoraldodizimo.arquifln") -> Path:
-    """Grava agenda.json, copia as artes para site/midia/<semana>/ e gera site/semanas/<semana>/index.html."""
+def gerar_semana(raiz: Path, semana: str, usuario: str = "@pastoraldodizimo.arquifln", fila: bool = False) -> Path:
+    """Grava agenda.json, copia as artes para site/midia/<semana>/ e gera site/semanas/<semana>/index.html.
+    `fila` (publicacao.fila, ADR-015): agenda sem data; o post sai na ordem de aprovação."""
     raiz = Path(raiz)
     pasta = raiz / "content" / "semanas" / semana
     dados = json.loads((pasta / "posts.json").read_text(encoding="utf-8"))
@@ -292,7 +301,7 @@ def gerar_semana(raiz: Path, semana: str, usuario: str = "@pastoraldodizimo.arqu
     qa_arq = render / "qa.json"
     qa = json.loads(qa_arq.read_text(encoding="utf-8")) if qa_arq.exists() else {}
 
-    agenda = aprovacao.montar_agenda(semana, dados, briefing)
+    agenda = aprovacao.montar_agenda(semana, dados, briefing, fila=fila)
     artes = [a for p in agenda["posts"] for a in p["artes"]]
     faltando = [a for a in artes if not (render / a).is_file()]
     if faltando:
@@ -329,9 +338,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--saida", type=Path, default=RAIZ / "site" / "estreia" / "index.html")
     args = ap.parse_args(argv)
 
-    usuario = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))["marca"]["usuario"]
+    config = yaml.safe_load((RAIZ / "config.yaml").read_text(encoding="utf-8"))
+    usuario = config["marca"]["usuario"]
     if args.semana:
-        saida = gerar_semana(args.raiz, args.semana, usuario)
+        saida = gerar_semana(args.raiz, args.semana, usuario, fila=bool(config.get("publicacao", {}).get("fila")))
         print(f"{saida} + site/midia/{args.semana}/ + agenda.json")
         return 0
 

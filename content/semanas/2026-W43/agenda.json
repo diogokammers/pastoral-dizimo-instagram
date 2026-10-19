@@ -3,7 +3,7 @@
   "posts": [
     {
       "numero": 10,
-      "agendado_para": "2026-10-20T19:00:00-03:00",
+      "agendado_para": null,
       "artes": [
         "post-10-01.jpg",
         "post-10-02.jpg",
@@ -19,7 +19,7 @@
     },
     {
       "numero": 11,
-      "agendado_para": "2026-10-23T19:00:00-03:00",
+      "agendado_para": null,
       "artes": [
         "post-11-01.jpg",
         "post-11-02.jpg",

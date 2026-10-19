@@ -214,9 +214,9 @@ export async function tratar(request, env, deps = {}) {
   }
 }
 
-// Cron das 19:00 em Brasília (22:00 UTC): dispara o portão de publicação (repository_dispatch). O cron do
-// GitHub Actions atrasava horas; este chega na hora. Sem EVENTO_PUBLICAR (ex.: ambiente de teste), nada.
-export const CRON_PUBLICAR = "0 22 * * *";
+// Cron das 18:00 em Brasília (21:00 UTC; ADR-015): dispara o portão de publicação (repository_dispatch). O
+// cron do GitHub Actions atrasava horas; este chega na hora. Sem EVENTO_PUBLICAR (ex.: ambiente de teste), nada.
+export const CRON_PUBLICAR = "0 21 * * *";
 
 export async function dispararPublicacao(env, deps = {}) {
   if (!env.EVENTO_PUBLICAR) return false;

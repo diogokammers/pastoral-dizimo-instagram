@@ -4,10 +4,13 @@
 
 publicacao:
   fuso: America/Sao_Paulo
-  posts_por_semana: 2            # ADR-000
-  dias:                          # arquitetura §8.3 (hipótese a ajustar por métricas)
-    - {dia: terca, hora: "19:00"}
-    - {dia: sexta, hora: "19:00"}
+  posts_por_semana: 1            # ADR-015 (antes 2, ADR-000)
+  dias:                          # ADR-015: uma publicação por semana, quarta às 18h
+    - {dia: quarta, hora: "18:00"}
+  # ADR-015: fila por ordem de aprovação. Com `fila: true`, agenda.json nasce sem data (agendado_para null);
+  # o portão publica uma por semana, no horário acima, na ordem em que foram aprovadas. Um post pode ter data
+  # fixa ("não antes de"): campo `agendado_para` (ISO com fuso) no post do briefing.json ou no agenda.json.
+  fila: true
 
 # Fatia 7 (ADR-008): Instagram API with Instagram Login. Token e user id só por variáveis de ambiente
 # (IG_ACCESS_TOKEN / IG_USER_ID), nunca aqui. Versão exibida na doc oficial em 2026-09-25: v26.0.
@@ -45,6 +48,10 @@ pauta:
   # será definida: 2026-W40 só serve para gerar a RESERVA (gordura) de 2 semanas; quando a data real vier,
   # troque aqui e renomeie as pastas content/semanas/ da reserva (e os dias de publicação no briefing).
   semana_inicial: 2026-W40      # PROVISÓRIO (reserva) — a data real de estreia da série será definida depois
+  # ADR-015: ritmos anteriores, para a numeração continuar de onde parou (posts 4–11 saíram 2 por semana,
+  # terça e sexta às 19h). De 2026-W44 em diante vale publicacao.posts_por_semana/dias (1 por semana, do post 12).
+  ritmos_anteriores:
+    - {ate: 2026-W43, posts_por_semana: 2, dias: [{dia: terca, hora: "19:00"}, {dia: sexta, hora: "19:00"}]}
   fixados: [1, 2, 3]            # identidade-visual §7: apresentação, "O que é o dízimo?", "Para onde vai o dízimo?"
   fixados_publicados: true      # os 3 já saíram na estreia: a série semanal começa no post 4, sem repeti-los
   pular_pendencias: true        # tema com `pendencia` (dado real inexistente) fica fora até o dado existir

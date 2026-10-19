@@ -218,7 +218,8 @@
             "arquivo": "post-12-02.jpg",
             "sha256": "dea606228232f95a10580b4b67036a1d3f12856ba1b511895c3177c4fd2ced2c"
           }
-        ]
+        ],
+        "aprovado_em": "2026-10-02T13:00:00+00:00"
       },
       {
         "numero": 13,
@@ -230,10 +231,11 @@
             "arquivo": "post-13-01.jpg",
             "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
           }
-        ]
+        ],
+        "aprovado_em": "2026-10-02T13:00:00+00:00"
       }
     ],
-    "assinatura": "d178d982e5dd9e3627da4e1cc32a1218ccde8ac1d339705f84832687b5761f23"
+    "assinatura": "14e25a847aab34a03467e8e101033bf0503793a4e4cae348f4b2822c79e4832f"
   },
   "versao_post": {
     "12": "4257a5dd1402fc34ed1cd05e973d7df8",
@@ -255,9 +257,10 @@
             "arquivo": "post-13-01.jpg",
             "sha256": "d311b996673b1249912583c8b9fda4a643ada0c3aedeca36be660e8b060ca3fc"
           }
-        ]
+        ],
+        "aprovado_em": "2026-10-02T13:00:00+00:00"
       }
     ],
-    "assinatura": "fb197fc5c56ded839fd336fdd033048cbac20d7976be2796df80ca8160f0ec68"
+    "assinatura": "5beb8e5a5a37e9022dad3004e1c17977d47adb982dbb6b756a45faa704cbb5d2"
   }
 }

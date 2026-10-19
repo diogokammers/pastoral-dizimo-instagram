@@ -11,6 +11,8 @@ Regras (docs/arquitetura.md §1.1, ADR-004):
   semana inicial, então a série semanal começa no post seguinte (ex.: post 4), sem repeti-los.
 - `pauta.pular_pendencias: true`: temas com `pendencia` (dado real inexistente) ficam fora da fila;
   a vaga do pilar dele cai no próximo tema livre (rotação 70/20/10 "o melhor possível").
+- `pauta.ritmos_anteriores` (ADR-015): [{ate, posts_por_semana, dias}] — semanas até `ate` usam aquele ritmo;
+  as seguintes usam `publicacao`. A numeração soma os posts de todas as semanas anteriores.
 Como o resultado depende só da semana e dos arquivos de configuração, rodar de novo dá o mesmo JSON.
 
 Uso: python -m pastoral.pauta 2026-W41
@@ -20,7 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import yaml
@@ -83,21 +85,49 @@ def _indice_da_semana(semana: str, inicial: str) -> int:
     return dias // 7
 
 
+def _semana_mais(semana: str, semanas: int) -> str:
+    a, s = _ler_semana(semana)
+    d = date.fromisocalendar(a, s, 1) + timedelta(weeks=semanas)
+    iso = d.isocalendar()
+    return f"{iso[0]}-W{iso[1]:02d}"
+
+
+def ritmo_da_semana(semana: str, config: dict) -> dict:
+    """{posts_por_semana, dias} que valem para a semana: o primeiro ritmo anterior cujo `ate` ainda não
+    passou; senão o de `publicacao` (ADR-015)."""
+    pub = config["publicacao"]
+    for r in config["pauta"].get("ritmos_anteriores") or []:
+        if _nao_antes(semana, r["ate"]):
+            return {"posts_por_semana": r["posts_por_semana"], "dias": r["dias"]}
+    return {"posts_por_semana": pub["posts_por_semana"], "dias": pub["dias"]}
+
+
+def _nao_antes(semana: str, limite: str) -> bool:
+    """True se `semana` <= `limite`."""
+    a, s = _ler_semana(semana)
+    b, t = _ler_semana(limite)
+    return (a, s) <= (b, t)
+
+
 def montar_briefing(semana: str, config: dict, temas: list[dict]) -> dict:
     """Briefing da semana: posts escolhidos + gancho litúrgico."""
     cfg_pauta, pub = config["pauta"], config["publicacao"]
-    n = pub["posts_por_semana"]
     if not cfg_pauta.get("semana_inicial"):
         raise ValueError("pauta.semana_inicial não definida: sem data de estreia (ADR-005)")
+    ritmo = ritmo_da_semana(semana, config)
+    n = ritmo["posts_por_semana"]
     # Fixados já publicados (estreia): a série semanal começa depois deles, sem colidir na numeração.
     deslocamento = len(cfg_pauta["fixados"]) if cfg_pauta.get("fixados_publicados") else 0
-    primeiro = _indice_da_semana(semana, cfg_pauta["semana_inicial"]) * n + deslocamento
+    # Soma os posts de cada semana anterior (o ritmo pode ter mudado no caminho, ADR-015).
+    inicial = cfg_pauta["semana_inicial"]
+    primeiro = deslocamento + sum(ritmo_da_semana(_semana_mais(inicial, k), config)["posts_por_semana"]
+                                  for k in range(_indice_da_semana(semana, inicial)))
     serie = sequencia(temas, cfg_pauta["ciclo_pilares"], cfg_pauta["fixados"], primeiro + n,
                       pular_pendencia=bool(cfg_pauta.get("pular_pendencias")))
     ano, num = _ler_semana(semana)
 
     posts = []
-    for i, (tema, horario) in enumerate(zip(serie[primeiro:], pub["dias"])):
+    for i, (tema, horario) in enumerate(zip(serie[primeiro:], ritmo["dias"])):
         dia = date.fromisocalendar(ano, num, DIAS_DA_SEMANA[horario["dia"]])
         post = {
             "indice": primeiro + i + 1,              # posição na série (1 = primeiro post do perfil)

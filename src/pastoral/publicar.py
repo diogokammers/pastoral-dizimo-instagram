@@ -14,6 +14,10 @@ nenhum aprovacao.json nem no ledger sai como "SEM APROVAÇÃO" e o comando termi
 vermelho e o GitHub avisa por e-mail. Antes, uma aprovação que ficou como rascunho no aparelho fazia o post
 simplesmente não sair, sem aviso nenhum.
 
+Fila (ADR-015, `publicacao.fila: true`): item aprovado sem `agendado_para` (null) entra na fila; a cada
+execução sai no máximo UMA publicação por semana (horários de `publicacao.dias`), na ordem do `aprovado_em`
+de cada item (data fixa vencida primeiro). Regras e alertas em fila.py.
+
 Modo `--dry-run` é o padrão: publica de verdade só com a variável de ambiente `PUBLICAR=1`
 (e sem `--dry-run`). Em dry-run o cliente da Meta nem é criado.
 
@@ -34,7 +38,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from pastoral import meta
+from pastoral import fila, meta
 
 RAIZ = Path(__file__).resolve().parents[2]
 
@@ -99,6 +103,20 @@ def numeros_publicados(raiz: Path) -> set[int]:
     return numeros
 
 
+def datas_publicadas(raiz: Path) -> list[datetime]:
+    """Quando cada post saiu (ledgers das semanas): a fila usa isso para saber se a semana já foi servida."""
+    datas = []
+    for c in (raiz / "content" / "semanas").glob("*/publicado.json"):
+        for p in _ler_json(c).get("posts", []):
+            try:
+                d = datetime.fromisoformat(p["publicado_em"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if d.tzinfo is not None:
+                datas.append(d)
+    return datas
+
+
 def registrar(raiz: Path, semana: str, entrada: dict) -> None:
     caminho = raiz / "content" / "semanas" / semana / "publicado.json"
     ledger = _ler_json(caminho) if caminho.exists() else {"semana": semana, "posts": []}
@@ -113,8 +131,10 @@ def _recusa(semana, numero, motivo, grave):
 
 
 def avaliar_semana(raiz: Path, pasta_midia: Path, semana: str, segredo: str, agora: datetime,
-                   publicados: set[int]) -> tuple[list[dict], list[dict]]:
-    """Devolve (prontos, recusados). Cada pronto traz o post, o item aprovado e os bytes das artes."""
+                   publicados: set[int], fila_ligada: bool = False) -> tuple[list[dict], list[dict]]:
+    """Devolve (prontos, recusados). Cada pronto traz o post e o item aprovado (com `agendado_para` e o
+    carimbo `aprovado_em` do item, ou do arquivo). Com a fila ligada, item sem data é aceito (quem decide a
+    semana é fila.escolher); sem fila, data ausente é recusa grave."""
     pasta = raiz / "content" / "semanas" / semana
     arq_aprov = pasta / "aprovacao.json"
     if not arq_aprov.exists():
@@ -144,17 +164,20 @@ def avaliar_semana(raiz: Path, pasta_midia: Path, semana: str, segredo: str, ago
         if n in publicados:
             recusados.append(_recusa(semana, n, "já publicado (consta no ledger)", False))
             continue
-        try:
-            agendado = datetime.fromisoformat(item["agendado_para"])
-        except (KeyError, TypeError, ValueError):
-            recusados.append(_recusa(semana, n, "agendado_para ausente ou inválido", True))
-            continue
-        if agendado.tzinfo is None:
-            recusados.append(_recusa(semana, n, "agendado_para sem fuso horário", True))
-            continue
-        if agora < agendado:
-            recusados.append(_recusa(semana, n, f"ainda não chegou a data agendada ({item['agendado_para']})", False))
-            continue
+        if item.get("agendado_para") is None and fila_ligada:
+            pass                                 # fila: a data é decidida na hora de publicar (fila.escolher)
+        else:
+            try:
+                agendado = datetime.fromisoformat(item["agendado_para"])
+            except (KeyError, TypeError, ValueError):
+                recusados.append(_recusa(semana, n, "agendado_para ausente ou inválido", True))
+                continue
+            if agendado.tzinfo is None:
+                recusados.append(_recusa(semana, n, "agendado_para sem fuso horário", True))
+                continue
+            if agora < agendado:
+                recusados.append(_recusa(semana, n, f"ainda não chegou a data agendada ({item['agendado_para']})", False))
+                continue
         if item.get("legenda_sha256") != sha256(texto_legenda(post).encode("utf-8")):
             recusados.append(_recusa(semana, n, "legenda difere da aprovada", True))
             continue
@@ -177,7 +200,9 @@ def avaliar_semana(raiz: Path, pasta_midia: Path, semana: str, segredo: str, ago
         if problema:
             recusados.append(_recusa(semana, n, problema, True))
             continue
-        prontos.append({"semana": semana, "numero": n, "post": post, "item": item})
+        prontos.append({"semana": semana, "numero": n, "post": post, "item": item,
+                        "agendado_para": item.get("agendado_para"),
+                        "aprovado_em": item.get("aprovado_em") or aprov.get("aprovado_em")})
     return prontos, recusados
 
 
@@ -194,8 +219,10 @@ def conferir_urls(pronto: dict, base_url: str, baixar) -> str | None:
     return None
 
 
-def publicar_post(cliente, pronto: dict, base_url: str, intervalo: float, maximo: float) -> dict:
-    """Cria contêineres, espera FINISHED e chama media_publish. Só é chamada para posts aprovados."""
+def publicar_post(cliente, pronto: dict, base_url: str, intervalo: float, maximo: float,
+                  agora: datetime | None = None) -> dict:
+    """Cria contêineres, espera FINISHED e chama media_publish. Só é chamada para posts aprovados.
+    `agora` vai para o ledger (publicado_em): é o relógio do portão, para a fila ser coerente com ele."""
     post, item, semana = pronto["post"], pronto["item"], pronto["semana"]
     legenda = texto_legenda(post)
     urls = [url_publica(base_url, semana, a["arquivo"]) for a in item["artes"]]
@@ -214,7 +241,7 @@ def publicar_post(cliente, pronto: dict, base_url: str, intervalo: float, maximo
     except meta.ErroMeta:
         permalink = None          # já está no ar: o ledger é gravado mesmo assim
     return {"numero": pronto["numero"], "ig_media_id": media_id, "permalink": permalink,
-            "publicado_em": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "publicado_em": (agora or datetime.now(timezone.utc)).isoformat(timespec="seconds"),
             "metodo": "api", "artes": len(urls)}
 
 
@@ -258,38 +285,55 @@ def semanas_existentes(raiz: Path) -> list[str]:
 
 def executar(raiz: Path, config: dict, segredo: str, agora: datetime, cliente=None, dry_run: bool = True,
              semanas: list[str] | None = None, baixar=baixar_urllib) -> dict:
-    """Roda o portão em todas as semanas (ou nas pedidas). Em dry-run não chama a Meta nem grava ledger."""
+    """Roda o portão em todas as semanas (ou nas pedidas). Em dry-run não chama a Meta nem grava ledger.
+    Com `publicacao.fila` ligada (ADR-015), sai no máximo uma publicação por semana, em ordem de aprovação."""
     raiz = Path(raiz)
     midia = config.get("midia", {})
     base_url = midia.get("base_url", "")
     pasta_midia = raiz / midia.get("pasta", "site/midia")
     m = config.get("meta", {})
     intervalo, maximo = m.get("poll_intervalo_s", 60), m.get("poll_max_s", 300)
+    pub = config.get("publicacao", {})
+    fila_ligada = bool(pub.get("fila"))
     publicados_antes = numeros_publicados(raiz)
 
-    resultado = {"prontos": [], "recusados": [], "publicados": [], "erros": [], "sem_aprovacao": []}
+    resultado = {"prontos": [], "recusados": [], "publicados": [], "erros": [], "sem_aprovacao": [], "alerta_fila": None}
+    candidatos = []
     for semana in semanas or semanas_existentes(raiz):
         resultado["sem_aprovacao"] += sem_aprovacao(raiz, semana, agora, publicados_antes)
-        prontos, recusados = avaliar_semana(raiz, pasta_midia, semana, segredo, agora, publicados_antes)
+        prontos, recusados = avaliar_semana(raiz, pasta_midia, semana, segredo, agora, publicados_antes, fila_ligada)
         resultado["recusados"] += recusados
-        for pronto in prontos:
-            resumo = {"semana": semana, "numero": pronto["numero"], "artes": len(pronto["item"]["artes"])}
-            if dry_run:
-                resultado["prontos"].append(resumo)
-                continue
-            problema = conferir_urls(pronto, base_url, baixar)
-            if problema:
-                resultado["recusados"].append(_recusa(semana, pronto["numero"], problema, True))
-                continue
+        candidatos += prontos
+
+    if fila_ligada:
+        publicados_em = datas_publicadas(raiz)
+        escolhido, restantes = fila.escolher(candidatos, publicados_em, agora, pub)
+        resultado["alerta_fila"] = fila.alerta(candidatos, publicados_em, agora, pub)
+        primeira = 2 if escolhido else 1          # posição na fila contando quem sai agora
+        for k, r in enumerate(restantes, start=primeira):
+            resultado["recusados"].append(_recusa(r["semana"], r["numero"],
+                                                  f"aguarda o próximo horário (fila, posição {k})", False))
+        candidatos = [escolhido] if escolhido else []
+
+    for pronto in candidatos:
+        semana = pronto["semana"]
+        resumo = {"semana": semana, "numero": pronto["numero"], "artes": len(pronto["item"]["artes"])}
+        if dry_run:
             resultado["prontos"].append(resumo)
-            try:
-                entrada = publicar_post(cliente, pronto, base_url, intervalo, maximo)
-            except meta.ErroMeta as erro:
-                resultado["erros"].append({"semana": semana, "numero": pronto["numero"], "erro": str(erro)})
-                continue
-            registrar(raiz, semana, entrada)
-            publicados_antes.add(pronto["numero"])
-            resultado["publicados"].append({"semana": semana, **entrada})
+            continue
+        problema = conferir_urls(pronto, base_url, baixar)
+        if problema:
+            resultado["recusados"].append(_recusa(semana, pronto["numero"], problema, True))
+            continue
+        resultado["prontos"].append(resumo)
+        try:
+            entrada = publicar_post(cliente, pronto, base_url, intervalo, maximo, agora)
+        except meta.ErroMeta as erro:
+            resultado["erros"].append({"semana": semana, "numero": pronto["numero"], "erro": str(erro)})
+            continue
+        registrar(raiz, semana, entrada)
+        publicados_antes.add(pronto["numero"])
+        resultado["publicados"].append({"semana": semana, **entrada})
     return resultado
 
 
@@ -330,9 +374,11 @@ def main(argv: list[str] | None = None) -> int:
     for d in r["sem_aprovacao"]:
         print(f"  [ALERTA] {d['semana']} post {d['numero']}: SEM APROVAÇÃO para {d['agendado_para']} — "
               "abra o painel e toque em \"Enviar respostas\" (rascunho no aparelho não vale)")
+    if r["alerta_fila"]:
+        print(f"  [ALERTA] {r['alerta_fila']} — abra o painel, aprove e toque em \"Enviar respostas\"")
     if dry_run:
         print("dry-run: nada foi enviado à Meta nem gravado no ledger.")
-    grave = any(d["grave"] for d in r["recusados"]) or r["erros"] or r["sem_aprovacao"]
+    grave = any(d["grave"] for d in r["recusados"]) or r["erros"] or r["sem_aprovacao"] or r["alerta_fila"]
     return 1 if grave else 0
 
 

@@ -56,6 +56,25 @@ def test_montar_agenda_liga_indice_do_briefing_ao_numero_do_post(posts):
     assert agenda["posts"][1]["artes"] == ["post-13-01.jpg"]
 
 
+def test_montar_agenda_na_fila_nao_tem_data(posts):
+    """ADR-015: com a fila ligada, a data do briefing é só referência; o post sai na ordem de aprovação."""
+    briefing = {"semana": SEMANA, "posts": [
+        {"indice": 12, "data": "2026-10-06", "hora": "19:00", "fuso": "America/Sao_Paulo"},
+        {"indice": 13, "data": "2026-10-09", "hora": "19:00", "fuso": "America/Sao_Paulo"}]}
+    agenda = aprovacao.montar_agenda(SEMANA, posts, briefing, fila=True)
+    assert [p["agendado_para"] for p in agenda["posts"]] == [None, None]
+    assert agenda["posts"][0]["artes"] == ["post-12-01.jpg", "post-12-02.jpg"]
+
+
+def test_montar_agenda_data_fixa_no_briefing_vence_a_fila(posts):
+    briefing = {"semana": SEMANA, "posts": [
+        {"indice": 12, "data": "2026-10-06", "hora": "19:00", "fuso": "America/Sao_Paulo"},
+        {"indice": 13, "data": "2026-10-09", "hora": "19:00", "fuso": "America/Sao_Paulo",
+         "agendado_para": "2026-10-21T18:00:00-03:00"}]}
+    agenda = aprovacao.montar_agenda(SEMANA, posts, briefing, fila=True)
+    assert [p["agendado_para"] for p in agenda["posts"]] == [None, "2026-10-21T18:00:00-03:00"]
+
+
 def test_montar_agenda_recusa_post_sem_data(posts):
     with pytest.raises(ValueError, match="13"):
         aprovacao.montar_agenda(SEMANA, posts, {"posts": [
@@ -163,6 +182,24 @@ def test_montar_aprovacao_e_idempotente(posts, agenda):
     assert not mudou, "mesmo nonce (link já usado) não grava de novo"
     d4, mudou = aprovacao.montar_aprovacao(d1, SEMANA, itens, [13], "n3", "Diogo", "t4", SEGREDO_APROV)
     assert mudou and [p["numero"] for p in d4["posts"]] == [12, 13] and d4["nonce"] == "n3"
+
+
+def test_montar_aprovacao_carimba_cada_post(posts, agenda):
+    """ADR-015: cada item leva o seu aprovado_em (ordem da fila); o carimbo não conta na idempotência."""
+    itens = aprovacao.itens_semana(agenda, posts, ler_arte)
+    d1, _ = aprovacao.montar_aprovacao(None, SEMANA, itens, [12], "n1", "Diogo", "t1", SEGREDO_APROV)
+    assert d1["posts"][0]["aprovado_em"] == "t1"
+    assert list(d1["posts"][0]) == ["numero", "agendado_para", "legenda_sha256", "alt_text_sha256", "artes", "aprovado_em"]
+    d2, mudou = aprovacao.montar_aprovacao(d1, SEMANA, itens, [12], "n2", "Diogo", "t2", SEGREDO_APROV)
+    assert not mudou and d2 is d1
+    d3, mudou = aprovacao.montar_aprovacao(d1, SEMANA, itens, [13], "n3", "Diogo", "t3", SEGREDO_APROV)
+    assert mudou and [(p["numero"], p["aprovado_em"]) for p in d3["posts"]] == [(12, "t1"), (13, "t3")]
+    assert d3["aprovado_em"] == "t3"
+    assert publicar.assinatura_valida(d3, SEGREDO_APROV)
+    # item antigo (sem carimbo) com o mesmo conteúdo também é "já aprovado"
+    sem_carimbo = {**d1, "posts": [{k: v for k, v in d1["posts"][0].items() if k != "aprovado_em"}]}
+    _, mudou = aprovacao.montar_aprovacao(sem_carimbo, SEMANA, itens, [12], "n4", "Diogo", "t4", SEGREDO_APROV)
+    assert not mudou
 
 
 def test_montar_aprovacao_recusa_post_fora_da_semana(posts, agenda):

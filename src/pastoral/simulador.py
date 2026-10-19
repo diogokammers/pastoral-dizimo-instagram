@@ -15,6 +15,10 @@ como o link do e-mail do ADR-009. O código nunca está na página nem no reposi
 Cada post leva data-versao = aprovacao.versao_post (o hash do que está na página); se o conteúdo mudar
 depois de uma resposta, a versão guardada deixa de bater e o post volta para Pendentes.
 
+Fila (ADR-015): post sem data fixa (agendado_para null) entra na fila ao ser aprovado; "Agendadas" ordena
+os aprovados como o portão (data fixa vencida primeiro, depois ordem de aprovação) e mostra a quarta prevista
+de cada um, calculada no navegador a partir de agora (previsão; a verdade é o portão).
+
 As imagens são arquivos relativos em site/midia/ (não base64), para carregar rápido no celular:
 a estreia e os destaques são copiados para site/midia/estreia/ e site/midia/destaques/; as artes
 das semanas já estão em site/midia/<semana>/ (copiadas por preview.py --semana).
@@ -36,7 +40,8 @@ from pathlib import Path
 
 from pastoral import aprovacao
 from pastoral.meta import carregar_config
-from pastoral.preview import data_por_extenso
+from pastoral.pauta import DIAS_DA_SEMANA
+from pastoral.preview import DIAS, data_por_extenso
 from pastoral.publicar import numeros_publicados, texto_legenda
 from pastoral.render import DESTAQUES
 
@@ -78,10 +83,32 @@ def _slides(post: dict, srcs: list[str]) -> list[dict]:
     return [{"src": s, "alt": sl["alt_text"]} for s, sl in zip(srcs, post["slides"])]
 
 
-def coletar(raiz: Path, semanas: list[str] | None = None) -> dict:
+def horarios_de(config: dict) -> list[dict]:
+    """publicacao.dias → [{dia (0 = domingo, como Date.getDay() do JS), hora, minuto}] para a previsão da fila."""
+    saida = []
+    for d in config.get("publicacao", {}).get("dias", []):
+        h, m = (int(x) for x in str(d["hora"]).split(":"))
+        saida.append({"dia": DIAS_DA_SEMANA[d["dia"]] % 7, "hora": h, "minuto": m})
+    return saida
+
+
+def texto_horarios(horarios: list[dict]) -> str:
+    """[{dia: 3, hora: 18, minuto: 0}] → 'quarta-feira, às 18h' (ou 'terça-feira, às 19h e sexta-feira, às 19h')."""
+    partes = []
+    for h in horarios:
+        nome = DIAS[(h["dia"] - 1) % 7]
+        hora = f"{h['hora']}h" + (f"{h['minuto']:02d}" if h["minuto"] else "")
+        partes.append(f"{nome}, às {hora}")
+    return " e ".join(partes) or "o horário da fila"
+
+
+def coletar(raiz: Path, semanas: list[str] | None = None, config: dict | None = None) -> dict:
     """Junta perfil, destaques e posts (já na ordem da grade) a partir do repositório.
-    `semanas` limita as semanas da reserva (a estreia entra sempre). Publicado = consta em algum ledger."""
+    `semanas` limita as semanas da reserva (a estreia entra sempre). Publicado = consta em algum ledger.
+    `config` (padrão: config.yaml da raiz) dá os horários de publicação da fila (ADR-015)."""
     raiz = Path(raiz)
+    if config is None:             # sem config.yaml (cópia parcial nos testes): sem horários, sem previsão
+        config = carregar_config(raiz / "config.yaml") if (raiz / "config.yaml").exists() else {}
     publicados = numeros_publicados(raiz)
     estreia = raiz / "content" / "estreia"
     bio_md = estreia / "bio.md"
@@ -121,9 +148,9 @@ def coletar(raiz: Path, semanas: list[str] | None = None) -> dict:
                           "versao": aprovacao.versao_post(semana, itens[p["numero"]]),
                           "imagens": _slides(p, srcs)})
 
-    # grade: fixados na ordem 1|2|3; depois do mais recente para o mais antigo
+    # grade: fixados na ordem 1|2|3; depois do mais recente para o mais antigo (sem data = fila = mais novo)
     fixados = sorted((p for p in posts if p["fixado"]), key=lambda p: p["numero"])
-    outros = sorted((p for p in posts if not p["fixado"]), key=lambda p: (p["data"], p["numero"]), reverse=True)
+    outros = sorted((p for p in posts if not p["fixado"]), key=lambda p: (p["data"] or "9999", p["numero"]), reverse=True)
     return {
         "perfil": {"usuario": "pastoraldodizimo.arquifln", "nome": ler_nome(bio_md),
                    "bio": ler_bio_aplicada(bio_md), "avatar": "../midia/perfil/avatar.jpg",
@@ -131,6 +158,7 @@ def coletar(raiz: Path, semanas: list[str] | None = None) -> dict:
         "destaques": [{"nome": d["nome"], "capa": f"../midia/destaques/destaque-{d['arquivo']}.jpg"}
                       for d in DESTAQUES],
         "posts": fixados + outros,
+        "horarios": horarios_de(config),
     }
 
 
@@ -298,22 +326,32 @@ def _post(p: dict, usuario: str, avatar: str) -> str:
     <button class="acao acao-salvar" aria-label="Salvar">{_svg(ICO["salvar"])}</button>
   </div>
   {_legenda(p["legenda"], usuario)}
-  <p class="post-data">{data_curta(p["data"])}</p>
+  <p class="post-data">{data_curta(p["data"]) if p["data"] else "Na fila de publicação"}</p>
 </article>"""
 
 
-def _item_painel(p: dict) -> str:
+def _texto_data(p: dict, fila: str) -> str:
+    """Linha de data do item (ADR-015): data fixa é "não antes de"; sem data, o post entra na fila."""
+    if p["publicado"]:
+        return f"Publicado em {data_por_extenso(p['data'])}"
+    if p["data"]:
+        return f"Data fixa: a partir de {data_por_extenso(p['data'])}"
+    return f"Sem data fixa: ao ser aprovada entra na fila (uma publicação por {fila})"
+
+
+def _item_painel(p: dict, fila: str) -> str:
     """Um cartão do painel de aprovação; o JS o move entre Pendentes, Aprovadas e Em ajuste conforme o
-    estado que vem do Worker. data-semana e data-versao vão na decisão (a versão é conferida no Worker)."""
+    estado que vem do Worker. data-semana e data-versao vão na decisão (a versão é conferida no Worker);
+    data-data é a data fixa (vazia na fila), usada na previsão da quarta de cada aprovado."""
     n = p["numero"]
     return f"""
-<li class="item" id="item-{n}" data-n="{n}" data-semana="{e(p["semana"])}" data-versao="{e(p["versao"])}" data-titulo="{e(p["titulo"])}">
+<li class="item" id="item-{n}" data-n="{n}" data-data="{e(p["data"] or "")}" data-semana="{e(p["semana"])}" data-versao="{e(p["versao"])}" data-titulo="{e(p["titulo"])}">
   <button class="item-abrir" data-abrir="{n}" aria-label="Ver a publicação {n} no celular">
     <img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" width="60" height="75">
   </button>
   <div class="item-texto">
     <button class="item-titulo" data-abrir="{n}"><b>{n}.</b> {e(p["titulo"])}</button>
-    <p class="item-data">{e("Data prevista: " + data_por_extenso(p["data"]))}</p>
+    <p class="item-data">{e(_texto_data(p, fila))}</p>
     <p class="item-status" hidden></p>
     <p class="item-comentario" hidden></p>
   </div>
@@ -346,13 +384,12 @@ def _bloco(chave: str, titulo: str, conta: int, corpo: str) -> str:
   </section>"""
 
 
-def _item_simples(p: dict, agendado: bool = False) -> str:
+def _item_simples(p: dict, fila: str, agendado: bool = False) -> str:
     """Item das listas "Já publicadas" e "Agendadas": miniatura, nº, título e data; abre o post.
-    Os de "Agendadas" começam escondidos: o JS mostra só os aprovados."""
+    Os de "Agendadas" começam escondidos: o JS mostra só os aprovados, na ordem da fila, com a quarta prevista."""
     n = p["numero"]
-    quando = (f"Publicado em {data_por_extenso(p['data'])}" if p["publicado"]
-              else f"Previsto para {data_por_extenso(p['data'])} (provisória)")
-    abre = (f'<li class="item item-simples item-agendado" data-n="{n}" hidden>' if agendado
+    quando = _texto_data(p, fila)
+    abre = (f'<li class="item item-simples item-agendado" data-n="{n}" data-data="{e(p["data"] or "")}" hidden>' if agendado
             else '<li class="item item-simples">')
     return (f'{abre}<button class="item-abrir" data-abrir="{n}" '
             f'aria-label="Ver a publicação {n} no celular"><img src="{e(p["imagens"][0]["src"])}" alt="" loading="lazy" '
@@ -360,25 +397,27 @@ def _item_simples(p: dict, agendado: bool = False) -> str:
             f'<b>{n}.</b> {e(p["titulo"])}</button><p class="item-data">{e(quando)}</p></div></li>')
 
 
-def _painel(posts: list[dict]) -> str:
+def _painel(posts: list[dict], horarios: list[dict]) -> str:
+    fila = texto_horarios(horarios)
     por_numero = sorted(posts, key=lambda p: p["numero"])
     abertos = [p for p in por_numero if not p["publicado"]]
     publicadas = [p for p in por_numero if p["publicado"]]
-    por_data = sorted(abertos, key=lambda p: (p["data"], p["numero"]))
+    por_data = sorted(abertos, key=lambda p: (p["data"] or "9999", p["numero"]))
     blocos = "".join([
         _bloco("pendentes", "Pendentes de aprovação", len(abertos),
-               '<ul class="lista" id="lista-pendentes">' + "".join(_item_painel(p) for p in abertos) + "</ul>"
+               '<ul class="lista" id="lista-pendentes">' + "".join(_item_painel(p, fila) for p in abertos) + "</ul>"
                '<p class="vazio" id="vazio-pendentes" hidden>Nenhuma publicação pendente. Obrigado!</p>'),
         _bloco("aprovadas", "Aprovadas", 0,
                '<ul class="lista" id="lista-aprovadas"></ul><p class="vazio" id="vazio-aprovadas">Nenhuma ainda.</p>'),
         _bloco("ajuste", "Em ajuste", 0,
                '<ul class="lista" id="lista-ajuste"></ul><p class="vazio" id="vazio-ajuste">Nenhuma ainda.</p>'),
         _bloco("publicadas", "Já publicadas", len(publicadas),
-               '<ul class="lista">' + "".join(_item_simples(p) for p in publicadas) + "</ul>"),
+               '<ul class="lista">' + "".join(_item_simples(p, fila) for p in publicadas) + "</ul>"),
         _bloco("agendadas", "Agendadas", 0,
-               '<p class="vazio">Só as aprovadas, na data prevista (ainda provisória).</p>'
+               f'<p class="vazio">Só as aprovadas, na ordem em que sairão (uma por {e(fila)}; a quarta de cada uma é '
+               'uma previsão calculada neste aparelho).</p>'
                '<p class="vazio" id="vazio-agendadas">Nenhuma publicação aprovada ainda.</p>'
-               '<ul class="lista" id="lista-agendadas">' + "".join(_item_simples(p, True) for p in por_data) + "</ul>"),
+               '<ul class="lista" id="lista-agendadas">' + "".join(_item_simples(p, fila, True) for p in por_data) + "</ul>"),
     ])
     return f"""
 <aside class="painel" id="painel" aria-label="Aprovação das publicações">
@@ -394,7 +433,7 @@ def _painel(posts: list[dict]) -> str:
         <li>Suas respostas ficam guardadas neste aparelho, marcadas como <b>a enviar</b>: pode parar e continuar depois.
           Enquanto não forem enviadas, ainda não valem.</li>
         <li>No fim, toque em <b>Enviar respostas</b> e digite o código de envio. Só então elas são gravadas: as
-          aprovadas vão para <b>Agendadas</b> e serão publicadas na data prevista.</li>
+          aprovadas vão para <b>Agendadas</b> e saem uma por semana ({e(fila)}), na ordem em que foram aprovadas.</li>
         <li>Mudou de ideia? Toque em <b>Desfazer</b>. Se a resposta já tinha sido enviada, o desfazer também
           precisa ser enviado; depois disso a publicação não sai.</li>
         <li>Se uma publicação for alterada depois da sua resposta, ela volta para Pendentes para você conferir de novo.</li>
@@ -467,10 +506,10 @@ def montar_pagina(dados: dict, api_url: str) -> str:
     </div>
   </div>
 </div>
-{_painel(posts)}
+{_painel(posts, dados.get("horarios", []))}
 </div>
 <a href="#painel" class="ir-painel" id="ir-painel">Aprovações ({pendentes} pendentes)</a>
-<script>var API = {json.dumps(api)};{JS}</script>
+<script>var API = {json.dumps(api)};var FILA = {json.dumps(dados.get("horarios", []))};{JS}</script>
 </body></html>
 """
 
@@ -784,6 +823,58 @@ JS = r"""
   });
   var porN = {};
   itens.forEach(function (item) { porN[item.dataset.n] = item; });
+
+  // ---------- previsão da fila (ADR-015): espelha a escolha do portão, com o relógio deste aparelho ----------
+  // FILA = [{dia (0 = domingo), hora, minuto}]. Próximo horário depois de `depois` (Date local).
+  var NOMES_DIAS = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+  function proximoHorario(depois) {
+    var melhor = null;
+    for (var i = 0; i < 15; i++) {
+      for (var k = 0; k < FILA.length; k++) {
+        var h = FILA[k];
+        var c = new Date(depois.getFullYear(), depois.getMonth(), depois.getDate() + i, h.hora, h.minuto, 0, 0);
+        if (c.getDay() === h.dia && c > depois && (!melhor || c < melhor)) melhor = c;
+      }
+    }
+    return melhor;
+  }
+  function dois(n) { return (n < 10 ? '0' : '') + n; }
+  function porExtenso(d) {
+    return NOMES_DIAS[d.getDay()] + ', ' + dois(d.getDate()) + '/' + dois(d.getMonth() + 1) + '/' + d.getFullYear() +
+      ', ' + dois(d.getHours()) + ':' + dois(d.getMinutes());
+  }
+  // { n: { quando: Date, fixo: bool } } para os aprovados no servidor: data fixa vencida primeiro (da mais
+  // antiga), depois ordem de aprovação (criado_em); cada um ocupa o próximo horário em que já é elegível.
+  function previsoes() {
+    var previsao = {};
+    if (!FILA.length) return previsao;
+    var ordem = [];
+    itens.forEach(function (item) {
+      var s = doServidor(item);
+      if (s.st !== 'aprovado') return;
+      var fixo = item.dataset.data ? new Date(item.dataset.data) : null;
+      ordem.push({ n: item.dataset.n, fixo: fixo, criado: s.ev.criado_em || '' });
+    });
+    ordem.sort(function (a, b) {
+      if (!!a.fixo !== !!b.fixo) return a.fixo ? -1 : 1;
+      if (a.fixo && b.fixo && a.fixo.getTime() !== b.fixo.getTime()) return a.fixo - b.fixo;
+      if (!a.fixo && a.criado !== b.criado) return a.criado < b.criado ? -1 : 1;
+      return (+a.n) - (+b.n);
+    });
+    var horario = proximoHorario(new Date()), guarda = 0;
+    while (ordem.length && horario && guarda++ < 200) {
+      var i = -1;
+      for (var k = 0; k < ordem.length; k++) { if (!ordem[k].fixo || ordem[k].fixo <= horario) { i = k; break; } }
+      if (i >= 0) { previsao[ordem[i].n] = { quando: horario, fixo: !!ordem[i].fixo, posicao: Object.keys(previsao).length + 1 }; ordem.splice(i, 1); }
+      horario = proximoHorario(horario);
+    }
+    return previsao;
+  }
+  var previsao = {};
+  function textoPrevisao(n) {
+    var p = previsao[n];
+    return p ? 'Previsto para ' + porExtenso(p.quando) + (p.fixo ? '' : ' (ordem de aprovação)') : '';
+  }
   // rascunho de um post que sumiu ou mudou de conteúdo não vale mais
   Object.keys(rascunho).forEach(function (n) {
     var it = porN[n], r = rascunho[n];
@@ -831,7 +922,7 @@ JS = r"""
     if (r && r.acao === 'aprovar') texto = 'A enviar: aprovação (ainda não vale).';
     else if (r && r.acao === 'ajustar') texto = 'A enviar: pedido de ajuste (ainda não vale).';
     else if (r) texto = 'A enviar: ' + (s.servidor.st === 'aprovado' ? 'tirar a aprovação.' : 'tirar o pedido de ajuste.');
-    else if (s.st === 'aprovado') texto = 'Aprovado por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '. Será publicado na data prevista.';
+    else if (s.st === 'aprovado') texto = 'Aprovado por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '. ' + (textoPrevisao(item.dataset.n) || 'Sai na ordem da fila.');
     else if (s.st === 'ajuste') texto = 'Ajuste pedido por ' + s.ev.autor + ' em ' + quando(s.ev.criado_em) + '.';
     else if (s.mudou) texto = 'Esta publicação mudou depois da resposta de ' + quando(s.ev.criado_em) + '. Confira de novo.';
     var status = item.querySelector('.item-status');
@@ -848,6 +939,7 @@ JS = r"""
   var resumoEnvio = document.getElementById('envio-resumo');
   function aEnviar() { return itens.filter(function (item) { return rascunho[item.dataset.n]; }); }
   function redistribuir() {
+    previsao = previsoes();
     var contas = { pendentes: 0, aprovadas: 0, ajuste: 0 };
     itens.forEach(function (item) {
       var nome = listas[situacao(item).st];
@@ -859,12 +951,21 @@ JS = r"""
       document.getElementById('conta-' + k).textContent = '(' + contas[k] + ')';
       document.getElementById('vazio-' + k).hidden = contas[k] > 0;
     });
-    var agendadas = 0;
+    var agendadas = 0, listaAgendadas = document.getElementById('lista-agendadas');
     agendados.forEach(function (li) {
       var item = porN[li.dataset.n];
       li.hidden = !(item && doServidor(item).st === 'aprovado');     // só o que já vale no servidor
       if (!li.hidden) agendadas++;
+      var t = textoPrevisao(li.dataset.n);
+      if (t) li.querySelector('.item-data').textContent = t;
     });
+    // ordem da fila (quem sai primeiro em cima); os escondidos ficam no fim
+    agendados.slice().sort(function (a, b) {
+      var pa = previsao[a.dataset.n], pb = previsao[b.dataset.n];
+      if (!!pa !== !!pb) return pa ? -1 : 1;
+      if (pa && pb && pa.quando.getTime() !== pb.quando.getTime()) return pa.quando - pb.quando;
+      return (+a.dataset.n) - (+b.dataset.n);
+    }).forEach(function (li) { listaAgendadas.appendChild(li); });
     document.getElementById('conta-agendadas').textContent = '(' + agendadas + ')';
     document.getElementById('vazio-agendadas').hidden = agendadas > 0;
     var n = aEnviar().length;
@@ -1054,8 +1155,9 @@ def gerar(raiz: Path = RAIZ, site: Path | None = None, api_url: str | None = Non
     site = Path(site) if site else raiz / "site"
     if not re.fullmatch(r"[a-z0-9-]+", destino):
         raise ValueError(f"destino inválido: {destino!r}")
-    api = validar_api(api_url or carregar_config(raiz / "config.yaml")["aprovacao"]["worker_url"].rstrip("/"))
-    dados = coletar(raiz, semanas)
+    config = carregar_config(raiz / "config.yaml")
+    api = validar_api(api_url or config["aprovacao"]["worker_url"].rstrip("/"))
+    dados = coletar(raiz, semanas, config)
     render = raiz / "content" / "estreia" / "render"
 
     estreia = site / "midia" / "estreia"

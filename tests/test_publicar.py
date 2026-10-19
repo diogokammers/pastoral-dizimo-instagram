@@ -4,6 +4,7 @@ Regra de ouro: em qualquer caso negativo, `media_publish` NÃO pode ser chamado.
 """
 import hashlib
 import json
+import re
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -313,7 +314,9 @@ def test_cli_ignora_quebra_de_linha_no_segredo(repo, monkeypatch, capsys):
     """Secret colado com Enter (PowerShell/gh) continua valendo: o Worker também faz trim (ADR-009)."""
     monkeypatch.delenv("PUBLICAR", raising=False)
     monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO + "\r\n")
-    assert publicar.main(["--raiz", str(repo), "--agora", DEPOIS.isoformat()]) == 0
+    # o config.yaml real tem a fila ligada (ADR-015): a quarta 07/10 às 18:30 é o horário em que o post sai
+    quarta = datetime(2026, 10, 7, 21, 30, tzinfo=timezone.utc)
+    assert publicar.main(["--raiz", str(repo), "--agora", quarta.isoformat()]) == 0
     assert "[ok]" in capsys.readouterr().out
 
 
@@ -366,3 +369,151 @@ def test_cli_alerta_sem_aprovacao_retorna_1(repo, monkeypatch, capsys):
     assert publicar.main(["--raiz", str(repo), "--agora", DEPOIS.isoformat()]) == 1
     saida = capsys.readouterr().out
     assert "post 13" in saida and "SEM APROVAÇÃO" in saida
+
+
+# ---------- fila (ADR-015): uma publicação por semana, em ordem de aprovação ----------
+
+PUB_FILA = {"fuso": "America/Sao_Paulo", "dias": [{"dia": "quarta", "hora": "18:00"}], "fila": True}
+CONFIG_FILA = {**CONFIG, "publicacao": PUB_FILA}
+QUARTA = datetime(2026, 10, 21, 21, 0, 30, tzinfo=timezone.utc)      # quarta 21/10, 18:00:30 em Brasília
+TERCA = datetime(2026, 10, 20, 21, 0, 30, tzinfo=timezone.utc)
+
+
+def aprovacao_fila(*itens_troca, aprovado_em="2026-10-01T10:00:00+00:00"):
+    """aprovacao.json com vários posts da fila (agendado_para null) e carimbo por post."""
+    posts = []
+    for troca in itens_troca:
+        item = {"numero": 12, "agendado_para": None,
+                "legenda_sha256": sha(publicar.texto_legenda(POST).encode("utf-8")),
+                "alt_text_sha256": sha(publicar.texto_alt(POST).encode("utf-8")),
+                "artes": [{"arquivo": n, "sha256": sha(b)} for n, b in ARTES.items()]}
+        item.update(troca)
+        posts.append(item)
+    dados = {"semana": SEMANA, "aprovado_por": "Aprovador", "aprovado_em": aprovado_em, "nonce": "n2", "posts": posts}
+    dados["assinatura"] = publicar.assinar(dados, SEGREDO)
+    return dados
+
+
+def com_posts(repo, *numeros):
+    posts = [dict(POST, numero=n) for n in numeros]
+    (repo / "content" / "semanas" / SEMANA / "posts.json").write_text(json.dumps({"posts": posts}), encoding="utf-8")
+    midia = repo / "site" / "midia" / SEMANA
+    for n in numeros:
+        for nome, conteudo in ARTES.items():
+            (midia / nome.replace("post-12", f"post-{n}")).write_bytes(conteudo)
+
+
+def artes_de(n):
+    return [{"arquivo": nome.replace("post-12", f"post-{n}"), "sha256": sha(b)} for nome, b in ARTES.items()]
+
+
+def baixar_qualquer(url):
+    """As artes de todos os posts dos testes da fila são cópias das do post 12."""
+    return ARTES[re.sub(r"post-\d+", "post-12", url.rsplit("/", 1)[1])]
+
+
+def rodar_fila(raiz, cliente, agora=QUARTA, dry_run=False):
+    return publicar.executar(raiz, CONFIG_FILA, segredo=SEGREDO, agora=agora, cliente=cliente,
+                             dry_run=dry_run, baixar=baixar_qualquer)
+
+
+def test_fila_post_sem_data_sai_na_quarta_depois_das_18h(repo):
+    gravar_aprovacao(repo, aprovacao_fila({}))
+    meta = MetaFalsa()
+    assert [p["numero"] for p in rodar_fila(repo, meta)["publicados"]] == [12]
+
+
+def test_fila_sem_data_e_fila_desligada_e_recusa_grave(repo):
+    gravar_aprovacao(repo, aprovacao_fila({}))
+    meta = MetaFalsa(proibir_publicar=True)
+    r = rodar(repo, meta)
+    assert r["publicados"] == [] and r["recusados"][0]["grave"]
+
+
+def test_fila_sai_um_so_o_aprovado_ha_mais_tempo(repo):
+    com_posts(repo, 12, 13, 14)
+    gravar_aprovacao(repo, aprovacao_fila(
+        {"numero": 12, "aprovado_em": "2026-10-20T12:00:00+00:00"},
+        {"numero": 13, "artes": artes_de(13), "aprovado_em": "2026-10-19T12:00:00+00:00"},
+        {"numero": 14, "artes": artes_de(14), "aprovado_em": "2026-10-20T13:00:00+00:00"}))
+    meta = MetaFalsa()
+    r = rodar_fila(repo, meta)
+    assert [p["numero"] for p in r["publicados"]] == [13]
+    aguardam = [(d["numero"], d["grave"]) for d in r["recusados"] if "fila" in d["motivo"]]
+    assert aguardam == [(12, False), (14, False)]
+    # na quinta a semana já está servida: ninguém mais sai
+    meta2 = MetaFalsa(proibir_publicar=True)
+    quinta = QUARTA + timedelta(days=1)
+    assert rodar_fila(repo, meta2, agora=quinta)["publicados"] == []
+    # na quarta seguinte sai o próximo da ordem
+    meta3 = MetaFalsa()
+    assert [p["numero"] for p in rodar_fila(repo, meta3, agora=QUARTA + timedelta(days=7))["publicados"]] == [12]
+
+
+def test_fila_item_sem_carimbo_usa_o_do_arquivo(repo):
+    com_posts(repo, 12, 13)
+    dados = aprovacao_fila({"numero": 12}, {"numero": 13, "artes": artes_de(13), "aprovado_em": "2026-10-19T12:00:00+00:00"},
+                           aprovado_em="2026-10-10T10:00:00+00:00")
+    gravar_aprovacao(repo, dados)
+    assert [p["numero"] for p in rodar_fila(repo, MetaFalsa())["publicados"]] == [12]
+
+
+def test_fila_data_fixa_vencida_sai_antes_da_fila(repo):
+    """O post 7 de 2026-W41: data antiga (vencida) mantida para a aprovação continuar válida."""
+    com_posts(repo, 12, 13)
+    gravar_aprovacao(repo, aprovacao_fila(
+        {"numero": 12, "aprovado_em": "2026-10-01T12:00:00+00:00"},
+        {"numero": 13, "artes": artes_de(13), "agendado_para": "2026-10-09T19:00:00-03:00",
+         "aprovado_em": "2026-10-19T22:03:19+00:00"}))
+    meta = MetaFalsa()
+    assert [p["numero"] for p in rodar_fila(repo, meta)["publicados"]] == [13]
+
+
+def test_fila_na_terca_nada_sai_mesmo_com_data_vencida(repo):
+    """Post 7 em 19/10: data antiga vencida, aprovado na segunda → não sai na terça, sai na quarta 18h."""
+    com_posts(repo, 12)
+    gravar_aprovacao(repo, aprovacao_fila({"agendado_para": "2026-10-09T19:00:00-03:00",
+                                           "aprovado_em": "2026-10-19T22:03:19+00:00"}))
+    meta = MetaFalsa(proibir_publicar=True)
+    r = rodar_fila(repo, meta, agora=TERCA)
+    assert r["publicados"] == [] and all(not d["grave"] for d in r["recusados"])
+    assert [p["numero"] for p in rodar_fila(repo, MetaFalsa())["publicados"]] == [12]
+
+
+def test_fila_quinta_recupera_a_quarta_que_falhou(repo):
+    gravar_aprovacao(repo, aprovacao_fila({"aprovado_em": "2026-10-20T12:00:00+00:00"}))
+    assert [p["numero"] for p in rodar_fila(repo, MetaFalsa(), agora=QUARTA + timedelta(days=1))["publicados"]] == [12]
+
+
+def test_fila_data_fixa_futura_continua_esperando(repo):
+    gravar_aprovacao(repo, aprovacao_fila({"agendado_para": "2026-10-28T18:00:00-03:00"}))
+    meta = MetaFalsa(proibir_publicar=True)
+    assert rodar_fila(repo, meta)["publicados"] == []
+
+
+def test_fila_dry_run_mostra_so_quem_sairia(repo):
+    com_posts(repo, 12, 13)
+    gravar_aprovacao(repo, aprovacao_fila(
+        {"numero": 12, "aprovado_em": "2026-10-20T12:00:00+00:00"},
+        {"numero": 13, "artes": artes_de(13), "aprovado_em": "2026-10-19T12:00:00+00:00"}))
+    r = rodar_fila(repo, MetaFalsa(proibir_publicar=True), dry_run=True)
+    assert [p["numero"] for p in r["prontos"]] == [13]
+
+
+def test_fila_alerta_quando_nao_ha_nada_aprovado(repo):
+    (repo / "content" / "semanas" / SEMANA / "aprovacao.json").unlink()
+    assert "fila vazia" in rodar_fila(repo, MetaFalsa(proibir_publicar=True))["alerta_fila"]
+    assert "próxima quarta" in rodar_fila(repo, MetaFalsa(proibir_publicar=True), agora=TERCA)["alerta_fila"]
+    gravar_aprovacao(repo, aprovacao_fila({"aprovado_em": "2026-10-19T12:00:00+00:00"}))
+    assert rodar_fila(repo, MetaFalsa(proibir_publicar=True), agora=TERCA)["alerta_fila"] is None
+
+
+def test_fila_cli_alerta_retorna_1(repo, monkeypatch, capsys):
+    (repo / "content" / "semanas" / SEMANA / "aprovacao.json").unlink()
+    monkeypatch.delenv("PUBLICAR", raising=False)
+    monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO)
+    cfg = repo / "config.yaml"
+    cfg.write_text("publicacao:\n  fuso: America/Sao_Paulo\n  fila: true\n  dias:\n    - {dia: quarta, hora: '18:00'}\n"
+                   "midia: {base_url: https://exemplo.github.io/repo/, pasta: site/midia}\nmeta: {}\n", encoding="utf-8")
+    assert publicar.main(["--raiz", str(repo), "--config", str(cfg), "--agora", QUARTA.isoformat()]) == 1
+    assert "fila vazia" in capsys.readouterr().out

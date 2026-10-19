@@ -181,17 +181,29 @@ export async function motivoLinkInvalido(segredo, params, agoraEpoch) {
 
 // ---------- aprovacao.json ----------
 
+// Item sem o campo aprovado_em (o que se compara para saber se o conteúdo já foi aprovado) — espelho de
+// aprovacao.sem_carimbo.
+export function semCarimbo(item) {
+  if (item === undefined || item === null) return item;
+  const copia = { ...item };
+  delete copia.aprovado_em;
+  return copia;
+}
+
 // Junta os posts `alvo` à aprovação existente. Idempotente: link já usado (mesmo nonce) ou posts já
-// aprovados com o mesmo conteúdo → { dados: existente, mudou: false }.
+// aprovados com o mesmo conteúdo → { dados: existente, mudou: false }. Cada item novo leva `aprovado_em`
+// (ordem da fila, ADR-015); o carimbo não conta na comparação.
 export async function montarAprovacao(existente, semana, itens, alvo, nonce, aprovadoPor, aprovadoEm, segredo) {
   const disponiveis = new Map(itens.map((i) => [i.numero, i]));
   const faltando = alvo.filter((n) => !disponiveis.has(n));
   if (faltando.length || !alvo.length) throw new Error(`post(s) fora da semana: ${faltando.join(", ") || "nenhum"}`);
   const aprovados = new Map((existente?.posts ?? []).map((i) => [i.numero, i]));
   if (existente && existente.nonce === nonce) return { dados: existente, mudou: false };
-  const igual = (a, b) => a !== undefined && canonicoTexto(a) === canonicoTexto(b);
+  const igual = (a, b) => a !== undefined && canonicoTexto(semCarimbo(a)) === canonicoTexto(b);
   if (alvo.every((n) => igual(aprovados.get(n), disponiveis.get(n)))) return { dados: existente, mudou: false };
-  for (const n of alvo) aprovados.set(n, disponiveis.get(n));
+  for (const n of alvo) {
+    if (!igual(aprovados.get(n), disponiveis.get(n))) aprovados.set(n, { ...disponiveis.get(n), aprovado_em: aprovadoEm });
+  }
   const dados = {
     semana,
     aprovado_por: aprovadoPor,

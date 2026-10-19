@@ -9,7 +9,9 @@ O código usado aqui é inventado. Pula se o Playwright ou o Chromium não estiv
 import functools
 import http.server
 import json
+import re
 import threading
+from datetime import date, timedelta
 
 import pytest
 
@@ -43,10 +45,19 @@ def dados():
 VERSOES = {4: V4, 7: V7, 9: V9}
 
 
-def evento(post, acao, versao, comentario=""):
-    return {"id": 1, "post": post, "semana": "2026-W40", "acao": acao, "comentario": comentario,
-            "versao_conteudo": versao, "autor": "Aprovador", "criado_em": "2026-10-01T12:00:00+00:00",
+def evento(post, acao, versao, comentario="", criado_em="2026-10-01T12:00:00+00:00", semana="2026-W40"):
+    return {"id": 1, "post": post, "semana": semana, "acao": acao, "comentario": comentario,
+            "versao_conteudo": versao, "autor": "Aprovador", "criado_em": criado_em,
             "origem": "painel", "commit_sha": "abc"}
+
+
+def dados_fila():
+    """Página com a fila (ADR-015): 8 e 20 sem data fixa, 4 e 9 com data fixa já vencida."""
+    d = dados()
+    d["horarios"] = [{"dia": 3, "hora": 18, "minuto": 0}]
+    for n in (8, 20):
+        d["posts"].append(dict(d["posts"][1], numero=n, titulo=f"Título {n}", semana="2026-W42", data=None, versao=f"{n:032x}"))
+    return d
 
 
 @pytest.fixture(scope="module")
@@ -61,6 +72,8 @@ def servidor(tmp_path_factory):
         longa["posts"].append(extra)
     (pasta / "aprovacao-longa").mkdir()
     (pasta / "aprovacao-longa" / "index.html").write_text(simulador.montar_pagina(longa, API), encoding="utf-8")
+    (pasta / "aprovacao-fila").mkdir()
+    (pasta / "aprovacao-fila" / "index.html").write_text(simulador.montar_pagina(dados_fila(), API), encoding="utf-8")
 
     class Silencioso(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *args):
@@ -247,6 +260,29 @@ def test_codigo_certo_envia_cada_post_e_mostra_o_que_falhou(navegador, servidor)
     assert agendadas(pagina) == []
     assert pagina.inner_text("#envio-resumo") == "1 resposta a enviar."
     assert not pagina.is_visible("#dialogo-codigo")
+    pagina.context.close()
+
+
+def test_agendadas_na_ordem_da_fila_com_a_quarta_prevista(navegador, servidor):
+    """ADR-015: data fixa vencida primeiro (da mais antiga), depois a fila pelo criado_em; uma quarta 18h por post,
+    contada a partir de agora (relógio do aparelho)."""
+    api = ApiFalsa({"4": evento(4, "aprovar", V4, criado_em="2026-10-01T12:00:00+00:00"),
+                    "9": evento(9, "aprovar", V9, criado_em="2026-10-04T12:00:00+00:00"),
+                    "8": evento(8, "aprovar", f"{8:032x}", criado_em="2026-10-03T12:00:00+00:00", semana="2026-W42"),
+                    "20": evento(20, "aprovar", f"{20:032x}", criado_em="2026-10-02T12:00:00+00:00", semana="2026-W42")})
+    pagina = abrir(navegador, servidor.replace("/aprovacao/", "/aprovacao-fila/"), api)
+    assert agendadas(pagina) == ["4", "9", "20", "8"]
+    textos = pagina.eval_on_selector_all("#lista-agendadas > li:not([hidden]) .item-data", "els => els.map(e => e.textContent)")
+    datas = []
+    for t in textos:
+        m = re.fullmatch(r"Previsto para quarta-feira, (\d\d)/(\d\d)/(\d{4}), 18:00( \(ordem de aprovação\))?", t)
+        assert m, t
+        datas.append(date(int(m.group(3)), int(m.group(2)), int(m.group(1))))
+    assert datas[0] > date.today() and all(b - a == timedelta(days=7) for a, b in zip(datas, datas[1:]))
+    assert all(d.weekday() == 2 for d in datas)
+    assert textos[0].endswith("18:00") and textos[2].endswith("(ordem de aprovação)")
+    assert "Previsto para quarta-feira" in pagina.inner_text("#item-8 .item-status")
+    assert "Sem data fixa" in pagina.inner_text("#item-20 .item-data")
     pagina.context.close()
 
 

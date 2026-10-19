@@ -141,6 +141,21 @@ def test_semana_grava_agenda_copia_artes_e_gera_pagina(repo_semana):
     assert not re.search(r'(src|href)="https?://', html)
 
 
+def test_semana_na_fila_grava_agenda_sem_data_e_avisa(repo_semana):
+    """ADR-015: fila ligada → agendado_para null e a prévia diz que o post entra na fila."""
+    html_path = preview.gerar_semana(repo_semana, "2026-W41", usuario="@pastoraldodizimo.arquifln", fila=True)
+    agenda = json.loads((repo_semana / "content/semanas/2026-W41/agenda.json").read_text(encoding="utf-8"))
+    assert [p["agendado_para"] for p in agenda["posts"]] == [None, None]
+    html = html_path.read_text(encoding="utf-8")
+    assert "terça-feira, 06/10/2026, 19:00" not in html
+    assert "na fila" in html
+
+
+def test_quando_texto():
+    assert preview.quando_texto("2026-10-06T19:00:00-03:00") == "terça-feira, 06/10/2026, 19:00"
+    assert preview.quando_texto(None) == "na fila (sai na ordem de aprovação)"
+
+
 def test_semana_remove_arte_velha_de_versao_anterior(repo_semana):
     midia = repo_semana / "site" / "midia" / "2026-W41"
     midia.mkdir(parents=True)
