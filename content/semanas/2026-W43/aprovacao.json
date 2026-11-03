@@ -1,9 +1,58 @@
 {
   "semana": "2026-W43",
   "aprovado_por": "Aprovador",
-  "aprovado_em": "2026-10-27T12:59:12+00:00",
-  "nonce": "9f9b970b43cdc57e4bc87e3a81b4a425",
+  "aprovado_em": "2026-11-03T21:03:42+00:00",
+  "nonce": "7455974681d6df651bf513cf1c07fafc",
   "posts": [
+    {
+      "numero": 10,
+      "agendado_para": null,
+      "legenda_sha256": "aae3b767780a528f9ae821489526d7ed240e2d1c7c3ed37b5747edec45c8758a",
+      "alt_text_sha256": "8e741de052346c4f8c5e98acae3a905d62c1ee401c7e0225fee53d532167b017",
+      "artes": [
+        {
+          "arquivo": "post-10-01.jpg",
+          "sha256": "f05529ebef81719ce4e41ad6b8fe51c0ca6db7142ad07e5c164cfb48fb692eb1"
+        },
+        {
+          "arquivo": "post-10-02.jpg",
+          "sha256": "b32c19544324794c037f0eaf990bfe472e75c806c84c062ff145d11317dda263"
+        },
+        {
+          "arquivo": "post-10-03.jpg",
+          "sha256": "da0482b552010c657e1e6245dd4dcbfdba74a9e9df3f0744bb9457df627b30d2"
+        },
+        {
+          "arquivo": "post-10-04.jpg",
+          "sha256": "6a9cc641f7fff9b68b14a60002ea78d6f2af29610d9321307d4d0793fe20540e"
+        },
+        {
+          "arquivo": "post-10-05.jpg",
+          "sha256": "1f94420ee0b3a086361b4e5d4f72742b9522d29e17e5db47572166d1fc519653"
+        },
+        {
+          "arquivo": "post-10-06.jpg",
+          "sha256": "f59198e1edf546eca5c193fef7d7d53e249e32928bbebdaba181c8170058a205"
+        },
+        {
+          "arquivo": "post-10-07.jpg",
+          "sha256": "cd7ee60a98134eee969af8617509760d122fdce0f940cc0b7e76fffe5c0b9d67"
+        },
+        {
+          "arquivo": "post-10-08.jpg",
+          "sha256": "1dcfb9926f81cf881c2aa7a44b10698ea2bcbc86e33bd5a781f65fcac4783497"
+        },
+        {
+          "arquivo": "post-10-09.jpg",
+          "sha256": "9bf419bea64ec76e881ef84068cddc2331a31382c7de74ed9b00669edfb10b8d"
+        },
+        {
+          "arquivo": "post-10-10.jpg",
+          "sha256": "bdd34371476d7ad93ab66c31be8b2271d13c89e2c28b5fe7fb86b0b69b326958"
+        }
+      ],
+      "aprovado_em": "2026-11-03T21:03:42+00:00"
+    },
     {
       "numero": 11,
       "agendado_para": null,
@@ -50,5 +99,5 @@
       "aprovado_em": "2026-10-27T12:59:12+00:00"
     }
   ],
-  "assinatura": "d3954ae5c64bffedbb4b0487b33ed40f07f7f598cd7a60f7a2e6b744b652467b"
+  "assinatura": "e58867ccad770d1b873b89838bff7687624cfe9fff2e5d1abf4e5f4cfc291cf7"
 }
