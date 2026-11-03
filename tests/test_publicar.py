@@ -321,11 +321,11 @@ def test_cli_ignora_quebra_de_linha_no_segredo(repo, monkeypatch, capsys):
 
 
 def test_sem_semanas_nao_falha(tmp_path, monkeypatch):
-    """Repositório vazio não quebra. Relógio fixo numa quinta: na véspera de quarta o alerta da fila
-    ("nada aprovado") seria legítimo e o código de saída 1 (ADR-015)."""
+    """Repositório vazio não quebra. Relógio fixo numa sexta: no dia da quarta ("fila vazia") ou na véspera
+    ("nada aprovado") o alerta da fila seria legítimo e o código de saída 1 (ADR-015)."""
     monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO)
-    quinta = datetime(2026, 10, 22, 15, 0, tzinfo=timezone.utc)
-    assert publicar.main(["--raiz", str(tmp_path), "--agora", quinta.isoformat()]) == 0
+    sexta = datetime(2026, 10, 23, 15, 0, tzinfo=timezone.utc)
+    assert publicar.main(["--raiz", str(tmp_path), "--agora", sexta.isoformat()]) == 0
 
 
 def test_url_publica():
