@@ -78,3 +78,20 @@ def test_gerar_reserva_yml(raiz):
     assert 'git add "content/semanas/$SEMANA" site/' in texto
     assert "metricas-geracao.json" in texto_wf
     assert "CLAUDE_CODE_OAUTH_TOKEN" in str(passos) and "::error::" in texto
+
+
+def test_publicar_yml_regenera_o_painel_depois_de_publicar(raiz):
+    """2026-11-03: o painel (site/aprovacao/) é estático e mostrava posts já publicados como agendados.
+    Depois de gravar o ledger, o portão regenera a página e dispara o Pages."""
+    wf = carregar(raiz, "publicar.yml")
+    passos = wf["jobs"]["portao"]["steps"]
+    nomes = [p.get("name") for p in passos]
+    assert nomes.index("Grava o ledger") < nomes.index("Painel")
+    painel = next(p for p in passos if p.get("name") == "Painel")
+    assert painel["if"] == "always()"
+    assert "pip install -r requirements.txt" in painel["run"]
+    assert "python -m pastoral.simulador" in painel["run"]
+    assert "git add site/aprovacao site/midia" in painel["run"]
+    assert "gh workflow run pages.yml" in painel["run"]
+    assert painel["env"]["GH_TOKEN"] == "${{ github.token }}"
+    assert wf["permissions"]["actions"] == "write"

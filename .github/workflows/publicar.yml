@@ -20,7 +20,8 @@ on:
         type: boolean
         default: false
 permissions:
-  contents: write                # só para commitar o ledger publicado.json
+  contents: write                # commitar o ledger publicado.json e o painel regenerado
+  actions: write                 # disparar o pages.yml (push feito com GITHUB_TOKEN não dispara workflows)
 concurrency:
   group: publicar
   cancel-in-progress: false
@@ -50,4 +51,23 @@ jobs:
             git add content/semanas/*/publicado.json
             git commit -m "content(publicado): registra publicação pelo portão"
             git push
+          fi
+      # O painel (site/aprovacao/) é estático: sem isto, um post já publicado continuava em "Agendadas"
+      # (visto em 2026-11-03). Regenera a página a partir dos ledgers e dispara o Pages.
+      - name: Painel
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PYTHONPATH: src
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pastoral.simulador
+          if [ -n "$(git status --porcelain -- site/aprovacao site/midia)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add site/aprovacao site/midia
+            git commit -m "site(aprovacao): painel regenerado depois do portão"
+            git pull --rebase
+            git push
+            gh workflow run pages.yml --ref "$GITHUB_REF_NAME"
           fi

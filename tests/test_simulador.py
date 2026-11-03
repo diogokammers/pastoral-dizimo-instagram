@@ -234,9 +234,10 @@ def test_sem_dependencias_externas(dados):
 
 def test_coletar_do_repositorio(raiz):
     d = simulador.coletar(raiz)
-    # 8–11 sem data (fila) vêm primeiro; 6 e 7 mantêm as datas antigas (6 saiu em 13/10; 7 sai na quarta 21/10)
-    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 11, 10, 9, 8, 6, 7, 5, 4]
-    assert [p["data"] for p in d["posts"] if p["numero"] in (8, 9, 10, 11)] == [None] * 4
+    # 8–10 sem data (fila) vêm primeiro; os publicados ficam com a data real do ledger (11: 28/10, 7: 21/10)
+    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 10, 9, 8, 11, 7, 6, 5, 4]
+    assert [p["data"] for p in d["posts"] if p["numero"] in (8, 9, 10)] == [None] * 3
+    assert next(p for p in d["posts"] if p["numero"] == 11)["data"] == "2026-10-28T18:00:34-03:00"
     assert d["horarios"] == [{"dia": 3, "hora": 18, "minuto": 0}]
     assert [p["fixado"] for p in d["posts"][:4]] == [True, True, True, False]
     assert all(p["publicado"] for p in d["posts"][:3])
@@ -282,6 +283,24 @@ def test_post_de_semana_ja_publicado_sai_de_pendentes(raiz, tmp_path):
     assert 'id="item-4"' not in pendentes and 'id="item-5"' in pendentes
 
 
+def test_post_publicado_pela_fila_usa_a_data_do_ledger(raiz, tmp_path):
+    """2026-11-03: o post 11 saiu pela fila (agenda sem data) e a página quebrava em "Já publicadas".
+    A data de um post publicado é o publicado_em do ledger, mesmo quando a agenda tem data."""
+    copia = copia_minima(raiz, tmp_path / "repo")
+    agenda_arq = copia / "content" / "semanas" / "2026-W40" / "agenda.json"
+    agenda = json.loads(agenda_arq.read_text(encoding="utf-8"))
+    agenda["posts"][0]["agendado_para"] = None                       # post 4 como se fosse da fila
+    agenda_arq.write_text(json.dumps(agenda), encoding="utf-8")
+    (copia / "content" / "semanas" / "2026-W40" / "publicado.json").write_text(json.dumps(
+        {"semana": "2026-W40", "posts": [{"numero": 4, "ig_media_id": "1", "publicado_em": "2026-10-28T21:00:34+00:00"}]}),
+        encoding="utf-8")
+    d = simulador.coletar(copia)
+    p4 = next(p for p in d["posts"] if p["numero"] == 4)
+    assert p4["publicado"] is True and p4["data"] == "2026-10-28T18:00:34-03:00"      # hora de Brasília
+    painel = painel_de(simulador.montar_pagina(d, API))
+    assert "Publicado em quarta-feira, 28/10/2026, 18:00" in painel
+
+
 def test_coletar_filtra_semanas(raiz):
     d = simulador.coletar(raiz, semanas=["2026-W41"])
     assert sorted(p["numero"] for p in d["posts"]) == [1, 2, 3, 6, 7]
@@ -304,4 +323,5 @@ def test_gerar_pagina_de_teste_em_outro_destino_copia_as_artes(raiz, tmp_path):
     assert saida == tmp_path / "aprovacao-teste" / "index.html"
     assert (tmp_path / "midia" / "2026-W41" / "post-7-08.jpg").is_file()
     html = saida.read_text(encoding="utf-8")
-    assert 'id="item-7"' in html and 'id="item-4"' not in html and 'id="item-6"' not in html   # 6 já saiu
+    assert 'id="item-7"' not in html and 'id="item-6"' not in html     # 6 e 7 já saíram: só em "Já publicadas"
+    assert 'data-abrir="7"' in html and 'id="item-4"' not in html

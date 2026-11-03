@@ -37,6 +37,7 @@ import sys
 from datetime import datetime
 from html import escape
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from pastoral import aprovacao
 from pastoral.meta import carregar_config
@@ -102,6 +103,18 @@ def texto_horarios(horarios: list[dict]) -> str:
     return " e ".join(partes) or "o horário da fila"
 
 
+def datas_de_publicacao(raiz: Path, fuso: str = "America/Sao_Paulo") -> dict[int, str]:
+    """{número: publicado_em} dos ledgers das semanas (a data real de quem já saiu, mesmo vindo da fila),
+    no fuso de publicação (o ledger grava em UTC)."""
+    saida = {}
+    for c in sorted((raiz / "content" / "semanas").glob("*/publicado.json")):
+        for p in json.loads(c.read_text(encoding="utf-8")).get("posts", []):
+            if p.get("publicado_em") and "numero" in p:
+                d = datetime.fromisoformat(p["publicado_em"])
+                saida[int(p["numero"])] = d.astimezone(ZoneInfo(fuso)).isoformat(timespec="seconds")
+    return saida
+
+
 def coletar(raiz: Path, semanas: list[str] | None = None, config: dict | None = None) -> dict:
     """Junta perfil, destaques e posts (já na ordem da grade) a partir do repositório.
     `semanas` limita as semanas da reserva (a estreia entra sempre). Publicado = consta em algum ledger.
@@ -110,6 +123,7 @@ def coletar(raiz: Path, semanas: list[str] | None = None, config: dict | None = 
     if config is None:             # sem config.yaml (cópia parcial nos testes): sem horários, sem previsão
         config = carregar_config(raiz / "config.yaml") if (raiz / "config.yaml").exists() else {}
     publicados = numeros_publicados(raiz)
+    quando_publicado = datas_de_publicacao(raiz, config.get("publicacao", {}).get("fuso", "America/Sao_Paulo"))
     estreia = raiz / "content" / "estreia"
     bio_md = estreia / "bio.md"
     publicado = json.loads((estreia / "publicado.json").read_text(encoding="utf-8"))
@@ -142,8 +156,10 @@ def coletar(raiz: Path, semanas: list[str] | None = None, config: dict | None = 
         for a in agenda["posts"]:
             p = por_numero[a["numero"]]
             srcs = [f"../midia/{semana}/{arte}" for arte in a["artes"]]
+            # publicado: a data real do ledger; senão a data fixa da agenda (ou nada, se está na fila)
             posts.append({"numero": p["numero"], "titulo": p["titulo"], "pilar": p["pilar"], "semana": semana,
-                          "data": a["agendado_para"], "publicado": p["numero"] in publicados, "fixado": False,
+                          "data": quando_publicado.get(p["numero"]) or a["agendado_para"],
+                          "publicado": p["numero"] in publicados, "fixado": False,
                           "legenda": texto_legenda(p), "legenda_proposta": False,
                           "versao": aprovacao.versao_post(semana, itens[p["numero"]]),
                           "imagens": _slides(p, srcs)})
