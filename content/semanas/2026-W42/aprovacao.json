@@ -1,0 +1,22 @@
+{
+  "semana": "2026-W42",
+  "aprovado_por": "Aprovador",
+  "aprovado_em": "2026-11-11T21:29:11+00:00",
+  "nonce": "06d710a56f0d6f02f1c553e385c998b7",
+  "posts": [
+    {
+      "numero": 9,
+      "agendado_para": null,
+      "legenda_sha256": "9856bbe5484d3d45ca4fe70f261ad5f7c700ba844d47578f1f62b00b3c7184b4",
+      "alt_text_sha256": "d20ffd854edee7f2a6b0b781574681f477ef3060e91f4e8590dc89071c9f8a40",
+      "artes": [
+        {
+          "arquivo": "post-9-01.jpg",
+          "sha256": "53d8e005b86faf2243574f70ec032d8b3771975545852326a017b046980bab62"
+        }
+      ],
+      "aprovado_em": "2026-11-11T21:29:11+00:00"
+    }
+  ],
+  "assinatura": "ae79515760e7f197fcd76b7051afdaf0b14a059cc89ee885f4508254dadd9abf"
+}
