@@ -284,9 +284,10 @@ def semanas_existentes(raiz: Path) -> list[str]:
 
 
 def executar(raiz: Path, config: dict, segredo: str, agora: datetime, cliente=None, dry_run: bool = True,
-             semanas: list[str] | None = None, baixar=baixar_urllib) -> dict:
+             semanas: list[str] | None = None, baixar=baixar_urllib, liberar_fila: bool = False) -> dict:
     """Roda o portão em todas as semanas (ou nas pedidas). Em dry-run não chama a Meta nem grava ledger.
-    Com `publicacao.fila` ligada (ADR-015), sai no máximo uma publicação por semana, em ordem de aprovação."""
+    Com `publicacao.fila` ligada (ADR-015), sai no máximo uma publicação por semana, em ordem de aprovação.
+    `liberar_fila` (só no disparo manual) deixa sair quem foi aprovado depois do horário da semana."""
     raiz = Path(raiz)
     midia = config.get("midia", {})
     base_url = midia.get("base_url", "")
@@ -307,8 +308,8 @@ def executar(raiz: Path, config: dict, segredo: str, agora: datetime, cliente=No
 
     if fila_ligada:
         publicados_em = datas_publicadas(raiz)
-        escolhido, restantes = fila.escolher(candidatos, publicados_em, agora, pub)
-        resultado["alerta_fila"] = fila.alerta(candidatos, publicados_em, agora, pub)
+        escolhido, restantes = fila.escolher(candidatos, publicados_em, agora, pub, liberar_tardia=liberar_fila)
+        resultado["alerta_fila"] = fila.alerta(candidatos, publicados_em, agora, pub, liberar_tardia=liberar_fila)
         primeira = 2 if escolhido else 1          # posição na fila contando quem sai agora
         for k, r in enumerate(restantes, start=primeira):
             resultado["recusados"].append(_recusa(r["semana"], r["numero"],
@@ -342,6 +343,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--semana", action="append", help="AAAA-Www (repetível); padrão: todas")
     ap.add_argument("--dry-run", action="store_true", help="força dry-run mesmo com PUBLICAR=1")
     ap.add_argument("--agora", help="data/hora ISO com fuso (testes e simulação)")
+    ap.add_argument("--liberar-fila", action="store_true",
+                    help="deixa sair o aprovado depois do horário da semana (disparo manual; ainda exige aprovação válida)")
     ap.add_argument("--raiz", default=str(RAIZ))
     ap.add_argument("--config", default=str(RAIZ / "config.yaml"))
     args = ap.parse_args(argv)
@@ -360,7 +363,8 @@ def main(argv: list[str] | None = None) -> int:
 
     modo = "dry-run" if dry_run else "PUBLICAÇÃO REAL"
     print(f"Portão de publicação — modo {modo} — agora {agora.isoformat(timespec='minutes')}")
-    r = executar(Path(args.raiz), config, segredo, agora, cliente=cliente, dry_run=dry_run, semanas=args.semana)
+    r = executar(Path(args.raiz), config, segredo, agora, cliente=cliente, dry_run=dry_run, semanas=args.semana,
+                 liberar_fila=args.liberar_fila)
     for d in r["recusados"]:
         marca = "ALERTA" if d["grave"] else "aguarda"
         print(f"  [{marca}] {d['semana']} post {d['numero']}: {d['motivo']}")

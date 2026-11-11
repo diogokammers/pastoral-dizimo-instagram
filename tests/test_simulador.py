@@ -233,11 +233,20 @@ def test_sem_dependencias_externas(dados):
 
 
 def test_coletar_do_repositorio(raiz):
+    """Propriedades que valem a cada publicação (o conteúdo real muda toda quarta): numeração completa,
+    quem já saiu leva a data real do ledger, quem está na fila não tem data e vem antes na grade."""
     d = simulador.coletar(raiz)
-    # 8–10 sem data (fila) vêm primeiro; os publicados ficam com a data real do ledger (11: 28/10, 7: 21/10)
-    assert [p["numero"] for p in d["posts"]] == [1, 2, 3, 10, 9, 8, 11, 7, 6, 5, 4]
-    assert [p["data"] for p in d["posts"] if p["numero"] in (8, 9, 10)] == [None] * 3
-    assert next(p for p in d["posts"] if p["numero"] == 11)["data"] == "2026-10-28T18:00:34-03:00"
+    posts = d["posts"]
+    assert set(range(1, 12)) <= {p["numero"] for p in posts}
+    saiu = [p for p in posts if p["publicado"]]
+    assert {1, 2, 3, 4, 6, 7, 10, 11} <= {p["numero"] for p in saiu}              # já publicados em ledgers
+    assert all(p["data"] for p in saiu)                                            # data real, nunca None
+    assert next(p for p in posts if p["numero"] == 11)["data"] == "2026-10-28T18:00:34-03:00"
+    na_fila = [p for p in posts if not p["publicado"] and p["numero"] in (8, 9)]
+    assert na_fila and all(p["data"] is None for p in na_fila)
+    comuns = [p["numero"] for p in posts if not p["fixado"]]
+    primeiro_com_data = next(i for i, n in enumerate(comuns) if next(p for p in posts if p["numero"] == n)["data"])
+    assert all(next(p for p in posts if p["numero"] == n)["data"] is None for n in comuns[:primeiro_com_data])
     assert d["horarios"] == [{"dia": 3, "hora": 18, "minuto": 0}]
     assert [p["fixado"] for p in d["posts"][:4]] == [True, True, True, False]
     assert all(p["publicado"] for p in d["posts"][:3])

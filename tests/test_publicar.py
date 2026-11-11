@@ -520,3 +520,32 @@ def test_fila_cli_alerta_retorna_1(repo, monkeypatch, capsys):
                    "midia: {base_url: https://exemplo.github.io/repo/, pasta: site/midia}\nmeta: {}\n", encoding="utf-8")
     assert publicar.main(["--raiz", str(repo), "--config", str(cfg), "--agora", QUARTA.isoformat()]) == 1
     assert "fila vazia" in capsys.readouterr().out
+
+
+def test_fila_liberar_fila_publica_aprovado_depois_do_horario(repo):
+    """Liberação manual (workflow_dispatch com liberar_fila): sai o aprovado depois das 18h, uma só vez."""
+    gravar_aprovacao(repo, aprovacao_fila({"aprovado_em": "2026-10-21T21:29:11+00:00"}))
+    meta = MetaFalsa(proibir_publicar=True)
+    assert rodar_fila(repo, meta)["publicados"] == []                       # sem liberar: espera a próxima quarta
+    meta2 = MetaFalsa()
+    r = publicar.executar(repo, CONFIG_FILA, segredo=SEGREDO, agora=QUARTA + timedelta(minutes=30), cliente=meta2,
+                          dry_run=False, baixar=baixar_qualquer, liberar_fila=True)
+    assert [p["numero"] for p in r["publicados"]] == [12]
+    meta3 = MetaFalsa(proibir_publicar=True)                                # idempotente: a semana ficou servida
+    assert publicar.executar(repo, CONFIG_FILA, segredo=SEGREDO, agora=QUARTA + timedelta(minutes=40), cliente=meta3,
+                             dry_run=False, baixar=baixar_qualquer, liberar_fila=True)["publicados"] == []
+
+
+def test_fila_cli_liberar_fila(repo, monkeypatch, capsys):
+    gravar_aprovacao(repo, aprovacao_fila({"aprovado_em": "2026-10-21T21:29:11+00:00"}))
+    monkeypatch.delenv("PUBLICAR", raising=False)
+    monkeypatch.setenv("APROVACAO_HMAC_SECRET", SEGREDO)
+    cfg = repo / "config.yaml"
+    cfg.write_text("publicacao:\n  fuso: America/Sao_Paulo\n  fila: true\n  dias:\n    - {dia: quarta, hora: '18:00'}\n"
+                   "midia: {base_url: https://exemplo.github.io/repo/, pasta: site/midia}\nmeta: {}\n", encoding="utf-8")
+    agora = (QUARTA + timedelta(minutes=30)).isoformat()
+    # sem liberar: nada sai e o portão avisa "fila vazia" (código 1), pois o aprovado chegou depois do horário
+    assert publicar.main(["--raiz", str(repo), "--config", str(cfg), "--agora", agora]) == 1
+    assert "[ok]" not in capsys.readouterr().out
+    assert publicar.main(["--raiz", str(repo), "--config", str(cfg), "--agora", agora, "--liberar-fila"]) == 0
+    assert "[ok] 2026-W41 post 12: publicaria" in capsys.readouterr().out

@@ -14,7 +14,7 @@ def test_publicar_yml(raiz):
     assert gatilhos["repository_dispatch"]["types"] == ["publicar"]
     assert wf["concurrency"]["group"] == "publicar"
     passo = next(p for p in wf["jobs"]["portao"]["steps"] if p.get("name") == "Portão de publicação")
-    assert passo["run"] == "python -m pastoral.publicar"
+    assert passo["run"].startswith("python -m pastoral.publicar")
     assert "vars.PUBLICAR_ATIVO == '1'" in passo["env"]["PUBLICAR"]
     assert "github.event_name == 'repository_dispatch'" in passo["env"]["PUBLICAR"]
     assert passo["env"]["APROVACAO_HMAC_SECRET"] == "${{ secrets.APROVACAO_HMAC_SECRET }}"
@@ -95,3 +95,12 @@ def test_publicar_yml_regenera_o_painel_depois_de_publicar(raiz):
     assert "gh workflow run pages.yml" in painel["run"]
     assert painel["env"]["GH_TOKEN"] == "${{ github.token }}"
     assert wf["permissions"]["actions"] == "write"
+
+
+def test_publicar_yml_tem_liberacao_manual_da_fila(raiz):
+    """Só o disparo manual pode liberar um aprovado fora do horário (nunca o cron nem o Worker)."""
+    wf = carregar(raiz, "publicar.yml")
+    entrada = wf[True]["workflow_dispatch"]["inputs"]["liberar_fila"]
+    assert entrada["type"] == "boolean" and entrada["default"] is False
+    passo = next(p for p in wf["jobs"]["portao"]["steps"] if p.get("name") == "Portão de publicação")
+    assert passo["run"] == "python -m pastoral.publicar ${{ inputs.liberar_fila && '--liberar-fila' || '' }}"

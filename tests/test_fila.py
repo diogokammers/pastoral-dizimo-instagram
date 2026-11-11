@@ -152,3 +152,32 @@ def test_fila_so_usa_a_biblioteca_padrao():
     modulos = {n.module.split(".")[0] for n in ast.walk(arvore) if isinstance(n, ast.ImportFrom) and n.module}
     modulos |= {a.name.split(".")[0] for n in ast.walk(arvore) if isinstance(n, ast.Import) for a in n.names}
     assert "pastoral" not in modulos and "dateutil" not in modulos, modulos
+
+
+def test_liberar_tardia_publica_quem_foi_aprovado_depois_do_horario():
+    """2026-11-11: o post 9 foi aprovado 29 min depois das 18h e o Diogo pediu para sair no mesmo dia.
+    A liberação manual ignora só a regra "aprovado depois do horário"; o resto continua valendo."""
+    tarde = pronto(8, aprovado_em="2026-11-11T21:29:11+00:00")
+    agora = utc("2026-11-11T18:35:00-03:00")
+    assert fila.escolher([tarde], [], agora, CFG) == (None, [tarde])
+    escolhido, restantes = fila.escolher([tarde], [], agora, CFG, liberar_tardia=True)
+    assert escolhido["numero"] == 8 and restantes == []
+
+
+def test_liberar_tardia_nao_fura_a_semana_ja_servida():
+    tarde = pronto(8, aprovado_em="2026-11-11T21:29:11+00:00")
+    publicados = [utc("2026-11-11T18:00:30-03:00")]
+    assert fila.escolher([tarde], publicados, utc("2026-11-11T18:35:00-03:00"), CFG, liberar_tardia=True) == (None, [tarde])
+
+
+def test_liberar_tardia_continua_respeitando_a_data_fixa_futura():
+    futuro = pronto(8, agendado="2026-11-18T18:00:00-03:00", aprovado_em="2026-11-11T21:29:11+00:00")
+    assert fila.escolher([futuro], [], utc("2026-11-11T18:35:00-03:00"), CFG, liberar_tardia=True)[0] is None
+
+
+def test_alerta_respeita_a_liberacao_manual():
+    """Com a liberação, o aprovado depois do horário já conta como elegível: sem alerta de "fila vazia"."""
+    tarde = pronto(8, aprovado_em="2026-11-11T21:29:11+00:00")
+    agora = utc("2026-11-11T18:35:00-03:00")
+    assert "fila vazia" in fila.alerta([tarde], [], agora, CFG)
+    assert fila.alerta([tarde], [], agora, CFG, liberar_tardia=True) is None

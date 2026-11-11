@@ -77,20 +77,23 @@ def _ordenar(prontos: list[dict]) -> list[dict]:
     return fixos + fila
 
 
-def _elegivel(p: dict, horario: datetime) -> bool:
+def _elegivel(p: dict, horario: datetime, liberar_tardia: bool = False) -> bool:
     """Serve para o horário S quem já estava aprovado até S e cuja data fixa (se houver) é até S.
-    Aprovado depois de S espera o próximo horário (um post aprovado na quinta não sai na quinta)."""
+    Aprovado depois de S espera o próximo horário (um post aprovado na quinta não sai na quinta).
+    `liberar_tardia` (disparo manual, 2026-11-11) ignora só a regra do aprovado depois de S; a data fixa
+    futura continua valendo."""
     aprovado = _data(p.get("aprovado_em"))
     fixo = _data(p.get("agendado_para"))
-    return (aprovado is None or aprovado <= horario) and (fixo is None or fixo <= horario)
+    return (liberar_tardia or aprovado is None or aprovado <= horario) and (fixo is None or fixo <= horario)
 
 
-def escolher(prontos: list[dict], publicados_em: list[datetime], agora: datetime, cfg: dict) -> tuple[dict | None, list[dict]]:
+def escolher(prontos: list[dict], publicados_em: list[datetime], agora: datetime, cfg: dict,
+             liberar_tardia: bool = False) -> tuple[dict | None, list[dict]]:
     ordem = _ordenar(prontos)
     horario = ultimo_horario(agora, cfg)
     if _servida(publicados_em, horario):
         return None, ordem
-    elegiveis = [p for p in ordem if _elegivel(p, horario)]
+    elegiveis = [p for p in ordem if _elegivel(p, horario, liberar_tardia)]
     if not elegiveis:
         return None, ordem
     return elegiveis[0], [p for p in ordem if p is not elegiveis[0]]
@@ -100,12 +103,13 @@ def por_extenso(d: datetime) -> str:
     return f"{NOMES[d.weekday()]}, {d:%d/%m/%Y, %H:%M}"
 
 
-def alerta(prontos: list[dict], publicados_em: list[datetime], agora: datetime, cfg: dict) -> str | None:
+def alerta(prontos: list[dict], publicados_em: list[datetime], agora: datetime, cfg: dict,
+           liberar_tardia: bool = False) -> str | None:
     """No dia do horário (até 24 h depois), sem nada publicado nem elegível: "fila vazia". Na véspera (até 30 h
     antes do próximo horário), sem nada aprovado: "nada aprovado". Senão None."""
     ultimo = ultimo_horario(agora, cfg)
     if (not _servida(publicados_em, ultimo) and agora - ultimo <= timedelta(hours=DIA_H)
-            and not any(_elegivel(p, ultimo) for p in prontos)):
+            and not any(_elegivel(p, ultimo, liberar_tardia) for p in prontos)):
         return f"fila vazia: nenhuma publicação aprovada para {por_extenso(ultimo)}"
     proximo = proximo_horario(agora, cfg)
     if not prontos and proximo - agora <= timedelta(hours=VESPERA_H):

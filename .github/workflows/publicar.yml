@@ -19,6 +19,10 @@ on:
         description: "Publicar de verdade (senão, dry-run)"
         type: boolean
         default: false
+      liberar_fila:
+        description: "Deixar sair o aprovado depois do horário da semana (quarta 18h); só neste disparo manual"
+        type: boolean
+        default: false
 permissions:
   contents: write                # commitar o ledger publicado.json e o painel regenerado
   actions: write                 # disparar o pages.yml (push feito com GITHUB_TOKEN não dispara workflows)
@@ -41,7 +45,7 @@ jobs:
           APROVACAO_HMAC_SECRET: ${{ secrets.APROVACAO_HMAC_SECRET }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ vars.IG_USER_ID }}
-        run: python -m pastoral.publicar
+        run: python -m pastoral.publicar ${{ inputs.liberar_fila && '--liberar-fila' || '' }}
       - name: Grava o ledger
         if: always()
         run: |
